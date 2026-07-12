@@ -371,9 +371,85 @@ a{color:inherit}
   font-family:var(--font-cond);font-weight:700;font-size:.9rem;letter-spacing:.26em;text-transform:uppercase;
   background:var(--grad-flame);-webkit-background-clip:text;background-clip:text;color:transparent;
 }
+/* ============ v2: motion, texture & delight ============ */
+::selection{background:var(--flame);color:var(--char)}
+[hidden]{display:none!important}
+section[id]{scroll-margin-top:4.2rem}
+
+/* scroll progress */
+#progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:60;background:var(--grad-flame);transform-origin:0 50%;transform:scaleX(0);pointer-events:none}
+
+/* hero load choreography */
+@keyframes riseIn{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes badgeIn{from{opacity:0;transform:scale(.88) translateY(12px)}to{opacity:1;transform:none}}
+.hero-in>*{animation:riseIn .85s var(--ease) both}
+.hero-in .badge{animation:badgeIn 1.05s var(--ease) both}
+.hero-in>:nth-child(2){animation-delay:.14s}
+.hero-in>:nth-child(3){animation-delay:.28s}
+.hero-in>:nth-child(4){animation-delay:.42s}
+.hero-in>:nth-child(5){animation-delay:.56s}
+@media (prefers-reduced-motion:reduce){.hero-in>*,.hero-in .badge{animation:none}}
+
+/* living flame wordmark */
+@keyframes flameShift{from{background-position:0% 0%}to{background-position:100% 100%}}
+.hero h1{background-size:220% 220%;animation:flameShift 7s ease-in-out infinite alternate}
+body.extra-hot .hero h1{filter:drop-shadow(0 0 36px rgba(247,148,29,.9))}
+body.extra-hot .ticker-track{animation-duration:8s}
+.badge{cursor:pointer;transition:transform .3s var(--ease)}
+.badge:active{transform:scale(.95)}
+
+/* open-now pill */
+.status{display:inline-flex;align-items:center;gap:.55rem;font-family:var(--font-cond);font-weight:700;font-size:.95rem;letter-spacing:.18em;text-transform:uppercase}
+.status .dot{width:8px;height:8px;border-radius:50%;flex:none;background:var(--gold);box-shadow:0 0 12px var(--gold);animation:statuspulse 2s infinite}
+.status.closed .dot{background:var(--sand-soft);box-shadow:none;animation:none}
+@keyframes statuspulse{50%{opacity:.35}}
+.hero-chips li.status{color:var(--gold);border:2px solid var(--char-3);background:var(--char-2);padding:.4rem 1rem;border-radius:999px}
+.hero-chips li.status::before{display:none}
+.hero-chips li.status.closed{color:var(--sand-soft)}
+.visit .status{color:var(--maroon);font-size:.9rem;margin-bottom:1rem}
+.visit .status .dot{background:var(--flame);box-shadow:none}
+.visit .status.closed{color:var(--ink-soft)}
+.visit .status.closed .dot{background:var(--ink-soft)}
+
+/* print-paper grain on cream sections */
+.menu-sec,.visit{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .23 0 0 0 0 .14 0 0 0 0 .09 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23p)'/%3E%3C/svg%3E")}
+
+/* menu micro-interactions & favorites */
+.mi-price{display:inline-block;transition:transform .2s var(--ease),color .2s}
+.mi:hover .mi-price{transform:scale(1.12);color:var(--ember)}
+.mi:hover .mi-name{color:var(--maroon)}
+.mi-name{transition:color .2s}
+.fav{color:var(--flame);margin-left:.3rem;font-size:.85em}
+.flavors li{transition:background .2s,color .2s}
+.flavors li:hover{background:var(--maroon);color:var(--cream)}
+
+/* the heavyweight feature band */
+.feature{position:relative;overflow:hidden;text-align:center;padding-block:clamp(4rem,8vw,6.5rem);background:radial-gradient(820px 420px at 50% 125%,rgba(142,32,40,.5),transparent 72%),var(--char);border-bottom:1px solid var(--char-3)}
+.feature::before{content:"55";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--font-display);font-size:min(44vw,24rem);line-height:1;color:rgba(247,148,29,.055);pointer-events:none}
+.feature .wrap{position:relative}
+.feature .eyebrow{color:var(--menu-gold)}
+.feature h2{font-family:var(--font-display);font-weight:400;font-size:clamp(2.3rem,6.6vw,4.4rem);line-height:1.04;margin:.9rem 0 .8rem;background:var(--grad-flame);-webkit-background-clip:text;background-clip:text;color:transparent;text-wrap:balance;filter:drop-shadow(0 6px 24px rgba(224,90,18,.3))}
+.feature .spec{display:flex;flex-wrap:wrap;gap:.5rem 1.2rem;justify-content:center;font-family:var(--font-cond);font-weight:700;font-size:clamp(1rem,2.4vw,1.35rem);letter-spacing:.28em;text-transform:uppercase;color:var(--cream)}
+.feature .spec b{color:var(--gold)}
+.feature .tag{color:var(--sand-soft);max-width:46ch;margin:1rem auto 0;text-wrap:balance}
+.feature .btn{margin-top:1.7rem}
+
+/* mini map in the location card */
+.map-art{width:100%;height:auto;margin:1.1rem 0 1.3rem;border-radius:12px;border:2px dashed rgba(142,32,40,.35)}
+.map-art .ping{animation:ping 1.9s ease-out infinite}
+@keyframes ping{0%{r:7px;opacity:.9}100%{r:22px;opacity:0}}
+@media (prefers-reduced-motion:reduce){.map-art .ping{animation:none;opacity:0}}
+
+/* toast + emoji rain (easter eggs) */
+.toast{position:fixed;left:50%;bottom:1.4rem;z-index:80;transform:translate(-50%,180%);background:var(--char-2);border:2px solid var(--flame);color:var(--cream);font-family:var(--font-cond);font-weight:600;font-size:1.05rem;letter-spacing:.07em;padding:.72rem 1.4rem;border-radius:999px;box-shadow:0 18px 44px rgba(0,0,0,.55);transition:transform .45s var(--ease);max-width:min(92vw,34rem);text-align:center}
+.toast.show{transform:translate(-50%,0)}
+.rain{position:fixed;inset:0;z-index:70;pointer-events:none;overflow:hidden}
+.rain span{position:absolute;top:-8vh;animation:fall linear both}
+@keyframes fall{to{transform:translateY(118vh) rotate(340deg)}}
 </style>
 </head>
 <body>
+<div id="progress" aria-hidden="true"></div>
 
 <!-- ================= NAV ================= -->
 <header class="nav" id="nav">
@@ -436,6 +512,7 @@ a{color:inherit}
       <a class="btn btn-ghost" href="#order">Order Delivery</a>
     </div>
     <ul class="hero-chips">
+      <li class="status" id="statusHero" hidden><span class="dot"></span><span class="s-txt"></span></li>
       <li>Dine-In</li>
       <li>Carry-Out</li>
       <li>Delivery</li>
@@ -458,7 +535,7 @@ a{color:inherit}
     <div class="sec-head reveal">
       <span class="eyebrow">Straight off the line</span>
       <h2 class="sec-title">The Menu</h2>
-      <p class="menu-note">Soul food plates come paired with cornbread &amp; a can pop. Wangz served whole with fries.</p>
+      <p class="menu-note">Soul food plates come paired with cornbread &amp; a can pop. Wangz served whole with fries. <span style="color:var(--flame)">★</span> marks the crowd favorites.</p>
     </div>
 
     <div class="menu-cols">
@@ -467,7 +544,7 @@ a{color:inherit}
         <h3>Chicken Wangz <small>Whole wings + fries · add a flavor for $1</small></h3>
         <div class="mi"><div class="mi-row"><span class="mi-name">4 pc Chicken</span><span class="mi-dots"></span><span class="mi-price">8.25</span></div></div>
         <div class="mi"><div class="mi-row"><span class="mi-name">6 pc Chicken</span><span class="mi-dots"></span><span class="mi-price">13.25</span></div></div>
-        <div class="mi"><div class="mi-row"><span class="mi-name">8 pc Chicken</span><span class="mi-dots"></span><span class="mi-price">15.25</span></div></div>
+        <div class="mi"><div class="mi-row"><span class="mi-name">8 pc Chicken<span class="fav" title="Crowd favorite">★</span></span><span class="mi-dots"></span><span class="mi-price">15.25</span></div></div>
         <div class="mi"><div class="mi-row"><span class="mi-name">12 pc Chicken</span><span class="mi-dots"></span><span class="mi-price">18.25</span></div></div>
         <div class="mi"><div class="mi-row"><span class="mi-name">12 pc Mixed</span><span class="mi-dots"></span><span class="mi-price">29.25</span></div></div>
         <div class="mi"><div class="mi-row"><span class="mi-name">16 pc Mixed</span><span class="mi-dots"></span><span class="mi-price">35.25</span></div></div>
@@ -511,7 +588,7 @@ a{color:inherit}
         <h3>Fish &amp; Pork</h3>
         <div class="mi"><div class="mi-row"><span class="mi-name">Catfish (1)</span><span class="mi-dots"></span><span class="mi-price">9.50</span></div></div>
         <div class="mi"><div class="mi-row"><span class="mi-name">Catfish Fillets (2)</span><span class="mi-dots"></span><span class="mi-price">18.50</span></div><p class="mi-desc">With fries &amp; coleslaw</p></div>
-        <div class="mi"><div class="mi-row"><span class="mi-name">Catfish &amp; Chicken Combo</span><span class="mi-dots"></span><span class="mi-price">23.00</span></div><p class="mi-desc">2 pc catfish &amp; 3 pc chicken wings with fries</p></div>
+        <div class="mi"><div class="mi-row"><span class="mi-name">Catfish &amp; Chicken Combo<span class="fav" title="Crowd favorite">★</span></span><span class="mi-dots"></span><span class="mi-price">23.00</span></div><p class="mi-desc">2 pc catfish &amp; 3 pc chicken wings with fries</p></div>
         <div class="mi"><div class="mi-row"><span class="mi-name">Pork Chop (1)</span><span class="mi-dots"></span><span class="mi-price">8.25</span></div></div>
         <div class="mi"><div class="mi-row"><span class="mi-name">Pork Chops (2)</span><span class="mi-dots"></span><span class="mi-price">14.25</span></div><p class="mi-desc">With fries</p></div>
         <div class="mi"><div class="mi-row"><span class="mi-name">Rib Tips</span><span class="mi-dots"></span><span class="mi-price">19.25</span></div><p class="mi-desc">With fries</p></div>
@@ -519,7 +596,7 @@ a{color:inherit}
 
       <div class="menu-cat reveal">
         <h3>Burgerz</h3>
-        <div class="mi"><div class="mi-row"><span class="mi-name">Bigg Boyz Burger</span><span class="mi-dots"></span><span class="mi-price">18.25</span></div><p class="mi-desc">Supersized beef burger with cheese, grilled onions &amp; the works + fries and a drink</p></div>
+        <div class="mi"><div class="mi-row"><span class="mi-name">Bigg Boyz Burger<span class="fav" title="Crowd favorite">★</span></span><span class="mi-dots"></span><span class="mi-price">18.25</span></div><p class="mi-desc">Supersized beef burger with cheese, grilled onions &amp; the works + fries and a drink</p></div>
         <div class="mi"><div class="mi-row"><span class="mi-name">Double Cheeseburger</span><span class="mi-dots"></span><span class="mi-price">17.25</span></div><p class="mi-desc">Two juicy beef patties, cheese, grilled onions, lettuce &amp; mayo</p></div>
         <div class="mi"><div class="mi-row"><span class="mi-name">Mozzarella Stick Burger</span><span class="mi-dots"></span><span class="mi-price">15.50</span></div></div>
         <div class="mi"><div class="mi-row"><span class="mi-name">Philly Burger-Steak</span><span class="mi-dots"></span><span class="mi-price">15.25</span></div></div>
@@ -530,7 +607,7 @@ a{color:inherit}
 
       <div class="menu-cat reveal">
         <h3>All Other Eats</h3>
-        <div class="mi"><div class="mi-row"><span class="mi-name">Bigg Boyz Philly</span><span class="mi-dots"></span><span class="mi-price">18.25</span></div><p class="mi-desc">Chicken &amp; steak combined, onions, bell peppers, signature sauce + drink</p></div>
+        <div class="mi"><div class="mi-row"><span class="mi-name">Bigg Boyz Philly<span class="fav" title="Crowd favorite">★</span></span><span class="mi-dots"></span><span class="mi-price">18.25</span></div><p class="mi-desc">Chicken &amp; steak combined, onions, bell peppers, signature sauce + drink</p></div>
         <div class="mi"><div class="mi-row"><span class="mi-name">Chicken Philly</span><span class="mi-dots"></span><span class="mi-price">14.80</span></div></div>
         <div class="mi"><div class="mi-row"><span class="mi-name">Gyro</span><span class="mi-dots"></span><span class="mi-price">14.25</span></div></div>
         <div class="mi"><div class="mi-row"><span class="mi-name">Philly Fries — Steak</span><span class="mi-dots"></span><span class="mi-price">13.25</span></div></div>
@@ -555,7 +632,7 @@ a{color:inherit}
 
       <div class="menu-cat reveal">
         <h3>Bigg Boyz Desserts</h3>
-        <div class="mi"><div class="mi-row"><span class="mi-name">Banana Puddin’</span><span class="mi-dots"></span><span class="mi-price">6.50</span></div><p class="mi-desc">Regular or strawberry</p></div>
+        <div class="mi"><div class="mi-row"><span class="mi-name">Banana Puddin’<span class="fav" title="Crowd favorite">★</span></span><span class="mi-dots"></span><span class="mi-price">6.50</span></div><p class="mi-desc">Regular or strawberry</p></div>
         <div class="mi"><div class="mi-row"><span class="mi-name">Lemon Cake</span><span class="mi-dots"></span><span class="mi-price">5.50</span></div></div>
         <div class="mi"><div class="mi-row"><span class="mi-name">Strawberry Crunch Cake</span><span class="mi-dots"></span><span class="mi-price">5.50</span></div></div>
         <div class="mi"><div class="mi-row"><span class="mi-name">Caramel Cake</span><span class="mi-dots"></span><span class="mi-price">5.50</span></div></div>
@@ -574,6 +651,17 @@ a{color:inherit}
 
     </div>
     <p class="menu-fine reveal">Prices subject to change · Call ahead for bigg orders: <a href="tel:+12627703028" style="color:var(--maroon);font-weight:600">(262) 770-3028</a></p>
+  </div>
+</section>
+
+<!-- ================= THE HEAVYWEIGHT ================= -->
+<section class="feature" id="heavyweight">
+  <div class="wrap reveal">
+    <span class="eyebrow">The Heavyweight</span>
+    <h2>The Bigg Boii Plate</h2>
+    <div class="spec"><span><b>3</b> Meats</span><span>✦</span><span><b>3</b> Sides</span><span>✦</span><span><b>55</b>.00</span></div>
+    <p class="tag">Catfish, pork chops, baked &amp; fried chicken, rib tips — stack it your way. Come hungry, leave legendary.</p>
+    <a class="btn btn-ghost" href="tel:+12627703028">Call It In</a>
   </div>
 </section>
 
@@ -650,6 +738,7 @@ a{color:inherit}
     <div class="visit-grid">
       <div class="visit-card reveal">
         <h3>Hours</h3>
+        <p class="status" id="statusVisit" hidden><span class="dot"></span><span class="s-txt"></span></p>
         <ul class="hours">
           <li><span class="d">Monday</span><span class="t">11:45 AM – 8:00 PM</span></li>
           <li><span class="d">Tuesday</span><span class="t">11:45 AM – 8:00 PM</span></li>
@@ -667,6 +756,17 @@ a{color:inherit}
           Racine, WI 53403
         </address>
         <a class="tel" href="tel:+12627703028">(262) 770-3028</a>
+        <svg class="map-art" viewBox="0 0 300 130" aria-hidden="true">
+          <rect width="300" height="130" fill="#FFFDF6" rx="10"/>
+          <path d="M40 -10 L82 140" stroke="#EFE3C6" stroke-width="9"/>
+          <path d="M188 -10 L232 140" stroke="#EFE3C6" stroke-width="9"/>
+          <path d="M-10 90 C70 72 220 60 310 40" stroke="#8E2028" stroke-width="14" fill="none" stroke-linecap="round"/>
+          <path d="M-10 90 C70 72 220 60 310 40" stroke="#FBF3E2" stroke-width="2" stroke-dasharray="9 9" fill="none"/>
+          <text x="22" y="115" font-family="'Barlow Condensed',sans-serif" font-weight="700" font-size="12" letter-spacing="3" fill="#7A5B42" transform="rotate(-8 22 115)">WASHINGTON AVE</text>
+          <circle class="ping" cx="150" cy="68" r="7" fill="none" stroke="#F7941D" stroke-width="2"/>
+          <circle cx="150" cy="68" r="7" fill="#F7941D" stroke="#8E2028" stroke-width="3"/>
+          <text x="150" y="40" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-weight="700" font-size="13" letter-spacing="2" fill="#8E2028">1327 — RIGHT HERE</text>
+        </svg>
         <a class="btn btn-maroon" href="https://maps.google.com/?q=Bigg+Boyz+Kitchen+1327+Washington+Ave+Racine+WI+53403" target="_blank" rel="noopener">Get Directions</a>
       </div>
     </div>
@@ -698,6 +798,8 @@ a{color:inherit}
   </div>
 </footer>
 
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <script>
 (function(){
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -719,6 +821,118 @@ a{color:inherit}
     }, {threshold:.12, rootMargin:'0px 0px -6% 0px'});
     els.forEach(function(el){ io.observe(el); });
   }
+
+  /* scroll progress bar */
+  var prog = document.getElementById('progress');
+  function onProg(){
+    var h = document.documentElement, max = h.scrollHeight - h.clientHeight;
+    prog.style.transform = 'scaleX(' + (max ? window.scrollY / max : 0) + ')';
+  }
+  addEventListener('scroll', onProg, {passive:true});
+  addEventListener('resize', onProg);
+  onProg();
+
+  /* open-now pill, computed live from Racine (Central) time */
+  try {
+    var parts = new Intl.DateTimeFormat('en-US', {timeZone:'America/Chicago', weekday:'short', hour:'numeric', minute:'numeric', hour12:false}).formatToParts(new Date());
+    var get = function(t){ var p = parts.find(function(x){ return x.type === t; }); return p && p.value; };
+    var wd = get('weekday'), mins = (+get('hour') % 24) * 60 + +get('minute');
+    var opens = wd === 'Sun' ? 12*60+45 : 11*60+45, closes = 20*60;
+    var isOpen = mins >= opens && mins < closes;
+    var txt = isOpen ? 'Open now · till 8:00 PM' : 'Closed · opens ' + (wd === 'Sun' ? '12:45 PM' : '11:45 AM');
+    ['statusHero','statusVisit'].forEach(function(id){
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.hidden = false;
+      el.classList.toggle('closed', !isOpen);
+      el.querySelector('.s-txt').textContent = txt;
+    });
+  } catch(e){}
+
+  /* ---- easter eggs ---- */
+  var toast = document.getElementById('toast'), toastT;
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastT);
+    toastT = setTimeout(function(){ toast.classList.remove('show'); }, 4200);
+  }
+  function rain(chars, n){
+    if (reduced) return;
+    var box = document.createElement('div');
+    box.className = 'rain';
+    box.setAttribute('aria-hidden', 'true');
+    for (var i = 0; i < n; i++){
+      var s = document.createElement('span');
+      s.textContent = chars[i % chars.length];
+      s.style.left = (Math.random() * 100) + 'vw';
+      s.style.fontSize = (1.1 + Math.random() * 1.7) + 'rem';
+      s.style.animationDuration = (2.2 + Math.random() * 2.4) + 's';
+      s.style.animationDelay = (Math.random() * 1.2) + 's';
+      box.appendChild(s);
+    }
+    document.body.appendChild(box);
+    setTimeout(function(){ box.remove(); }, 6500);
+  }
+
+  /* egg 1: tap the badge flame five times */
+  var taps = 0, tapT, badge = document.querySelector('.badge');
+  badge.addEventListener('click', function(){
+    taps++;
+    clearTimeout(tapT);
+    tapT = setTimeout(function(){ taps = 0; }, 2200);
+    if (taps === 5){
+      taps = 0;
+      rain(['🔥','🍗','❤️'], 28);
+      showToast('🤫 Secret unlocked: say “cooking with love” at the counter & flash a smile. Might just get you extra mac.');
+    }
+  });
+
+  /* egg 2: type WANGZ · egg 3: konami = extra hot mode */
+  var buf = '';
+  var seq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'], ki = 0;
+  addEventListener('keydown', function(e){
+    var k = e.key;
+    if (k.length === 1){
+      buf = (buf + k.toLowerCase()).slice(-5);
+      if (buf === 'wangz'){
+        buf = '';
+        rain(['🍗'], 44);
+        showToast('🍗 WANGZ RAIN! Add a flavor for a dollar.');
+      }
+    }
+    var want = seq[ki];
+    if (k === want || k.toLowerCase() === want) ki++;
+    else ki = (k === seq[0]) ? 1 : 0;
+    if (ki === seq.length){ ki = 0; extraHot(); }
+  });
+  function extraHot(){
+    document.body.classList.add('extra-hot');
+    rain(['🔥'], 60);
+    showToast('🔥 EXTRA HOT MODE — you found the Bigg Boyz heat!');
+    setTimeout(function(){ document.body.classList.remove('extra-hot'); }, 8000);
+  }
+
+  /* egg 4: triple-tap the Bigg Boii Plate */
+  var ft = 0, ftT, feat = document.getElementById('heavyweight');
+  feat.addEventListener('click', function(e){
+    if (e.target.closest('a')) return;
+    ft++;
+    clearTimeout(ftT);
+    ftT = setTimeout(function(){ ft = 0; }, 1100);
+    if (ft === 3){
+      ft = 0;
+      rain(['🍗','🐟','🔥','🧀'], 36);
+      showToast('🏆 The Bigg Boii Challenge: finish it solo, earn eternal respect.');
+    }
+  });
+
+  /* a note for the curious */
+  try {
+    console.log('%c🔥 BIGG BOYZ KITCHEN 🔥', 'font-family:Georgia,serif;font-size:22px;font-weight:bold;color:#F7941D;text-shadow:0 2px 8px rgba(224,90,18,.6)');
+    console.log('%cCooked with love in Racine, WI — (262) 770-3028', 'color:#FFC845;font-size:13px');
+    console.log('%cSecrets on the menu: type "wangz" · tap the flame badge 5× · triple-tap the Bigg Boii Plate · Konami code for EXTRA HOT.', 'color:#B99873;font-size:12px');
+  } catch(e){}
 
   /* rising embers in the hero */
   var canvas = document.getElementById('embers');
