@@ -446,6 +446,73 @@ body.extra-hot .ticker-track{animation-duration:8s}
 .rain{position:fixed;inset:0;z-index:70;pointer-events:none;overflow:hidden}
 .rain span{position:absolute;top:-8vh;animation:fall linear both}
 @keyframes fall{to{transform:translateY(118vh) rotate(340deg)}}
+
+/* ============ v3: interactivity, trust & flame dividers ============ */
+
+/* hero badge — pointer-reactive tilt */
+.badge{transform-style:preserve-3d;transition:transform .15s linear}
+.badge svg{will-change:transform}
+
+/* breathing glow on the primary hero CTA */
+@keyframes breathe{0%,100%{box-shadow:0 6px 24px rgba(247,148,29,.4)}50%{box-shadow:0 10px 40px rgba(247,148,29,.75),0 0 0 6px rgba(247,148,29,.08)}}
+.cta-row .btn-flame{animation:breathe 3.6s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.cta-row .btn-flame{animation:none}}
+
+/* neon-sign flicker-in for the open/closed status pill */
+@keyframes neonIn{
+  0%{opacity:0}
+  6%{opacity:1}12%{opacity:.35}18%{opacity:1}22%{opacity:.25}30%{opacity:1}
+  100%{opacity:1}
+}
+.status:not(.closed){animation:neonIn 1.6s steps(1) both}
+@media (prefers-reduced-motion:reduce){.status{animation:none!important;opacity:1}}
+
+/* trust / rating strip */
+.trust{display:flex;flex-wrap:wrap;gap:.9rem 1.8rem;align-items:center;margin-top:1.5rem}
+.rating{display:inline-flex;align-items:center;gap:.55rem}
+.stars{position:relative;display:inline-block;font-size:1.15rem;line-height:1;letter-spacing:.12em;white-space:nowrap}
+.stars .base{color:var(--char-3)}
+.stars .fill{position:absolute;inset:0;overflow:hidden;color:var(--gold);width:94%}
+.rating b{font-family:var(--font-cond);font-weight:700;letter-spacing:.04em;color:var(--gold)}
+.rating span.src{color:var(--sand-soft);font-size:.92rem}
+.give-back{display:inline-flex;align-items:center;gap:.55rem;font-size:.92rem;color:var(--sand-soft)}
+.give-back .ic{flex:none;font-size:1.05rem}
+
+/* flame-lick divider between visit (cream) and footer (dark) */
+.flame-divider{display:block;width:100%;height:clamp(34px,6vw,64px);margin-top:clamp(1.5rem,4vw,3rem)}
+
+/* flavor picker (Chicken Wangz) */
+.flavor-picker{margin-top:1.1rem;display:flex;flex-wrap:wrap;align-items:center;gap:.8rem}
+.flavor-spin{
+  font-family:var(--font-cond);font-weight:700;font-size:.9rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--cream);background:var(--maroon);border:none;border-radius:999px;
+  padding:.55rem 1.1rem;cursor:pointer;transition:transform .2s var(--ease),background .2s;
+}
+.flavor-spin:hover{background:var(--maroon-deep);transform:translateY(-2px)}
+.flavor-spin:disabled{opacity:.65;cursor:default;transform:none}
+.flavor-result{font-family:var(--font-cond);font-weight:700;font-size:.98rem;letter-spacing:.03em;color:var(--maroon);min-height:1.4em}
+.flavors li.picked{background:var(--maroon);color:var(--cream);animation:pickPop .5s var(--ease)}
+@keyframes pickPop{0%{transform:scale(1)}35%{transform:scale(1.18)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.flavors li.picked{animation:none}}
+
+/* menu items — staggered rise as each category reveals */
+.menu-cat.reveal{transform:none}
+.menu-cat .mi{opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.menu-cat.in .mi{opacity:1;transform:none}
+.menu-cat.in .mi:nth-child(2){transition-delay:.02s}
+.menu-cat.in .mi:nth-child(3){transition-delay:.055s}
+.menu-cat.in .mi:nth-child(4){transition-delay:.09s}
+.menu-cat.in .mi:nth-child(5){transition-delay:.125s}
+.menu-cat.in .mi:nth-child(6){transition-delay:.16s}
+.menu-cat.in .mi:nth-child(7){transition-delay:.195s}
+.menu-cat.in .mi:nth-child(8){transition-delay:.23s}
+.menu-cat.in .mi:nth-child(9){transition-delay:.265s}
+.menu-cat.in .mi:nth-child(10){transition-delay:.3s}
+.menu-cat.in .mi:nth-child(11){transition-delay:.335s}
+.menu-cat.in .mi:nth-child(12){transition-delay:.37s}
+.menu-cat.in .mi:nth-child(13){transition-delay:.405s}
+.menu-cat.in .mi:nth-child(14){transition-delay:.44s}
+.menu-cat.in .mi:nth-child(n+15){transition-delay:.47s}
 </style>
 </head>
 <body>
@@ -552,8 +619,12 @@ body.extra-hot .ticker-track{animation-duration:8s}
         <div class="flavors">
           <p>Flavors</p>
           <ul>
-            <li>Bigg Boyz Sauce</li><li>Mild Sauce</li><li>Jerk</li><li>Sweet Chili</li><li>Spicy Peach</li><li>Lemon Pepper</li><li>Buffalo</li><li>Garlic Buffalo</li><li>Honey Heat</li><li>Garlic Parmesan</li>
+            <li data-flavor>Bigg Boyz Sauce</li><li data-flavor>Mild Sauce</li><li data-flavor>Jerk</li><li data-flavor>Sweet Chili</li><li data-flavor>Spicy Peach</li><li data-flavor>Lemon Pepper</li><li data-flavor>Buffalo</li><li data-flavor>Garlic Buffalo</li><li data-flavor>Honey Heat</li><li data-flavor>Garlic Parmesan</li>
           </ul>
+        </div>
+        <div class="flavor-picker">
+          <button type="button" class="flavor-spin" id="flavorSpin">🎲 Can't Decide? Spin For a Flavor</button>
+          <p class="flavor-result" id="flavorResult" aria-live="polite"></p>
         </div>
       </div>
 
@@ -674,11 +745,22 @@ body.extra-hot .ticker-track{animation-duration:8s}
       <p>Bigg Boyz Kitchen opened its doors on Washington Avenue in 2025 with one simple promise: cook the food our family grew up on, and cook it <strong>with love</strong>.</p>
       <p>That means wangz fried to order and tossed in sauces we make ourselves, catfish with a proper cornmeal crust, greens simmered low and slow with pork, and cakes that never come out of a box. Every soul food plate lands with cornbread on the side — because around here, that's just how it's done.</p>
       <p>Whether you're dining in, grabbing carry-out on a lunch break, or feeding the whole block, we serve it <strong>bigg</strong>.</p>
+      <p>This past holiday season, we teamed up with God's Kitchen of Kenosha and Restoration Ministries to put warm plates in front of neighbors who needed them most — because feeding the block doesn't stop at the counter.</p>
       <ul class="story-chips">
         <li>Black-Owned</li>
         <li>Est. 2025</li>
         <li>Racine, WI</li>
       </ul>
+      <div class="trust">
+        <span class="rating">
+          <span class="stars" aria-hidden="true">
+            <span class="base">★★★★★</span>
+            <span class="fill">★★★★★</span>
+          </span>
+          <b>4.7</b><span class="src">on Yelp</span>
+        </span>
+        <span class="give-back"><span class="ic">🤝</span> Giving back to Racine County</span>
+      </div>
     </div>
     <div class="story-card reveal">
       <p class="q">“Cooking with love”</p>
@@ -772,6 +854,9 @@ body.extra-hot .ticker-track{animation-duration:8s}
     </div>
     <p class="visit-fine reveal">Dine-in · Delivery · Carry-out</p>
   </div>
+  <svg class="flame-divider" viewBox="0 0 1200 92" preserveAspectRatio="none" aria-hidden="true">
+    <path fill="#120C07" d="M0,92 L0,66 Q18,62 40,42 Q63,64 86,66 Q110,68 131,73 Q149,67 171,66 Q197,66 213,62 Q231,58 257,66 Q275,66 299,66 Q322,68 343,64 Q359,60 395,40 Q420,64 429,66 Q444,68 463,63 Q485,58 514,66 Q532,69 552,74 Q587,67 604,64 Q624,66 645,67 Q662,66 686,66 Q707,60 726,32 Q745,63 771,66 Q788,68 806,63 Q824,58 857,66 Q876,62 894,38 Q916,63 943,66 Q965,68 984,70 Q1003,66 1029,66 Q1046,66 1074,66 Q1090,63 1114,66 Q1130,68 1150,63 Q1168,58 1200,66 L1200,92 Z"/>
+  </svg>
 </section>
 
 <!-- ================= FOOTER ================= -->
@@ -933,6 +1018,48 @@ body.extra-hot .ticker-track{animation-duration:8s}
     console.log('%cCooked with love in Racine, WI — (262) 770-3028', 'color:#FFC845;font-size:13px');
     console.log('%cSecrets on the menu: type "wangz" · tap the flame badge 5× · triple-tap the Bigg Boyz Plate · Konami code for EXTRA HOT.', 'color:#B99873;font-size:12px');
   } catch(e){}
+
+  /* pointer-reactive tilt on the hero badge */
+  var badgeEl = document.querySelector('.badge');
+  if (!reduced && window.matchMedia('(pointer: fine)').matches){
+    var hero = document.querySelector('.hero');
+    hero.addEventListener('mousemove', function(e){
+      var r = hero.getBoundingClientRect();
+      var px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5;
+      badgeEl.style.transform = 'perspective(600px) rotateY(' + (px * 16) + 'deg) rotateX(' + (py * -16) + 'deg)';
+    });
+    hero.addEventListener('mouseleave', function(){ badgeEl.style.transform = ''; });
+  }
+
+  /* flavor spin picker */
+  var spinBtn = document.getElementById('flavorSpin'), spinResult = document.getElementById('flavorResult');
+  if (spinBtn){
+    var chips = Array.prototype.slice.call(document.querySelectorAll('[data-flavor]'));
+    var names = chips.map(function(c){ return c.textContent; });
+    spinBtn.addEventListener('click', function(){
+      spinBtn.disabled = true;
+      chips.forEach(function(c){ c.classList.remove('picked'); });
+      var finalIdx = Math.floor(Math.random() * names.length);
+      if (reduced){
+        land(finalIdx);
+        return;
+      }
+      var tick = 0, total = 16, delay = 70;
+      (function spin(){
+        spinResult.textContent = names[tick % names.length] + ' …';
+        tick++;
+        delay += 10;
+        if (tick < total) setTimeout(spin, delay);
+        else land(finalIdx);
+      })();
+    });
+    function land(idx){
+      spinResult.textContent = '🔥 Your flavor: ' + names[idx] + '!';
+      chips[idx].classList.add('picked');
+      chips[idx].scrollIntoView({block:'nearest', inline:'center', behavior: reduced ? 'auto' : 'smooth'});
+      spinBtn.disabled = false;
+    }
+  }
 
   /* rising embers in the hero */
   var canvas = document.getElementById('embers');
