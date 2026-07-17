@@ -1,0 +1,22 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next
+/out
+
+# production
+/build
+
+# env / secrets
+.env
+.env.local
+.env*.local
+
+# local lead store (do not commit captured leads)
+/data/*.jsonl
+
+# misc
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
