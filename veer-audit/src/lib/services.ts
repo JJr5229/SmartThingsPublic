@@ -1,14 +1,13 @@
 // ============================================================================
-//  VEER SERVICE CATALOG  —  ⚠️ PLACEHOLDER DATA ⚠️
+//  VEER SERVICE CATALOG
 // ----------------------------------------------------------------------------
-//  This is the ONE file to replace with your real offerings from the
-//  "Veer Service Catalog & Terms" doc. Everything downstream (the proposal
-//  email + the on-screen recommendations) is generated from what's here, so
-//  once these are real, the proposals quote real services and prices.
+//  Real offerings + pricing, transcribed from "Veer Service Catalog & Terms".
+//  Each service maps to the audit weaknesses it solves via `solvesCategories`,
+//  so a low score in a category pulls the matching services into the proposal.
 //
-//  Each service maps to the audit weaknesses it solves via `solvesCategories`.
-//  When a customer's site scores low in a category, the matching services are
-//  pulled into their proposal.
+//  ⚠️ NOTE ON AI-SERVICE / COMMAND-CENTER PRICING: in the catalog these are
+//  marked "Proposed pricing — approve before use." They're included here so the
+//  tool is complete, but review them before they go out to real prospects.
 // ============================================================================
 
 import type { CategoryKey } from './types';
@@ -16,104 +15,144 @@ import type { CategoryKey } from './types';
 export interface Service {
   id: string;
   name: string;
-  // One-line hook shown to the customer.
   tagline: string;
-  // What's included — a few bullet points.
   includes: string[];
-  // Pricing as a display string (keep it flexible: "from $X", "$X/mo", etc.).
   price: string;
-  // Which audit categories this service helps fix. Drives proposal targeting.
+  // Optional extra line (payment terms, comparable value, etc.).
+  note?: string;
   solvesCategories: CategoryKey[];
-  // Broader value props beyond the audit (AI automation, workflow, marketing).
   tags: Array<'website' | 'ai-automation' | 'workflow' | 'marketing'>;
 }
 
 export const COMPANY = {
   name: process.env.COMPANY_NAME || 'Veer',
+  email: 'info@veersolutions.com',
   bookingUrl: process.env.BOOKING_URL || 'https://calendly.com/your-veer-link',
-  // Short positioning line used at the top of proposals.
+  // Veer's positioning, in its own voice.
   positioning:
-    'We help businesses fix their websites and put AI automation, workflow, and marketing to work — so more visitors turn into customers.',
+    '"You talk. I build. You\'re live this week." Veer builds professional small-business websites — you write nothing, a 15-minute conversation becomes your copy — and puts AI automation and marketing to work so more visitors become customers.',
 };
 
-// TODO: Replace every entry below with the real Veer Service Catalog offerings.
 export const SERVICES: Service[] = [
   {
-    id: 'website-revamp',
-    name: 'Website Revamp & Performance Tune-Up',
-    tagline: 'A faster, cleaner site that loads in under 2 seconds and converts.',
+    id: 'website-build',
+    name: 'The Website Build — $500 flat',
+    tagline: 'A professional site, written and built for you, live in about a week.',
     includes: [
-      'Full performance optimization (images, scripts, Core Web Vitals)',
-      'Modern, mobile-first redesign of key pages',
-      'Conversion-focused layout and calls to action',
+      'Custom design in your brand, all copy written for you ("you write nothing")',
+      'Up to 5 pages, mobile-responsive on every device',
+      'Contact form + basic on-page SEO setup',
+      'SSL / HTTPS security + hosting on Veer’s server',
+      'One consolidated round of revisions, then launch & go-live',
     ],
-    price: 'from $2,500 (placeholder)',
-    solvesCategories: ['performance', 'seo'],
+    price: '$500 flat (1-page site from $300)',
+    note: 'Typical comparable value $1,200. Pay in full ($500, first 3 months of Care free) or $250 deposit then 3 × $85.',
+    solvesCategories: ['performance', 'seo', 'security'],
     tags: ['website'],
   },
   {
-    id: 'seo-foundations',
-    name: 'SEO Foundations Package',
-    tagline: 'Get found on Google with the technical + on-page basics done right.',
+    id: 'veer-care',
+    name: 'Veer Care',
+    tagline: 'Keeps your site online, secure, and current — a living website, cared for.',
     includes: [
-      'Metadata, headings, and structured data cleanup',
-      'Sitemap, indexing, and mobile-friendliness fixes',
-      'Keyword-targeted copy for your top pages',
+      'Hosting on Veer’s server + SSL / HTTPS encryption',
+      'Automated backups, uptime monitoring, security updates',
+      'Up to 30 minutes of edits per month',
     ],
-    price: 'from $1,200 (placeholder)',
-    solvesCategories: ['seo'],
-    tags: ['website', 'marketing'],
-  },
-  {
-    id: 'security-hardening',
-    name: 'Security & Trust Hardening',
-    tagline: 'HTTPS, security headers, and a site visitors (and Google) trust.',
-    includes: [
-      'HTTPS + security header configuration',
-      'Broken link and mixed-content cleanup',
-      'Basic monitoring so issues get caught early',
-    ],
-    price: 'from $800 (placeholder)',
+    price: '$25/mo · $250/yr',
     solvesCategories: ['security'],
-    tags: ['website'],
+    tags: ['website', 'workflow'],
   },
   {
-    id: 'ai-automation',
-    name: 'AI Automation Starter',
-    tagline: 'Put AI to work on the repetitive tasks eating your team’s time.',
+    id: 'veer-care-plus',
+    name: 'Veer Care Plus',
+    tagline: 'Everything in Care, plus an AI chat assistant and priority changes.',
     includes: [
-      'AI chat/assistant for lead capture and FAQs on your site',
-      'Automated follow-up emails and lead routing',
-      'Custom workflow built around one high-value process',
+      'Everything in Veer Care',
+      'AI chat assistant (Veer-run — you manage no keys)',
+      'Up to 60 minutes of edits per month + priority changes',
     ],
-    price: 'from $1,500 + $250/mo (placeholder)',
+    price: '$45/mo · $450/yr',
+    note: 'AI setup ($149) waived for founding clients.',
+    solvesCategories: ['security'],
+    tags: ['website', 'ai-automation'],
+  },
+  {
+    id: 'website-chat-ai',
+    name: 'Website Chat — AI (Claude)',
+    tagline: 'An AI assistant on your site that answers questions and captures leads.',
+    includes: [
+      'AI chat trained on your business, funnels visitors to contact',
+      'Veer runs and maintains the backend — you manage no keys',
+      'Sold through Care Plus',
+    ],
+    price: '+$149 setup, +$15/mo',
+    note: 'Prefer no AI? Smart FAQ chat (scripted, ~15 topics) is a flat +$99, no monthly.',
+    solvesCategories: ['performance', 'seo'],
+    tags: ['ai-automation'],
+  },
+  {
+    id: 'ai-audit-roadmap',
+    name: 'AI Audit + Roadmap',
+    tagline: 'A 30-minute review and a 1-page plan for where AI saves you time.',
+    includes: [
+      '30-minute review of your business and workflows',
+      'A 1-page "where AI saves you time" roadmap',
+    ],
+    price: '$150 (free for warm leads)',
     solvesCategories: ['performance', 'seo', 'security'],
     tags: ['ai-automation', 'workflow'],
   },
   {
-    id: 'marketing-engine',
-    name: 'Marketing Engine (Monthly)',
-    tagline: 'A steady stream of content and campaigns that bring in leads.',
+    id: 'automation',
+    name: 'AI Automation',
+    tagline: 'Put one high-value workflow on autopilot.',
     includes: [
-      'Monthly content + landing pages',
-      'Email marketing and lead-nurture sequences',
-      'Reporting so you can see what’s working',
+      'One workflow live — e.g. invoice chasing, review requests, content drafts, or CRM cleanup',
+      'Built, connected, and running for your business',
     ],
-    price: '$900/mo (placeholder)',
+    price: '$200 each · 3 for $500',
+    solvesCategories: ['seo', 'security'],
+    tags: ['ai-automation', 'workflow'],
+  },
+  {
+    id: 'content-engine',
+    name: 'Content Engine',
+    tagline: 'Monthly social + email content, done for you.',
+    includes: [
+      'Monthly social posts and email content',
+      'Written and scheduled so your marketing stays consistent',
+    ],
+    price: '$250/mo',
     solvesCategories: ['seo'],
     tags: ['marketing', 'workflow'],
   },
+  {
+    id: 'ai-partner',
+    name: 'AI Partner',
+    tagline: '"Your AI department" — an ongoing retainer with priority on everything.',
+    includes: [
+      'Ongoing AI + automation work tailored to your business',
+      'Priority turnaround across builds, tools, and workflows',
+    ],
+    price: '$500 / $1,000 / $1,500 per month by scope',
+    solvesCategories: ['performance', 'seo', 'security'],
+    tags: ['ai-automation', 'workflow', 'marketing'],
+  },
 ];
 
-// Pick the services most relevant to a given set of weak categories, always
-// including at least one automation/marketing option to widen the conversation.
+// Pick the services most relevant to the weak categories, always including at
+// least one growth (AI/automation/marketing) option to widen the conversation.
 export function recommendedServices(weakest: CategoryKey[]): Service[] {
   const byRelevance = SERVICES.filter((s) =>
     s.solvesCategories.some((c) => weakest.includes(c)),
   );
-  const picks = byRelevance.length > 0 ? byRelevance : SERVICES.slice(0, 2);
+  const picks = byRelevance.length > 0 ? [...byRelevance] : SERVICES.slice(0, 2);
 
-  // Ensure at least one AI/automation or marketing service is present.
+  // If the site is broadly weak, the Website Build should lead — it fixes the
+  // fundamentals. Make sure it's first when present.
+  picks.sort((a, b) => (a.id === 'website-build' ? -1 : b.id === 'website-build' ? 1 : 0));
+
   const hasGrowth = picks.some((s) =>
     s.tags.some((t) => t === 'ai-automation' || t === 'marketing' || t === 'workflow'),
   );

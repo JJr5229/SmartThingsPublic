@@ -26,7 +26,8 @@ function templateProposal(audit: AuditResult, services: Service[]): string {
   const serviceBlocks = services
     .map(
       (s) =>
-        `• ${s.name} — ${s.tagline}\n   Includes: ${s.includes.join('; ')}\n   Investment: ${s.price}`,
+        `• ${s.name} — ${s.tagline}\n   Includes: ${s.includes.join('; ')}\n   Investment: ${s.price}` +
+        (s.note ? `\n   Note: ${s.note}` : ''),
     )
     .join('\n\n');
 
@@ -52,7 +53,9 @@ export async function generateProposal(audit: AuditResult): Promise<string> {
   const catalogText = services
     .map(
       (s) =>
-        `- ${s.name}: ${s.tagline} Includes: ${s.includes.join('; ')}. Price: ${s.price}. Helps with: ${s.solvesCategories.join(', ')}.`,
+        `- ${s.name}: ${s.tagline} Includes: ${s.includes.join('; ')}. Price: ${s.price}.` +
+        (s.note ? ` ${s.note}` : '') +
+        ` Helps with: ${s.solvesCategories.join(', ')}.`,
     )
     .join('\n');
 
