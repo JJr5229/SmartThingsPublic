@@ -18,6 +18,10 @@ export interface Service {
   tagline: string;
   includes: string[];
   price: string;
+  // When true, the price is still being finalized: it is NOT shown in customer
+  // proposals (the service is still recommended, just without a number). Flip to
+  // false once you've locked the price and the real number goes out.
+  draftPrice?: boolean;
   // Optional extra line (payment terms, comparable value, etc.).
   note?: string;
   solvesCategories: CategoryKey[];
@@ -118,6 +122,7 @@ export const SERVICES: Service[] = [
       'A 1-page "where AI saves you time" roadmap',
     ],
     price: '$150 (free for warm leads)',
+    draftPrice: true,
     solvesCategories: ['performance', 'seo', 'security'],
     tags: ['ai-automation', 'workflow'],
   },
@@ -130,6 +135,7 @@ export const SERVICES: Service[] = [
       'Built, connected, and running for your business',
     ],
     price: '$200 each · 3 for $500',
+    draftPrice: true,
     solvesCategories: ['seo', 'security'],
     tags: ['ai-automation', 'workflow'],
   },
@@ -142,6 +148,7 @@ export const SERVICES: Service[] = [
       'Written and scheduled so your marketing stays consistent',
     ],
     price: '$250/mo',
+    draftPrice: true,
     solvesCategories: ['seo'],
     tags: ['marketing', 'workflow'],
   },
@@ -154,6 +161,7 @@ export const SERVICES: Service[] = [
       'Priority turnaround across builds, tools, and workflows',
     ],
     price: '$500 / $1,000 / $1,500 per month by scope',
+    draftPrice: true,
     solvesCategories: ['performance', 'seo', 'security'],
     tags: ['ai-automation', 'workflow', 'marketing'],
   },

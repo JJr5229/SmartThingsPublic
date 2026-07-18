@@ -23,11 +23,16 @@ function templateProposal(audit: AuditResult, services: Service[]): string {
     .map((c) => c.label)
     .join(', ');
 
+  const priceLine = (s: Service) =>
+    s.draftPrice
+      ? 'Tailored to your needs — we’ll finalize pricing together on your free call'
+      : s.price;
+
   const serviceBlocks = services
     .map(
       (s) =>
-        `• ${s.name} — ${s.tagline}\n   Includes: ${s.includes.join('; ')}\n   Investment: ${s.price}` +
-        (s.note ? `\n   Note: ${s.note}` : ''),
+        `• ${s.name} — ${s.tagline}\n   Includes: ${s.includes.join('; ')}\n   Investment: ${priceLine(s)}` +
+        (s.note && !s.draftPrice ? `\n   Note: ${s.note}` : ''),
     )
     .join('\n\n');
 
@@ -51,18 +56,22 @@ export async function generateProposal(audit: AuditResult): Promise<string> {
 
   const model = process.env.ANTHROPIC_MODEL || 'claude-sonnet-5';
   const catalogText = services
-    .map(
-      (s) =>
-        `- ${s.name}: ${s.tagline} Includes: ${s.includes.join('; ')}. Price: ${s.price}.` +
-        (s.note ? ` ${s.note}` : '') +
-        ` Helps with: ${s.solvesCategories.join(', ')}.`,
-    )
+    .map((s) => {
+      const price = s.draftPrice
+        ? 'PRICING TBD — do NOT state any number; say pricing is tailored and finalized together on the call'
+        : s.price;
+      return (
+        `- ${s.name}: ${s.tagline} Includes: ${s.includes.join('; ')}. Price: ${price}.` +
+        (s.note && !s.draftPrice ? ` ${s.note}` : '') +
+        ` Helps with: ${s.solvesCategories.join(', ')}.`
+      );
+    })
     .join('\n');
 
   const prompt = [
     `You are a sales consultant for ${COMPANY.name}. ${COMPANY.positioning}`,
     ``,
-    `A prospect just ran a free audit of their website (${audit.normalizedUrl}). Write a short, warm, personalized proposal email body (no subject line, ~180-260 words). Be specific about the concrete problems found, connect each to a business impact (lost customers, poor Google ranking, lost trust), then recommend ONLY the services below that fit. Quote the prices exactly as written. End by warmly inviting them to take the next step — "${COMPANY.cta.label}" (${COMPANY.cta.href}). Do not invent services or prices. Plain text, no markdown headers.`,
+    `A prospect just ran a free audit of their website (${audit.normalizedUrl}). Write a short, warm, personalized proposal email body (no subject line, ~180-260 words). Be specific about the concrete problems found, connect each to a business impact (lost customers, poor Google ranking, lost trust), then recommend ONLY the services below that fit. Quote prices exactly as written; for any service marked PRICING TBD, never state a number — say the pricing is tailored and finalized together on the call. End by warmly inviting them to take the next step — "${COMPANY.cta.label}" (${COMPANY.cta.href}). Do not invent services or prices. Plain text, no markdown headers.`,
     ``,
     `AUDIT RESULTS:`,
     auditBrief(audit),

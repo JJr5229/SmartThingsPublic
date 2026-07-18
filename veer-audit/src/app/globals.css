@@ -30,6 +30,24 @@ a { color: var(--accent); }
   padding: 48px 20px 80px;
 }
 
+.brandbar {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 36px;
+}
+.brand {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+.brand-sub {
+  color: var(--muted);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
 .hero h1 {
   font-size: clamp(28px, 5vw, 44px);
   line-height: 1.1;
