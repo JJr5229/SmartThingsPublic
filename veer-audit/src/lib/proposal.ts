@@ -40,7 +40,7 @@ function templateProposal(audit: AuditResult, services: Service[]): string {
     ``,
     serviceBlocks,
     ``,
-    `Want to walk through the results? Grab a time here: ${COMPANY.bookingUrl}`,
+    `Ready to talk it through? ${COMPANY.cta.label} — ${COMPANY.cta.href}`,
   ].join('\n');
 }
 
@@ -62,7 +62,7 @@ export async function generateProposal(audit: AuditResult): Promise<string> {
   const prompt = [
     `You are a sales consultant for ${COMPANY.name}. ${COMPANY.positioning}`,
     ``,
-    `A prospect just ran a free audit of their website (${audit.normalizedUrl}). Write a short, warm, personalized proposal email body (no subject line, ~180-260 words). Be specific about the concrete problems found, connect each to a business impact (lost customers, poor Google ranking, lost trust), then recommend ONLY the services below that fit. Quote the prices exactly as written. End by inviting them to book a call at ${COMPANY.bookingUrl}. Do not invent services or prices. Plain text, no markdown headers.`,
+    `A prospect just ran a free audit of their website (${audit.normalizedUrl}). Write a short, warm, personalized proposal email body (no subject line, ~180-260 words). Be specific about the concrete problems found, connect each to a business impact (lost customers, poor Google ranking, lost trust), then recommend ONLY the services below that fit. Quote the prices exactly as written. End by warmly inviting them to take the next step — "${COMPANY.cta.label}" (${COMPANY.cta.href}). Do not invent services or prices. Plain text, no markdown headers.`,
     ``,
     `AUDIT RESULTS:`,
     auditBrief(audit),

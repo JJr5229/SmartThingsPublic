@@ -24,10 +24,28 @@ export interface Service {
   tags: Array<'website' | 'ai-automation' | 'workflow' | 'marketing'>;
 }
 
+const CONTACT_EMAIL = 'info@veersolutions.com';
+
+// The call-to-action after an audit. Default is a warm "reply and we'll set up
+// your free 15-minute call" mailto — zero setup, fits Veer's high-touch intake.
+// To switch to a scheduling page later (Calendly, Cal.com, etc.), just set the
+// BOOKING_URL env var — the button automatically becomes "Book a free call".
+const CTA = process.env.BOOKING_URL
+  ? { href: process.env.BOOKING_URL, label: 'Book a free call' }
+  : {
+      href:
+        `mailto:${CONTACT_EMAIL}` +
+        `?subject=${encodeURIComponent('My website audit — let’s set up my free call')}` +
+        `&body=${encodeURIComponent(
+          'Hi Veer,\n\nI just ran a free website audit and I’d like to set up my free 15-minute call.\n\nMy website: \nBest times to reach me: \n\nThanks!',
+        )}`,
+      label: 'Reply to set up my free call',
+    };
+
 export const COMPANY = {
   name: process.env.COMPANY_NAME || 'Veer',
-  email: 'info@veersolutions.com',
-  bookingUrl: process.env.BOOKING_URL || 'https://calendly.com/your-veer-link',
+  email: CONTACT_EMAIL,
+  cta: CTA,
   // Veer's positioning, in its own voice.
   positioning:
     '"You talk. I build. You\'re live this week." Veer builds professional small-business websites — you write nothing, a 15-minute conversation becomes your copy — and puts AI automation and marketing to work so more visitors become customers.',

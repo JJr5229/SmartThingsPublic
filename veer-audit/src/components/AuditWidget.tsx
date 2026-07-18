@@ -85,8 +85,8 @@ export default function AuditWidget({ compact = false }: { compact?: boolean }) 
             Check <strong>{email}</strong> for your detailed results and a tailored plan to fix
             what we found. Want to talk it through?
           </p>
-          <a className="cta" style={{ textDecoration: 'none' }} href={COMPANY.bookingUrl}>
-            Book a free call
+          <a className="cta" style={{ textDecoration: 'none' }} href={COMPANY.cta.href}>
+            {COMPANY.cta.label}
           </a>
         </div>
       </div>

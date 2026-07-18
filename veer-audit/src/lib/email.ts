@@ -62,7 +62,7 @@ function scorecardHtml(audit: AuditResult, proposal: string): string {
     <div style="font-size:40px;font-weight:800;color:${scoreColor(audit.overallScore)};">${audit.overallScore}<span style="font-size:20px;color:#888;">/100</span></div>
     <table style="border-collapse:collapse;margin:12px 0 20px;width:100%;background:#f7f7f9;border-radius:8px;">${rows}</table>
     ${proposalHtml}
-    <a href="${COMPANY.bookingUrl}" style="display:inline-block;margin-top:12px;background:#111;color:#fff;text-decoration:none;padding:12px 20px;border-radius:8px;">Book a free call</a>
+    <a href="${COMPANY.cta.href}" style="display:inline-block;margin-top:12px;background:#111;color:#fff;text-decoration:none;padding:12px 20px;border-radius:8px;">${escapeHtml(COMPANY.cta.label)}</a>
   </div>`;
 }
 
@@ -87,7 +87,7 @@ export async function sendCustomerEmail(
   return send({
     to: toEmail,
     subject: `Your website audit: ${audit.overallScore}/100 — and how to improve it`,
-    text: `Your website audit for ${audit.normalizedUrl} scored ${audit.overallScore}/100.\n\n${proposal}\n\nBook a call: ${COMPANY.bookingUrl}`,
+    text: `Your website audit for ${audit.normalizedUrl} scored ${audit.overallScore}/100.\n\n${proposal}\n\n${COMPANY.cta.label}: ${COMPANY.cta.href}`,
     html: scorecardHtml(audit, proposal),
   });
 }
