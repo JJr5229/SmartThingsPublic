@@ -1,0 +1,141 @@
+/* ==========================================================================
+   MKA Consulting — Design Tokens
+   Mefford, Knutson & Associates, Inc.
+   --------------------------------------------------------------------------
+   THE PALETTE LIVES HERE AND ONLY HERE.
+
+   Every color on every page resolves back to the ~10 variables in the
+   "BRAND PALETTE" block below. Nothing else in the codebase contains a raw
+   hex value. To retune the brand, edit that block — the whole site follows.
+
+   The values were sampled from the existing mkaonline.com / mkaconsulting.com
+   design: the royal-blue logo triangle and section fields, the gold
+   "Schedule a Consultation" button and card borders, white cards.
+   ========================================================================== */
+
+:root {
+  /* ---------------------------------------------------------------------
+     BRAND PALETTE — the only source of truth. Edit these 10 lines.
+     --------------------------------------------------------------------- */
+  --blue-900: #0c0a3e; /* deepest — footer, hero base                       */
+  --blue-800: #15116b; /* deep section fields                               */
+  --blue-700: #221f9b; /* PRIMARY — the MKA blue                            */
+  --blue-600: #2e2ac4; /* logo triangle blue, gradient mid                  */
+  --blue-500: #4a46e0; /* interactive highlight, gradient top               */
+  --blue-100: #e4e3f7; /* tinted surfaces on light backgrounds              */
+
+  --gold-600: #c98b0a; /* gold text on white (contrast-safe)                */
+  --gold-500: #f2b01e; /* PRIMARY ACCENT — buttons, rules, card borders     */
+  --gold-400: #ffc94d; /* hover / glow                                      */
+  --gold-100: #fff4d9; /* gold-tinted surfaces                             */
+
+  --cream: #fbf8f1; /* warm page background                                 */
+  --white: #ffffff;
+  --ink: #14132b; /* body text — blue-black, not pure black                  */
+
+  /* ---------------------------------------------------------------------
+     SEMANTIC ALIASES — components reference these, never the raw ramp.
+     --------------------------------------------------------------------- */
+  --bg: var(--cream);
+  --bg-elevated: var(--white);
+  --bg-inverse: var(--blue-700);
+  --bg-inverse-deep: var(--blue-900);
+
+  --text: var(--ink);
+  --text-muted: color-mix(in srgb, var(--ink) 64%, transparent);
+  --text-subtle: color-mix(in srgb, var(--ink) 46%, transparent);
+  --text-on-inverse: var(--white);
+  --text-on-inverse-muted: color-mix(in srgb, var(--white) 74%, transparent);
+
+  --accent: var(--gold-500);
+  --accent-hover: var(--gold-400);
+  --accent-text: var(--gold-600);
+  --on-accent: var(--blue-900);
+
+  --border: color-mix(in srgb, var(--ink) 12%, transparent);
+  --border-strong: color-mix(in srgb, var(--ink) 20%, transparent);
+  --border-inverse: color-mix(in srgb, var(--white) 20%, transparent);
+
+  --focus-ring: var(--gold-500);
+
+  /* ---------------------------------------------------------------------
+     TYPE
+     Self-contained system stacks — no CDN, no webfont request, no FOUT.
+     The display serif mirrors the elegant serif of the current site;
+     the sans carries UI and long-form body copy.
+     --------------------------------------------------------------------- */
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua",
+    "URW Palladio L", Georgia, "Times New Roman", serif;
+  --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Fluid type scale — clamp(min, preferred, max) */
+  --step--1: clamp(0.82rem, 0.79rem + 0.14vw, 0.9rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.12rem);
+  --step-1: clamp(1.2rem, 1.12rem + 0.38vw, 1.44rem);
+  --step-2: clamp(1.45rem, 1.3rem + 0.72vw, 1.95rem);
+  --step-3: clamp(1.75rem, 1.48rem + 1.32vw, 2.7rem);
+  --step-4: clamp(2.1rem, 1.62rem + 2.36vw, 3.75rem);
+  --step-5: clamp(2.5rem, 1.6rem + 4.4vw, 5.5rem);
+
+  --leading-tight: 1.06;
+  --leading-snug: 1.24;
+  --leading-normal: 1.65;
+
+  --tracking-tight: -0.022em;
+  --tracking-wide: 0.08em;
+  --tracking-wider: 0.16em;
+
+  /* ---------------------------------------------------------------------
+     SPACE / SHAPE / MOTION
+     --------------------------------------------------------------------- */
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1.25rem;
+  --space-lg: 2rem;
+  --space-xl: 3.25rem;
+  --space-2xl: 5rem;
+  --space-3xl: 7.5rem;
+
+  --section-y: clamp(4rem, 3rem + 6vw, 8rem);
+  --gutter: clamp(1.25rem, 0.6rem + 3vw, 3rem);
+  --measure: 68ch;
+  --width-max: 1220px;
+  --width-narrow: 820px;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 32px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 2px color-mix(in srgb, var(--blue-900) 8%, transparent),
+    0 2px 6px color-mix(in srgb, var(--blue-900) 5%, transparent);
+  --shadow-md: 0 4px 10px color-mix(in srgb, var(--blue-900) 8%, transparent),
+    0 12px 28px color-mix(in srgb, var(--blue-900) 9%, transparent);
+  --shadow-lg: 0 10px 24px color-mix(in srgb, var(--blue-900) 10%, transparent),
+    0 30px 64px color-mix(in srgb, var(--blue-900) 14%, transparent);
+  --shadow-gold: 0 8px 24px color-mix(in srgb, var(--gold-500) 38%, transparent);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 160ms;
+  --dur: 320ms;
+  --dur-slow: 720ms;
+
+  --header-h: 76px;
+}
+
+/* Graceful degradation for browsers without color-mix() */
+@supports not (color: color-mix(in srgb, red 50%, transparent)) {
+  :root {
+    --text-muted: #4b4a63;
+    --text-subtle: #7b7a90;
+    --text-on-inverse-muted: rgba(255, 255, 255, 0.74);
+    --border: rgba(20, 19, 43, 0.12);
+    --border-strong: rgba(20, 19, 43, 0.2);
+    --border-inverse: rgba(255, 255, 255, 0.2);
+  }
+}
