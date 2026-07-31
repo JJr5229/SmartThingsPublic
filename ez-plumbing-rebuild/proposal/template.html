@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Veer — Website Rebuild Proposal for EZ Plumbing &amp; Drains</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Veer proposal: website rebuild and Google Business Profile work for EZ Plumbing &amp; Drains, Blaine MN.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red:#EF4138; --maroon:#BE2430; --orange:#F69323; --ink:#0A0A0F; --mut:#5b5b63;
+    --line:#e7e7ea; --green:#2f7d55;
+    --sunset: radial-gradient(120% 115% at 80% 16%, #FEC97E 0%, #F69323 22%, #EE5A2A 46%, #8A2216 72%, #0A0503 100%);
+  }
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    margin:0; background:#fff; color:var(--ink);
+    font-family:"DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:15px; line-height:1.62;
+  }
+  .wrap{ max-width:840px; margin:0 auto; padding:0 24px; }
+
+  /* ---------------------------------------------------------------- hero */
+  .hero{
+    background:var(--sunset); color:#fff; padding:60px 0 54px;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .hero .eyebrow{
+    font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase;
+    color:#FEC97E; margin:0 0 16px;
+  }
+  .hero h1{
+    font-size:clamp(30px,5.4vw,45px); line-height:1.08; font-weight:700;
+    margin:0 0 16px; letter-spacing:-.02em; max-width:16ch;
+  }
+  .hero p.sub{ font-size:16.5px; color:rgba(255,255,255,.92); margin:0; max-width:56ch; }
+  .hero-meta{
+    margin-top:26px; display:flex; flex-wrap:wrap; gap:9px; align-items:center;
+    font-size:12.5px; color:rgba(255,255,255,.86);
+  }
+  .chip{
+    display:inline-flex; align-items:center; gap:6px;
+    background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.28);
+    border-radius:20px; padding:4px 13px; font-weight:500;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .chip.status{ background:rgba(10,5,3,.34); border-color:rgba(255,255,255,.4); font-weight:700; }
+
+  /* ------------------------------------------------------------ sections */
+  section{ padding:34px 0 0; }
+  h2{
+    display:flex; align-items:baseline; gap:9px;
+    font-size:12.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--maroon); margin:0 0 14px;
+  }
+  h2 .n{
+    font-size:10.5px; font-weight:700; color:var(--orange); letter-spacing:.14em;
+    -webkit-text-fill-color:var(--orange);
+  }
+  h3{ font-size:19px; font-weight:700; margin:24px 0 6px; letter-spacing:-.01em; }
+  p{ margin:0 0 13px; }
+  p.lead{ font-size:17px; }
+  a{ color:var(--maroon); }
+  strong{ font-weight:700; }
+  .mut{ color:var(--mut); }
+  .small{ font-size:13px; }
+  .grule{
+    height:3px; background:var(--sunset); border-radius:3px; margin:34px 0 0;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+
+  /* -------------------------------------------------------------- tables */
+  table{ width:100%; border-collapse:collapse; margin:12px 0 6px; font-size:14px; }
+  th,td{ text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th{ font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--mut); font-weight:700; }
+  td.num,th.num{ text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  tr.total td{ border-bottom:0; border-top:2px solid var(--ink); font-weight:700; font-size:16px; padding-top:13px; }
+  .win{ color:var(--green); font-weight:700; }
+  .bad{ color:var(--maroon); font-weight:700; }
+
+  /* ------------------------------------------------------------- explain */
+  .explain{
+    background:#faf7f5; border:1px solid var(--line); border-left:4px solid var(--orange);
+    border-radius:0 12px 12px 0; padding:16px 18px; margin:14px 0 0; font-size:13.5px;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .explain p{ margin:0 0 9px; }
+  .explain p:last-child{ margin:0; }
+  .explain b{ color:var(--ink); }
+
+  /* ------------------------------------------------------------- preview */
+  .preview{
+    margin-top:12px; border-radius:14px; overflow:hidden; border:1px solid var(--line);
+    box-shadow:0 22px 44px -26px rgba(10,10,15,.55);
+  }
+  .pv-bar{
+    background:#f4f4f6; padding:9px 13px; display:flex; align-items:center; gap:6px;
+    border-bottom:1px solid var(--line);
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .pv-dot{ width:9px; height:9px; border-radius:50%; background:#d9d9df; }
+  .pv-url{
+    margin-left:9px; font-size:11px; color:var(--mut); background:#fff;
+    border:1px solid var(--line); border-radius:20px; padding:3px 13px;
+  }
+  .pv-shot img.shot{ display:block; width:100%; }
+  .pv-cap{
+    display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;
+    padding:11px 14px; background:#faf7f5; border-top:1px solid var(--line); font-size:12.5px;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .shots{ display:grid; grid-template-columns:1fr 250px; gap:16px; align-items:start; margin-top:12px; }
+  .phone{
+    border:1px solid var(--line); border-radius:22px; overflow:hidden; padding:8px; background:#f4f4f6;
+    box-shadow:0 18px 34px -22px rgba(10,10,15,.5);
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .phone img{ display:block; width:100%; border-radius:15px; }
+  @media(max-width:700px){ .shots{ grid-template-columns:1fr; } .phone{ max-width:280px; margin:0 auto; } }
+
+  /* ----------------------------------------------------------- scorecard */
+  .audit{
+    background:#141317; color:#fff; border-radius:16px; padding:22px 24px 20px; margin-top:12px;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .audit-top{ display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
+  .audit .grade{ font-size:12.5px; font-weight:700; color:#F0552B; letter-spacing:.1em; text-transform:uppercase; }
+  .audit-top h4{ margin:3px 0 4px; font-size:19px; font-weight:700; }
+  .audit-top p{ margin:0; font-size:13px; color:rgba(255,255,255,.66); max-width:44ch; }
+  .bars{ margin-top:20px; display:grid; gap:11px; }
+  .bar-row{ display:grid; grid-template-columns:1.35fr 1fr 46px; align-items:center; gap:12px; font-size:12.5px; }
+  .track{ height:7px; background:rgba(255,255,255,.10); border-radius:6px; overflow:hidden; }
+  .fill{
+    height:100%; background:var(--sunset); border-radius:6px;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .bar-row .v{ text-align:right; font-variant-numeric:tabular-nums; color:rgba(255,255,255,.8); }
+  .audit-note{
+    margin-top:17px; padding-top:14px; border-top:1px solid rgba(255,255,255,.13);
+    font-size:12px; color:rgba(255,255,255,.6);
+  }
+  @media(max-width:560px){ .bar-row{ grid-template-columns:1fr; gap:4px; } .bar-row .v{ text-align:left; } }
+
+  /* --------------------------------------------------------------- cards */
+  .plans{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:12px; }
+  .plan{ border:1px solid var(--line); border-radius:14px; padding:18px 20px 16px; background:#fff; }
+  .plan.web{ border-top:5px solid var(--maroon); }
+  .plan.google{ border-top:5px solid var(--orange); }
+  .plan .tag{ font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; }
+  .plan.web .tag{ color:var(--maroon); }
+  .plan.google .tag{ color:var(--orange); }
+  .plan h3{ font-size:19px; font-weight:700; margin:4px 0 2px; }
+  .plan .price{ font-size:23px; font-weight:700; margin:6px 0 2px; }
+  .plan .price span{ font-size:12.5px; font-weight:400; color:var(--mut); }
+  .plan ul{ list-style:none; padding:0; margin:10px 0 0; }
+  .plan li{ position:relative; padding-left:19px; margin:5px 0; font-size:13.5px; }
+  .plan li::before{ content:"✓"; position:absolute; left:0; font-weight:700; }
+  .plan.web li::before{ color:var(--maroon); }
+  .plan.google li::before{ color:var(--orange); }
+  .plan .foot{ margin-top:11px; padding-top:9px; border-top:1px solid var(--line); font-size:12px; color:var(--mut); }
+  @media(max-width:620px){ .plans{ grid-template-columns:1fr; } }
+
+  .findings{ display:grid; gap:10px; margin-top:12px; }
+  .finding{ border:1px solid var(--line); border-radius:12px; padding:14px 16px; }
+  .finding .sev{
+    font-size:10px; font-weight:700; letter-spacing:.13em; text-transform:uppercase;
+    padding:2px 8px; border-radius:20px; display:inline-block; margin-bottom:6px;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .sev.crit{ background:#fdecea; color:var(--maroon); }
+  .sev.high{ background:#fdf1e3; color:#9a5a05; }
+  .sev.good{ background:#e9f4ee; color:var(--green); }
+  .finding h4{ margin:0 0 5px; font-size:15.5px; font-weight:700; }
+  .finding p{ margin:0; font-size:13.5px; color:var(--mut); }
+  .finding code{
+    background:#f4f4f6; padding:1px 5px; border-radius:4px; font-size:12.5px; color:var(--ink);
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+
+  ul.plain{ list-style:none; padding:0; margin:12px 0 0; }
+  ul.plain li{ position:relative; padding-left:20px; margin:8px 0; font-size:14px; }
+  ul.plain li::before{ content:"—"; position:absolute; left:0; color:var(--orange); font-weight:700; }
+
+  .pay{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:12px; }
+  .pay .opt{ border:1px solid var(--line); border-radius:14px; padding:16px 18px; }
+  .pay .opt.rec{ border-color:var(--green); background:#f7fbf9; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .pay .opt .tag{ font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--green); }
+  .pay .opt h4{ margin:5px 0 4px; font-size:17px; }
+  .pay .opt p{ margin:0; font-size:13.5px; color:var(--mut); }
+  @media(max-width:620px){ .pay{ grid-template-columns:1fr; } }
+
+  /* -------------------------------------------------------------- footer */
+  .footer{
+    background:var(--sunset); color:#fff; margin-top:44px; padding:30px 0;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .footer .wrap{
+    display:flex; justify-content:space-between; align-items:center; gap:18px; flex-wrap:wrap;
+  }
+  .fbrand{ display:flex; align-items:center; gap:11px; }
+  .fmark{ width:34px; height:34px; flex:none; }
+  .fbrand a.word{
+    color:#fff; font-weight:700; font-size:20px; letter-spacing:.06em;
+    text-decoration:none; -webkit-text-fill-color:#fff;
+  }
+  .fbrand .tagline{ color:#fff; font-size:12.5px; -webkit-text-fill-color:#fff; opacity:.95; }
+  .fcontact{ color:#fff; font-size:13px; text-align:right; -webkit-text-fill-color:#fff; }
+  .fcontact a{ color:#fff; -webkit-text-fill-color:#fff; }
+  .fcontact a.site{ text-decoration:underline; text-decoration-color:#fff; }
+  @media(max-width:620px){ .footer .wrap{ flex-direction:column; align-items:flex-start; } .fcontact{ text-align:left; } }
+
+  @media print{
+    .hero,.footer,.audit,.fill,.explain{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    section{ break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Veer · Design · Print · Tech</p>
+    <h1>Your website has the wrong phone number on it.</h1>
+    <p class="sub">All 83 pages of it. I found it while looking at ezplumbingmn.com, so I fixed it — along with everything else — and built you the replacement before asking whether you wanted one.</p>
+    <div class="hero-meta">
+      <span class="chip status">Concept — unlisted</span>
+      <span class="chip">EZ Plumbing &amp; Drains · Blaine, MN</span>
+      <span class="chip">{{DATE}}</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <h2><span class="n">01</span> Why you're getting this</h2>
+    <p class="lead">You didn't ask for this and we've never spoken. That's worth saying plainly rather than dressing it up as a follow-up to a conversation that never happened.</p>
+    <p>Here's what did happen. I audit local businesses' websites and Google profiles as a way of finding people worth working with. Yours came up. Most audits turn up the usual small stuff and I move on.</p>
+    <p>Yours turned up a wrong phone number on every single page of the site — and four buttons on your homepage that literally say the word <strong>"Button"</strong>. At that point writing you a list of problems felt like the lazy option, so I rebuilt the site instead. It's finished. You're looking at screenshots of the real thing further down.</p>
+    <p>If you read this and do nothing, <strong>please still fix the phone number.</strong> That one is costing you calls right now and it takes five minutes. Details are in section 02 and you don't owe me anything for it.</p>
+  </section>
+
+  <div class="grule"></div>
+
+  <section>
+    <h2><span class="n">02</span> What the audit found</h2>
+    <p>I crawled all 83 URLs on ezplumbingmn.com and loaded the homepage in a real browser on a simulated phone. Everything below was measured, not guessed.</p>
+
+    <div class="findings">
+      <div class="finding">
+        <span class="sev crit">Critical</span>
+        <h4>Every page shows a phone number that isn't yours</h4>
+        <p>All 83 pages display <code>612.392.0832</code> as text, while the tap-to-call link underneath is <code>tel:651-392-0832</code>. Your Google profile says <strong>(651) 392-0832</strong> — so the link is right and the number people read and dial is wrong. Anyone on a desktop, or anyone who reads it off the screen and dials from another phone, gets a wrong number. It also means your website and your Google listing disagree about how to reach you on 83 pages, which is a signal Google uses when it decides who to show in local results.</p>
+      </div>
+      <div class="finding">
+        <span class="sev crit">Critical</span>
+        <h4>Four links on your homepage say "Button"</h4>
+        <p>In the services grid, visible to everyone. Two also go somewhere odd — the emergency-repair card links to your About page, and "Customized Plumbing Solutions" links to water filtration. A homeowner deciding whether to let a stranger into their house at midnight is reading that page for signs you're careful.</p>
+      </div>
+      <div class="finding">
+        <span class="sev high">High</span>
+        <h4>Your business details aren't in the site's code anywhere</h4>
+        <p>No address, no hours, no license number, and no <em>LocalBusiness</em> markup on any of the 83 pages — the machine-readable block that tells Google who and where you are. The only markup on the site is a four-line stub with your name and URL in it. Your 4.9 rating and 216 reviews don't appear on the website either.</p>
+      </div>
+      <div class="finding">
+        <span class="sev high">High</span>
+        <h4>3.3 MB and 50 round trips to load your homepage on a phone</h4>
+        <p>1.9 MB of that is JavaScript that doesn't do anything a visitor would notice — it's the page builder's machinery. On office wifi this is invisible. In a basement with one bar, which is where your emergency customers actually are, it isn't.</p>
+      </div>
+      <div class="finding">
+        <span class="sev good">Already good</span>
+        <h4>Your 74 city pages are genuinely well done — don't let anyone rewrite them</h4>
+        <p>I hashed the text of all 83 pages to check: every city page is unique, roughly 1,870 words, individually titled, with FAQ markup. Zero broken links across the whole site. Your security headers score 4 out of 6, which beats most small-business sites. That work is an asset and the rebuild carries it forward rather than replacing it.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="grule"></div>
+
+  <section>
+    <h2><span class="n">03</span> Measured, not asserted</h2>
+    <p>Same homepage, same browser, same simulated phone. Left column is your site today; right column is the rebuild.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Loading the homepage on a phone</th>
+          <th class="num">Now</th>
+          <th class="num">Rebuild</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Requests</td><td class="num bad">50</td><td class="num win">4</td></tr>
+        <tr><td>Total page weight</td><td class="num bad">3,269 KB</td><td class="num win">71 KB</td></tr>
+        <tr><td>JavaScript</td><td class="num bad">1,944 KB <span class="mut">(25 files)</span></td><td class="num win">5 KB <span class="mut">(1 file)</span></td></tr>
+        <tr><td>CSS</td><td class="num bad">380 KB <span class="mut">(26 files)</span></td><td class="num win">24 KB <span class="mut">(1 file)</span></td></tr>
+        <tr><td>HTML per page, average</td><td class="num bad">225 KB</td><td class="num win">32 KB</td></tr>
+        <tr><td>Security headers</td><td class="num">4 of 6</td><td class="num win">6 of 6</td></tr>
+        <tr><td>Pages with <em>LocalBusiness</em> markup</td><td class="num bad">0 of 83</td><td class="num win">85 of 85</td></tr>
+        <tr><td>Pages showing the wrong phone number</td><td class="num bad">83 of 83</td><td class="num win">0</td></tr>
+        <tr><td>Visible placeholder text ("Button")</td><td class="num bad">4 links</td><td class="num win">0</td></tr>
+      </tbody>
+    </table>
+
+    <div class="explain">
+      <p><b>Requests</b> — each one is a separate trip your visitor's phone has to make just to show the page. Fifty trips versus four. Fewer trips means less waiting on a weak signal.</p>
+      <p><b>Page weight</b> — how much has to come down the pipe before anything is usable. 3.3 MB is roughly a three-minute song. 71 KB is a couple of text messages.</p>
+      <p><b>JavaScript</b> — code the phone has to download <em>and then run</em>, so it costs twice: once to arrive, once to execute. Nearly two megabytes of it on your site is doing nothing you'd miss.</p>
+      <p><b>Security headers</b> — instructions your server gives the browser about how to protect the visitor. Yours does most of this right already; the rebuild covers the last two.</p>
+      <p><b>LocalBusiness markup</b> — a hidden block of code stating your name, address, phone, hours and service area in a format Google reads directly instead of guessing at. It's how you tell Google you're a plumber in Blaine who covers 74 cities. Right now the site doesn't say it anywhere.</p>
+    </div>
+  </section>
+
+  <div class="grule"></div>
+
+  <section>
+    <h2><span class="n">04</span> The rebuild, already built</h2>
+    <p>Not a mockup and not a theme with your logo dropped in. Eighty-five real pages: your six services, all 74 city pages, service area, about, contact, and a 404. Every old URL redirects to its replacement so you keep the rankings the current site has earned.</p>
+
+    <div class="shots">
+      <div class="preview">
+        <div class="pv-bar">
+          <span class="pv-dot"></span><span class="pv-dot"></span><span class="pv-dot"></span>
+          <span class="pv-url">ezplumbingmn.com</span>
+        </div>
+        <div class="pv-shot"><img class="shot" src="{{HERO_SHOT}}" alt="Homepage of the rebuilt EZ Plumbing &amp; Drains website, showing the 24/7 emergency headline, the correct (651) phone number, and a card with the 4.9 star rating from 216 Google reviews."></div>
+        <div class="pv-cap">
+          <span><strong>Homepage</strong> — the 4.9 / 216 rating, the Blaine address and the correct number, all above the fold</span>
+          <span class="mut">Concept · not yet live</span>
+        </div>
+      </div>
+      <div>
+        <div class="phone">
+          <img src="{{MOBILE_SHOT}}" alt="The same homepage on a phone, with a sticky call bar fixed to the bottom of the screen.">
+        </div>
+        <p class="small mut" style="margin-top:9px">On a phone the call button is pinned to the bottom of the screen on every page — your emergency traffic never has to go looking for it.</p>
+      </div>
+    </div>
+
+    <h3>What changed, and why</h3>
+    <ul class="plain">
+      <li><strong>One phone number, defined in one place.</strong> The number now lives in a single line of a config file and is generated into all 85 pages. A build-time check refuses to publish if any page disagrees with any other. The bug you have today becomes structurally impossible.</li>
+      <li><strong>Your Google reputation is on the website.</strong> 4.9 stars, 216 reviews, on every page, linked through to the real reviews. It's the strongest thing you own and it was nowhere on your site.</li>
+      <li><strong>Your differentiators are visible.</strong> Family owned, Latino-owned, LGBTQ+ friendly, nearly 20 years — all published on your Google profile, none of it on your website until now.</li>
+      <li><strong>Full business identity in the markup.</strong> Name, Blaine address, phone, 24-hour opening times, geo coordinates, all six services and all 74 cities, on all 85 pages.</li>
+      <li><strong>Every city page keeps its own character.</strong> Each one names its county, links to its actual neighbours, and describes what we really see in that housing stock — pre-1950 clay laterals in Saint Paul, end-of-life cast iron in Bloomington, hard-water and softener work out in Blaine and Maple Grove. Not one paragraph with the city name swapped 74 times.</li>
+      <li><strong>Built to be edited.</strong> Change your hours, phone or service list in one file and all 85 pages rebuild in under a second.</li>
+    </ul>
+
+    <p class="small mut" style="margin-top:14px"><strong>One honest note on the screenshots:</strong> the rebuild currently ships without photography. Your Google profile has 26 real job photos on it and they belong on the site — that's a short session of picking and optimising, included in the build, not an extra. I'd rather show you the real state of it than stage it with stock images of somebody else's plumber.</p>
+  </section>
+
+  <div class="grule"></div>
+
+  <section>
+    <h2><span class="n">05</span> Also checked: your Google Business Profile</h2>
+    <p>Separate from the website, and free either way. Here's where it stands.</p>
+
+    <div class="audit">
+      <div class="audit-top">
+        <svg width="104" height="104" viewBox="0 0 120 120" role="img" aria-label="10 of 16 publicly verifiable checks passed">
+          <defs>
+            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#FEC97E"/><stop offset="45%" stop-color="#F0552B"/><stop offset="100%" stop-color="#8A2216"/>
+            </linearGradient>
+          </defs>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.13)" stroke-width="12"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="url(#g)" stroke-width="12" stroke-linecap="round"
+                  stroke-dasharray="196 314" transform="rotate(-90 60 60)"/>
+          <text x="60" y="56" text-anchor="middle" font-size="30" font-weight="700" fill="#fff" font-family="DM Sans, sans-serif">10</text>
+          <text x="60" y="76" text-anchor="middle" font-size="13" fill="rgba(255,255,255,.6)" font-family="DM Sans, sans-serif">of 16</text>
+        </svg>
+        <div>
+          <p class="grade">Public profile check</p>
+          <h4>Strong listing, broken connections</h4>
+          <p>The profile itself is in good shape. Everything failing below is about the profile disagreeing with the rest of your business — not about the listing being poorly built.</p>
+        </div>
+      </div>
+
+      <div class="bars">
+        <div class="bar-row">
+          <span>Core listing data</span>
+          <span class="track"><span class="fill" style="width:100%"></span></span>
+          <span class="v">6/6</span>
+        </div>
+        <div class="bar-row">
+          <span>Reputation</span>
+          <span class="track"><span class="fill" style="width:100%"></span></span>
+          <span class="v">2/2</span>
+        </div>
+        <div class="bar-row">
+          <span>Content freshness</span>
+          <span class="track"><span class="fill" style="width:50%"></span></span>
+          <span class="v">1/2</span>
+        </div>
+        <div class="bar-row">
+          <span>NAP consistency</span>
+          <span class="track"><span class="fill" style="width:2%"></span></span>
+          <span class="v">0/3</span>
+        </div>
+        <div class="bar-row">
+          <span>Conversion setup</span>
+          <span class="track"><span class="fill" style="width:33%"></span></span>
+          <span class="v">1/3</span>
+        </div>
+      </div>
+
+      <p class="audit-note"><strong>What this number is and isn't.</strong> Veer's full Local Score grades 22 factors, and several of them — your review reply rate, your services list, secondary categories, Q&amp;A — are only visible to whoever owns the profile. I ran this signed out, so this covers the 16 factors anyone can verify from the public listing. It is not the 22-factor score and I'm not going to present it as one. Owner access closes the gap.</p>
+    </div>
+
+    <h3>Three findings worth acting on</h3>
+    <ul class="plain">
+      <li><strong>Your website contradicts your profile.</strong> Same phone number problem as section 02, and this is the side where it costs you rankings rather than just calls. Google leans on your website to corroborate your listing; right now 83 pages disagree with it. <em>The fix is on the website — your profile is the one that's right.</em></li>
+      <li><strong>A directory has you under a different name in a different city.</strong> There's a Nextdoor page for this business filed as "EZ Sewer &amp; Drains" in <strong>Dayton, MN</strong>, against a profile that says "EZ Plumbing &amp; Drains" in <strong>Blaine, MN</strong>. Mismatched name-and-city pairs are among the more damaging citation problems, and where one exists there are usually several.</li>
+      <li><strong>Your profile links to your homepage and nothing else.</strong> Someone searching "plumber in Coon Rapids" finds your profile and lands on a generic homepage — while your 1,870-word Coon Rapids page sits there unlinked. There's also no tracking on the link, so there's currently no way to tell how much business the profile actually sends you.</li>
+    </ul>
+
+    <p class="small mut" style="margin-top:14px">For balance: 4.9 stars from 216 reviews is an excellent profile, your hours and booking link are set up correctly, your attributes are filled in, and your July post about the copper water-line repair is genuinely well written. Posting has just gone quiet — that one is 28 days old.</p>
+  </section>
+
+  <div class="grule"></div>
+
+  <section>
+    <h2><span class="n">06</span> Investment</h2>
+
+    <table>
+      <thead>
+        <tr><th>One-time</th><th class="num">Price</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Website build</strong><br><span class="small mut">All 85 pages, redirects from every old URL, your photos placed, launch</span></td>
+          <td class="num">$500</td>
+        </tr>
+        <tr>
+          <td><strong>Google Profile Rescue + 3 months of Google Care</strong><br><span class="small mut">Bundle — $555 if bought separately</span></td>
+          <td class="num">$500</td>
+        </tr>
+        <tr class="total"><td>Total to launch</td><td class="num">$1,000</td></tr>
+      </tbody>
+    </table>
+
+    <p class="small mut">Domain: you already own ezplumbingmn.com, so repointing it is easy and free. A new domain would be billed at cost, about $15–20/yr.</p>
+
+    <h3>Ongoing — two different products, pick either, both or neither</h3>
+    <div class="plans">
+      <div class="plan web">
+        <span class="tag">Website</span>
+        <h3>Veer Care</h3>
+        <div class="price">$25<span> / month</span></div>
+        <ul>
+          <li>Hosting &amp; SSL</li>
+          <li>Automated backups</li>
+          <li>Uptime monitoring</li>
+          <li>Security updates</li>
+          <li>30 min of edits a month</li>
+        </ul>
+        <div class="foot">Cancel any time. The site is yours either way.</div>
+      </div>
+      <div class="plan google">
+        <span class="tag">Google Profile</span>
+        <h3>Google Care</h3>
+        <div class="price">$85<span> / month</span></div>
+        <ul>
+          <li>8 posts a month</li>
+          <li>Review replies within 48h</li>
+          <li>3–5 new photos a month</li>
+          <li>Questions answered</li>
+          <li>Hours kept current</li>
+          <li>Monthly re-score &amp; report</li>
+        </ul>
+        <div class="foot">Month to month. First 3 months included in the bundle above.</div>
+      </div>
+    </div>
+    <p class="small mut" style="margin-top:11px">There's also <strong>Google Care Plus at $150/mo</strong> — everything above plus a review-generation campaign, a Tap-to-Review NFC stand, three competitors tracked, and 24-hour replies. Given you're already at 216 reviews, standard Care is probably the right fit; say so if you'd rather see Plus.</p>
+
+    <h3>How to pay</h3>
+    <div class="pay">
+      <div class="opt rec">
+        <span class="tag">Recommended</span>
+        <h4>Pay in full</h4>
+        <p>$1,000 up front, and your first month of Veer Care is free if you sign up for it.</p>
+      </div>
+      <div class="opt">
+        <span class="tag" style="color:var(--mut)">Or</span>
+        <h4>Split it in two</h4>
+        <p>$500 now, $500 in 30 days. No fee, no interest, no difference in what you get.</p>
+      </div>
+    </div>
+    <p class="small mut" style="margin-top:11px">Cash App, Apple Pay, or a proper invoice — whichever suits you.</p>
+  </section>
+
+  <div class="grule"></div>
+
+  <section>
+    <h2><span class="n">07</span> The fine print</h2>
+    <ul class="plain">
+      <li><strong>No ranking promises.</strong> Nobody can promise you the top spot on Maps, and anyone who does is guessing with your money. What's guaranteed is that the fixable things get fixed and that the score is measured before and after, so you can see what moved.</li>
+      <li><strong>You own everything.</strong> The site, the code, the domain, the content. If you walk away it comes with you.</li>
+      <li><strong>If Veer Care lapses</strong>, the site keeps working — you'd just be responsible for hosting and updates yourself, and I'll hand over everything needed to do that.</li>
+      <li><strong>Edits cover real changes</strong> — new photos, a service added, hours updated, a price change. A whole new page or a redesign is separate work and I'll quote it before starting.</li>
+      <li><strong>Not included in the Google bundle:</strong> additional locations, review backlogs over 25, or recovering a suspended profile. Quoted separately if it comes up.</li>
+      <li><strong>The license number is deliberately blank.</strong> Your MN contractor license belongs in the header, the footer and the markup, and it's one of the strongest trust signals a trades business has. I'm not going to make one up — send it over and it appears everywhere automatically.</li>
+      <li><strong>The build is done, not the launch.</strong> Nothing goes live without your say-so, and this concept page is unlisted.</li>
+    </ul>
+  </section>
+
+  <div class="grule"></div>
+
+  <section style="padding-bottom:8px">
+    <h2><span class="n">08</span> What happens next</h2>
+    <p class="lead">Reply, or call and tell me to go away — either is a fine outcome.</p>
+    <p>If you want to see it properly, I'll put the rebuild on a private link so you can click through all 85 pages on your own phone before deciding anything. Takes me an hour and costs you nothing.</p>
+    <p>And genuinely, whatever you decide: <strong>fix the phone number this week.</strong></p>
+  </section>
+
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="fbrand">
+      <svg class="fmark" viewBox="0 0 64 64" role="img" aria-label="Veer">
+        <circle cx="32" cy="32" r="31" fill="rgba(255,255,255,.14)" stroke="#fff" stroke-width="2"/>
+        <path d="M18 20 L32 46 L46 20" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div>
+        <a class="word" href="https://veersolutions.com">VEER</a>
+        <div class="tagline">Design · Print · Tech</div>
+      </div>
+    </div>
+    <div class="fcontact">
+      Jessie Redmond · <a href="tel:+16513019307">(651) 301-9307</a><br>
+      <a href="mailto:info@veersolutions.com">info@veersolutions.com</a> ·
+      <a class="site" href="https://veersolutions.com">veersolutions.com</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
