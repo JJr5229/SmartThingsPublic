@@ -418,13 +418,31 @@ body[data-header="solid"] .site-header {
   box-shadow: var(--shadow-md);
 }
 
+/* Must be allowed to shrink: as flex:none it pushed the menu button off-screen
+   on narrow phones. */
 .brand {
   display: inline-flex;
   align-items: center;
   gap: 0.7rem;
   text-decoration: none;
   color: var(--white);
-  flex: none;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.brand__text {
+  min-width: 0;
+}
+
+/* Below this the tagline no longer fits beside the menu button. */
+@media (max-width: 420px) {
+  .site-header .brand__tag {
+    display: none;
+  }
+
+  .site-header .brand__name {
+    font-size: 1.12rem;
+  }
 }
 
 .brand__mark {
@@ -639,13 +657,19 @@ body[data-header="solid"] .site-header {
   background: var(--blue-900);
   color: var(--white);
   overflow: hidden;
+  /* contain:paint guarantees the oversized aurora layer never contributes to
+     the document's scrollable width — overflow:hidden alone still lets the
+     root report it. */
+  contain: paint;
   isolation: isolate;
 }
 
 /* Layered aurora field built purely from the brand blues */
+/* Sized with a transform rather than negative insets: transforms don't create
+   layout overflow, so this can never widen the document. */
 .hero__aurora {
   position: absolute;
-  inset: -25%;
+  inset: 0;
   z-index: -3;
   background:
     radial-gradient(
@@ -673,15 +697,25 @@ body[data-header="solid"] .site-header {
   will-change: transform;
 }
 
+/* Baseline scale is part of the keyframes because the layers now sit at inset:0
+   and rely on the transform to spread past their box. */
 @keyframes aurora {
   0% {
-    transform: translate3d(-2%, -1%, 0) scale(1.02) rotate(0deg);
+    transform: translate3d(-2%, -1%, 0) scale(1.52) rotate(0deg);
   }
   50% {
-    transform: translate3d(3%, 2%, 0) scale(1.12) rotate(4deg);
+    transform: translate3d(3%, 2%, 0) scale(1.66) rotate(4deg);
   }
   100% {
-    transform: translate3d(-3%, 3%, 0) scale(1.05) rotate(-3deg);
+    transform: translate3d(-3%, 3%, 0) scale(1.56) rotate(-3deg);
+  }
+}
+
+/* Reduced-motion users get the static spread, not an unscaled flat box. */
+@media (prefers-reduced-motion: reduce) {
+  .hero__aurora,
+  .cta-band__glow {
+    transform: scale(1.6);
   }
 }
 
@@ -1039,15 +1073,19 @@ body[data-header="solid"] .site-header {
   padding: 0;
   margin: 0;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.5rem;
   font-size: var(--step--1);
   color: var(--text-muted);
 }
 
 .product-card__includes li {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: 0.55rem;
-  align-items: flex-start;
+  align-items: start;
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .product-card__includes li::before {
@@ -1166,17 +1204,26 @@ body[data-header="solid"] .site-header {
 }
 
 /* Checklist / tick list */
+/* minmax(0, 1fr) + min-width:0 keep these lists inside their container.
+   Without both, the flex list items' automatic minimum size inflates the
+   grid track past the container width and the page scrolls sideways. */
 .ticks {
   list-style: none;
   padding: 0;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-sm);
 }
 
+/* Grid, not flex: the text is an anonymous child, so it cannot be given
+   min-width:0 directly. A minmax(0,1fr) track caps it instead. */
 .ticks li {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: 0.75rem;
-  align-items: flex-start;
+  align-items: start;
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .ticks li::before {
@@ -1539,13 +1586,17 @@ body[data-header="solid"] .site-header {
   list-style: none;
   padding: 0;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-md);
 }
 
 .contact-list li {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: var(--space-sm);
-  align-items: flex-start;
+  align-items: start;
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .contact-list svg {
@@ -1574,12 +1625,13 @@ body[data-header="solid"] .site-header {
   color: var(--white);
   text-align: center;
   overflow: hidden;
+  contain: paint;
   isolation: isolate;
 }
 
 .cta-band__glow {
   position: absolute;
-  inset: -40% -10%;
+  inset: 0;
   z-index: -1;
   background: radial-gradient(
       45% 60% at 20% 40%,
@@ -1615,12 +1667,35 @@ body[data-header="solid"] .site-header {
   font-size: var(--step--1);
 }
 
+/* Columns use minmax(0, …) so a long phone number or street address can never
+   force the track wider than its share and push the grid off-screen. */
 .footer-grid {
   display: grid;
-  gap: var(--space-xl);
-  grid-template-columns: minmax(240px, 1.4fr) repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-lg) var(--space-xl);
+  grid-template-columns: minmax(0, 1fr);
   padding-bottom: var(--space-xl);
   border-bottom: 1px solid var(--border-inverse);
+}
+
+@media (min-width: 560px) {
+  .footer-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Brand block spans the full row until there is room for the 4-up layout. */
+  .footer-col:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 960px) {
+  .footer-grid {
+    grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr));
+  }
+
+  .footer-col:first-child {
+    grid-column: auto;
+  }
 }
 
 .footer-col h4 {
