@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Transforming Families MN">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5bcefa"/>
+      <stop offset="50%" stop-color="#f3f0ea"/>
+      <stop offset="100%" stop-color="#f5a9b8"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#g)"/>
+  <path d="M32 47c-1 0-2-.4-2.7-1.1l-11-10.6a10.6 10.6 0 0 1 0-15.2 11 11 0 0 1 15.3 0l-1.6 1.6 1.6-1.6a11 11 0 0 1 15.3 0 10.6 10.6 0 0 1 0 15.2l-11 10.6A3.8 3.8 0 0 1 32 47z"
+        fill="#1c1733" opacity=".82"/>
+</svg>

@@ -1,0 +1,45 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": false,
+  "trailingSlash": false,
+
+  "redirects": [
+    { "source": "/our-history-1",            "destination": "/about.html",            "permanent": true },
+    { "source": "/our-history",              "destination": "/about.html",            "permanent": true },
+    { "source": "/about-us",                 "destination": "/about.html",            "permanent": true },
+    { "source": "/meetings",                 "destination": "/meetings.html",         "permanent": true },
+    { "source": "/tffprograms",              "destination": "/programs.html",         "permanent": true },
+    { "source": "/programs",                 "destination": "/programs.html",         "permanent": true },
+    { "source": "/mn-resources",             "destination": "/resources.html",        "permanent": true },
+    { "source": "/resources",                "destination": "/resources.html#national","permanent": true },
+    { "source": "/support-us",               "destination": "/support.html",          "permanent": true },
+    { "source": "/donate",                   "destination": "/support.html",          "permanent": true },
+    { "source": "/contact-us",               "destination": "/contact.html",          "permanent": true },
+    { "source": "/announcements",            "destination": "/news.html",             "permanent": true },
+    { "source": "/mn-strong-4-trans-youth",  "destination": "/news.html",             "permanent": true },
+    { "source": "/pride-cultural-arts-center","destination": "/contact.html",         "permanent": true }
+  ],
+
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()" },
+        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ]
+}
