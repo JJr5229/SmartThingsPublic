@@ -67,8 +67,8 @@
       <div class="site-header__inner">
         <a class="brand" href="index.html" aria-label="MKA Consulting — home">
           <svg class="brand__mark" viewBox="0 0 60 44" aria-hidden="true" focusable="false">
-            <path d="M30 3 57.5 41 2.5 41Z" fill="var(--blue-600)" stroke="var(--gold-500)" stroke-width="2.6" stroke-linejoin="round" />
-            <text x="30" y="37" text-anchor="middle" fill="var(--white)" font-size="17" font-weight="700" font-family="Lora, Georgia, serif">MK</text>
+            <path d="M30 3 57.5 41 2.5 41Z" fill="rgba(255,255,255,0.06)" stroke="var(--gold-400)" stroke-width="2.2" stroke-linejoin="round" />
+            <text x="30" y="37" text-anchor="middle" fill="var(--white)" font-size="17" font-weight="700" font-family="Instrument Serif, Georgia, serif">MK</text>
           </svg>
           <span class="brand__text">
             <span class="brand__name">MKA Consulting</span>
@@ -171,28 +171,27 @@
 
           <div class="tri-art" data-reveal="100" aria-hidden="true">
             <svg viewBox="0 0 400 400" role="presentation">
-              <!-- Triangulated construction — the mark, surveyed -->
-              <g stroke="var(--blue-500)" stroke-width="1" fill="none" opacity=".35">
-                <path d="M200 40 370 340 30 340Z" />
-                <path d="M30 340 200 40 200 340Z" />
-                <path d="M200 40 370 340 200 340Z" />
-                <path d="M30 340 200 190 370 340" />
-                <path d="M115 190 285 190" />
-                <path d="M115 265 285 265" />
+              <defs>
+                <linearGradient id="triFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#ffffff" stop-opacity=".10" />
+                  <stop offset="100%" stop-color="#ffffff" stop-opacity=".015" />
+                </linearGradient>
+              </defs>
+              <g stroke="#ffffff" stroke-opacity=".16" stroke-width="1" fill="none">
+                <path d="M200 34 372 344 28 344Z" />
+                <path d="M28 344 200 34 200 344Z" />
+                <path d="M200 34 372 344 200 344Z" />
+                <path d="M28 344 200 189 372 344" />
+                <path d="M114 189 286 189" />
+                <path d="M114 266 286 266" />
               </g>
-              <path d="M200 40 370 340 30 340Z" fill="none" stroke="var(--blue-700)" stroke-width="2" stroke-linejoin="round" />
-              <path d="M200 190 285 340 115 340Z" fill="var(--blue-700)" />
-              <g fill="var(--gold-500)">
-                <circle cx="200" cy="40" r="5" />
-                <circle cx="370" cy="340" r="5" />
-                <circle cx="30" cy="340" r="5" />
-                <circle cx="200" cy="190" r="4" />
-              </g>
-              <g fill="var(--blue-600)">
-                <circle cx="115" cy="190" r="3" />
-                <circle cx="285" cy="190" r="3" />
-                <circle cx="115" cy="265" r="3" />
-                <circle cx="285" cy="265" r="3" />
+              <path d="M200 34 372 344 28 344Z" fill="url(#triFill)" stroke="#ffc94d" stroke-opacity=".55" stroke-width="1.25" stroke-linejoin="round" />
+              <path d="M200 189 286 344 114 344Z" fill="#ffc94d" fill-opacity=".14" />
+              <g fill="#ffc94d">
+                <circle cx="200" cy="34" r="3.5" />
+                <circle cx="372" cy="344" r="3.5" />
+                <circle cx="28" cy="344" r="3.5" />
+                <circle cx="200" cy="189" r="2.6" fill-opacity=".7" />
               </g>
             </svg>
           </div>
@@ -608,8 +607,8 @@
           <div class="footer-col">
             <a class="brand" href="index.html" aria-label="MKA Consulting — home">
               <svg class="brand__mark" viewBox="0 0 60 44" aria-hidden="true" focusable="false">
-                <path d="M30 3 57.5 41 2.5 41Z" fill="var(--blue-600)" stroke="var(--gold-500)" stroke-width="2.6" stroke-linejoin="round" />
-                <text x="30" y="37" text-anchor="middle" fill="var(--white)" font-size="17" font-weight="700" font-family="Lora, Georgia, serif">MK</text>
+                <path d="M30 3 57.5 41 2.5 41Z" fill="rgba(255,255,255,0.06)" stroke="var(--gold-400)" stroke-width="2.2" stroke-linejoin="round" />
+                <text x="30" y="37" text-anchor="middle" fill="var(--white)" font-size="17" font-weight="700" font-family="Instrument Serif, Georgia, serif">MK</text>
               </svg>
               <span class="brand__text">
                 <span class="brand__name">MKA Consulting</span>

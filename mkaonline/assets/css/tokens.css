@@ -5,150 +5,162 @@
    THE PALETTE LIVES HERE AND ONLY HERE.
 
    Every color on every page resolves back to the BRAND PALETTE block below.
-   Nothing else in the codebase contains a raw hex value. To retune the brand,
-   edit that block — the whole site follows.
+   Nothing else in the codebase contains a raw hex value.
 
-   Brand blues and gold were sampled from the existing MKA site: the royal-blue
-   logo triangle and section fields, the gold button and card borders.
+   The site is dark throughout. Blue is the ground, not an accent band, and
+   gold is spent sparingly — a single primary action, a hairline, a numeral.
    ========================================================================== */
 
 :root {
   /* ---------------------------------------------------------------------
      BRAND PALETTE — the only source of truth.
      --------------------------------------------------------------------- */
-  --blue-900: #0c0a3e; /* deepest — hero base, footer                       */
-  --blue-800: #17137a; /* deep field                                        */
+  --blue-950: #05041a; /* the ground                                        */
+  --blue-900: #0c0a3e; /* raised field                                      */
+  --blue-800: #14115c; /* elevated field                                    */
   --blue-700: #221f9b; /* PRIMARY — the MKA blue                            */
-  --blue-600: #2e2ac4; /* logo triangle blue, gradient lift                 */
-  --blue-500: #4a46e0; /* highlight                                         */
-  --blue-50: #eeedfa; /* softest blue wash                                  */
+  --blue-600: #2e2ac4; /* logo triangle blue                                */
+  --blue-500: #4a46e0; /* luminous edge                                     */
 
-  --gold-700: #8a5f08; /* gold text on light — contrast-safe                */
-  --gold-500: #f2b01e; /* PRIMARY ACCENT                                    */
-  --gold-400: #ffc94d; /* gradient lift / on-dark accent                    */
-  --gold-50: #fdf4e2; /* softest gold wash                                  */
+  --gold-500: #f2b01e; /* PRIMARY ACCENT — spend it rarely                  */
+  --gold-400: #ffc94d; /* highlight                                         */
+  --gold-300: #ffdd8f; /* fine detail on dark                               */
 
-  /* Warm neutrals. The ground is ivory rather than grey or cool white —
-     it is what makes the whole page read soft rather than clinical. */
   --white: #ffffff;
-  --ivory: #faf7f1;
-  --ivory-deep: #f3efe6;
-  --ink: #211f2e; /* body text — warm near-black, never pure black          */
+  /* Warm off-white. Pure white on a deep blue is glaring and reads cheap. */
+  --bone: #f4f1ea;
 
   /* ---------------------------------------------------------------------
      SEMANTIC ALIASES
      --------------------------------------------------------------------- */
-  --bg: var(--ivory);
-  --bg-elevated: var(--white);
-  --bg-inverse: var(--blue-900);
+  --bg: var(--blue-950);
+  --bg-raised: rgba(255, 255, 255, 0.035);
+  --bg-raised-hover: rgba(255, 255, 255, 0.06);
 
-  --text: var(--ink);
-  --text-muted: #56526a;
-  --text-subtle: #7d7891;
-  --text-on-inverse: var(--white);
-  --text-on-inverse-muted: rgba(255, 255, 255, 0.76);
+  --text: var(--bone);
+  --text-muted: rgba(244, 241, 234, 0.66);
+  --text-subtle: rgba(244, 241, 234, 0.42);
 
   --accent: var(--gold-500);
-  --accent-text: var(--gold-700);
   --on-accent: #2a1c00;
 
-  --focus-ring: var(--gold-500);
+  /* Depth is drawn with an inner top highlight, never an outline. */
+  --edge: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --edge-strong: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  --hairline: rgba(255, 255, 255, 0.09);
+
+  --focus-ring: var(--gold-400);
 
   /* ---------------------------------------------------------------------
-     GRADIENTS
-     Kept genuinely subtle — a few percent of tonal shift, never a stripe.
+     GRADIENTS — deep, slow, and low-contrast. Never a visible band.
      --------------------------------------------------------------------- */
-  --grad-page: linear-gradient(180deg, #fdfbf7 0%, var(--ivory) 42%, #f6f2ea 100%);
-  --grad-surface: linear-gradient(158deg, #ffffff 0%, #fdfbf7 58%, #fbf8f2 100%);
-  --grad-surface-hover: linear-gradient(158deg, #ffffff 0%, #fefdfb 40%, #fdf9f2 100%);
-  --grad-gold: linear-gradient(135deg, var(--gold-400) 0%, var(--gold-500) 62%, #e8a413 100%);
-  --grad-blue: linear-gradient(140deg, var(--blue-700) 0%, var(--blue-600) 55%, var(--blue-500) 100%);
-  --grad-wash: linear-gradient(180deg, transparent 0%, var(--blue-50) 55%, transparent 100%);
-
-  /* Deep field for hero and inverse bands — several soft stops rather than
-     one hard blob, so the light reads as ambient. */
-  --grad-deep: radial-gradient(
-      120% 90% at 12% 8%,
-      color-mix(in srgb, var(--blue-600) 62%, transparent) 0%,
-      transparent 58%
-    ),
-    radial-gradient(
-      90% 80% at 92% 18%,
-      color-mix(in srgb, var(--blue-500) 40%, transparent) 0%,
-      transparent 60%
-    ),
-    radial-gradient(
-      100% 70% at 78% 96%,
-      color-mix(in srgb, var(--gold-500) 14%, transparent) 0%,
+  --grad-page: radial-gradient(
+      110% 70% at 50% -10%,
+      #171248 0%,
       transparent 62%
     ),
-    linear-gradient(165deg, var(--blue-900) 0%, #141056 55%, var(--blue-900) 100%);
+    linear-gradient(180deg, #07051f 0%, var(--blue-950) 40%, #04030f 100%);
+
+  --grad-hero: radial-gradient(
+      80% 62% at 50% 4%,
+      color-mix(in srgb, var(--blue-700) 58%, transparent) 0%,
+      transparent 64%
+    ),
+    radial-gradient(
+      60% 50% at 84% 84%,
+      color-mix(in srgb, var(--gold-500) 10%, transparent) 0%,
+      transparent 66%
+    ),
+    radial-gradient(
+      70% 60% at 12% 88%,
+      color-mix(in srgb, var(--blue-600) 26%, transparent) 0%,
+      transparent 62%
+    ),
+    linear-gradient(180deg, #0a0830 0%, #05041a 100%);
+
+  --grad-surface: linear-gradient(
+    158deg,
+    rgba(255, 255, 255, 0.062) 0%,
+    rgba(255, 255, 255, 0.026) 46%,
+    rgba(255, 255, 255, 0.014) 100%
+  );
+
+  --grad-surface-hover: linear-gradient(
+    158deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.045) 50%,
+    rgba(255, 255, 255, 0.022) 100%
+  );
+
+  --grad-gold: linear-gradient(135deg, var(--gold-300) 0%, var(--gold-500) 58%, #d9970f 100%);
+  --grad-rule: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.16) 22%,
+    rgba(255, 255, 255, 0.16) 78%,
+    transparent
+  );
 
   /* ---------------------------------------------------------------------
-     TYPE — see fonts.css for the @font-face declarations.
+     TYPE — see fonts.css.
      --------------------------------------------------------------------- */
-  --font-display: "Lora", "Iowan Old Style", Palatino, Georgia, serif;
-  --font-body: "Work Sans", system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Instrument Serif", "Iowan Old Style", Palatino, Georgia, serif;
+  --font-body: "Lora", Georgia, "Times New Roman", serif;
 
-  --step--1: clamp(0.8rem, 0.78rem + 0.1vw, 0.86rem);
-  --step-0: clamp(1rem, 0.97rem + 0.16vw, 1.09rem);
-  --step-1: clamp(1.14rem, 1.08rem + 0.3vw, 1.34rem);
-  --step-2: clamp(1.35rem, 1.22rem + 0.6vw, 1.75rem);
-  --step-3: clamp(1.65rem, 1.42rem + 1.1vw, 2.4rem);
-  --step-4: clamp(2rem, 1.6rem + 1.9vw, 3.15rem);
-  --step-5: clamp(2.4rem, 1.75rem + 3.1vw, 4.4rem);
+  --step--1: clamp(0.82rem, 0.8rem + 0.1vw, 0.88rem);
+  --step-0: clamp(0.98rem, 0.95rem + 0.14vw, 1.05rem);
+  --step-1: clamp(1.1rem, 1.05rem + 0.26vw, 1.28rem);
+  --step-2: clamp(1.5rem, 1.32rem + 0.85vw, 2.1rem);
+  --step-3: clamp(1.95rem, 1.6rem + 1.7vw, 3.1rem);
+  --step-4: clamp(2.5rem, 1.95rem + 2.7vw, 4.4rem);
+  --step-5: clamp(3.1rem, 2.1rem + 4.8vw, 6.6rem);
 
-  --leading-tight: 1.14;
-  --leading-snug: 1.3;
-  --leading-normal: 1.72; /* generous — a large part of "soft"              */
+  --leading-tight: 1.02;
+  --leading-snug: 1.16;
+  --leading-normal: 1.78; /* generous — dark type needs air                 */
 
-  --tracking-display: -0.012em; /* serifs want far less negative tracking   */
-  --tracking-label: 0.14em;
+  --tracking-display: -0.008em;
+  --tracking-label: 0.24em; /* wide, small, quiet                           */
 
   /* ---------------------------------------------------------------------
      SPACE / SHAPE / MOTION
      --------------------------------------------------------------------- */
-  --space-2xs: 0.25rem;
-  --space-xs: 0.5rem;
-  --space-sm: 0.85rem;
-  --space-md: 1.35rem;
-  --space-lg: 2.1rem;
-  --space-xl: 3.4rem;
-  --space-2xl: 5.5rem;
-  --space-3xl: 8rem;
+  --space-2xs: 0.3rem;
+  --space-xs: 0.55rem;
+  --space-sm: 0.9rem;
+  --space-md: 1.4rem;
+  --space-lg: 2.25rem;
+  --space-xl: 3.75rem;
+  --space-2xl: 6rem;
+  --space-3xl: 9rem;
 
-  --section-y: clamp(4.5rem, 3.2rem + 6vw, 8.5rem);
-  --gutter: clamp(1.35rem, 0.6rem + 3.2vw, 3.5rem);
-  --measure: 64ch;
-  --width-max: 1200px;
-  --width-narrow: 760px;
+  --section-y: clamp(5rem, 3.5rem + 7vw, 10rem);
+  --gutter: clamp(1.4rem, 0.6rem + 3.4vw, 4rem);
+  --measure: 62ch;
+  --width-max: 1240px;
+  --width-narrow: 800px;
 
-  /* Rounded, not sharp. This is the other half of "soft". */
-  --radius-sm: 10px;
-  --radius: 16px;
-  --radius-lg: 24px;
+  --radius-sm: 8px;
+  --radius: 14px;
+  --radius-lg: 22px;
   --radius-pill: 999px;
 
-  /* Warm, diffuse shadows — no hard grey edges anywhere. */
-  --shadow-sm: 0 1px 2px rgba(34, 31, 155, 0.04),
-    0 4px 14px rgba(34, 31, 155, 0.045);
-  --shadow-md: 0 2px 6px rgba(34, 31, 155, 0.05),
-    0 14px 34px rgba(34, 31, 155, 0.075);
-  --shadow-lg: 0 4px 12px rgba(34, 31, 155, 0.06),
-    0 26px 60px rgba(34, 31, 155, 0.1);
-  --shadow-gold: 0 8px 24px rgba(242, 176, 30, 0.32);
+  /* On a dark ground, shadow is depth beneath and light above. */
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 10px 34px rgba(0, 0, 0, 0.42);
+  --shadow-lg: 0 24px 70px rgba(0, 0, 0, 0.5);
+  --shadow-gold: 0 10px 34px rgba(242, 176, 30, 0.28);
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --dur-fast: 160ms;
-  --dur: 300ms;
-  --dur-slow: 720ms;
+  --dur: 320ms;
+  --dur-slow: 800ms;
 
-  --header-h: 74px;
+  --header-h: 78px;
 }
 
 @supports not (color: color-mix(in srgb, red 50%, transparent)) {
   :root {
-    --grad-deep: linear-gradient(165deg, #1b1670 0%, #141056 55%, #0c0a3e 100%);
+    --grad-hero: linear-gradient(180deg, #14115c 0%, #0a0830 55%, #05041a 100%);
   }
 }

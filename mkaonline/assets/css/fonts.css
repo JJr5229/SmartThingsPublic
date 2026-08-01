@@ -2,16 +2,33 @@
    MKA Consulting — Typefaces
 
    Self-hosted, subset to Latin + typographic punctuation and converted to
-   WOFF2 (~17KB each). No CDN request, no tracking, no flash of fallback text
-   beyond a normal swap.
+   WOFF2 (~19KB each). No CDN request and no tracking.
 
-   Lora ....... warm humanist serif with brushed curves. Headings and display.
-   Work Sans .. humanist sans, softer and friendlier than a neutral grotesque.
-                Body copy and interface.
+   Instrument Serif .. high-contrast display serif. Headlines only, set large
+                       and loose, where the fine hairlines can be seen.
+   Lora .............. warm, sturdy text serif. Everything else, including
+                       interface text — it holds up at small sizes on a dark
+                       ground where a high-contrast face would fall apart.
 
-   Both are licensed under the SIL Open Font License 1.1. License texts ship
+   Both are licensed under the SIL Open Font License 1.1; license texts ship
    alongside the files in assets/fonts/.
    ========================================================================== */
+
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("../fonts/InstrumentSerif-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("../fonts/InstrumentSerif-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
 
 @font-face {
   font-family: "Lora";
@@ -29,36 +46,10 @@
   font-display: swap;
 }
 
-/* True italics — without these the browser synthesises a slanted roman, which
-   looks crude on a serif at display sizes. */
 @font-face {
   font-family: "Lora";
   src: url("../fonts/Lora-Italic.woff2") format("woff2");
   font-weight: 400;
   font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Lora";
-  src: url("../fonts/Lora-BoldItalic.woff2") format("woff2");
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Work Sans";
-  src: url("../fonts/WorkSans-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Work Sans";
-  src: url("../fonts/WorkSans-Bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
   font-display: swap;
 }
