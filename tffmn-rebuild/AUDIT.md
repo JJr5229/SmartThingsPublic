@@ -10,7 +10,15 @@
 
 Direct HTTP access to `tffmn.org` was blocked by the network policy on the machine
 this audit ran from (the egress proxy returned `403` on `CONNECT` for every host,
-including control domains). The audit was therefore reconstructed from:
+including control domains).
+
+**Retried 1 Aug 2026 — still blocked.** `example.com`, `www.tffmn.org` and `tffmn.org`
+all returned `403` on `CONNECT`, logged by the proxy as
+`gateway answered 403 to CONNECT (policy denial or upstream failure)`. Because a control
+domain fails identically, this is a blanket egress policy rather than anything specific to
+the client's site, and it is not transient. It was not routed around.
+
+The audit was therefore reconstructed from:
 
 - Google's index of the site (11 distinct URLs recovered, with title tags and body snippets)
 - Third-party listings: GiveMN, Givebutter, Benevity, GuideStar, CauseIQ, Twin Cities Pride
@@ -123,9 +131,11 @@ assistants, which now mediate a growing share of "where do I get help" questions
 > confirmed inside the GBP dashboard before acting.
 
 ### 5.1 No Business Profile surfaced in any search — **HIGH** `[NEEDS CONFIRMATION]`
-Seven targeted searches (brand + location, brand + reviews, brand + Maps, address-based)
-returned the website, Facebook, GiveMN, GuideStar, CauseIQ and Benevity — **but no Google
-Business Profile or Maps listing, and no reviews on any platform.**
+Eleven targeted searches across two passes (brand + location, brand + reviews, brand + Maps,
+address + "hours/directions", `site:` enumeration) returned the website, Facebook, GiveMN,
+GuideStar, CauseIQ and Benevity — **but no Google Business Profile or Maps listing, and no
+reviews on any platform.** The second pass, run specifically to try to disprove this finding,
+surfaced nothing new.
 
 This is strong but not conclusive evidence. Maps results are not reliably surfaced in web
 search. The realistic possibilities, in order of likelihood:
@@ -154,12 +164,23 @@ suspensions. The suite number must be present and consistent everywhere, and the
 should almost certainly be configured as a **service-area business** given that the actual
 programming happens in seven other cities.
 
-### 5.4 Published hours appear to be the building's, not TFF's — **MEDIUM** `[NEEDS CONFIRMATION]`
-The hours indexed against the organization (Mon 12–8, Tue 9–4, Wed 12–8, Thu 9–4, Fri 9–1)
-match the Pride Cultural Arts Center's building hours. If those are on a GBP, people will
-arrive at a suite where a very small staff — who spend evenings and Saturdays running
-groups elsewhere — are not present. Wrong hours generate exactly the kind of negative
-first impression this organization can least afford.
+### 5.4 The published hours are the *building's*, not TFF's — **MEDIUM** `[VERIFIED on site]`
+The hours associated with the organization (Mon 12–8, Tue 9–4, Wed 12–8, Thu 9–4, Fri 9–1)
+are the **Pride Cultural Arts Center's building hours**, published on TFF's own
+`/pride-cultural-arts-center` page alongside entry directions ("enter on 12th between
+Harmon & Yale") and the nearest bus stop (12th St S & Yale Place, stop 19333).
+
+Two consequences:
+
+1. **These are the hours Google has to work with.** They sit on tffmn.org, attached to the
+   organization, and describe a building rather than a staffed office. Whether they have also
+   been pulled onto a Business Profile is unconfirmed — but they are the most authoritative
+   hours currently published, and they are misleading. A very small staff who spend evenings
+   and Saturdays running groups in seven other cities are frequently not in that suite.
+2. **The wayfinding content on that page is genuinely useful** and must survive any rebuild.
+   Entry point, transit stop, and suite number are exactly what a first-time visitor needs.
+   Carried into the rebuild's contact page, with the hours explicitly labelled as the
+   building's.
 
 ### 5.5 NAP consistency — **MEDIUM**
 The name appears as "Transforming Families," "Transforming Families MN," and
