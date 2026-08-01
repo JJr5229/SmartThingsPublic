@@ -96,6 +96,63 @@ Worth a pass before launch.
 
 ---
 
+## 1b. Existing site — what the build-machine probe established
+
+This session has no network, so the probe ran on a Vercel build machine and the
+results were read out of the build log. Two runs, plain GETs against public
+pages.
+
+**The page-level audit did not succeed.** Every HTML URL on both domains returned
+**HTTP 403 with a Cloudflare "Just a moment..." challenge** from a datacenter IP.
+The measurements those responses produced (5.6 KB, "5/6 security headers", no h1,
+no meta description) describe *Cloudflare's challenge page*, not MKA's site, and
+must not be quoted as findings. Solving the challenge would mean working around a
+security control, so the probe was stopped.
+
+**What was confirmed anyway:**
+
+| Finding | Evidence | Confidence |
+|---|---|---|
+| `mkaonline.com` **301-redirects to** `mkaconsulting.com` | redirect chain: `mkaonline.com/ -> 301 \| mkaconsulting.com/ -> 403` | **Confirmed** |
+| Site runs **WordPress** | `robots.txt` disallows `/wp-admin/`, `/wp-content/uploads/` | **Confirmed** |
+| Store runs **WooCommerce** | `robots.txt` disallows `woocommerce_uploads`, `wc-logs`, `*?add-to-cart=` | **Confirmed** |
+| **Yoast SEO** installed | `# START YOAST BLOCK` in `robots.txt` | **Confirmed** |
+| **WP-Optimize** installed | `wpo-plugins-tables-list.json` entry | **Confirmed** |
+| Behind **Cloudflare**, Brotli enabled | `server: cloudflare`, `content-encoding: br` | **Confirmed** |
+| Sitemap at `/sitemap_index.xml` | declared in `robots.txt` | **Confirmed** |
+
+**This corrects an earlier assumption.** The site README said the two domains
+"both serve the same site," which implied duplicate content. They do not —
+`mkaonline.com` already redirects. Domain consolidation is therefore *already
+handled*; what remains is deciding which domain the brand leads with, since
+`mkaonline.com` is the one on their printed materials while `mkaconsulting.com`
+is the one that actually serves.
+
+### Two new findings from this
+
+**A. `robots.txt` has three separate `User-agent: *` groups.** One from
+WooCommerce, one from WP-Optimize, one from Yoast. The specification says a
+crawler should obey only the *first* matching group; behaviour across crawlers is
+inconsistent when groups are duplicated. The Yoast block ends with a bare
+`Disallow:` (allow everything), which may or may not override the WooCommerce
+rules above it depending on the crawler. Worth consolidating into a single group.
+
+**B. Cloudflare bot protection is challenging non-browser traffic aggressively.**
+That is good for scrapers and bad for tooling — it is why no third-party audit
+tool, including Veer's, will be able to scan the site from a server. Googlebot is
+normally allowlisted by Cloudflare, so ranking is probably unaffected, **but this
+should be verified in Search Console** rather than assumed. If the setting is
+"Bot Fight Mode," it is known to catch legitimate crawlers.
+
+### What this means for the audit
+
+The website audit has to run **from a residential connection** — i.e. your
+machine, which is where `rebuild-pitch` lives anyway. A datacenter IP cannot get
+past the challenge, so no amount of cleverness in this session will produce the
+"before" numbers.
+
+---
+
 ## 2. Google Business Profile — public signals only
 
 **This is not the Veer Local Score.** `gbp-audit-fix` is not installed and Google

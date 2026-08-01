@@ -16,11 +16,16 @@ mkaonline/
 ├── contact.html        Contact form + details
 ├── terms.html          Legal placeholder (see "Before launch" below)
 └── assets/
+    ├── css/fonts.css   @font-face for the self-hosted typefaces
     ├── css/tokens.css  ← THE PALETTE LIVES HERE
     ├── css/main.css    Everything else. Contains zero raw hex values.
     ├── js/main.js      All behavior. Site degrades gracefully without it.
-    └── img/favicon.svg
+    ├── img/favicon.svg
+    └── fonts/          Subset WOFF2 + OFL licenses
 ```
+
+`vercel.json` at the repo root carries the production security headers.
+`AUDIT-FINDINGS.md` records what was measured and what is still open.
 
 Run locally:
 
@@ -39,23 +44,21 @@ of the current site — the royal-blue logo triangle and section fields, the gol
 
 | Token | Value | Role |
 |---|---|---|
-| `--blue-900` | `#0c0a3e` | Deepest — footer, hero base |
-| `--blue-800` | `#15116b` | Deep section fields |
+| `--blue-950` | `#05041a` | The ground — the site is dark throughout |
+| `--blue-900` | `#0c0a3e` | Raised field |
+| `--blue-800` | `#14115c` | Elevated field |
 | `--blue-700` | `#221f9b` | **Primary — the MKA blue** |
-| `--blue-600` | `#2e2ac4` | Logo triangle, gradient mid |
-| `--blue-500` | `#4a46e0` | Interactive highlight |
-| `--blue-100` | `#e4e3f7` | Tinted light surfaces |
-| `--gold-600` | `#c98b0a` | Gold text on white (contrast-safe) |
-| `--gold-500` | `#f2b01e` | **Primary accent — buttons, rules, borders** |
-| `--gold-400` | `#ffc94d` | Hover / glow |
-| `--gold-100` | `#fff4d9` | Gold-tinted surfaces |
-| `--cream` | `#fbf8f1` | Warm page background |
-| `--ink` | `#14132b` | Body text |
+| `--blue-600` | `#2e2ac4` | Logo triangle blue |
+| `--blue-500` | `#4a46e0` | Luminous edge |
+| `--gold-500` | `#f2b01e` | **Primary accent — spent sparingly** |
+| `--gold-400` | `#ffc94d` | Highlight |
+| `--gold-300` | `#ffdd8f` | Fine detail on dark |
+| `--bone` | `#f4f1ea` | Warm off-white body text |
 
-**These are eyedropper estimates from a phone screenshot, not the originals.** If MKA has
-the real brand hexes, edit the `BRAND PALETTE` block at the top of `assets/css/tokens.css`
-— every color on every page resolves back to those twelve variables, so the entire site
-retunes from that one edit. Nothing else in the codebase contains a hex value.
+The blues and gold are eyedropper estimates from a phone screenshot, not the originals.
+If MKA has the real brand hexes, edit the `BRAND PALETTE` block at the top of
+`assets/css/tokens.css` — every color on every page resolves back to it, so the whole
+site retunes from that one edit. Nothing else in the codebase contains a hex value.
 
 ---
 
@@ -72,8 +75,10 @@ retunes from that one edit. Nothing else in the codebase contains a hex value.
 - **Accessibility** — skip link, keyboard-operable everything, visible focus rings,
   `aria-current` nav state, live regions on the finder and filters, `prefers-reduced-motion`
   honored throughout, semantic headings.
-- **Performance** — no webfonts, no CDN, no JS libraries. Every animation is CSS transform
-  or opacity; scroll handlers are rAF-batched.
+- **Performance** — no CDN, no JS libraries, no third-party requests at all. Typefaces
+  (Instrument Serif + Lora) are self-hosted, subset to Latin and converted to WOFF2 at
+  ~19KB per face. Average page: 9 requests, ~141KB uncompressed. Scroll handlers are
+  rAF-batched.
 - **SEO** — per-page titles and descriptions, Open Graph tags, `ProfessionalService`
   JSON-LD with founders and address.
 
@@ -168,6 +173,11 @@ is structured to accept a background image with a one-line CSS change.
 
 ## Domain note
 
-`mkaonline.com` and `mkaconsulting.com` both serve the same site today. Consolidating them
-behind one canonical domain with 301 redirects preserves thirty-five years of accumulated
-search authority instead of splitting it. Worth doing as part of the launch.
+**Corrected after measurement:** `mkaonline.com` already **301-redirects** to
+`mkaconsulting.com`, so the two domains are not serving duplicate content and
+authority is not being split. What remains is a branding decision — `mkaonline.com`
+is the domain on their materials, `mkaconsulting.com` is the one that serves. Pick
+one to lead with and keep the redirect pointing at it.
+
+The existing site is WordPress + WooCommerce + Yoast, behind Cloudflare. See
+`AUDIT-FINDINGS.md` for the full measured detail.
