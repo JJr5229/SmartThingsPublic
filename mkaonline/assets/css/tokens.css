@@ -16,112 +16,139 @@
   /* ---------------------------------------------------------------------
      BRAND PALETTE — the only source of truth.
      --------------------------------------------------------------------- */
-  --blue-900: #0c0a3e; /* deepest — hero field, footer, headline ink        */
-  --blue-800: #15116b; /* deep field                                        */
+  --blue-900: #0c0a3e; /* deepest — hero base, footer                       */
+  --blue-800: #17137a; /* deep field                                        */
   --blue-700: #221f9b; /* PRIMARY — the MKA blue                            */
-  --blue-600: #2e2ac4; /* logo triangle blue                                */
-  --blue-500: #4a46e0; /* interactive highlight, mesh strokes               */
-  --blue-100: #e4e3f7; /* tinted surface                                    */
+  --blue-600: #2e2ac4; /* logo triangle blue, gradient lift                 */
+  --blue-500: #4a46e0; /* highlight                                         */
+  --blue-50: #eeedfa; /* softest blue wash                                  */
 
-  --gold-600: #a8740a; /* gold text on white — contrast-safe                */
-  --gold-500: #f2b01e; /* PRIMARY ACCENT — CTA, rules, vertices             */
-  --gold-400: #ffc94d; /* hover / on-dark accent                            */
-  --gold-100: #fff4d9; /* gold-tinted surface                               */
+  --gold-700: #8a5f08; /* gold text on light — contrast-safe                */
+  --gold-500: #f2b01e; /* PRIMARY ACCENT                                    */
+  --gold-400: #ffc94d; /* gradient lift / on-dark accent                    */
+  --gold-50: #fdf4e2; /* softest gold wash                                  */
 
-  /* Neutrals are biased toward the brand blue rather than warm or pure grey,
-     so white surfaces sit with the palette instead of fighting it. */
+  /* Warm neutrals. The ground is ivory rather than grey or cool white —
+     it is what makes the whole page read soft rather than clinical. */
   --white: #ffffff;
-  --paper: #f6f7fb; /* page ground                                          */
-  --ink: #0e0d24; /* body text                                              */
+  --ivory: #faf7f1;
+  --ivory-deep: #f3efe6;
+  --ink: #211f2e; /* body text — warm near-black, never pure black          */
 
   /* ---------------------------------------------------------------------
-     SEMANTIC ALIASES — components use these, never the raw ramp.
+     SEMANTIC ALIASES
      --------------------------------------------------------------------- */
-  --bg: var(--paper);
+  --bg: var(--ivory);
   --bg-elevated: var(--white);
-  --bg-sunken: #eceef7;
   --bg-inverse: var(--blue-900);
 
   --text: var(--ink);
-  --text-muted: #4a4a63;
-  --text-subtle: #75758c;
+  --text-muted: #56526a;
+  --text-subtle: #7d7891;
   --text-on-inverse: var(--white);
-  --text-on-inverse-muted: rgba(255, 255, 255, 0.72);
-  --text-on-inverse-subtle: rgba(255, 255, 255, 0.5);
+  --text-on-inverse-muted: rgba(255, 255, 255, 0.76);
 
   --accent: var(--gold-500);
-  --accent-hover: var(--gold-400);
-  --accent-text: var(--gold-600);
-  --on-accent: var(--blue-900);
-
-  /* Hairlines do the work that shadows used to. */
-  --line: rgba(14, 13, 36, 0.14);
-  --line-strong: rgba(14, 13, 36, 0.26);
-  --line-inverse: rgba(255, 255, 255, 0.18);
-  --line-inverse-strong: rgba(255, 255, 255, 0.34);
+  --accent-text: var(--gold-700);
+  --on-accent: #2a1c00;
 
   --focus-ring: var(--gold-500);
 
   /* ---------------------------------------------------------------------
-     TYPE
-     System stacks only — no CDN is reachable from the build environment and
-     a webfont that silently fails is worse than a good stack. Character comes
-     from the pairing: a tight grotesque for display, monospace for all
-     labels, metadata and figures.
+     GRADIENTS
+     Kept genuinely subtle — a few percent of tonal shift, never a stripe.
      --------------------------------------------------------------------- */
-  --font-display: system-ui, -apple-system, "Segoe UI Variable Display",
-    "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-body: system-ui, -apple-system, "Segoe UI Variable Text", "Segoe UI",
-    Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, "Cascadia Mono",
-    "Segoe UI Mono", "Roboto Mono", Menlo, Consolas, monospace;
+  --grad-page: linear-gradient(180deg, #fdfbf7 0%, var(--ivory) 42%, #f6f2ea 100%);
+  --grad-surface: linear-gradient(158deg, #ffffff 0%, #fdfbf7 58%, #fbf8f2 100%);
+  --grad-surface-hover: linear-gradient(158deg, #ffffff 0%, #fefdfb 40%, #fdf9f2 100%);
+  --grad-gold: linear-gradient(135deg, var(--gold-400) 0%, var(--gold-500) 62%, #e8a413 100%);
+  --grad-blue: linear-gradient(140deg, var(--blue-700) 0%, var(--blue-600) 55%, var(--blue-500) 100%);
+  --grad-wash: linear-gradient(180deg, transparent 0%, var(--blue-50) 55%, transparent 100%);
 
-  --step--2: 0.6875rem;
-  --step--1: clamp(0.78rem, 0.76rem + 0.1vw, 0.84rem);
-  --step-0: clamp(0.98rem, 0.95rem + 0.14vw, 1.06rem);
-  --step-1: clamp(1.12rem, 1.06rem + 0.3vw, 1.32rem);
-  --step-2: clamp(1.35rem, 1.22rem + 0.62vw, 1.8rem);
-  --step-3: clamp(1.7rem, 1.44rem + 1.26vw, 2.6rem);
-  --step-4: clamp(2.1rem, 1.62rem + 2.3vw, 3.6rem);
-  --step-5: clamp(2.6rem, 1.75rem + 4vw, 5.25rem);
+  /* Deep field for hero and inverse bands — several soft stops rather than
+     one hard blob, so the light reads as ambient. */
+  --grad-deep: radial-gradient(
+      120% 90% at 12% 8%,
+      color-mix(in srgb, var(--blue-600) 62%, transparent) 0%,
+      transparent 58%
+    ),
+    radial-gradient(
+      90% 80% at 92% 18%,
+      color-mix(in srgb, var(--blue-500) 40%, transparent) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      100% 70% at 78% 96%,
+      color-mix(in srgb, var(--gold-500) 14%, transparent) 0%,
+      transparent 62%
+    ),
+    linear-gradient(165deg, var(--blue-900) 0%, #141056 55%, var(--blue-900) 100%);
 
-  --leading-tight: 1.02;
-  --leading-snug: 1.18;
-  --leading-normal: 1.62;
+  /* ---------------------------------------------------------------------
+     TYPE — see fonts.css for the @font-face declarations.
+     --------------------------------------------------------------------- */
+  --font-display: "Lora", "Iowan Old Style", Palatino, Georgia, serif;
+  --font-body: "Work Sans", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
 
-  /* Display type is set tight; mono labels are set wide. */
-  --tracking-display: -0.035em;
-  --tracking-snug: -0.015em;
-  --tracking-label: 0.12em;
-  --tracking-label-wide: 0.2em;
+  --step--1: clamp(0.8rem, 0.78rem + 0.1vw, 0.86rem);
+  --step-0: clamp(1rem, 0.97rem + 0.16vw, 1.09rem);
+  --step-1: clamp(1.14rem, 1.08rem + 0.3vw, 1.34rem);
+  --step-2: clamp(1.35rem, 1.22rem + 0.6vw, 1.75rem);
+  --step-3: clamp(1.65rem, 1.42rem + 1.1vw, 2.4rem);
+  --step-4: clamp(2rem, 1.6rem + 1.9vw, 3.15rem);
+  --step-5: clamp(2.4rem, 1.75rem + 3.1vw, 4.4rem);
+
+  --leading-tight: 1.14;
+  --leading-snug: 1.3;
+  --leading-normal: 1.72; /* generous — a large part of "soft"              */
+
+  --tracking-display: -0.012em; /* serifs want far less negative tracking   */
+  --tracking-label: 0.14em;
 
   /* ---------------------------------------------------------------------
      SPACE / SHAPE / MOTION
      --------------------------------------------------------------------- */
   --space-2xs: 0.25rem;
   --space-xs: 0.5rem;
-  --space-sm: 0.75rem;
-  --space-md: 1.25rem;
-  --space-lg: 2rem;
-  --space-xl: 3.25rem;
-  --space-2xl: 5rem;
-  --space-3xl: 7.5rem;
+  --space-sm: 0.85rem;
+  --space-md: 1.35rem;
+  --space-lg: 2.1rem;
+  --space-xl: 3.4rem;
+  --space-2xl: 5.5rem;
+  --space-3xl: 8rem;
 
-  --section-y: clamp(4.5rem, 3.2rem + 6vw, 9rem);
-  --gutter: clamp(1.25rem, 0.5rem + 3.4vw, 4rem);
-  --measure: 66ch;
-  --width-max: 1280px;
-  --width-narrow: 780px;
+  --section-y: clamp(4.5rem, 3.2rem + 6vw, 8.5rem);
+  --gutter: clamp(1.35rem, 0.6rem + 3.2vw, 3.5rem);
+  --measure: 64ch;
+  --width-max: 1200px;
+  --width-narrow: 760px;
 
-  /* Precise, not pillowy. */
-  --radius: 3px;
-  --radius-lg: 4px;
+  /* Rounded, not sharp. This is the other half of "soft". */
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
 
-  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --dur-fast: 140ms;
-  --dur: 260ms;
-  --dur-slow: 620ms;
+  /* Warm, diffuse shadows — no hard grey edges anywhere. */
+  --shadow-sm: 0 1px 2px rgba(34, 31, 155, 0.04),
+    0 4px 14px rgba(34, 31, 155, 0.045);
+  --shadow-md: 0 2px 6px rgba(34, 31, 155, 0.05),
+    0 14px 34px rgba(34, 31, 155, 0.075);
+  --shadow-lg: 0 4px 12px rgba(34, 31, 155, 0.06),
+    0 26px 60px rgba(34, 31, 155, 0.1);
+  --shadow-gold: 0 8px 24px rgba(242, 176, 30, 0.32);
 
-  --header-h: 68px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 160ms;
+  --dur: 300ms;
+  --dur-slow: 720ms;
+
+  --header-h: 74px;
+}
+
+@supports not (color: color-mix(in srgb, red 50%, transparent)) {
+  :root {
+    --grad-deep: linear-gradient(165deg, #1b1670 0%, #141056 55%, #0c0a3e 100%);
+  }
 }
