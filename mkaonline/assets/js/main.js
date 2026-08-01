@@ -15,6 +15,190 @@
   var $$ = function (sel, ctx) {
     return Array.prototype.slice.call((ctx || document).querySelectorAll(sel));
   };
+  var token = function (name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  };
+
+  /* ----------------------------------------------------------------------
+     Hero mesh — a triangulated field built from the MK triangle.
+     Drawn to canvas rather than hand-authored SVG so it can respond to
+     viewport size and drift slowly without a large static path payload.
+     ---------------------------------------------------------------------- */
+  (function heroMesh() {
+    var host = $(".hero__mesh");
+    if (!host) return;
+
+    var canvas = document.createElement("canvas");
+    canvas.setAttribute("aria-hidden", "true");
+    host.appendChild(canvas);
+
+    var ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    var stroke = token("--blue-500") || "#4a46e0";
+    var fill = token("--blue-600") || "#2e2ac4";
+    var gold = token("--gold-500") || "#f2b01e";
+
+    var pts = [];
+    var cols = 0;
+    var rows = 0;
+    var w = 0;
+    var h = 0;
+    var running = true;
+    var rafId = null;
+
+    function build() {
+      var rect = host.getBoundingClientRect();
+      w = Math.max(rect.width, 1);
+      h = Math.max(rect.height, 1);
+
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      var cell = w < 640 ? 118 : w < 1100 ? 150 : 178;
+      cols = Math.ceil(w / cell) + 3;
+      rows = Math.ceil(h / cell) + 3;
+
+      pts = [];
+      for (var y = 0; y < rows; y++) {
+        for (var x = 0; x < cols; x++) {
+          // Deterministic jitter — no Math.random, so the field is stable
+          // across resizes and repaints.
+          var seed = x * 12.9898 + y * 78.233;
+          var jx = (Math.sin(seed) * 43758.5453) % 1;
+          var jy = (Math.sin(seed * 1.37) * 24634.6345) % 1;
+          pts.push({
+            bx: (x - 1) * cell,
+            by: (y - 1) * cell,
+            jx: jx * cell * 0.55,
+            jy: jy * cell * 0.55,
+            ph: (seed % 6.283),
+            gold: (x * 5 + y * 9) % 17 === 0,
+          });
+        }
+      }
+    }
+
+    function project(p, t) {
+      return {
+        x: p.bx + p.jx + Math.sin(t * 0.00012 + p.ph) * 12,
+        y: p.by + p.jy + Math.cos(t * 0.0001 + p.ph) * 12,
+      };
+    }
+
+    function tri(a, b, c, alpha) {
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.lineTo(c.x, c.y);
+      ctx.closePath();
+      ctx.globalAlpha = alpha;
+      ctx.stroke();
+    }
+
+    function draw(t) {
+      ctx.clearRect(0, 0, w, h);
+
+      var P = new Array(pts.length);
+      for (var i = 0; i < pts.length; i++) P[i] = project(pts[i], t);
+
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = stroke;
+      ctx.fillStyle = fill;
+
+      for (var y = 0; y < rows - 1; y++) {
+        for (var x = 0; x < cols - 1; x++) {
+          var i0 = y * cols + x;
+          var a = P[i0];
+          var b = P[i0 + 1];
+          var c = P[i0 + cols];
+          var d = P[i0 + cols + 1];
+
+          // Fade the field out toward the left, where the headline sits.
+          var depth = Math.min(1, Math.max(0, a.x / w));
+          var alpha = 0.1 + depth * 0.5;
+
+          // Occasional filled facet gives the mesh body without noise.
+          if ((x * 3 + y * 7) % 11 === 0) {
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.lineTo(c.x, c.y);
+            ctx.closePath();
+            ctx.globalAlpha = 0.06 + depth * 0.16;
+            ctx.fill();
+          }
+
+          tri(a, b, c, alpha);
+          tri(b, d, c, alpha * 0.75);
+        }
+      }
+
+      // Gold vertices — the survey points.
+      ctx.fillStyle = gold;
+      for (var k = 0; k < pts.length; k++) {
+        if (!pts[k].gold) continue;
+        var q = P[k];
+        if (q.x < w * 0.24) continue;
+        ctx.globalAlpha = 0.5 + Math.min(0.4, q.x / w) * 0.5;
+        ctx.beginPath();
+        ctx.arc(q.x, q.y, 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.globalAlpha = 1;
+    }
+
+    function loop(t) {
+      if (!running) return;
+      draw(t);
+      rafId = window.requestAnimationFrame(loop);
+    }
+
+    function start() {
+      if (reduceMotion) {
+        draw(0);
+        return;
+      }
+      if (rafId !== null) return;
+      running = true;
+      rafId = window.requestAnimationFrame(loop);
+    }
+
+    function stop() {
+      running = false;
+      if (rafId !== null) {
+        window.cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+    }
+
+    build();
+    draw(0);
+    start();
+
+    // Don't burn frames when the hero is scrolled out of view.
+    if ("IntersectionObserver" in window && !reduceMotion) {
+      new IntersectionObserver(function (entries) {
+        entries[0].isIntersecting ? start() : stop();
+      }).observe(host);
+    }
+
+    var resizeTimer;
+    window.addEventListener(
+      "resize",
+      function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+          build();
+          draw(performance.now());
+        }, 180);
+      },
+      { passive: true }
+    );
+  })();
 
   /* ----------------------------------------------------------------------
      Header: solid background + scroll progress, batched into one rAF
@@ -22,16 +206,13 @@
   (function header() {
     var el = $(".site-header");
     var bar = $(".scroll-progress");
-    var alwaysSolid = document.body.dataset.header === "solid";
     var ticking = false;
 
     function paint() {
       ticking = false;
       var y = window.scrollY || window.pageYOffset;
 
-      if (el && !alwaysSolid) {
-        el.classList.toggle("is-solid", y > 40);
-      }
+      if (el) el.classList.toggle("is-solid", y > 40);
 
       if (bar) {
         var max = document.documentElement.scrollHeight - window.innerHeight;
@@ -110,18 +291,24 @@
       { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
     );
 
-    items.forEach(function (el, i) {
-      // Stagger siblings within the same grid/row for a cascading entrance.
+    items.forEach(function (el) {
       var group = el.getAttribute("data-reveal");
       if (group === "stagger") {
         var sibs = $$('[data-reveal="stagger"]', el.parentElement);
-        el.style.setProperty("--reveal-delay", sibs.indexOf(el) * 90 + "ms");
+        el.style.setProperty("--reveal-delay", sibs.indexOf(el) * 70 + "ms");
       } else if (group && !isNaN(parseInt(group, 10))) {
         el.style.setProperty("--reveal-delay", parseInt(group, 10) + "ms");
       }
       io.observe(el);
     });
   })();
+
+  /* ----------------------------------------------------------------------
+     Hero load sequence
+     ---------------------------------------------------------------------- */
+  $$("[data-load]").forEach(function (el, i) {
+    el.style.setProperty("--load-delay", 90 + i * 90 + "ms");
+  });
 
   /* ----------------------------------------------------------------------
      Count-up numbers. The HTML always contains the final value, so the
@@ -141,14 +328,13 @@
           var target = parseFloat(el.getAttribute("data-count"));
           if (isNaN(target)) return;
           var suffix = el.getAttribute("data-suffix") || "";
-          var prefix = el.getAttribute("data-prefix") || "";
           var start = performance.now();
-          var dur = 1500;
+          var dur = 1300;
 
           (function tick(now) {
             var p = Math.min((now - start) / dur, 1);
             var eased = 1 - Math.pow(1 - p, 3);
-            el.textContent = prefix + Math.round(target * eased) + suffix;
+            el.textContent = Math.round(target * eased) + suffix;
             if (p < 1) requestAnimationFrame(tick);
           })(start);
         });
@@ -162,7 +348,7 @@
   })();
 
   /* ----------------------------------------------------------------------
-     Accordion — progressive enhancement over a plain heading + panel
+     Accordion
      ---------------------------------------------------------------------- */
   (function accordion() {
     $$(".acc-trigger").forEach(function (trigger) {
@@ -236,7 +422,6 @@
           "A complete client and personnel forms package",
           "Documented staff training and competency records",
         ],
-        resource: "MN Basic License Forms Package + Basic Licensing Policy Manual",
         href: "store.html#basic",
       },
       comprehensive: {
@@ -247,10 +432,8 @@
         needs: [
           "A comprehensive policy manual meeting current Home Health requirements",
           "Assessment, care planning and nurse supervision forms",
-          "Quality management and outcome measurement processes",
+          "A registered nurse named on the application",
         ],
-        resource:
-          "Comprehensive License Tool Kit — policy manual paired with the full forms package",
         href: "store.html#comprehensive",
       },
       assisted: {
@@ -263,8 +446,6 @@
           "Resident contracts and the Bill of Rights, correctly executed",
           "Resident assessment, service plan and change-in-service documentation",
         ],
-        resource:
-          "MN Assisted Living License Policy Manual + Assisted Living Agreement Packet",
         href: "store.html#assisted-living",
       },
       pca: {
@@ -277,7 +458,6 @@
           "Qualified professional supervision records",
           "Enrollment and billing compliance documentation",
         ],
-        resource: "PCA & PCA Choice Services Forms Package",
         href: "store.html#pca",
       },
       hcbs245d: {
@@ -288,14 +468,12 @@
         needs: [
           "245D-specific policies and procedures",
           "Service planning, outcome and progress documentation",
-          "Maltreatment reporting and staff orientation records",
+          "Waiver 101 training for an owner or managerial official",
         ],
-        resource: "245D Licensing Policies and Forms",
         href: "store.html#245d",
       },
     };
 
-    // step id -> { question, options: [{ label, next | result }] }
     var GRAPH = {
       q1: {
         q: "Where will your services be delivered?",
@@ -316,8 +494,7 @@
         q: "What level of service will you provide?",
         options: [
           {
-            label:
-              "Homemaking and assistance with daily living — no skilled nursing",
+            label: "Homemaking and assistance with daily living — no skilled nursing",
             result: "basic",
           },
           {
@@ -334,7 +511,7 @@
     };
 
     var history = [];
-    var TOTAL = 2; // longest path, used for the progress bar
+    var TOTAL = 2;
 
     function esc(str) {
       return String(str).replace(/[&<>"']/g, function (c) {
@@ -358,12 +535,12 @@
       progress(idx - 1);
 
       var html =
-        '<div class="finder__step is-active" role="group" aria-label="Question ' +
+        '<div class="finder__step" role="group" aria-label="Question ' +
         idx +
         '">' +
         '<p class="finder__count">Question ' +
         idx +
-        " of " +
+        " / " +
         TOTAL +
         "</p>" +
         '<h3 class="finder__q">' +
@@ -421,7 +598,7 @@
         .join("");
 
       stepsWrap.innerHTML =
-        '<div class="finder__step is-active" role="group" aria-label="Your result">' +
+        '<div class="finder__step" role="group" aria-label="Your result">' +
         '<p class="finder__result-badge">' +
         esc(r.badge) +
         "</p>" +
@@ -431,8 +608,8 @@
         '<p class="text-muted measure">' +
         esc(r.body) +
         "</p>" +
-        '<h4 style="margin-top:var(--space-lg);margin-bottom:var(--space-sm)">What you will need in place</h4>' +
-        '<ul class="ticks">' +
+        '<h4 class="finder__count mt-lg">What you will need in place</h4>' +
+        '<ul class="ticks ticks--plain">' +
         needs +
         "</ul>" +
         '<div class="finder__foot">' +
@@ -454,7 +631,6 @@
       var heading = $(".finder__q, .finder__result-title", stepsWrap);
       if (!heading) return;
       heading.setAttribute("tabindex", "-1");
-      // Only steal focus once the user is actually interacting.
       if (history.length) heading.focus({ preventScroll: true });
     }
 
@@ -474,15 +650,15 @@
 
   /* ----------------------------------------------------------------------
      Contact form — client-side validation only.
-     The form posts to whatever action the markup specifies; if none is set
-     yet it falls back to a mailto: handoff so the site is never a dead end.
+     Posts to whatever action the markup specifies; if none is set yet it
+     falls back to a mailto: handoff so the site is never a dead end.
      ---------------------------------------------------------------------- */
   (function contactForm() {
     var form = $("#contact-form");
     if (!form) return;
 
     form.addEventListener("submit", function (e) {
-      if (!form.checkValidity()) return; // let the browser report
+      if (!form.checkValidity()) return;
 
       if (form.dataset.transport === "mailto") {
         e.preventDefault();
