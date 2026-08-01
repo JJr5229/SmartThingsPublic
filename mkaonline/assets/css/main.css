@@ -1631,3 +1631,17 @@ b {
     color: #000;
   }
 }
+
+/* --------------------------------------------------------------------------
+   20. Small layout helpers
+   These exist as classes rather than inline style attributes so the site can
+   ship a strict Content-Security-Policy without 'unsafe-inline' on styles.
+   -------------------------------------------------------------------------- */
+.footer-blurb {
+  max-width: 34ch;
+}
+
+.footer-bottom--bare {
+  padding-top: 0;
+  box-shadow: none;
+}
