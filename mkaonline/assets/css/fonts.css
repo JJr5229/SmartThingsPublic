@@ -2,31 +2,24 @@
    MKA Consulting — Typefaces
 
    Self-hosted, subset to Latin + typographic punctuation and converted to
-   WOFF2 (~19KB each). No CDN request and no tracking.
+   WOFF2. No CDN request and no tracking.
 
-   Instrument Serif .. high-contrast display serif. Headlines only, set large
-                       and loose, where the fine hairlines can be seen.
-   Lora .............. warm, sturdy text serif. Everything else, including
-                       interface text — it holds up at small sizes on a dark
-                       ground where a high-contrast face would fall apart.
+   Libre Baskerville .. display face. Chosen for its width — a large x-height
+                        and generous letterforms, deliberately the opposite of
+                        a condensed display serif. Regular only; it is set
+                        large, where a single weight is enough.
+   Lora ............... text face. Sturdy, warm, holds up at small sizes on a
+                        dark ground. Regular, bold and italic.
 
    Both are licensed under the SIL Open Font License 1.1; license texts ship
    alongside the files in assets/fonts/.
    ========================================================================== */
 
 @font-face {
-  font-family: "Instrument Serif";
-  src: url("../fonts/InstrumentSerif-Regular.woff2") format("woff2");
+  font-family: "Libre Baskerville";
+  src: url("../fonts/LibreBaskerville-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Instrument Serif";
-  src: url("../fonts/InstrumentSerif-Italic.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
   font-display: swap;
 }
 

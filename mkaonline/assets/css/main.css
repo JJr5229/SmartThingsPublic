@@ -110,7 +110,7 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  font-weight: 400; /* the display face has one weight, by design */
+  font-weight: 400; /* the display face ships one weight, by design */
   line-height: var(--leading-snug);
   letter-spacing: var(--tracking-display);
   text-wrap: balance;
@@ -124,7 +124,7 @@ h1 {
 
 h2 {
   font-size: var(--step-4);
-  line-height: 1.08;
+  line-height: 1.22;
 }
 
 h3 {
@@ -671,9 +671,10 @@ b {
   margin-bottom: var(--space-md);
 }
 
+/* No italic: Libre Baskerville ships roman only, and a synthesised slant on
+   a serif at this size looks crude. The gold does the emphasis on its own. */
 .hero h1 .accentuate {
   color: var(--gold-400);
-  font-style: italic;
 }
 
 .hero__sub {
@@ -857,7 +858,7 @@ b {
   font-size: var(--step-2);
   color: var(--white);
   letter-spacing: var(--tracking-display);
-  line-height: var(--leading-snug);
+  line-height: 1.34;
 }
 
 .checklist-card__body {
