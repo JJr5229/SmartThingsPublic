@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="12" fill="#0c0a3e" />
+  <path
+    d="M32 12 55 50 9 50Z"
+    fill="#2e2ac4"
+    stroke="#f2b01e"
+    stroke-width="4"
+    stroke-linejoin="round"
+  />
+  <text
+    x="32"
+    y="45"
+    text-anchor="middle"
+    fill="#ffffff"
+    font-size="20"
+    font-weight="700"
+    font-family="Palatino, Georgia, serif"
+  >MK</text>
+</svg>
