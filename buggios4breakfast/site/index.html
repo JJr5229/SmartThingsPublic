@@ -1,0 +1,1644 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Buggios4Breakfast No. 1 — a kid's-art portfolio built as a comic book issue. Pages assemble from flying panels; click any panel for the full artwork. All art is placeholder.">
+<meta name="theme-color" content="#24548F">
+<meta property="og:title" content="Buggios4Breakfast No. 1">
+<meta property="og:description" content="A kid's-art portfolio built as a comic book issue.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%90%9E</text></svg>">
+<style>html,body{margin:0}</style>
+<title>Buggios4Breakfast No. 1</title>
+</head>
+<body>
+<style>
+  /* ═══════════════════════════════════════════════════════════════
+     BUGGIOS4BREAKFAST — No. 1
+     Laid out as an actual comic book: printed pages with tiers,
+     gutters and panels. Each page's panels fly in separately, from
+     different directions, and assemble the page; the finished page
+     then pulls back off the stack as the next one comes in.
+     Any panel holding artwork opens full size.
+     ═══════════════════════════════════════════════════════════════ */
+
+  :root {
+    --room:        #24548F;
+    --room-deep:   #1B4070;
+    --dot:         #ffffff2e;
+    --chrome:      #F6EBD2;
+    --chrome-soft: #f6ebd2a8;
+
+    --paper:       #F4EAD3;   /* the printed page */
+    --panel:       #FBF5E6;   /* inside a panel */
+    --panel-2:     #EADCBB;
+    --ink:         #17130F;
+    --ink-soft:    #5c5445;
+    --ink-faint:   #9a8f78;
+    --hair:        #17130f26;
+
+    --red:         #E0392A;
+    --yellow:      #F5B60D;
+    --leaf:        #3E7D4E;
+    --violet:      #8A5FA8;
+
+    --grain:       .5;
+    --shadow:      #0d1a2c;
+
+    --letter: Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Narrow Bold", "Helvetica Neue Condensed Bold", sans-serif;
+    --hand:   "Ink Free", "Bradley Hand", "Segoe Print", "Chalkboard SE", "Comic Sans MS", cursive;
+    --body:   Georgia, "Iowan Old Style", "Times New Roman", serif;
+    --tag:    ui-monospace, "SFMono-Regular", "Roboto Mono", "Courier New", monospace;
+
+    --xs:  clamp(.62rem, .58rem + .16vw, .72rem);
+    --sm:  clamp(.78rem, .74rem + .2vw, .88rem);
+    --md:  clamp(.95rem, .9rem + .3vw, 1.1rem);
+    --lg:  clamp(1.2rem, 1rem + .8vw, 1.7rem);
+    --xl:  clamp(1.8rem, 1.3rem + 2.2vw, 3rem);
+    --xxl: clamp(2.6rem, 1.5rem + 5vw, 6rem);
+
+    --gutter: clamp(7px, 1vmin, 13px);
+    --sw: min(86vw, calc((100svh - 9.6rem) * .64));   /* printed page width */
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --room:        #0F1726;
+      --room-deep:   #080D16;
+      --dot:         #ffffff1a;
+      --chrome:      #EADFC6;
+      --chrome-soft: #eadfc699;
+      --paper:       #E3D7B9;
+      --panel:       #EFE4C8;
+      --panel-2:     #D9CAA7;
+      --grain:       .44;
+      --shadow:      #04070d;
+    }
+  }
+  :root[data-theme="dark"] {
+    --room:        #0F1726;
+    --room-deep:   #080D16;
+    --dot:         #ffffff1a;
+    --chrome:      #EADFC6;
+    --chrome-soft: #eadfc699;
+    --paper:       #E3D7B9;
+    --panel:       #EFE4C8;
+    --panel-2:     #D9CAA7;
+    --grain:       .44;
+    --shadow:      #04070d;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--room);
+    background-image: radial-gradient(var(--dot) 1.15px, transparent 1.25px);
+    background-size: 7px 7px;
+    color: var(--chrome);
+    font-family: var(--body);
+    font-size: var(--md);
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--yellow); color: var(--ink); }
+  :focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
+
+  .letter {
+    font-family: var(--letter);
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: .86;
+  }
+  .tag {
+    font-family: var(--tag);
+    font-size: var(--xs);
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+
+  /* ═══════════ chrome ═══════════ */
+
+  .chrome {
+    position: fixed;
+    z-index: 80;
+    inset: 0 0 auto 0;
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    padding: .5rem clamp(.7rem, 3vw, 1.4rem);
+    background: color-mix(in srgb, var(--room-deep) 90%, transparent);
+    border-bottom: 2px solid #00000038;
+    backdrop-filter: blur(6px);
+  }
+  .chrome__mark {
+    font-family: var(--letter);
+    font-size: var(--sm);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .chrome__mark b { color: var(--yellow); font-weight: 400; }
+  .chrome__pages { display: flex; gap: .25rem; margin-left: auto; }
+  .chrome__pages a {
+    display: grid;
+    place-items: center;
+    width: 26px; height: 26px;
+    font-family: var(--tag);
+    font-size: 11px;
+    text-decoration: none;
+    color: var(--chrome-soft);
+    border: 1px solid #ffffff2e;
+  }
+  .chrome__pages a[aria-current="true"] {
+    background: var(--yellow);
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+  .motion {
+    font-family: var(--tag);
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--chrome);
+    background: none;
+    border: 1px solid #ffffff40;
+    padding: .35rem .6rem;
+    cursor: pointer;
+  }
+  .motion b { color: var(--yellow); font-weight: 400; }
+  .progress {
+    position: fixed;
+    z-index: 81;
+    inset: 0 auto auto 0;
+    height: 4px;
+    width: 100%;
+    transform-origin: 0 50%;
+    transform: scaleX(var(--read, 0));
+    background: var(--red);
+  }
+
+  @media (max-width: 560px) {
+    .chrome { flex-wrap: wrap; row-gap: .45rem; }
+    .chrome__mark { flex: 1 1 100%; }
+  }
+
+  /* ═══════════ the printed sheet ═══════════ */
+
+  .issue { position: relative; height: 300svh; }
+  .stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    display: grid;
+    place-items: center;
+    padding: 3.9rem clamp(.5rem, 2vw, 1.4rem) 2.2rem;
+    overflow: hidden;
+    perspective: var(--persp, 1150px);
+    perspective-origin: var(--po, 50% 42%);
+  }
+
+  /* the page itself — paper, gutters showing through between panels */
+  .sheet {
+    position: relative;
+    width: var(--sw);
+    aspect-ratio: 137 / 200;
+    max-height: calc(100svh - 9.6rem);
+    padding: var(--gutter);
+    display: grid;
+    gap: var(--gutter);
+
+    /* grain lives in the background stack, not an overlay — an overlay with
+       mix-blend-mode would flatten the 3D the panels are lifted into */
+    background-color: var(--paper);
+    background-image: var(--newsprint);
+    background-blend-mode: multiply;
+
+    border: 3px solid #17130f2e;
+    box-shadow:
+      0 clamp(14px, 3vh, 38px) clamp(18px, 4vh, 54px) -10px #00000070,
+      0 2px 0 0 #ffffff2e inset;
+
+    transform-style: preserve-3d;
+    transform-origin: var(--torg, 42% 52%);
+
+    /* the page is never flat on: it swings in steep, settles to its own
+       resting angle while the panels land, then tips away off the stack */
+    /* The finished page is the point: it comes to rest off-centre, at its
+       own angle, in real perspective — never square to the reader. */
+    transform:
+      translate3d(calc(var(--ox, 0%) * var(--tiltf, 1)), calc(var(--exit, 0) * -7svh), calc(var(--exit, 0) * -520px))
+      rotateX(calc((var(--rx, 0deg) + var(--enter, 0) * 9deg) * var(--tiltf, 1)))
+      rotateY(calc((var(--ry, 0deg) + var(--enter, 0) * -16deg + var(--exit, 0) * -22deg) * var(--tiltf, 1)))
+      rotateZ(calc((var(--rz, 0deg) + var(--exit, 0) * -2deg) * var(--tiltf, 1)))
+      scale(calc(1 + (var(--sc, 1) - 1) * var(--tiltf, 1)));
+    opacity: calc(1 - var(--exit, 0) * .55);
+  }
+  /* light raking across the tilted sheet */
+  .sheet::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(104deg, #fff9 0 12%, #ffffff2e 26%, transparent 52%, #17130f1f 88%, #17130f38 100%);
+  }
+  .sheet__no {
+    position: absolute;
+    left: 50%;
+    bottom: calc(var(--gutter) * -1.5);
+    transform: translateX(-50%);
+    font-family: var(--tag);
+    font-size: 10px;
+    letter-spacing: .3em;
+    color: var(--ink-faint);
+  }
+  .sheet__title {
+    position: absolute;
+    left: 0;
+    top: calc(var(--gutter) * -2.9);
+    font-family: var(--tag);
+    font-size: 10px;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--chrome-soft);
+  }
+
+  /* — page layouts: real tiers, one per issue page — */
+
+  .sheet--one {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1.35fr 1fr .85fr;
+    grid-template-areas:
+      "a a a"
+      "b b c"
+      "d e f";
+  }
+  .sheet--two {
+    grid-template-columns: 1.15fr 1fr;
+    grid-template-rows: 1fr .78fr .95fr;
+    grid-template-areas:
+      "a b"
+      "a c"
+      "d d";
+  }
+  .sheet--three {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1.5fr 1fr .8fr;
+    grid-template-areas:
+      "a a a"
+      "a a a"
+      "b c d";
+  }
+  .sheet--four {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas:
+      "a b c"
+      "d e f"
+      "g h i";
+  }
+
+  /* ═══════════ panels ═══════════ */
+
+  .cell {
+    position: relative;
+    background: var(--panel);
+    border: 5px solid var(--ink);
+    overflow: hidden;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    color: var(--ink);
+    text-align: left;
+    font: inherit;
+    --p: 1;
+    will-change: transform, opacity;
+    /* panels are inked boards lying on the page, not printing on it */
+    box-shadow:
+      0 calc(var(--lift, 0px) * .22 + 3px) calc(var(--lift, 0px) * .3 + 7px) calc(var(--lift, 0px) * -.08 - 2px) #17130f5c,
+      0 0 0 1px #17130f14;
+  }
+  .cell--wide { border-width: 7px; }
+  /* the splash gets a second rule outside the first — the heaviest panel on the issue */
+  .cell--double { outline: 2px solid var(--ink); outline-offset: 5px; }
+
+  /* shading, so nothing reads as a flat rectangle */
+  .cell::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background:
+      radial-gradient(120% 90% at 22% 8%, #ffffff4d 0 34%, transparent 72%),
+      linear-gradient(158deg, transparent 52%, #17130f14 86%, #17130f24 100%);
+  }
+
+  /* Entrance vectors — every panel of a page comes from somewhere else, and
+     each one lands at its own height above the paper (--lift, positive Z:
+     a panel at negative Z would render behind the page it lands on). */
+  .in-l    { transform: translate3d(calc((var(--p) - 1) * 130vw), 0, var(--lift, 0px)) rotate(calc((var(--p) - 1) * 10deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
+  .in-r    { transform: translate3d(calc((1 - var(--p)) * 130vw), 0, var(--lift, 0px)) rotate(calc((1 - var(--p)) * 10deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
+  .in-t    { transform: translate3d(0, calc((var(--p) - 1) * 130svh), var(--lift, 0px)) rotate(calc((var(--p) - 1) * 7deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
+  .in-b    { transform: translate3d(0, calc((1 - var(--p)) * 130svh), var(--lift, 0px)) rotate(calc((1 - var(--p)) * 7deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
+  .in-tl   { transform: translate3d(calc((var(--p) - 1) * 90vw), calc((var(--p) - 1) * 80svh), var(--lift, 0px)) rotate(calc((var(--p) - 1) * 16deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
+  .in-tr   { transform: translate3d(calc((1 - var(--p)) * 90vw), calc((var(--p) - 1) * 80svh), var(--lift, 0px)) rotate(calc((1 - var(--p)) * 16deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
+  .in-bl   { transform: translate3d(calc((var(--p) - 1) * 90vw), calc((1 - var(--p)) * 80svh), var(--lift, 0px)) rotate(calc((1 - var(--p)) * 16deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
+  .in-br   { transform: translate3d(calc((1 - var(--p)) * 90vw), calc((1 - var(--p)) * 80svh), var(--lift, 0px)) rotate(calc((var(--p) - 1) * 16deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
+  .in-deep {
+    transform: translate3d(0, 0, var(--lift, 0px)) scale(calc(.1 + .9 * var(--p))) rotate(calc((1 - var(--p)) * 14deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1)));
+    opacity: var(--p);
+  }
+  .in-spin {
+    transform:
+      translate3d(calc((1 - var(--p)) * 62vw), calc((1 - var(--p)) * 30svh), var(--lift, 0px))
+      rotate(calc((1 - var(--p)) * 200deg))
+      scale(calc(.25 + .75 * var(--p)))
+      rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1)));
+    opacity: var(--p);
+  }
+
+  /* art panels are buttons — click opens the full drawing */
+  .cell--art {
+    cursor: zoom-in;
+    display: block;
+    background:
+      repeating-linear-gradient(-45deg, #17130f0d 0 6px, transparent 6px 13px),
+      var(--panel);
+  }
+  .cell--art canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: scale(var(--z, 1)) translate(var(--tx, 0), var(--ty, 0));
+    transform-origin: center;
+    background: none;
+    /* the drawing lifts off the paper instead of printing flat onto it */
+    filter: drop-shadow(0 3px 2px #17130f33);
+  }
+  /* close-up panels crop into the same drawing */
+  .cell[data-crop] canvas { object-fit: cover; }
+  .cell--art::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: var(--ink);
+    opacity: 0;
+    transition: opacity .18s ease;
+  }
+  .cell--art:hover::before,
+  .cell--art:focus-visible::before { opacity: .07; }
+  .cell__open {
+    position: absolute;
+    z-index: 3;
+    right: 5px;
+    top: 5px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--tag);
+    font-size: 8px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: .18rem .38rem;
+    opacity: 0;
+    transition: opacity .18s ease;
+  }
+  .cell--art:hover .cell__open,
+  .cell--art:focus-visible .cell__open { opacity: 1; }
+  .cell__ph {
+    position: absolute;
+    z-index: 3;
+    left: 5px;
+    bottom: 5px;
+    background: #17130fcc;
+    color: var(--paper);
+    font-family: var(--tag);
+    font-size: 8px;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    padding: .18rem .38rem;
+  }
+
+  /* caption boxes, balloons, sound effects — the furniture that makes a page a comic */
+  .cap {
+    position: absolute;
+    z-index: 4;
+    max-width: 62%;
+    background: var(--panel-2);
+    border: 2px solid var(--ink);
+    padding: .4rem .55rem;
+    font-family: var(--hand);
+    font-size: calc(var(--sw) * .0295);
+    line-height: 1.15;
+    color: var(--ink);
+  }
+  .cap--tl { left: 0; top: 0; border-left: 0; border-top: 0; }
+  .cap--bl { left: 0; bottom: 0; border-left: 0; border-bottom: 0; }
+  .cap--br { right: 0; bottom: 0; border-right: 0; border-bottom: 0; }
+
+  .cell--talk {
+    display: grid;
+    align-items: center;
+    justify-items: stretch;   /* balloon fills the panel and wraps inside it,
+                                 rather than sizing itself to max-content */
+    padding: clamp(.5rem, 1.6vmin, 1.1rem);
+    background:
+      repeating-radial-gradient(circle at 30% 30%, #f5b60d33 0 2px, transparent 2px 7px),
+      var(--panel);
+  }
+  .balloon {
+    position: relative;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    background: #fff;
+    border: 3px solid var(--ink);
+    border-radius: 28px / 24px;
+    padding: .6rem .8rem;
+    font-family: var(--hand);
+    font-size: calc(var(--sw) * .0345);
+    line-height: 1.15;
+    color: var(--ink);
+  }
+  .balloon::before,
+  .balloon::after {
+    content: "";
+    position: absolute;
+    bottom: -21px;
+    left: 26px;
+    border: 11px solid transparent;
+    border-top-color: var(--ink);
+  }
+  .balloon::after { bottom: -15px; border-top-color: #fff; }
+
+  .cell--note {
+    display: grid;
+    align-content: center;
+    gap: .3rem;
+    padding: clamp(.5rem, 1.6vmin, 1rem);
+    background: var(--panel-2);
+  }
+  .cell--note b {
+    font-family: var(--tag);
+    font-size: calc(var(--sw) * .019);
+    font-weight: 400;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .cell--note p {
+    margin: 0;
+    font-family: var(--hand);
+    font-size: calc(var(--sw) * .029);
+    line-height: 1.2;
+  }
+  .cell--slot {
+    display: grid;
+    place-items: center;
+    text-align: center;
+    background:
+      repeating-linear-gradient(-45deg, #17130f0f 0 5px, transparent 5px 11px),
+      var(--panel);
+    font-family: var(--tag);
+    font-size: calc(var(--sw) * .017);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* ── breakouts: a figure that will not stay inside its panel ──
+     Drawn on a transparent canvas, floated well above the paper, and
+     free to run off the panel border and past the edge of the page. */
+  .pop {
+    position: absolute;
+    z-index: 9;
+    border: 0;
+    padding: 0;
+    background: none;
+    cursor: zoom-in;
+    --p: 1;
+    will-change: transform, opacity;
+  }
+  .pop canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter:
+      drop-shadow(0 calc(var(--lift, 90px) * .16) calc(var(--lift, 90px) * .2) #17130f6b)
+      drop-shadow(0 2px 0 #17130f2e);
+    transition: filter .2s ease;
+  }
+  .pop:hover canvas,
+  .pop:focus-visible canvas {
+    filter:
+      drop-shadow(0 calc(var(--lift, 90px) * .2) calc(var(--lift, 90px) * .26) #17130f7a)
+      drop-shadow(0 0 0 var(--yellow));
+  }
+  .pop { rotate: var(--tilt, 0deg); }
+  .pop--beetle { left: 69%; top: 62%; width: 44%; --lift: 210px; --tilt: -9deg; }
+  .pop--snail  { left: -18%; top: 52%; width: 58%; --lift: 190px; --tilt: 6deg; }
+  .pop--moth   { left: 58%; top: -5%; width: 47%; --lift: 230px; --tilt: 10deg; }
+
+  .sfx {
+    position: absolute;
+    z-index: 5;
+    font-family: var(--letter);
+    font-size: calc(var(--sw) * .105);
+    line-height: .8;
+    color: var(--yellow);
+    -webkit-text-stroke: 3px var(--ink);
+    paint-order: stroke fill;
+    text-shadow: 5px 5px 0 var(--red);
+    text-transform: uppercase;
+    pointer-events: none;
+    user-select: none;
+  }
+  .sfx--br { right: 3%; bottom: 6%; transform: rotate(-8deg); }
+  .sfx--tr { right: 3%; top: 6%; transform: rotate(6deg); }
+  .sfx--bl { left: 4%; bottom: 7%; transform: rotate(-5deg); }
+  .sfx--tl { left: 4%; top: 7%; transform: rotate(-5deg); }
+
+  /* speed lines, so a panel reads as a panel even before the art lands */
+  .zip {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: repeating-linear-gradient(72deg, #17130f14 0 2px, transparent 2px 16px);
+    mask-image: linear-gradient(105deg, #000 0 28%, transparent 62%);
+  }
+
+  /* ═══════════ cover ═══════════ */
+
+  .cover {
+    position: relative;
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    gap: 1rem;
+    padding: 4.4rem 1rem 2.4rem;
+    overflow: hidden;
+  }
+  .cover__sheet {
+    position: relative;
+    width: min(94vw, calc((100svh - 9rem) * .685));
+    aspect-ratio: 137 / 200;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    background: var(--paper);
+    border: 4px solid var(--ink);
+    box-shadow: 0 18px 0 -8px #00000040;
+    animation: slam .75s cubic-bezier(.2,1.25,.4,1) both;
+  }
+  @keyframes slam {
+    from { transform: scale(.88) rotate(-2.5deg); opacity: 0; }
+    to   { transform: none; opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) { .cover__sheet { animation: none; } }
+
+  .cover__top {
+    display: flex;
+    align-items: flex-start;
+    gap: .6rem;
+    padding: .7rem .8rem .4rem;
+    border-bottom: 3px solid var(--ink);
+  }
+  .cover__mast {
+    margin: 0;
+    font-family: var(--letter);
+    font-size: clamp(1.9rem, .8rem + 6.4vmin, 4rem);
+    line-height: .82;
+    text-transform: uppercase;
+    color: var(--red);
+    -webkit-text-stroke: 3px var(--ink);
+    paint-order: stroke fill;
+    text-shadow: 5px 5px 0 var(--yellow);
+  }
+  .cover__price {
+    flex: none;
+    margin-left: auto;
+    border: 3px solid var(--ink);
+    background: var(--yellow);
+    padding: .25rem .4rem;
+    text-align: center;
+    font-family: var(--tag);
+    font-size: 8px;
+    line-height: 1.3;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    transform: rotate(4deg);
+  }
+  .cover__price b { display: block; font-family: var(--letter); font-size: 17px; letter-spacing: 0; }
+  .cover__banner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .1rem .8rem;
+    padding: .35rem .8rem;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--tag);
+    font-size: 9px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+  .cover__banner span:nth-child(2) { color: var(--yellow); }
+  .cover__art { position: relative; overflow: hidden; border-bottom: 3px solid var(--ink); }
+  .cover__art canvas { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cover__blurb {
+    margin: 0;
+    padding: .7rem .8rem .9rem;
+    font-family: var(--hand);
+    font-size: clamp(.85rem, .7rem + .8vmin, 1.3rem);
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .cover__blurb em { color: var(--red); font-style: normal; }
+  .cover__burst {
+    position: absolute;
+    z-index: 5;
+    right: -18px;
+    top: 46%;
+    width: 124px; height: 124px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 1.4rem;
+    background: var(--red);
+    color: #fff;
+    font-family: var(--letter);
+    font-size: 13px;
+    line-height: 1;
+    text-transform: uppercase;
+    clip-path: polygon(50% 0%,61% 18%,80% 9%,80% 30%,100% 33%,86% 50%,100% 67%,80% 70%,80% 91%,61% 82%,50% 100%,39% 82%,20% 91%,20% 70%,0% 67%,14% 50%,0% 33%,20% 30%,20% 9%,39% 18%);
+    transform: rotate(-9deg);
+    filter: drop-shadow(4px 4px 0 var(--shadow));
+  }
+  .cover__cue {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    margin: 0;
+    font-family: var(--tag);
+    font-size: var(--xs);
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--chrome-soft);
+  }
+  .cover__cue i {
+    width: 2px; height: 22px;
+    background: var(--yellow);
+    animation: drop 1.7s ease-in-out infinite;
+  }
+  @keyframes drop {
+    0%, 100% { transform: translateY(-4px) scaleY(.7); opacity: .5; }
+    50%      { transform: translateY(4px) scaleY(1); opacity: 1; }
+  }
+
+  /* ═══════════ back matter ═══════════ */
+
+  .back {
+    position: relative;
+    padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 3rem) clamp(2rem, 5vw, 3rem);
+    display: grid;
+    justify-items: center;
+    gap: 1.4rem;
+  }
+  .back__head {
+    display: grid;
+    gap: .3rem;
+    justify-items: center;
+    text-align: center;
+  }
+  .back__head h2 {
+    margin: 0;
+    font-family: var(--letter);
+    font-size: var(--xl);
+    text-transform: uppercase;
+    color: var(--yellow);
+    -webkit-text-stroke: 3px var(--ink);
+    paint-order: stroke fill;
+  }
+  .back__head p {
+    margin: 0;
+    font-family: var(--hand);
+    font-size: var(--md);
+    color: var(--chrome-soft);
+    max-width: 46ch;
+  }
+  .files {
+    width: min(100%, 940px);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1rem;
+  }
+  .file {
+    display: grid;
+    gap: .3rem;
+    padding: .9rem 1rem 1.1rem;
+    background: var(--panel);
+    border: 3px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--shadow);
+    color: var(--ink);
+  }
+  .file__k {
+    font-family: var(--tag);
+    font-size: var(--xs);
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .file__v {
+    font-family: var(--letter);
+    font-size: clamp(1.8rem, 1.2rem + 2.2vw, 2.8rem);
+    line-height: .9;
+    color: var(--red);
+    font-variant-numeric: tabular-nums;
+  }
+  .file__v small { font-size: .45em; }
+  .file p { margin: 0; font-family: var(--hand); font-size: var(--sm); line-height: 1.3; }
+  .file--slot .file__v { color: var(--ink-faint); font-size: var(--lg); }
+
+  .coupon {
+    width: min(100%, 620px);
+    display: grid;
+    gap: .8rem;
+    padding: 1.5rem clamp(1.1rem, 4vw, 2rem) 1.6rem;
+    background: var(--panel);
+    border: 3px dashed var(--ink);
+    color: var(--ink);
+  }
+  .coupon h2 { margin: 0; font-family: var(--letter); font-size: var(--lg); text-transform: uppercase; }
+  .coupon p { margin: 0; font-family: var(--hand); font-size: var(--md); line-height: 1.35; }
+  .coupon__line {
+    display: grid;
+    gap: .25rem;
+    font-family: var(--tag);
+    font-size: var(--xs);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .coupon__line i {
+    height: 1px;
+    background: repeating-linear-gradient(90deg, var(--ink) 0 8px, transparent 8px 14px);
+    opacity: .45;
+  }
+  .colophon {
+    display: grid;
+    gap: .3rem;
+    justify-items: center;
+    text-align: center;
+    font-family: var(--tag);
+    font-size: var(--xs);
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--chrome-soft);
+  }
+  .colophon a { color: var(--yellow); }
+
+  /* ═══════════ the full-artwork view ═══════════ */
+
+  .lb {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: grid;
+    place-items: center;
+    padding: clamp(.8rem, 3vw, 2rem);
+  }
+  .lb[hidden] { display: none; }
+  .lb__scrim {
+    position: absolute;
+    inset: 0;
+    background: #060a12e8;
+    border: 0;
+    padding: 0;
+    cursor: zoom-out;
+  }
+  .lb__win {
+    position: relative;
+    width: min(100%, 940px);
+    max-height: min(92svh, 760px);
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(240px, .85fr);
+    background: var(--panel);
+    border: 4px solid var(--ink);
+    box-shadow: 12px 12px 0 #0006;
+    color: var(--ink);
+    overflow: hidden;
+    animation: lbin .28s cubic-bezier(.2,1.2,.4,1) both;
+  }
+  @keyframes lbin {
+    from { transform: scale(.9) rotate(-1.5deg); opacity: 0; }
+    to   { transform: none; opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) { .lb__win { animation: none; } }
+  .lb__art {
+    position: relative;
+    display: grid;
+    place-items: center;
+    padding: clamp(.6rem, 2vw, 1.4rem);
+    border-right: 4px solid var(--ink);
+    background:
+      repeating-linear-gradient(-45deg, #17130f0d 0 6px, transparent 6px 13px),
+      var(--panel);
+    overflow: auto;
+  }
+  .lb__art canvas { max-width: 100%; max-height: min(78svh, 620px); height: auto; }
+  .lb__side {
+    display: grid;
+    align-content: start;
+    gap: .55rem;
+    padding: clamp(1rem, 2.4vw, 1.6rem);
+    overflow: auto;
+  }
+  .lb__side h2 {
+    margin: 0;
+    font-family: var(--hand);
+    font-weight: 400;
+    font-size: var(--xl);
+    line-height: .95;
+    text-wrap: balance;
+  }
+  .lb__meta {
+    margin: 0;
+    padding-top: .4rem;
+    border-top: 2px solid var(--hair);
+    font-family: var(--tag);
+    font-size: var(--xs);
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .lb__quote {
+    margin: 0;
+    font-family: var(--hand);
+    font-size: var(--lg);
+    line-height: 1.2;
+  }
+  .lb__ph {
+    margin: 0;
+    font-family: var(--tag);
+    font-size: var(--xs);
+    letter-spacing: .1em;
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .lb__nav { display: flex; gap: .5rem; padding-top: .4rem; }
+  .lb__nav button,
+  .lb__x {
+    font-family: var(--tag);
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    border: 0;
+    padding: .5rem .7rem;
+    cursor: pointer;
+  }
+  .lb__nav button:hover, .lb__x:hover { background: var(--red); }
+  .lb__x {
+    position: absolute;
+    z-index: 3;
+    right: 0; top: 0;
+    padding: .5rem .65rem;
+  }
+
+  @media (max-width: 720px) {
+    .lb__win { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; }
+    .lb__art { border-right: 0; border-bottom: 4px solid var(--ink); }
+    .lb__art canvas { max-height: 42svh; }
+  }
+
+  /* ═══════════ narrow screens: the page stops being a page ═══════════ */
+
+  @media (max-width: 620px) {
+    .issue { height: 340svh; }
+    .sheet {
+      --sw: 94vw;
+      width: var(--sw);
+      aspect-ratio: 100 / 158;
+      --tiltf: .4;          /* a gentler angle where the page is already small */
+    }
+    .pop--beetle { left: 58%; top: 69%; width: 54%; --lift: 150px; }
+    .pop--snail  { left: -20%; top: 46%; width: 62%; --lift: 140px; }
+    .pop--moth   { left: 52%; top: -4%; width: 56%; --lift: 165px; }
+    .sheet--one {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1.25fr .9fr .8fr .7fr;
+      grid-template-areas:
+        "a a"
+        "b b"
+        "c c"
+        "d e";
+    }
+    .cell--hide-sm { display: none; }
+    .sheet--two {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1.3fr .8fr .9fr;
+      grid-template-areas:
+        "a a"
+        "b c"
+        "d d";
+    }
+    .sheet--three {
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 1.6fr .8fr;
+      grid-template-areas:
+        "a a a"
+        "b c d";
+    }
+    .sheet--four {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      grid-template-areas:
+        "a b"
+        "c d"
+        "e f"
+        "g h";
+    }
+    .sheet--four .cell--last { display: none; }
+  }
+
+  /* ═══════════ panels parked ═══════════ */
+
+  :root[data-motion="off"] .cell,
+  :root[data-motion="off"] .pop { transform: none !important; opacity: 1 !important; }
+  :root[data-motion="off"] .sheet { transform: none !important; opacity: 1 !important; }
+  :root[data-motion="off"] .issue { height: auto; }
+  :root[data-motion="off"] .stage { position: static; height: auto; padding-block: 2.6rem; }
+  :root[data-motion="off"] .cover__cue i { animation: none; }
+  :root[data-motion="off"] .pop { width: 34%; }
+  :root[data-motion="off"] .pop--beetle { left: 71%; top: 64%; }
+  :root[data-motion="off"] .pop--snail  { left: -9%; top: 62%; }
+  :root[data-motion="off"] .pop--moth   { left: 70%; top: -5%; }
+</style>
+
+<div class="progress" aria-hidden="true"></div>
+
+<header class="chrome">
+  <span class="chrome__mark">Buggios<b>4</b>Breakfast &nbsp;·&nbsp; No. 1</span>
+  <button type="button" class="motion" id="motionBtn" aria-pressed="true">
+    Panels: <b id="motionState">flying</b>
+  </button>
+  <nav class="chrome__pages" aria-label="Pages">
+    <a href="#cover" title="Cover">C</a>
+    <a href="#page-1" title="Page one — the boss beetle">1</a>
+    <a href="#page-2" title="Page two — snail going somewhere">2</a>
+    <a href="#page-3" title="Page three — moth on the window">3</a>
+    <a href="#page-4" title="Page four — the whole sketchbook">4</a>
+    <a href="#back" title="Back matter">B</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ══════════ COVER ══════════ -->
+  <section class="cover" id="cover">
+    <div class="cover__sheet">
+      <div class="cover__top">
+        <h1 class="cover__mast">Buggios<br>4&nbsp;Breakfast</h1>
+        <div class="cover__price"><b>25¢</b>free if<br>you are<br>my mom</div>
+      </div>
+      <div class="cover__banner">
+        <span>Issue No. 1</span>
+        <span>All-new drawings</span>
+        <span>Marker + crayon</span>
+      </div>
+      <div class="cover__art" data-draw="beetle" data-scale=".8"></div>
+      <p class="cover__blurb">
+        Inside: a beetle who is <em>the boss</em>, a snail with somewhere to be,
+        and one moth that stayed at the window all night.
+      </p>
+      <div class="cover__burst">Panels fly in!</div>
+    </div>
+    <p class="cover__cue"><i></i> Scroll — the pages build themselves <i></i></p>
+  </section>
+
+  <!-- ══════════ PAGE ONE ══════════ -->
+  <section class="issue" id="page-1" data-stage style="--po:32% 44%">
+    <div class="stage">
+      <div class="sheet sheet--one" style="--ry:-23deg;--rx:6deg;--rz:-2deg;--ox:-8%;--sc:1.04">
+        <span class="sheet__title">Page one · the boss beetle</span>
+
+        <button type="button" class="cell cell--art cell--wide in-t" style="grid-area:a;--lift:26px" data-fly data-delay="0" data-span=".34" data-piece="0">
+          <canvas data-draw="beetle" data-scale=".9"></canvas>
+          <span class="zip"></span>
+          <span class="cap cap--tl">March 2026. He did this one at the table, before breakfast.</span>
+          <span class="sfx sfx--br">Skitter!</span>
+          <span class="cell__ph">Placeholder</span>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+
+        <button type="button" class="cell cell--art in-l" style="grid-area:b;--lift:20px;--face:7deg" data-fly data-delay=".14" data-span=".32" data-piece="0" data-crop="head">
+          <canvas data-draw="beetle" data-scale=".7" data-seed="2"></canvas>
+          <span class="cap cap--bl">The head is purple on purpose.</span>
+          <span class="cell__ph">Placeholder</span>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+
+        <div class="cell cell--talk in-r" style="grid-area:c;--lift:34px;--face:17deg" data-fly data-delay=".24" data-span=".32">
+          <p class="balloon">He is red because he is the boss beetle. The dots are how you know.</p>
+        </div>
+
+        <div class="cell cell--note in-bl" style="grid-area:d;--lift:22px;--face:12deg" data-fly data-delay=".34" data-span=".3">
+          <b>Materials</b>
+          <p>Marker and crayon, on the paper from the printer.</p>
+        </div>
+
+        <button type="button" class="cell cell--art in-b" style="grid-area:e;--lift:18px" data-fly data-delay=".42" data-span=".3" data-piece="0" data-crop="legs">
+          <canvas data-draw="beetle" data-scale=".55" data-seed="3"></canvas>
+          <span class="cell__ph">Placeholder</span>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+
+        <div class="cell cell--slot cell--hide-sm in-br" style="grid-area:f;--lift:4px" data-fly data-delay=".5" data-span=".3">Frame 06<br>next scan</div>
+
+        <!-- he does not stay in the panel -->
+        <button type="button" class="pop pop--beetle in-r" data-fly data-delay=".22" data-span=".42" data-piece="0"
+                aria-label="Open Beetle With Six Legs full size">
+          <canvas data-draw="beetle" data-scale=".95"></canvas>
+        </button>
+
+        <span class="sheet__no">— 1 —</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ PAGE TWO ══════════ -->
+  <section class="issue" id="page-2" data-stage style="--po:50% 44%">
+    <div class="stage">
+      <div class="sheet sheet--two" style="--ry:11deg;--rx:18deg;--rz:1.5deg;--ox:7%;--torg:50% 32%">
+        <span class="sheet__title">Page two · snail going somewhere</span>
+
+        <button type="button" class="cell cell--art cell--wide in-l" style="grid-area:a;--lift:22px" data-fly data-delay="0" data-span=".34" data-piece="1">
+          <canvas data-draw="snail" data-scale=".9"></canvas>
+          <span class="zip"></span>
+          <span class="cap cap--tl">April. It took him all day.</span>
+          <span class="cell__ph">Placeholder</span>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+
+        <div class="cell cell--talk in-t" style="grid-area:b;--lift:36px;--facex:-21deg" data-fly data-delay=".16" data-span=".32">
+          <p class="balloon">It took him all day but he got there.</p>
+        </div>
+
+        <button type="button" class="cell cell--art in-r" style="grid-area:c;--lift:24px;--facex:-12deg" data-fly data-delay=".28" data-span=".32" data-piece="1" data-crop="shell">
+          <canvas data-draw="snail" data-scale=".6" data-seed="2"></canvas>
+          <span class="cap cap--br">The shell is a spiral you have to do slow.</span>
+          <span class="cell__ph">Placeholder</span>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+
+        <button type="button" class="cell cell--art cell--wide in-b" style="grid-area:d;--lift:30px;--facex:-9deg" data-fly data-delay=".4" data-span=".32" data-piece="1" data-crop="wide">
+          <canvas data-draw="snail" data-scale=".8" data-seed="5"></canvas>
+          <span class="sfx sfx--tl">Slooow…</span>
+          <span class="cap cap--br">Then he got to the leaf. That is the end of the walk.</span>
+          <span class="cell__ph">Placeholder</span>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+
+        <button type="button" class="pop pop--snail in-l" data-fly data-delay=".26" data-span=".42" data-piece="1"
+                aria-label="Open Snail Going Somewhere full size">
+          <canvas data-draw="snail" data-scale=".9" data-seed="4"></canvas>
+        </button>
+
+        <span class="sheet__no">— 2 —</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ PAGE THREE — splash ══════════ -->
+  <section class="issue" id="page-3" data-stage style="--po:44% 52%;--persp:900px">
+    <div class="stage">
+      <div class="sheet sheet--three" style="--ry:-12deg;--rx:-8deg;--rz:1deg;--ox:-2%;--sc:1.2">
+        <span class="sheet__title">Page three · moth on the window</span>
+
+        <button type="button" class="cell cell--art cell--wide cell--double in-deep" style="grid-area:a;--lift:30px" data-fly data-delay="0" data-span=".38" data-piece="2">
+          <canvas data-draw="moth" data-scale="1"></canvas>
+          <span class="zip"></span>
+          <span class="cap cap--tl">June. Drawn the next morning, from remembering.</span>
+          <span class="sfx sfx--tr">Tap tap tap</span>
+          <span class="cell__ph">Placeholder</span>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+
+        <button type="button" class="cell cell--art in-deep" style="grid-area:b;--lift:18px;--face:8deg" data-fly data-delay=".26" data-span=".28" data-piece="2" data-crop="wingL">
+          <canvas data-draw="moth" data-scale=".5" data-seed="2"></canvas>
+          <span class="cell__ph">Placeholder</span>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+
+        <div class="cell cell--talk in-deep" style="grid-area:c;--lift:30px;--face:11deg" data-fly data-delay=".36" data-span=".28">
+          <p class="balloon">It stayed for a really long time.</p>
+        </div>
+
+        <button type="button" class="cell cell--art in-deep" style="grid-area:d;--lift:18px;--face:8deg" data-fly data-delay=".46" data-span=".28" data-piece="2" data-crop="wingR">
+          <canvas data-draw="moth" data-scale=".5" data-seed="3"></canvas>
+          <span class="cell__ph">Placeholder</span>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+
+        <button type="button" class="pop pop--moth in-deep" data-fly data-delay=".18" data-span=".44" data-piece="2"
+                aria-label="Open Moth I Saw On The Window full size">
+          <canvas data-draw="moth" data-scale=".95" data-seed="4"></canvas>
+        </button>
+
+        <span class="sheet__no">— 3 —</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ PAGE FOUR — nine-panel grid, spiralling in ══════════ -->
+  <section class="issue" id="page-4" data-stage style="--po:68% 46%">
+    <div class="stage">
+      <div class="sheet sheet--four" style="--ry:19deg;--rx:5deg;--rz:5deg;--ox:-6%;--sc:.98">
+        <span class="sheet__title">Page four · the whole sketchbook</span>
+
+        <button type="button" class="cell cell--art in-spin" style="grid-area:a;--lift:6px" data-fly data-delay="0" data-span=".26" data-piece="0">
+          <canvas data-draw="beetle" data-scale=".5"></canvas>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+        <button type="button" class="cell cell--art in-spin" style="grid-area:b;--lift:16px" data-fly data-delay=".06" data-span=".26" data-piece="1">
+          <canvas data-draw="snail" data-scale=".45"></canvas>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+        <button type="button" class="cell cell--art in-spin" style="grid-area:c;--lift:10px" data-fly data-delay=".12" data-span=".26" data-piece="2">
+          <canvas data-draw="moth" data-scale=".45"></canvas>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+        <div class="cell cell--slot in-spin" style="grid-area:d;--lift:4px" data-fly data-delay=".18" data-span=".26">04<br>next scan</div>
+        <div class="cell cell--note in-spin" style="grid-area:e;--lift:28px;--face:-12deg" data-fly data-delay=".24" data-span=".26">
+          <b>The sketchbook</b>
+          <p>Three scanned, the rest still on the fridge.</p>
+        </div>
+        <div class="cell cell--slot in-spin" style="grid-area:f;--lift:8px" data-fly data-delay=".3" data-span=".26">06<br>next scan</div>
+        <div class="cell cell--slot in-spin" style="grid-area:g;--lift:12px" data-fly data-delay=".36" data-span=".26">07<br>next scan</div>
+        <div class="cell cell--talk in-spin" style="grid-area:h;--lift:34px;--face:-15deg" data-fly data-delay=".42" data-span=".26">
+          <p class="balloon">Next one is a snake.</p>
+        </div>
+        <div class="cell cell--slot cell--last in-spin" style="grid-area:i;--lift:6px" data-fly data-delay=".48" data-span=".26">09<br>next scan</div>
+
+        <span class="sheet__no">— 4 —</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ BACK MATTER ══════════ -->
+  <section class="back" id="back">
+    <div class="back__head">
+      <h2>The Bug Files</h2>
+      <p>The numbers on the back of the issue, like every comic has.</p>
+    </div>
+
+    <div class="files">
+      <div class="file">
+        <span class="file__k">Drawings in this issue</span>
+        <span class="file__v">3</span>
+        <p>Beetle, snail, moth. More are drawn but not scanned yet.</p>
+      </div>
+      <div class="file">
+        <span class="file__k">Legs, counted</span>
+        <span class="file__v">6</span>
+        <p>Correct on the first try, which the artist would like noted.</p>
+      </div>
+      <div class="file">
+        <span class="file__k">Longest sitting</span>
+        <span class="file__v">40<small> min</small></span>
+        <p>The moth one. It was drawn from memory the next morning.</p>
+      </div>
+      <div class="file file--slot">
+        <span class="file__k">Artist</span>
+        <span class="file__v">⟨name⟩</span>
+        <p>Placeholder — name, age and a photo of the artist go here.</p>
+      </div>
+      <div class="file file--slot">
+        <span class="file__k">Materials</span>
+        <span class="file__v">Marker, crayon</span>
+        <p>Placeholder — the real supply list goes here.</p>
+      </div>
+      <div class="file file--slot">
+        <span class="file__k">Next issue</span>
+        <span class="file__v">⟨soon⟩</span>
+        <p>Placeholder — cover blurb for issue two goes here.</p>
+      </div>
+    </div>
+
+    <div class="coupon">
+      <h2>Write to the artist</h2>
+      <p>Cut along the dotted line, or don't — the form is a placeholder either way.</p>
+      <div class="coupon__line"><span>Your name</span><i></i></div>
+      <div class="coupon__line"><span>Which bug was your favourite</span><i></i></div>
+      <div class="coupon__line"><span>Should there be a snake issue</span><i></i></div>
+    </div>
+
+    <div class="colophon">
+      <span>Buggios4Breakfast · Issue No. 1 · all art placeholder</span>
+      <span>Powered by <a href="https://veersolutions.com" rel="noopener">Veer</a></span>
+    </div>
+  </section>
+
+</main>
+
+<!-- full artwork view -->
+<div class="lb" id="lb" hidden>
+  <button type="button" class="lb__scrim" id="lbScrim" aria-label="Close full artwork"></button>
+  <div class="lb__win" role="dialog" aria-modal="true" aria-labelledby="lbTitle">
+    <div class="lb__art" id="lbArt"></div>
+    <div class="lb__side">
+      <span class="tag" id="lbNo"></span>
+      <h2 id="lbTitle"></h2>
+      <p class="lb__meta" id="lbMeta"></p>
+      <p class="lb__quote" id="lbQuote"></p>
+      <p class="lb__ph">Placeholder — the full-resolution scan drops in here.</p>
+      <div class="lb__nav">
+        <button type="button" id="lbPrev">← Previous</button>
+        <button type="button" id="lbNext">Next →</button>
+      </div>
+    </div>
+    <button type="button" class="lb__x" id="lbClose" aria-label="Close">✕ Close</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var root = document.documentElement;
+
+  /* ───────── newsprint grain ───────── */
+
+  function newsprint() {
+    var n = 190, c = document.createElement("canvas");
+    c.width = c.height = n;
+    var x = c.getContext("2d"), img = x.createImageData(n, n), d = img.data, i;
+    for (i = 0; i < d.length; i += 4) {
+      var v = Math.random();
+      d[i] = d[i + 1] = d[i + 2] = 0;
+      d[i + 3] = v > 0.87 ? Math.floor((v - 0.87) * 160) : 0;
+    }
+    x.putImageData(img, 0, 0);
+    x.strokeStyle = "rgba(0,0,0,.03)";
+    for (i = 0; i < 70; i++) {
+      var sx = Math.random() * n, sy = Math.random() * n;
+      var a = Math.random() * Math.PI, len = 5 + Math.random() * 20;
+      x.beginPath();
+      x.moveTo(sx, sy);
+      x.lineTo(sx + Math.cos(a) * len, sy + Math.sin(a) * len);
+      x.stroke();
+    }
+    return "url(" + c.toDataURL() + ")";
+  }
+  root.style.setProperty("--newsprint", newsprint());
+
+  /* ───────── placeholder art ─────────
+     Drawn live so the layout can be judged with something in every panel.
+     When the scans arrive: drop an <img> in place of each panel's <canvas>
+     and put the file in PIECES[n].src for the full-size view. */
+
+  var INK = "#2a2620";
+
+  function seeded(seed) {
+    var s = seed;
+    return function () { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648; };
+  }
+  function stroke(ctx, pts, color, width, rnd) {
+    ctx.strokeStyle = color; ctx.lineWidth = width;
+    ctx.lineCap = "round"; ctx.lineJoin = "round";
+    for (var pass = 0; pass < 2; pass++) {
+      ctx.beginPath();
+      for (var i = 0; i < pts.length; i++) {
+        var x = pts[i][0] + (rnd() - 0.5) * width * 0.55;
+        var y = pts[i][1] + (rnd() - 0.5) * width * 0.55;
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+  }
+  function ellipsePts(cx, cy, rx, ry, n, rnd, rot) {
+    var pts = [], i; rot = rot || 0;
+    for (i = 0; i <= n; i++) {
+      var a = (i / n) * Math.PI * 2, wob = 1 + (rnd() - 0.5) * 0.09;
+      var x = Math.cos(a) * rx * wob, y = Math.sin(a) * ry * wob;
+      pts.push([cx + x * Math.cos(rot) - y * Math.sin(rot),
+                cy + x * Math.sin(rot) + y * Math.cos(rot)]);
+    }
+    return pts;
+  }
+  function crayonFill(ctx, pts, color, rnd) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(pts[0][0], pts[0][1]);
+    for (var i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+    ctx.closePath(); ctx.clip();
+    var xs = pts.map(function (p) { return p[0]; }), ys = pts.map(function (p) { return p[1]; });
+    var x0 = Math.min.apply(null, xs) - 6, x1 = Math.max.apply(null, xs) + 6;
+    var y0 = Math.min.apply(null, ys) - 6, y1 = Math.max.apply(null, ys) + 6;
+    ctx.strokeStyle = color; ctx.lineWidth = 7; ctx.lineCap = "round"; ctx.globalAlpha = 0.82;
+    for (var y = y0; y < y1; y += 5) {
+      ctx.beginPath();
+      ctx.moveTo(x0 + rnd() * 10, y + (rnd() - 0.5) * 3);
+      ctx.lineTo(x1 - rnd() * 10, y + 4 + (rnd() - 0.5) * 3);
+      ctx.stroke();
+    }
+    ctx.restore(); ctx.globalAlpha = 1;
+  }
+
+  function drawBeetle(ctx, w, h, off) {
+    var rnd = seeded(7 + (off || 0) * 149), cx = w / 2, cy = h * 0.52;
+    var R = Math.min(w, h) * 0.27, i, side, y;
+    var body = ellipsePts(cx, cy, R, R * 1.25, 44, rnd);
+    crayonFill(ctx, body, "#c2452f", rnd); stroke(ctx, body, INK, 5, rnd);
+    var head = ellipsePts(cx, cy - R * 1.32, R * 0.46, R * 0.36, 30, rnd);
+    crayonFill(ctx, head, "#3f3b6d", rnd); stroke(ctx, head, INK, 5, rnd);
+    stroke(ctx, [[cx, cy - R * 1.1], [cx, cy + R * 1.1]], INK, 5, rnd);
+    for (i = 0; i < 3; i++) {
+      y = cy - R * 0.6 + i * R * 0.72;
+      for (side = -1; side <= 1; side += 2) {
+        stroke(ctx, [[cx + side * R * 0.85, y], [cx + side * R * 1.5, y + 14],
+                     [cx + side * R * 1.75, y + 46]], INK, 5, rnd);
+      }
+    }
+    for (side = -1; side <= 1; side += 2) {
+      stroke(ctx, [[cx + side * R * 0.2, cy - R * 1.6], [cx + side * R * 0.7, cy - R * 2.15],
+                   [cx + side * R * 0.55, cy - R * 2.5]], INK, 5, rnd);
+    }
+    for (i = 0; i < 5; i++) {
+      crayonFill(ctx, ellipsePts(cx + (rnd() - 0.5) * R * 1.1,
+                                 cy + (rnd() - 0.5) * R * 1.9, 11, 11, 16, rnd), "#2a2620", rnd);
+    }
+  }
+
+  function drawSnail(ctx, w, h, off) {
+    var rnd = seeded(31 + (off || 0) * 149), cx = w * 0.56, cy = h * 0.55;
+    var R = Math.min(w, h) * 0.3, t, i;
+    var foot = [];
+    for (t = 0; t <= 28; t++) {
+      var p = t / 28;
+      foot.push([cx - R * 1.5 + p * R * 2.9, cy + R * 0.92 + Math.sin(p * Math.PI) * -14]);
+    }
+    foot.push([cx + R * 1.45, cy + R * 1.2]); foot.push([cx - R * 1.5, cy + R * 1.2]);
+    crayonFill(ctx, foot, "#d8b23f", rnd); stroke(ctx, foot, INK, 5, rnd);
+    var spiral = [];
+    for (i = 0; i <= 150; i++) {
+      var a = (i / 150) * Math.PI * 6.2, r = R * (0.1 + (i / 150) * 0.9);
+      spiral.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r * 0.95]);
+    }
+    var outer = ellipsePts(cx, cy, R, R * 0.95, 44, rnd);
+    crayonFill(ctx, outer, "#4d7c5a", rnd); stroke(ctx, outer, INK, 5, rnd);
+    stroke(ctx, spiral, INK, 4, rnd);
+    stroke(ctx, [[cx - R * 1.5, cy + R * 0.75], [cx - R * 1.85, cy + R * 0.2],
+                 [cx - R * 1.78, cy - R * 0.2]], INK, 5, rnd);
+    var head = ellipsePts(cx - R * 1.8, cy - R * 0.36, R * 0.2, R * 0.2, 24, rnd);
+    crayonFill(ctx, head, "#d8b23f", rnd); stroke(ctx, head, INK, 5, rnd);
+    for (var e = 0; e < 2; e++) {
+      var ex = cx - R * (1.95 - e * 0.28), ey = cy - R * 0.52;
+      stroke(ctx, [[ex, ey], [ex - 8, ey - R * 0.42]], INK, 5, rnd);
+      crayonFill(ctx, ellipsePts(ex - 8, ey - R * 0.46, 7, 7, 14, rnd), "#2a2620", rnd);
+    }
+  }
+
+  function drawMoth(ctx, w, h, off) {
+    var rnd = seeded(97 + (off || 0) * 149), cx = w / 2, cy = h * 0.5;
+    var S = Math.min(w, h) * 0.34, side, a;
+    for (side = -1; side <= 1; side += 2) {
+      var up = ellipsePts(cx + side * S * 0.72, cy - S * 0.24, S * 0.72, S * 0.5, 40, rnd, side * -0.42);
+      crayonFill(ctx, up, "#9b6fb0", rnd); stroke(ctx, up, INK, 5, rnd);
+      var lo = ellipsePts(cx + side * S * 0.5, cy + S * 0.5, S * 0.48, S * 0.36, 36, rnd, side * 0.3);
+      crayonFill(ctx, lo, "#e0894d", rnd); stroke(ctx, lo, INK, 5, rnd);
+      var sp = ellipsePts(cx + side * S * 0.82, cy - S * 0.28, S * 0.15, S * 0.15, 20, rnd);
+      crayonFill(ctx, sp, "#f2e2b0", rnd); stroke(ctx, sp, INK, 3.5, rnd);
+    }
+    var body = ellipsePts(cx, cy + S * 0.06, S * 0.14, S * 0.72, 34, rnd);
+    crayonFill(ctx, body, "#4a4230", rnd); stroke(ctx, body, INK, 5, rnd);
+    for (a = 0; a < 2; a++) {
+      var d = a === 0 ? -1 : 1;
+      stroke(ctx, [[cx + d * 6, cy - S * 0.66], [cx + d * S * 0.34, cy - S * 1.02],
+                   [cx + d * S * 0.6, cy - S * 0.96]], INK, 4.5, rnd);
+    }
+  }
+
+  var DRAW = { beetle: drawBeetle, snail: drawSnail, moth: drawMoth };
+  var SIZE = { beetle: [620, 780], snail: [700, 560], moth: [640, 640] };
+
+  /* the artworks behind the panels — the full view reads from here */
+  var PIECES = [
+    { key: "beetle", title: "Beetle With Six Legs", date: "March 2026", type: "Drawing",
+      materials: "Marker, crayon",
+      quote: "He is red because he is the boss beetle. The dots are how you know.",
+      page: "Page one · panel 1" },
+    { key: "snail", title: "Snail Going Somewhere", date: "April 2026", type: "Drawing",
+      materials: "Marker, crayon",
+      quote: "It took him all day but he got there.",
+      page: "Page two · panel 1" },
+    { key: "moth", title: "Moth I Saw On The Window", date: "June 2026", type: "Painting",
+      materials: "Marker, crayon",
+      quote: "I saw a real one at night and it stayed for a really long time so I drew it after.",
+      page: "Page three · splash" }
+  ];
+
+  /* crops let one drawing serve as an establishing shot and a close-up */
+  var CROPS = {
+    head:  { z: 1.9, tx: "0%",   ty: "20%" },   /* translate down to reveal the top */
+    legs:  { z: 1.8, tx: "-8%",  ty: "-18%" },
+    shell: { z: 2.2, tx: "4%",   ty: "-6%" },
+    wide:  { z: 1.25, tx: "0%",  ty: "0%" },
+    wingL: { z: 2.0, tx: "20%",  ty: "8%" },
+    wingR: { z: 2.0, tx: "-20%", ty: "8%" }
+  };
+
+  function render(canvas, key, scale, seed) {
+    var dim = SIZE[key], w = dim[0], h = dim[1];
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(w * scale * dpr);
+    canvas.height = Math.round(h * scale * dpr);
+    var ctx = canvas.getContext("2d");
+    ctx.scale(scale * dpr, scale * dpr);
+    DRAW[key](ctx, w, h, seed);
+  }
+
+  /* panel canvases */
+  Array.prototype.forEach.call(document.querySelectorAll("canvas[data-draw]"), function (c) {
+    var key = c.dataset.draw;
+    if (!DRAW[key]) return;
+    render(c, key, parseFloat(c.dataset.scale || "1"), parseInt(c.dataset.seed || "0", 10));
+    var cell = c.closest(".cell");
+    var crop = cell && cell.dataset.crop ? CROPS[cell.dataset.crop] : null;
+    if (crop) {
+      c.style.setProperty("--z", crop.z);
+      c.style.setProperty("--tx", crop.tx);
+      c.style.setProperty("--ty", crop.ty);
+    }
+  });
+
+  /* the cover art sits in a plain div */
+  Array.prototype.forEach.call(document.querySelectorAll("div[data-draw]"), function (host) {
+    var key = host.dataset.draw;
+    if (!DRAW[key]) return;
+    var c = document.createElement("canvas");
+    render(c, key, parseFloat(host.dataset.scale || "1"), 0);
+    host.appendChild(c);
+  });
+
+  /* ───────── full artwork view ───────── */
+
+  var lb = document.getElementById("lb");
+  var lbArt = document.getElementById("lbArt");
+  var lbNo = document.getElementById("lbNo");
+  var lbTitle = document.getElementById("lbTitle");
+  var lbMeta = document.getElementById("lbMeta");
+  var lbQuote = document.getElementById("lbQuote");
+  var lbClose = document.getElementById("lbClose");
+  var opener = null;
+  var shown = -1;
+
+  function show(i) {
+    var piece = PIECES[i];
+    if (!piece) return;
+    shown = i;
+    lbArt.innerHTML = "";
+    var c = document.createElement("canvas");
+    render(c, piece.key, 1.15, 0);
+    lbArt.appendChild(c);
+    lbNo.textContent = piece.page;
+    lbTitle.textContent = piece.title;
+    lbMeta.textContent = piece.date + "  /  " + piece.type + "  /  " + piece.materials;
+    lbQuote.textContent = "“" + piece.quote + "”";
+  }
+
+  function open(i, from) {
+    opener = from || null;
+    lb.hidden = false;
+    document.body.style.overflow = "hidden";
+    show(i);
+    lbClose.focus();
+  }
+  function close() {
+    lb.hidden = true;
+    document.body.style.overflow = "";
+    if (opener) opener.focus();
+    opener = null;
+  }
+  function step(d) { show((shown + d + PIECES.length) % PIECES.length); }
+
+  Array.prototype.forEach.call(document.querySelectorAll(".cell--art, .pop"), function (btn) {
+    btn.addEventListener("click", function () {
+      open(parseInt(btn.dataset.piece || "0", 10), btn);
+    });
+  });
+  document.getElementById("lbScrim").addEventListener("click", close);
+  lbClose.addEventListener("click", close);
+  document.getElementById("lbPrev").addEventListener("click", function () { step(-1); });
+  document.getElementById("lbNext").addEventListener("click", function () { step(1); });
+  document.addEventListener("keydown", function (e) {
+    if (lb.hidden) return;
+    if (e.key === "Escape") close();
+    else if (e.key === "ArrowLeft") step(-1);
+    else if (e.key === "ArrowRight") step(1);
+  });
+
+  /* ───────── scroll engine ───────── */
+
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var motionOn = !reduce.matches;
+  var btn = document.getElementById("motionBtn");
+  var stateEl = document.getElementById("motionState");
+  var progress = document.querySelector(".progress");
+  var links = Array.prototype.slice.call(document.querySelectorAll(".chrome__pages a"));
+
+  var stages = Array.prototype.map.call(document.querySelectorAll("[data-stage]"), function (sec) {
+    return {
+      sec: sec,
+      sheet: sec.querySelector(".sheet"),
+      items: Array.prototype.slice.call(sec.querySelectorAll("[data-fly]"))
+    };
+  });
+
+  function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+  function ease(t) { return 1 - Math.pow(1 - clamp(t), 3); }
+
+  function setMotion(on) {
+    motionOn = on;
+    root.setAttribute("data-motion", on ? "on" : "off");
+    btn.setAttribute("aria-pressed", String(on));
+    stateEl.textContent = on ? "flying" : "parked";
+    if (on) frame();
+    else {
+      stages.forEach(function (s) {
+        if (s.sheet) {
+          s.sheet.style.removeProperty("--exit");
+          s.sheet.style.removeProperty("--enter");
+        }
+        s.items.forEach(function (el) { el.style.removeProperty("--p"); });
+      });
+    }
+  }
+
+  var ticking = false;
+  function frame() {
+    ticking = false;
+    var vh = window.innerHeight;
+
+    var scrollable = document.documentElement.scrollHeight - vh;
+    progress.style.setProperty("--read", scrollable > 0 ? clamp(window.scrollY / scrollable) : 0);
+
+    if (motionOn) {
+      for (var i = 0; i < stages.length; i++) {
+        var s = stages[i];
+        var r = s.sec.getBoundingClientRect();
+        var run = r.height - vh;
+        var sp = run > 0 ? clamp(-r.top / run) : (r.top <= 0 ? 1 : 0);
+
+        /* panels start arriving as the page rises and are all home by the
+           time it is pinned, so a page is never on screen half-empty */
+        var e = clamp((vh * 0.92 - r.top) / (vh * 1.3));
+
+        for (var j = 0; j < s.items.length; j++) {
+          var el = s.items[j];
+          var delay = parseFloat(el.dataset.delay || "0");
+          var span = parseFloat(el.dataset.span || "0.32");
+          el.style.setProperty("--p", ease((e - delay) / span).toFixed(4));
+        }
+
+        if (s.sheet) {
+          /* --enter swings the page in from a steep angle while the panels
+             land; --exit tips it away once the page has been read */
+          s.sheet.style.setProperty("--enter", (1 - e).toFixed(4));
+          s.sheet.style.setProperty("--exit", clamp((sp - 0.82) / 0.18).toFixed(4));
+        }
+      }
+    }
+
+    var current = null;
+    for (var k = 0; k < links.length; k++) {
+      var target = document.querySelector(links[k].getAttribute("href"));
+      links[k].setAttribute("aria-current", "false");
+      if (!target) continue;
+      var tr = target.getBoundingClientRect();
+      if (tr.top <= vh * 0.5 && tr.bottom >= vh * 0.5) current = links[k];
+    }
+    if (current) current.setAttribute("aria-current", "true");
+  }
+
+  function onScroll() {
+    if (!ticking) { ticking = true; requestAnimationFrame(frame); }
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  btn.addEventListener("click", function () { setMotion(!motionOn); });
+  reduce.addEventListener("change", function (ev) { setMotion(!ev.matches); });
+
+  setMotion(motionOn);
+  frame();
+})();
+</script>
+
+</body>
+</html>
