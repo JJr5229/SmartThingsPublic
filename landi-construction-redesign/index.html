@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Landi Construction &amp; Handyman | Roofing, Siding, Flooring, Painting, Fences &amp; Decks — Fridley, MN</title>
+<meta name="description" content="Landi Construction & Handyman — licensed general contractor in Fridley, MN (Lic. BC809633). Roofing, siding, flooring, painting, fences & decks. Free estimates. Se habla español.">
+<link rel="icon" type="image/png" href="assets/landi-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0d1b30;
+    --ink-2:#12233c;
+    --ink-3:#1b3153;
+    --paper:#fdfdfd;
+    --paper-2:#edf1f7;
+    --gold:#f6b110;
+    --gold-deep:#e1a008;
+    --gold-soft:rgba(246,177,16,.14);
+    --line:rgba(13,27,48,.1);
+    --line-dark:rgba(244,247,251,.12);
+    --txt:#24344a;
+    --txt-soft:#59677b;
+    --txt-inv:#f2f5f9;
+    --txt-inv-soft:#a5b1c2;
+    --radius:18px;
+    --shadow:0 20px 50px -20px rgba(13,27,48,.28);
+    --font-display:'Space Grotesk',sans-serif;
+    --font-body:'Inter',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+  body{
+    font-family:var(--font-body);
+    color:var(--txt);
+    background:var(--paper);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  ul{list-style:none}
+  .wrap{width:min(1180px,92%);margin-inline:auto}
+  section{position:relative}
+
+  /* ---------- reveal animation ---------- */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;top:0;z-index:100;
+    background:rgba(13,27,48,.92);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line-dark);
+  }
+  .head-inner{
+    display:flex;align-items:center;gap:20px;
+    padding:14px 0;
+  }
+  .brand{display:flex;align-items:center;gap:12px;color:var(--txt-inv)}
+  .brand-logo{
+    height:52px;width:auto;flex:none;
+    filter:drop-shadow(0 2px 8px rgba(0,0,0,.35));
+  }
+  .brand-name{font-family:var(--font-display);font-weight:700;font-size:1.05rem;line-height:1.15;letter-spacing:.01em}
+  .brand-name small{display:block;font-family:var(--font-body);font-weight:500;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+  nav.main{display:flex;gap:26px;margin-left:auto}
+  nav.main a{
+    color:var(--txt-inv-soft);font-weight:500;font-size:.92rem;
+    transition:color .2s;
+  }
+  nav.main a:hover{color:var(--gold)}
+
+  /* language toggle — deliberately prominent */
+  .lang-toggle{
+    display:flex;flex:none;background:var(--ink-3);
+    border:2px solid var(--gold);border-radius:999px;padding:3px;
+    box-shadow:0 0 0 4px rgba(246,177,16,.15);
+  }
+  .lang-toggle button{
+    border:0;background:transparent;cursor:pointer;
+    font-family:var(--font-display);font-weight:700;font-size:.85rem;letter-spacing:.03em;
+    color:var(--txt-inv-soft);padding:7px 16px;border-radius:999px;
+    transition:background .25s,color .25s;
+  }
+  .lang-toggle button.active{background:var(--gold);color:#0d1b30}
+  .lang-toggle button:not(.active):hover{color:var(--txt-inv)}
+
+  .head-call{
+    flex:none;display:inline-flex;align-items:center;gap:8px;
+    background:transparent;border:1px solid var(--line-dark);border-radius:999px;
+    color:var(--txt-inv);font-weight:600;font-size:.88rem;padding:9px 18px;
+    transition:border-color .2s,background .2s;
+  }
+  .head-call:hover{border-color:var(--gold);background:var(--gold-soft)}
+  .head-call svg{color:var(--gold)}
+
+  .burger{display:none;background:none;border:0;cursor:pointer;color:var(--txt-inv);padding:6px}
+
+  /* mobile nav panel */
+  .mobile-nav{display:none}
+  .mobile-nav.open{
+    display:flex;flex-direction:column;gap:4px;
+    background:var(--ink-2);border-top:1px solid var(--line-dark);
+    padding:14px 4vw 22px;
+  }
+  .mobile-nav a{color:var(--txt-inv);font-weight:600;padding:12px 10px;border-radius:10px}
+  .mobile-nav a:hover{background:var(--ink-3);color:var(--gold)}
+
+  /* ---------- hero ---------- */
+  .hero{
+    background:
+      linear-gradient(100deg,rgba(8,18,35,.96) 0%,rgba(8,18,35,.88) 34%,rgba(10,22,42,.55) 62%,rgba(10,22,42,.3) 100%),
+      url('assets/hero.jpg') center 62%/cover no-repeat;
+    color:var(--txt-inv);
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";position:absolute;inset:auto 0 0 0;height:120px;pointer-events:none;
+    background:linear-gradient(180deg,transparent,rgba(8,18,35,.55));
+  }
+  .hero-inner{
+    position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,680px);
+    padding:120px 0 132px;
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:.78rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:22px;
+  }
+  .eyebrow::before{content:"";width:34px;height:2px;background:var(--gold)}
+  .hero h1{
+    font-family:var(--font-display);
+    font-size:clamp(2.5rem,5.2vw,4.1rem);
+    line-height:1.06;letter-spacing:-.02em;font-weight:700;
+    margin-bottom:22px;
+  }
+  .hero h1 em{font-style:normal;color:var(--gold)}
+  .hero p.lead{
+    font-size:1.08rem;color:var(--txt-inv-soft);max-width:54ch;margin-bottom:34px;
+  }
+  .cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:38px}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:var(--font-display);font-weight:700;font-size:.98rem;
+    padding:15px 28px;border-radius:12px;cursor:pointer;border:0;
+    transition:transform .2s,box-shadow .2s,background .2s;
+  }
+  .btn-gold{
+    background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#0d1b30;
+    box-shadow:0 14px 34px -12px rgba(246,177,16,.55);
+  }
+  .btn-gold:hover{transform:translateY(-2px);box-shadow:0 20px 40px -12px rgba(246,177,16,.65)}
+  .btn-ghost{
+    background:transparent;color:var(--txt-inv);
+    border:1px solid var(--line-dark);
+  }
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+  .hero-chips{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:.82rem;font-weight:500;color:var(--txt-inv-soft);
+    border:1px solid var(--line-dark);border-radius:999px;padding:8px 15px;
+  }
+  .chip svg{color:var(--gold);flex:none}
+
+  .hero .lead{text-shadow:0 1px 12px rgba(8,18,35,.5)}
+
+  /* ---------- trust band ---------- */
+  .trust{background:var(--ink-3);color:var(--txt-inv)}
+  .trust-inner{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    padding:26px 0;gap:18px;
+  }
+  .trust-item{display:flex;align-items:center;gap:13px}
+  .trust-item svg{color:var(--gold);flex:none}
+  .trust-item strong{font-family:var(--font-display);font-size:.95rem;display:block;line-height:1.3}
+  .trust-item span{font-size:.78rem;color:var(--txt-inv-soft)}
+
+  /* ---------- section headers ---------- */
+  .sec-head{max-width:640px;margin-bottom:54px}
+  .sec-head.center{margin-inline:auto;text-align:center}
+  .sec-head .eyebrow{color:var(--gold-deep)}
+  .sec-head h2{
+    font-family:var(--font-display);
+    font-size:clamp(1.9rem,3.6vw,2.7rem);
+    line-height:1.12;letter-spacing:-.015em;color:var(--ink);
+    margin-bottom:16px;
+  }
+  .sec-head p{color:var(--txt-soft);font-size:1.02rem}
+  .dark .sec-head h2{color:var(--txt-inv)}
+  .dark .sec-head p{color:var(--txt-inv-soft)}
+
+  /* ---------- services ---------- */
+  .services{padding:100px 0;background:var(--paper)}
+  .svc-grid{
+    display:grid;grid-template-columns:repeat(6,1fr);gap:22px;
+  }
+  .svc-card{
+    grid-column:span 2;
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;display:flex;flex-direction:column;
+    transition:transform .3s,box-shadow .3s,border-color .3s;
+  }
+  .svc-card:nth-child(4){grid-column:2 / span 2}
+  .svc-card:nth-child(5){grid-column:4 / span 2}
+  .svc-card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:rgba(246,177,16,.5)}
+  .svc-img{aspect-ratio:16/10;overflow:hidden;background:var(--paper-2)}
+  .svc-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+  .svc-card:hover .svc-img img{transform:scale(1.06)}
+  .svc-body{padding:0 26px 28px;display:flex;flex-direction:column;gap:14px;flex:1}
+  .svc-icon{
+    width:58px;height:58px;border-radius:15px;
+    background:var(--gold-soft);color:var(--gold-deep);
+    display:grid;place-items:center;
+  }
+  .svc-card .svc-icon{
+    margin-top:-29px;position:relative;flex:none;
+    background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#0d1b30;
+    border:3px solid #fff;box-shadow:0 8px 18px rgba(13,27,48,.2);
+  }
+  .svc-card h3{font-family:var(--font-display);font-size:1.25rem;color:var(--ink)}
+  .svc-card p{font-size:.94rem;color:var(--txt-soft);flex:1}
+  .svc-more{
+    display:inline-flex;align-items:center;gap:8px;
+    font-weight:600;font-size:.88rem;color:var(--gold-deep);
+  }
+  .svc-more svg{transition:transform .25s}
+  .svc-card:hover .svc-more svg{transform:translateX(5px)}
+
+  /* ---------- why us ---------- */
+  .why{
+    padding:100px 0;color:var(--txt-inv);overflow:hidden;
+    background:
+      linear-gradient(180deg,rgba(18,35,60,.94),rgba(13,27,48,.97)),
+      url('assets/svc-fence.jpg') center/cover no-repeat fixed;
+  }
+  .why-grid{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .why-card{
+    background:rgba(244,247,251,.04);
+    border:1px solid var(--line-dark);border-radius:var(--radius);
+    padding:30px 28px;transition:background .3s,border-color .3s;
+  }
+  .why-card:hover{background:rgba(244,247,251,.07);border-color:rgba(246,177,16,.45)}
+  .why-card .svc-icon{background:rgba(246,177,16,.16);color:var(--gold);margin-bottom:18px}
+  .why-card h3{font-family:var(--font-display);font-size:1.12rem;margin-bottom:10px}
+  .why-card p{font-size:.92rem;color:var(--txt-inv-soft)}
+
+  /* ---------- process ---------- */
+  .process{padding:100px 0;background:var(--paper-2)}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;counter-reset:step}
+  .step{
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+    padding:30px 26px;position:relative;
+  }
+  .step-num{
+    font-family:var(--font-display);font-weight:700;font-size:2.6rem;
+    color:transparent;-webkit-text-stroke:1.5px var(--gold);
+    line-height:1;margin-bottom:16px;
+  }
+  .step h3{font-family:var(--font-display);font-size:1.08rem;color:var(--ink);margin-bottom:9px}
+  .step p{font-size:.9rem;color:var(--txt-soft)}
+
+  /* ---------- service area ---------- */
+  .area{padding:100px 0;background:var(--paper)}
+  .area-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+  .area-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+  .area-tags span{
+    background:#fff;border:1px solid var(--line);border-radius:999px;
+    padding:9px 18px;font-size:.88rem;font-weight:500;color:var(--txt);
+    transition:border-color .2s,background .2s;
+  }
+  .area-tags span:hover{border-color:var(--gold);background:var(--gold-soft)}
+  .area-map{
+    background:var(--ink-2);border-radius:24px;padding:20px;
+    box-shadow:var(--shadow);
+  }
+  .area-map svg{width:100%;height:auto}
+
+  /* ---------- CTA band ---------- */
+  .cta-band{
+    background:linear-gradient(120deg,var(--gold-deep),var(--gold));
+    padding:76px 0;
+  }
+  .cta-band-inner{
+    display:flex;align-items:center;justify-content:space-between;gap:34px;flex-wrap:wrap;
+  }
+  .cta-band h2{
+    font-family:var(--font-display);color:#0d1b30;
+    font-size:clamp(1.7rem,3.2vw,2.4rem);line-height:1.15;letter-spacing:-.015em;
+    max-width:560px;
+  }
+  .cta-band p{color:rgba(13,27,48,.75);font-weight:500;margin-top:10px;max-width:520px}
+  .btn-dark{
+    background:var(--ink);color:var(--txt-inv);
+    box-shadow:0 16px 34px -14px rgba(13,27,48,.6);
+  }
+  .btn-dark:hover{transform:translateY(-2px)}
+
+  /* ---------- contact ---------- */
+  .contact{padding:100px 0;background:var(--ink);color:var(--txt-inv)}
+  .contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px}
+  .con-cards{display:grid;gap:16px;margin-top:34px}
+  .con-card{
+    display:flex;gap:16px;align-items:flex-start;
+    background:rgba(244,247,251,.04);border:1px solid var(--line-dark);
+    border-radius:16px;padding:20px 22px;transition:border-color .2s;
+  }
+  .con-card:hover{border-color:rgba(246,177,16,.45)}
+  .con-card .svc-icon{width:46px;height:46px;border-radius:12px;background:rgba(246,177,16,.16);color:var(--gold);flex:none}
+  .con-card strong{font-family:var(--font-display);font-size:.95rem;display:block;margin-bottom:3px}
+  .con-card a,.con-card span{font-size:.92rem;color:var(--txt-inv-soft)}
+  .con-card a:hover{color:var(--gold)}
+
+  form.quote{
+    background:rgba(244,247,251,.045);
+    border:1px solid var(--line-dark);border-radius:22px;
+    padding:36px;display:grid;gap:18px;
+  }
+  form.quote h3{font-family:var(--font-display);font-size:1.3rem}
+  .f-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  form.quote label{font-size:.82rem;font-weight:600;color:var(--txt-inv-soft);display:block;margin-bottom:7px}
+  form.quote input,form.quote select,form.quote textarea{
+    width:100%;background:var(--ink-2);border:1px solid var(--line-dark);
+    border-radius:11px;padding:13px 15px;color:var(--txt-inv);
+    font-family:var(--font-body);font-size:.95rem;
+    transition:border-color .2s;
+  }
+  form.quote input:focus,form.quote select:focus,form.quote textarea:focus{
+    outline:none;border-color:var(--gold);
+  }
+  form.quote textarea{resize:vertical;min-height:110px}
+  form.quote .btn{justify-content:center}
+  .form-note{font-size:.8rem;color:var(--txt-inv-soft);text-align:center}
+
+  /* ---------- footer ---------- */
+  footer{background:#08152a;color:var(--txt-inv-soft);padding:60px 0 0}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:44px;margin-bottom:44px}
+  .foot-grid h4{font-family:var(--font-display);color:var(--txt-inv);font-size:.95rem;margin-bottom:16px}
+  .foot-grid p,.foot-grid a,.foot-grid li{font-size:.88rem}
+  .foot-grid li{margin-bottom:9px}
+  .foot-grid a:hover{color:var(--gold)}
+  .foot-brand{display:flex;align-items:center;gap:12px;margin-bottom:16px;color:var(--txt-inv)}
+  .socials{display:flex;gap:10px;margin-top:18px}
+  .socials a{
+    width:38px;height:38px;border-radius:10px;border:1px solid var(--line-dark);
+    display:grid;place-items:center;color:var(--txt-inv-soft);
+    transition:border-color .2s,color .2s;
+  }
+  .socials a:hover{border-color:var(--gold);color:var(--gold)}
+  .foot-bottom{
+    border-top:1px solid var(--line-dark);padding-top:24px;padding-bottom:30px;
+    display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+    font-size:.8rem;
+  }
+  .foot-bottom .lic{color:var(--gold)}
+  .powered{background:#061024;margin-top:0;padding:9px 0 10px;font-size:.72rem;letter-spacing:.05em;color:#5c6b85;text-align:center;line-height:1.3}
+  .powered a{color:#8fa3c4;font-weight:600;text-decoration:none}
+  .powered a:hover{color:#fff}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:1020px){
+    nav.main{display:none}
+    .burger{display:block;margin-left:auto}
+    .lang-toggle{margin-left:auto}
+    .burger{margin-left:0}
+    .head-call{display:none}
+    .hero-inner{padding:84px 0 96px}
+    .trust-inner{grid-template-columns:repeat(2,1fr)}
+    .svc-grid{grid-template-columns:repeat(2,1fr)}
+    .svc-card,.svc-card:nth-child(4),.svc-card:nth-child(5){grid-column:auto}
+    .why-grid{grid-template-columns:repeat(2,1fr)}
+    .steps{grid-template-columns:repeat(2,1fr)}
+    .area-inner,.contact-grid{grid-template-columns:1fr;gap:44px}
+    .foot-grid{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:600px){
+    .brand-logo{height:40px}
+    .brand-name{font-size:.9rem}
+    .brand-name small{font-size:.6rem}
+    .why{background-attachment:scroll}
+    .lang-toggle button{padding:6px 12px;font-size:.8rem}
+    .trust-inner{grid-template-columns:1fr 1fr}
+    .svc-grid,.why-grid,.steps{grid-template-columns:1fr}
+    .f-row{grid-template-columns:1fr}
+    .foot-grid{grid-template-columns:1fr}
+    .cta-row .btn{width:100%;justify-content:center}
+  }
+</style>
+</head>
+<body>
+<!-- ================= HEADER ================= -->
+<header>
+<div class="wrap head-inner">
+<a href="#top" class="brand" aria-label="Landi Construction & Handyman — home">
+<img class="brand-logo" src="assets/landi-logo.png" alt="">
+<span class="brand-name">Landi Construction<small data-i18n="brand.sub">&amp; Handyman · Fridley, MN</small>
+</span>
+</a>
+<!-- prominent language toggle -->
+<div class="lang-toggle" role="group" aria-label="Language / Idioma">
+<button type="button" id="btn-en" class="active" aria-pressed="true">English</button>
+<button type="button" id="btn-es" aria-pressed="false">Español</button>
+</div>
+<nav class="main" aria-label="Main">
+<a href="#services" data-i18n="nav.services">Services</a>
+<a href="#why" data-i18n="nav.why">Why Us</a>
+<a href="#process" data-i18n="nav.process">Process</a>
+<a href="#area" data-i18n="nav.area">Service Area</a>
+<a href="#contact" data-i18n="nav.contact">Contact</a>
+</nav>
+<a class="head-call" href="tel:+16122449041">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.32 1.78.59 2.63a2 2 0 0 1-.45 2.11L8 9.72a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.85.27 1.73.47 2.63.59A2 2 0 0 1 22 16.92z"/>
+</svg>
+      (612) 244-9041
+    </a>
+<button class="burger" id="burger" aria-label="Menu" aria-expanded="false">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+<path d="M4 7h16M4 12h16M4 17h16"/>
+</svg>
+</button>
+</div>
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
+<a href="#services" data-i18n="nav.services">Services</a>
+<a href="#why" data-i18n="nav.why">Why Us</a>
+<a href="#process" data-i18n="nav.process">Process</a>
+<a href="#area" data-i18n="nav.area">Service Area</a>
+<a href="#contact" data-i18n="nav.contact">Contact</a>
+<a href="tel:+16122449041">📞 (612) 244-9041</a>
+</nav>
+</header>
+<!-- ================= HERO ================= -->
+<section class="hero" id="top">
+<div class="wrap hero-inner">
+<div>
+<span class="eyebrow" data-i18n="hero.eyebrow">Licensed &amp; Insured · MN Lic. BC809633</span>
+<h1 data-i18n-html="hero.title">Craftsmanship your <em>home deserves.</em>
+</h1>
+<p class="lead" data-i18n="hero.lead">From a brand-new roof to fresh floors, siding, paint, fences, and decks — Landi Construction &amp; Handyman delivers honest pricing and quality work across Fridley and the Twin Cities metro.</p>
+<div class="cta-row">
+<a class="btn btn-gold" href="#contact">
+<span data-i18n="hero.cta1">Get a Free Estimate</span>
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+<a class="btn btn-ghost" href="tel:+16122449041">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.32 1.78.59 2.63a2 2 0 0 1-.45 2.11L8 9.72a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.85.27 1.73.47 2.63.59A2 2 0 0 1 22 16.92z"/>
+</svg>
+<span data-i18n="hero.cta2">Call (612) 244-9041</span>
+</a>
+</div>
+<div class="hero-chips">
+<span class="chip">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M20 6L9 17l-5-5"/>
+</svg>
+<span data-i18n="hero.chip1">Free estimates</span>
+</span>
+<span class="chip">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M20 6L9 17l-5-5"/>
+</svg>
+<span data-i18n="hero.chip2">Licensed contractor</span>
+</span>
+<span class="chip">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M20 6L9 17l-5-5"/>
+</svg>
+<span data-i18n="hero.chip3">English &amp; Spanish service</span>
+</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= TRUST BAND ================= -->
+<section class="trust">
+<div class="wrap trust-inner">
+<div class="trust-item">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 2l7 4v6c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"/>
+<path d="M9 12l2 2 4-4"/>
+</svg>
+<div>
+<strong data-i18n="trust.1t">Licensed &amp; Insured</strong>
+<span data-i18n="trust.1s">MN License BC809633</span>
+</div>
+</div>
+<div class="trust-item">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+<rect x="3" y="4" width="18" height="17" rx="2"/>
+<path d="M8 2v4M16 2v4M3 9h18"/>
+<path d="M9 15l2 2 4-4"/>
+</svg>
+<div>
+<strong data-i18n="trust.2t">Free Estimates</strong>
+<span data-i18n="trust.2s">No pressure, no obligation</span>
+</div>
+</div>
+<div class="trust-item">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 21s-7-5.1-7-11a7 7 0 0 1 14 0c0 5.9-7 11-7 11z"/>
+<circle cx="12" cy="10" r="2.6"/>
+</svg>
+<div>
+<strong data-i18n="trust.3t">Locally Based</strong>
+<span data-i18n="trust.3s">Fridley &amp; Twin Cities metro</span>
+</div>
+</div>
+<div class="trust-item">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="9"/>
+<path d="M8 12h8M12 8c-2.5 2.4-2.5 5.6 0 8M12 8c2.5 2.4 2.5 5.6 0 8"/>
+</svg>
+<div>
+<strong data-i18n="trust.4t">Bilingual Service</strong>
+<span data-i18n="trust.4s">English · Español</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= SERVICES ================= -->
+<section class="services" id="services">
+<div class="wrap">
+<div class="sec-head center reveal">
+<span class="eyebrow" data-i18n="svc.eyebrow">What We Do</span>
+<h2 data-i18n="svc.title">One trusted crew for your whole home</h2>
+<p data-i18n="svc.sub">Five core trades, one standard of quality. We handle your project start to finish — with clean job sites and materials built for Minnesota weather.</p>
+</div>
+<div class="svc-grid">
+<div class="svc-card reveal">
+<div class="svc-img">
+<img src="assets/svc-roofing.jpg" alt="" loading="lazy">
+</div>
+<div class="svc-body">
+<span class="svc-icon">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+<path d="M3 12l9-8 9 8"/>
+<path d="M6 9.4V20h12V9.4"/>
+<path d="M6 14h12M6 17h12"/>
+</svg>
+</span>
+<h3 data-i18n="svc.roof.t">Roofing</h3>
+<p data-i18n="svc.roof.p">Full roof replacement and repair with quality shingles installed to handle snow, ice, and summer storms. We inspect, explain what we find, and fix it right.</p>
+<a href="#contact" class="svc-more">
+<span data-i18n="svc.more">Request an estimate</span>
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+</div>
+<div class="svc-card reveal">
+<div class="svc-img">
+<img src="assets/svc-siding.jpg" alt="" loading="lazy">
+</div>
+<div class="svc-body">
+<span class="svc-icon">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+<rect x="3" y="4" width="18" height="4" rx="1"/>
+<rect x="3" y="10" width="18" height="4" rx="1"/>
+<rect x="3" y="16" width="18" height="4" rx="1"/>
+</svg>
+</span>
+<h3 data-i18n="svc.side.t">Siding</h3>
+<p data-i18n="svc.side.p">New siding that transforms your curb appeal and tightens up your home's envelope — better protection, better efficiency, and a look you'll love pulling up to.</p>
+<a href="#contact" class="svc-more">
+<span data-i18n="svc.more">Request an estimate</span>
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+</div>
+<div class="svc-card reveal">
+<div class="svc-img">
+<img src="assets/svc-flooring.jpg" alt="" loading="lazy">
+</div>
+<div class="svc-body">
+<span class="svc-icon">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+<path d="M3 9l9-6 9 6-9 6z"/>
+<path d="M3 15l9 6 9-6"/>
+</svg>
+</span>
+<h3 data-i18n="svc.floor.t">Flooring</h3>
+<p data-i18n="svc.floor.p">Luxury vinyl plank, laminate, hardwood, and tile — installed level, tight, and made to last. We help you pick the right material for each room and budget.</p>
+<a href="#contact" class="svc-more">
+<span data-i18n="svc.more">Request an estimate</span>
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+</div>
+<div class="svc-card reveal">
+<div class="svc-img">
+<img src="assets/svc-painting.jpg" alt="" loading="lazy">
+</div>
+<div class="svc-body">
+<span class="svc-icon">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+<path d="M19 3H5a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/>
+<path d="M12 11v4"/>
+<path d="M10 15h4v6h-4z"/>
+</svg>
+</span>
+<h3 data-i18n="svc.paint.t">Painting</h3>
+<p data-i18n="svc.paint.p">Interior and exterior painting with crisp lines, careful prep, and a spotless cleanup. A fresh coat is the fastest way to make your home feel new again.</p>
+<a href="#contact" class="svc-more">
+<span data-i18n="svc.more">Request an estimate</span>
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+</div>
+<div class="svc-card reveal">
+<div class="svc-img">
+<img src="assets/svc-fence.jpg" alt="" loading="lazy">
+</div>
+<div class="svc-body">
+<span class="svc-icon">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 21V8l3-3 3 3v13"/>
+<path d="M14 21V8l3-3 3 3v13"/>
+<path d="M4 12h16M4 17h16"/>
+</svg>
+</span>
+<h3 data-i18n="svc.fence.t">Fences &amp; Decks</h3>
+<p data-i18n="svc.fence.p">Custom fences and decks built square, sturdy, and ready for Minnesota winters — more privacy, more outdoor living, and real added value for your property.</p>
+<a href="#contact" class="svc-more">
+<span data-i18n="svc.more">Request an estimate</span>
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M5 12h14M13 6l6 6-6 6"/>
+</svg>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= WHY US ================= -->
+<section class="why dark" id="why">
+<div class="wrap">
+<div class="sec-head reveal">
+<span class="eyebrow" style="color:var(--gold)" data-i18n="why.eyebrow">Why Landi</span>
+<h2 data-i18n="why.title">Comfort you can afford, quality you can trust</h2>
+<p data-i18n="why.sub">Big-company craftsmanship with the honesty and care of a local crew that answers the phone.</p>
+</div>
+<div class="why-grid">
+<div class="why-card reveal">
+<span class="svc-icon">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+</svg>
+</span>
+<h3 data-i18n="why.1t">Honest, upfront pricing</h3>
+<p data-i18n="why.1p">Clear estimates before work begins — no surprise charges, no padding, no games. You'll know exactly what you're paying for and why.</p>
+</div>
+<div class="why-card reveal">
+<span class="svc-icon">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+<path d="M6 3h12l4 6-10 12L2 9z"/>
+<path d="M2 9h20M12 21L8 9M12 21l4-12"/>
+</svg>
+</span>
+<h3 data-i18n="why.2t">Premium materials</h3>
+<p data-i18n="why.2p">We install products chosen to survive Minnesota's freeze-thaw cycles — because a job done with cheap materials is a job you pay for twice.</p>
+</div>
+<div class="why-card reveal">
+<span class="svc-icon">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="9"/>
+<path d="M8 12h8M12 8c-2.5 2.4-2.5 5.6 0 8M12 8c2.5 2.4 2.5 5.6 0 8"/>
+</svg>
+</span>
+<h3 data-i18n="why.3t">We speak your language</h3>
+<p data-i18n="why.3p">Full service in English and Spanish, from the first phone call to the final walkthrough. Every detail explained clearly, in the language you're most comfortable in.</p>
+</div>
+<div class="why-card reveal">
+<span class="svc-icon">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+<path d="M3 21l7-7"/>
+<path d="M14 4l6 6-4 4-6-6z"/>
+<path d="M14 4l2-2 6 6-2 2"/>
+</svg>
+</span>
+<h3 data-i18n="why.4t">One crew, start to finish</h3>
+<p data-i18n="why.4p">The people who quote your project are the people who build it. No subcontractor roulette — just one accountable team on your property.</p>
+</div>
+<div class="why-card reveal">
+<span class="svc-icon">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+<path d="M3 20h18"/>
+<path d="M6 20V9l6-5 6 5v11"/>
+<path d="M10 20v-5h4v5"/>
+</svg>
+</span>
+<h3 data-i18n="why.5t">Clean, respectful job sites</h3>
+<p data-i18n="why.5p">We treat your home like our own — protected surfaces during the work, and a site left broom-clean at the end of every day.</p>
+</div>
+<div class="why-card reveal">
+<span class="svc-icon">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+<path d="M13 2L3 14h7l-1 8 10-12h-7z"/>
+</svg>
+</span>
+<h3 data-i18n="why.6t">Energy-smart upgrades</h3>
+<p data-i18n="why.6p">New roofing and siding done right doesn't just look better — it seals your home tighter and helps cut heating and cooling costs year-round.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= PROCESS ================= -->
+<section class="process" id="process">
+<div class="wrap">
+<div class="sec-head center reveal">
+<span class="eyebrow" data-i18n="proc.eyebrow">How It Works</span>
+<h2 data-i18n="proc.title">From first call to final walkthrough</h2>
+<p data-i18n="proc.sub">A simple, transparent process — you always know what's happening and what comes next.</p>
+</div>
+<div class="steps">
+<div class="step reveal">
+<div class="step-num">01</div>
+<h3 data-i18n="proc.1t">Reach out</h3>
+<p data-i18n="proc.1p">Call, email, or send the form below. Tell us what you're dreaming up — or what's leaking, peeling, or falling apart.</p>
+</div>
+<div class="step reveal">
+<div class="step-num">02</div>
+<h3 data-i18n="proc.2t">Free on-site estimate</h3>
+<p data-i18n="proc.2p">We visit your home, take real measurements, and give you a clear written estimate. No pressure, no obligation.</p>
+</div>
+<div class="step reveal">
+<div class="step-num">03</div>
+<h3 data-i18n="proc.3t">We do the work</h3>
+<p data-i18n="proc.3p">Our crew shows up when we say we will, works clean, and keeps you updated every step of the way.</p>
+</div>
+<div class="step reveal">
+<div class="step-num">04</div>
+<h3 data-i18n="proc.4t">Final walkthrough</h3>
+<p data-i18n="proc.4p">We walk the finished project with you together. You're happy, or we make it right — that's the standard.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= SERVICE AREA ================= -->
+<section class="area" id="area">
+<div class="wrap area-inner">
+<div class="reveal">
+<div class="sec-head" style="margin-bottom:0">
+<span class="eyebrow" data-i18n="area.eyebrow">Where We Work</span>
+<h2 data-i18n="area.title">Proudly based in Fridley, serving the Twin Cities metro</h2>
+<p data-i18n="area.sub">Our shop is at 5896 Jefferson Street NE in Fridley — and our trucks cover the north metro and beyond. If you're nearby, we're your neighbors.</p>
+</div>
+<div class="area-tags">
+<span>Fridley</span>
+<span>Columbia Heights</span>
+<span>Spring Lake Park</span>
+<span>Blaine</span>
+<span>Coon Rapids</span>
+<span>Mounds View</span>
+<span>New Brighton</span>
+<span>Brooklyn Park</span>
+<span>Minneapolis</span>
+<span data-i18n="area.more">+ surrounding communities</span>
+</div>
+</div>
+<div class="area-map reveal" aria-hidden="true">
+<svg viewBox="0 0 460 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g stroke="#263a54" stroke-width="1.2">
+<line x1="0" y1="60" x2="460" y2="60"/>
+<line x1="0" y1="120" x2="460" y2="120"/>
+<line x1="0" y1="180" x2="460" y2="180"/>
+<line x1="0" y1="240" x2="460" y2="240"/>
+<line x1="0" y1="300" x2="460" y2="300"/>
+<line x1="70" y1="0" x2="70" y2="340"/>
+<line x1="150" y1="0" x2="150" y2="340"/>
+<line x1="230" y1="0" x2="230" y2="340"/>
+<line x1="310" y1="0" x2="310" y2="340"/>
+<line x1="390" y1="0" x2="390" y2="340"/>
+</g>
+<!-- stylized river -->
+<path d="M150 0c20 50-30 80-10 130s60 70 40 120-10 90-10 90" stroke="#3d6a8a" stroke-width="10" stroke-linecap="round" opacity=".55"/>
+<!-- radiating service rings -->
+<circle cx="230" cy="150" r="118" stroke="#f6b110" stroke-width="1.4" opacity=".3"/>
+<circle cx="230" cy="150" r="78" stroke="#f6b110" stroke-width="1.4" opacity=".5"/>
+<circle cx="230" cy="150" r="40" stroke="#f6b110" stroke-width="1.6" opacity=".8"/>
+<!-- HQ pin -->
+<g>
+<path d="M230 118c-14 0-24 10-24 23 0 16 24 39 24 39s24-23 24-39c0-13-10-23-24-23z" fill="#f6b110"/>
+<circle cx="230" cy="141" r="9" fill="#0d1b30"/>
+</g>
+<text x="230" y="205" text-anchor="middle" fill="#f2f5f9" font-family="Space Grotesk,sans-serif" font-weight="700" font-size="17">Fridley, MN</text>
+<text x="230" y="226" text-anchor="middle" fill="#a7b0ba" font-family="Inter,sans-serif" font-size="12">5896 Jefferson St NE</text>
+<!-- neighbor dots -->
+<g fill="#a7b0ba">
+<circle cx="150" cy="90" r="4"/>
+<circle cx="320" cy="80" r="4"/>
+<circle cx="330" cy="210" r="4"/>
+<circle cx="140" cy="230" r="4"/>
+<circle cx="255" cy="60" r="4"/>
+</g>
+</svg>
+</div>
+</div>
+</section>
+<!-- ================= CTA BAND ================= -->
+<section class="cta-band">
+<div class="wrap cta-band-inner reveal">
+<div>
+<h2 data-i18n="band.title">Ready to start your project?</h2>
+<p data-i18n="band.sub">Estimates are always free — and so is good advice. Tell us what you have in mind.</p>
+</div>
+<a class="btn btn-dark" href="tel:+16122449041">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.32 1.78.59 2.63a2 2 0 0 1-.45 2.11L8 9.72a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.85.27 1.73.47 2.63.59A2 2 0 0 1 22 16.92z"/>
+</svg>
+<span data-i18n="band.cta">Call (612) 244-9041</span>
+</a>
+</div>
+</section>
+<!-- ================= CONTACT ================= -->
+<section class="contact" id="contact">
+<div class="wrap contact-grid">
+<div class="reveal">
+<div class="sec-head" style="margin-bottom:0">
+<span class="eyebrow" style="color:var(--gold)" data-i18n="con.eyebrow">Get In Touch</span>
+<h2 style="color:var(--txt-inv)" data-i18n="con.title">Let's talk about your home</h2>
+<p style="color:var(--txt-inv-soft)" data-i18n="con.sub">Call, email, or use the form — whichever is easiest. We respond to every request, in English or Spanish.</p>
+</div>
+<div class="con-cards">
+<div class="con-card">
+<span class="svc-icon">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.32 1.78.59 2.63a2 2 0 0 1-.45 2.11L8 9.72a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.85.27 1.73.47 2.63.59A2 2 0 0 1 22 16.92z"/>
+</svg>
+</span>
+<div>
+<strong data-i18n="con.phone">Phone</strong>
+<a href="tel:+16122449041">(612) 244-9041</a>
+</div>
+</div>
+<div class="con-card">
+<span class="svc-icon">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<rect x="2" y="4" width="20" height="16" rx="2"/>
+<path d="M22 7l-10 6L2 7"/>
+</svg>
+</span>
+<div>
+<strong data-i18n="con.email">Email</strong>
+<a href="mailto:landiconstruction57@gmail.com">landiconstruction57@gmail.com</a>
+</div>
+</div>
+<div class="con-card">
+<span class="svc-icon">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 21s-7-5.1-7-11a7 7 0 0 1 14 0c0 5.9-7 11-7 11z"/>
+<circle cx="12" cy="10" r="2.6"/>
+</svg>
+</span>
+<div>
+<strong data-i18n="con.addr">Address</strong>
+<span>5896 Jefferson Street NE, Fridley, MN 55432</span>
+</div>
+</div>
+<div class="con-card">
+<span class="svc-icon">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 2l7 4v6c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"/>
+<path d="M9 12l2 2 4-4"/>
+</svg>
+</span>
+<div>
+<strong data-i18n="con.lic">License</strong>
+<span>MN BC809633</span>
+</div>
+</div>
+</div>
+</div>
+<form class="quote reveal" id="quoteForm">
+<h3 data-i18n="form.title">Request your free estimate</h3>
+<div class="f-row">
+<div>
+<label for="f-name" data-i18n="form.name">Your name</label>
+<input id="f-name" name="name" type="text" required data-i18n-ph="form.namePh" placeholder="Jane Smith">
+</div>
+<div>
+<label for="f-phone" data-i18n="form.phone">Phone</label>
+<input id="f-phone" name="phone" type="tel" required data-i18n-ph="form.phonePh" placeholder="(612) 555-0100">
+</div>
+</div>
+<div>
+<label for="f-service" data-i18n="form.service">What do you need?</label>
+<select id="f-service" name="service">
+<option data-i18n="form.opt0">Choose a service…</option>
+<option data-i18n="svc.roof.t">Roofing</option>
+<option data-i18n="svc.side.t">Siding</option>
+<option data-i18n="svc.floor.t">Flooring</option>
+<option data-i18n="svc.paint.t">Painting</option>
+<option data-i18n="svc.fence.t">Fences &amp; Decks</option>
+<option data-i18n="form.optOther">Something else</option>
+</select>
+</div>
+<div>
+<label for="f-msg" data-i18n="form.msg">Tell us about the project</label>
+<textarea id="f-msg" name="message" data-i18n-ph="form.msgPh" placeholder="What are you looking to get done?">
+</textarea>
+</div>
+<button type="submit" class="btn btn-gold">
+<span data-i18n="form.send">Send request</span>
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M22 2L11 13"/>
+<path d="M22 2l-7 20-4-9-9-4z"/>
+</svg>
+</button>
+<p class="form-note" data-i18n="form.note">Sending opens your email app with the details filled in — or just call us directly.</p>
+</form>
+</div>
+</section>
+<!-- ================= FOOTER ================= -->
+<footer>
+<div class="wrap">
+<div class="foot-grid">
+<div>
+<div class="foot-brand">
+<img class="brand-logo" src="assets/landi-logo.png" alt="Landi Construction & Remodeling logo">
+<span class="brand-name">Landi Construction<small data-i18n="brand.sub">&amp; Handyman · Fridley, MN</small>
+</span>
+</div>
+<p data-i18n="foot.blurb">A licensed, local contractor bringing quality roofing, siding, flooring, painting, fences, and decks to homes across the Twin Cities metro — in English and Spanish.</p>
+<div class="socials">
+<!-- TODO: replace # with real profile URLs -->
+<a href="#" aria-label="Facebook">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+<path d="M13.5 21v-8h2.7l.4-3.2h-3.1V7.7c0-.9.3-1.6 1.6-1.6h1.6V3.2c-.3 0-1.3-.2-2.4-.2-2.4 0-4 1.5-4 4.2v2.6H7.6V13h2.7v8z"/>
+</svg>
+</a>
+<a href="#" aria-label="Google">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+<path d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.9h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.4z"/>
+<path d="M12 22c2.7 0 5-1 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22z"/>
+<path d="M6.4 13.9a6 6 0 0 1 0-3.8V7.5H3.1a10 10 0 0 0 0 9z"/>
+<path d="M12 6a5.4 5.4 0 0 1 3.8 1.5L18.7 4.6A9.6 9.6 0 0 0 12 2a10 10 0 0 0-8.9 5.5l3.3 2.6C7.2 7.8 9.4 6 12 6z"/>
+</svg>
+</a>
+<a href="#" aria-label="Yelp">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+<path d="M11.2 2.6c.3-.8 1.5-.8 1.8 0l1.5 5.7c.2.8-.7 1.4-1.4 1L9 6.9c-.7-.4-.6-1.5.2-1.7zM19 9.4c.8-.2 1.5.7 1 1.4l-2.4 3c-.5.6-1.5.3-1.6-.5l-.3-2.6c-.1-.6.4-1.1 1-1zM19.6 17.3c.7.4.5 1.5-.3 1.7l-3.7.8c-.8.2-1.4-.7-1-1.4l1.4-2.3c.3-.5 1-.7 1.5-.4zM12.4 16.5c.6-.3 1.4.2 1.3 1l-.5 3.8c-.1.8-1.2 1.1-1.7.4l-1.9-2.9c-.4-.6 0-1.4.7-1.5zM4.7 14.7c-.8.1-1.4-.9-.8-1.5l2.6-2.8c.5-.6 1.5-.2 1.6.6l.2 2.6c0 .6-.5 1.1-1.1 1z"/>
+</svg>
+</a>
+<a href="#" aria-label="Nextdoor">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+<path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9-4-9-9-9zm4.5 13.5h-2.4v-4.3c0-1-.7-1.8-1.7-1.8s-1.8.8-1.8 1.8v4.3H8.2v-5.1H7v-2.3h1.2v-.3c0-2.1 1.7-3.9 3.9-3.9 2.4 0 4.4 1.7 4.4 4.3z"/>
+</svg>
+</a>
+</div>
+</div>
+<div>
+<h4 data-i18n="foot.links">Quick Links</h4>
+<ul>
+<li>
+<a href="#services" data-i18n="nav.services">Services</a>
+</li>
+<li>
+<a href="#why" data-i18n="nav.why">Why Us</a>
+</li>
+<li>
+<a href="#process" data-i18n="nav.process">Process</a>
+</li>
+<li>
+<a href="#area" data-i18n="nav.area">Service Area</a>
+</li>
+<li>
+<a href="#contact" data-i18n="nav.contact">Contact</a>
+</li>
+</ul>
+</div>
+<div>
+<h4 data-i18n="foot.contact">Contact</h4>
+<ul>
+<li>
+<a href="tel:+16122449041">(612) 244-9041</a>
+</li>
+<li>
+<a href="mailto:landiconstruction57@gmail.com">landiconstruction57@gmail.com</a>
+</li>
+<li>5896 Jefferson Street NE<br>Fridley, MN 55432</li>
+</ul>
+</div>
+</div>
+<div class="foot-bottom">
+<span data-i18n="foot.copy">© 2026 Landi Construction &amp; Handyman. All rights reserved.</span>
+<span class="lic" data-i18n="foot.lic">MN Contractor License BC809633</span>
+</div>
+</div>
+<div class="powered">
+<div class="wrap">Powered by <a href="https://veersolutions.com" rel="noopener">Veer</a>
+</div>
+</div>
+</footer>
+<script>
+/* ============ i18n ============ */
+const I18N = {
+  en: {
+    "title": "Landi Construction & Handyman | Roofing, Siding, Flooring, Painting, Fences & Decks — Fridley, MN",
+    "brand.sub": "& Handyman · Fridley, MN",
+    "nav.services": "Services", "nav.why": "Why Us", "nav.process": "Process",
+    "nav.area": "Service Area", "nav.contact": "Contact",
+    "hero.eyebrow": "Licensed & Insured · MN Lic. BC809633",
+    "hero.title": "Craftsmanship your <em>home deserves.</em>",
+    "hero.lead": "From a brand-new roof to fresh floors, siding, paint, fences, and decks — Landi Construction & Handyman delivers honest pricing and quality work across Fridley and the Twin Cities metro.",
+    "hero.cta1": "Get a Free Estimate", "hero.cta2": "Call (612) 244-9041",
+    "hero.chip1": "Free estimates", "hero.chip2": "Licensed contractor", "hero.chip3": "English & Spanish service",
+    "hero.badgeTitle": "Licensed MN Contractor", "hero.badgeSub": "License BC809633",
+    "trust.1t": "Licensed & Insured", "trust.1s": "MN License BC809633",
+    "trust.2t": "Free Estimates", "trust.2s": "No pressure, no obligation",
+    "trust.3t": "Locally Based", "trust.3s": "Fridley & Twin Cities metro",
+    "trust.4t": "Bilingual Service", "trust.4s": "English · Español",
+    "svc.eyebrow": "What We Do",
+    "svc.title": "One trusted crew for your whole home",
+    "svc.sub": "Five core trades, one standard of quality. We handle your project start to finish — with clean job sites and materials built for Minnesota weather.",
+    "svc.more": "Request an estimate",
+    "svc.roof.t": "Roofing",
+    "svc.roof.p": "Full roof replacement and repair with quality shingles installed to handle snow, ice, and summer storms. We inspect, explain what we find, and fix it right.",
+    "svc.side.t": "Siding",
+    "svc.side.p": "New siding that transforms your curb appeal and tightens up your home's envelope — better protection, better efficiency, and a look you'll love pulling up to.",
+    "svc.floor.t": "Flooring",
+    "svc.floor.p": "Luxury vinyl plank, laminate, hardwood, and tile — installed level, tight, and made to last. We help you pick the right material for each room and budget.",
+    "svc.paint.t": "Painting",
+    "svc.paint.p": "Interior and exterior painting with crisp lines, careful prep, and a spotless cleanup. A fresh coat is the fastest way to make your home feel new again.",
+    "svc.fence.t": "Fences & Decks",
+    "svc.fence.p": "Custom fences and decks built square, sturdy, and ready for Minnesota winters — more privacy, more outdoor living, and real added value for your property.",
+    "why.eyebrow": "Why Landi",
+    "why.title": "Comfort you can afford, quality you can trust",
+    "why.sub": "Big-company craftsmanship with the honesty and care of a local crew that answers the phone.",
+    "why.1t": "Honest, upfront pricing",
+    "why.1p": "Clear estimates before work begins — no surprise charges, no padding, no games. You'll know exactly what you're paying for and why.",
+    "why.2t": "Premium materials",
+    "why.2p": "We install products chosen to survive Minnesota's freeze-thaw cycles — because a job done with cheap materials is a job you pay for twice.",
+    "why.3t": "We speak your language",
+    "why.3p": "Full service in English and Spanish, from the first phone call to the final walkthrough. Every detail explained clearly, in the language you're most comfortable in.",
+    "why.4t": "One crew, start to finish",
+    "why.4p": "The people who quote your project are the people who build it. No subcontractor roulette — just one accountable team on your property.",
+    "why.5t": "Clean, respectful job sites",
+    "why.5p": "We treat your home like our own — protected surfaces during the work, and a site left broom-clean at the end of every day.",
+    "why.6t": "Energy-smart upgrades",
+    "why.6p": "New roofing and siding done right doesn't just look better — it seals your home tighter and helps cut heating and cooling costs year-round.",
+    "proc.eyebrow": "How It Works",
+    "proc.title": "From first call to final walkthrough",
+    "proc.sub": "A simple, transparent process — you always know what's happening and what comes next.",
+    "proc.1t": "Reach out",
+    "proc.1p": "Call, email, or send the form below. Tell us what you're dreaming up — or what's leaking, peeling, or falling apart.",
+    "proc.2t": "Free on-site estimate",
+    "proc.2p": "We visit your home, take real measurements, and give you a clear written estimate. No pressure, no obligation.",
+    "proc.3t": "We do the work",
+    "proc.3p": "Our crew shows up when we say we will, works clean, and keeps you updated every step of the way.",
+    "proc.4t": "Final walkthrough",
+    "proc.4p": "We walk the finished project with you together. You're happy, or we make it right — that's the standard.",
+    "area.eyebrow": "Where We Work",
+    "area.title": "Proudly based in Fridley, serving the Twin Cities metro",
+    "area.sub": "Our shop is at 5896 Jefferson Street NE in Fridley — and our trucks cover the north metro and beyond. If you're nearby, we're your neighbors.",
+    "area.more": "+ surrounding communities",
+    "band.title": "Ready to start your project?",
+    "band.sub": "Estimates are always free — and so is good advice. Tell us what you have in mind.",
+    "band.cta": "Call (612) 244-9041",
+    "con.eyebrow": "Get In Touch",
+    "con.title": "Let's talk about your home",
+    "con.sub": "Call, email, or use the form — whichever is easiest. We respond to every request, in English or Spanish.",
+    "con.phone": "Phone", "con.email": "Email", "con.addr": "Address", "con.lic": "License",
+    "form.title": "Request your free estimate",
+    "form.name": "Your name", "form.namePh": "Jane Smith",
+    "form.phone": "Phone", "form.phonePh": "(612) 555-0100",
+    "form.service": "What do you need?",
+    "form.opt0": "Choose a service…", "form.optOther": "Something else",
+    "form.msg": "Tell us about the project",
+    "form.msgPh": "What are you looking to get done?",
+    "form.send": "Send request",
+    "form.note": "Sending opens your email app with the details filled in — or just call us directly.",
+    "foot.blurb": "A licensed, local contractor bringing quality roofing, siding, flooring, painting, fences, and decks to homes across the Twin Cities metro — in English and Spanish.",
+    "foot.links": "Quick Links", "foot.contact": "Contact",
+    "foot.copy": "© 2026 Landi Construction & Handyman. All rights reserved.",
+    "foot.lic": "MN Contractor License BC809633",
+    "mail.subject": "Free estimate request — Landi Construction",
+    "mail.svc": "Service", "mail.name": "Name", "mail.phoneL": "Phone", "mail.msgL": "Project details"
+  },
+  es: {
+    "title": "Landi Construction & Handyman | Techos, Revestimiento, Pisos, Pintura, Cercas y Terrazas — Fridley, MN",
+    "brand.sub": "& Handyman · Fridley, MN",
+    "nav.services": "Servicios", "nav.why": "Por Qué Nosotros", "nav.process": "Proceso",
+    "nav.area": "Área de Servicio", "nav.contact": "Contacto",
+    "hero.eyebrow": "Con Licencia y Seguro · Lic. MN BC809633",
+    "hero.title": "La calidad que <em>tu hogar merece.</em>",
+    "hero.lead": "Desde un techo nuevo hasta pisos, revestimiento, pintura, cercas y terrazas — Landi Construction & Handyman ofrece precios honestos y trabajo de calidad en Fridley y todo el área metropolitana de las Twin Cities.",
+    "hero.cta1": "Cotización Gratis", "hero.cta2": "Llama al (612) 244-9041",
+    "hero.chip1": "Cotizaciones gratis", "hero.chip2": "Contratista con licencia", "hero.chip3": "Servicio en inglés y español",
+    "hero.badgeTitle": "Contratista con Licencia en MN", "hero.badgeSub": "Licencia BC809633",
+    "trust.1t": "Licencia y Seguro", "trust.1s": "Licencia MN BC809633",
+    "trust.2t": "Cotizaciones Gratis", "trust.2s": "Sin presión ni compromiso",
+    "trust.3t": "Empresa Local", "trust.3s": "Fridley y las Twin Cities",
+    "trust.4t": "Servicio Bilingüe", "trust.4s": "English · Español",
+    "svc.eyebrow": "Lo Que Hacemos",
+    "svc.title": "Un solo equipo de confianza para todo tu hogar",
+    "svc.sub": "Cinco especialidades, un mismo estándar de calidad. Nos encargamos de tu proyecto de principio a fin — con áreas de trabajo limpias y materiales hechos para el clima de Minnesota.",
+    "svc.more": "Pide tu cotización",
+    "svc.roof.t": "Techos",
+    "svc.roof.p": "Reemplazo y reparación completa de techos con tejas de calidad, instaladas para resistir nieve, hielo y tormentas de verano. Inspeccionamos, te explicamos lo que encontramos y lo arreglamos bien.",
+    "svc.side.t": "Revestimiento",
+    "svc.side.p": "Revestimiento nuevo que transforma la fachada de tu casa y sella mejor tu hogar — más protección, más eficiencia y una apariencia que te va a encantar.",
+    "svc.floor.t": "Pisos",
+    "svc.floor.p": "Vinilo de lujo, laminado, madera y azulejo — instalados a nivel, firmes y hechos para durar. Te ayudamos a elegir el material ideal para cada espacio y presupuesto.",
+    "svc.paint.t": "Pintura",
+    "svc.paint.p": "Pintura interior y exterior con líneas perfectas, preparación cuidadosa y limpieza impecable. Una mano de pintura es la forma más rápida de renovar tu hogar.",
+    "svc.fence.t": "Cercas y Terrazas",
+    "svc.fence.p": "Cercas y terrazas a la medida, construidas firmes y listas para los inviernos de Minnesota — más privacidad, más vida al aire libre y más valor para tu propiedad.",
+    "why.eyebrow": "Por Qué Landi",
+    "why.title": "Comodidad a tu alcance, calidad en la que puedes confiar",
+    "why.sub": "Trabajo de primera con la honestidad y atención de un equipo local que sí contesta el teléfono.",
+    "why.1t": "Precios honestos y claros",
+    "why.1p": "Cotizaciones claras antes de empezar — sin cargos sorpresa ni letra chica. Sabrás exactamente qué estás pagando y por qué.",
+    "why.2t": "Materiales de primera",
+    "why.2p": "Instalamos productos elegidos para aguantar el clima extremo de Minnesota — porque un trabajo con materiales baratos es un trabajo que pagas dos veces.",
+    "why.3t": "Hablamos tu idioma",
+    "why.3p": "Servicio completo en inglés y español, desde la primera llamada hasta el recorrido final. Cada detalle explicado con claridad, en el idioma en que te sientas más cómodo.",
+    "why.4t": "Un solo equipo, de principio a fin",
+    "why.4p": "Las personas que cotizan tu proyecto son las mismas que lo construyen. Sin ruleta de subcontratistas — un solo equipo responsable en tu propiedad.",
+    "why.5t": "Áreas de trabajo limpias y con respeto",
+    "why.5p": "Tratamos tu casa como si fuera nuestra — superficies protegidas durante el trabajo y todo limpio al final de cada día.",
+    "why.6t": "Mejoras que ahorran energía",
+    "why.6p": "Un techo y revestimiento bien instalados no solo se ven mejor — sellan tu hogar y ayudan a bajar los costos de calefacción y aire todo el año.",
+    "proc.eyebrow": "Cómo Funciona",
+    "proc.title": "De la primera llamada al recorrido final",
+    "proc.sub": "Un proceso simple y transparente — siempre sabrás qué está pasando y qué sigue.",
+    "proc.1t": "Contáctanos",
+    "proc.1p": "Llama, escribe o envía el formulario. Cuéntanos qué tienes en mente — o qué está goteando, despintándose o cayéndose.",
+    "proc.2t": "Cotización gratis en tu casa",
+    "proc.2p": "Visitamos tu hogar, tomamos medidas reales y te damos una cotización clara por escrito. Sin presión ni compromiso.",
+    "proc.3t": "Hacemos el trabajo",
+    "proc.3p": "Nuestro equipo llega cuando decimos que va a llegar, trabaja limpio y te mantiene informado en cada paso.",
+    "proc.4t": "Recorrido final",
+    "proc.4p": "Recorremos juntos el proyecto terminado. Quedas satisfecho, o lo corregimos — ese es nuestro estándar.",
+    "area.eyebrow": "Dónde Trabajamos",
+    "area.title": "Con orgullo desde Fridley, sirviendo a las Twin Cities",
+    "area.sub": "Estamos en 5896 Jefferson Street NE en Fridley — y nuestro equipo cubre el norte del área metropolitana y más allá. Si estás cerca, somos tus vecinos.",
+    "area.more": "+ comunidades cercanas",
+    "band.title": "¿Listo para empezar tu proyecto?",
+    "band.sub": "Las cotizaciones siempre son gratis — igual que un buen consejo. Cuéntanos qué tienes en mente.",
+    "band.cta": "Llama al (612) 244-9041",
+    "con.eyebrow": "Contáctanos",
+    "con.title": "Hablemos de tu hogar",
+    "con.sub": "Llama, escribe o usa el formulario — lo que te sea más fácil. Respondemos a cada solicitud, en inglés o en español.",
+    "con.phone": "Teléfono", "con.email": "Correo", "con.addr": "Dirección", "con.lic": "Licencia",
+    "form.title": "Pide tu cotización gratis",
+    "form.name": "Tu nombre", "form.namePh": "Juana García",
+    "form.phone": "Teléfono", "form.phonePh": "(612) 555-0100",
+    "form.service": "¿Qué necesitas?",
+    "form.opt0": "Elige un servicio…", "form.optOther": "Otra cosa",
+    "form.msg": "Cuéntanos sobre el proyecto",
+    "form.msgPh": "¿Qué te gustaría hacer?",
+    "form.send": "Enviar solicitud",
+    "form.note": "Al enviar se abre tu app de correo con los datos ya listos — o simplemente llámanos.",
+    "foot.blurb": "Un contratista local con licencia que lleva techos, revestimiento, pisos, pintura, cercas y terrazas de calidad a hogares de todas las Twin Cities — en inglés y en español.",
+    "foot.links": "Enlaces", "foot.contact": "Contacto",
+    "foot.copy": "© 2026 Landi Construction & Handyman. Todos los derechos reservados.",
+    "foot.lic": "Licencia de Contratista MN BC809633",
+    "mail.subject": "Solicitud de cotización gratis — Landi Construction",
+    "mail.svc": "Servicio", "mail.name": "Nombre", "mail.phoneL": "Teléfono", "mail.msgL": "Detalles del proyecto"
+  }
+};
+
+let lang = localStorage.getItem('landi-lang') || 'en';
+
+function applyLang(l){
+  lang = l;
+  localStorage.setItem('landi-lang', l);
+  document.documentElement.lang = l;
+  document.title = I18N[l]["title"];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    if(I18N[l][key] !== undefined) el.textContent = I18N[l][key];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{
+    const key = el.getAttribute('data-i18n-html');
+    if(I18N[l][key] !== undefined) el.innerHTML = I18N[l][key];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+    const key = el.getAttribute('data-i18n-ph');
+    if(I18N[l][key] !== undefined) el.placeholder = I18N[l][key];
+  });
+  const en = document.getElementById('btn-en'), es = document.getElementById('btn-es');
+  en.classList.toggle('active', l==='en'); es.classList.toggle('active', l==='es');
+  en.setAttribute('aria-pressed', l==='en'); es.setAttribute('aria-pressed', l==='es');
+}
+document.getElementById('btn-en').addEventListener('click', ()=>applyLang('en'));
+document.getElementById('btn-es').addEventListener('click', ()=>applyLang('es'));
+applyLang(lang);
+
+/* ============ mobile nav ============ */
+const burger = document.getElementById('burger');
+const mobileNav = document.getElementById('mobileNav');
+burger.addEventListener('click', ()=>{
+  const open = mobileNav.classList.toggle('open');
+  burger.setAttribute('aria-expanded', open);
+});
+mobileNav.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{
+  mobileNav.classList.remove('open');
+  burger.setAttribute('aria-expanded','false');
+}));
+
+/* ============ scroll reveal ============ */
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ============ quote form → mailto ============ */
+document.getElementById('quoteForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  const t = I18N[lang];
+  const name = document.getElementById('f-name').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  const svc = document.getElementById('f-service').value;
+  const msg = document.getElementById('f-msg').value.trim();
+  const body =
+    t["mail.name"]+": "+name+"\n"+
+    t["mail.phoneL"]+": "+phone+"\n"+
+    t["mail.svc"]+": "+svc+"\n\n"+
+    t["mail.msgL"]+":\n"+msg;
+  window.location.href = "mailto:landiconstruction57@gmail.com"+
+    "?subject="+encodeURIComponent(t["mail.subject"])+
+    "&body="+encodeURIComponent(body);
+});
+</script>
+</body>
+</html>
