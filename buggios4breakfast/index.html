@@ -46,6 +46,7 @@
     --xxl: clamp(2.6rem, 1.5rem + 5vw, 6rem);
 
     --gutter: clamp(7px, 1vmin, 13px);
+    --sw: min(86vw, calc((100svh - 9.6rem) * .64));   /* printed page width */
   }
 
   @media (prefers-color-scheme: dark) {
@@ -180,16 +181,16 @@
     place-items: center;
     padding: 3.9rem clamp(.5rem, 2vw, 1.4rem) 2.2rem;
     overflow: hidden;
-    perspective: 1250px;
-    perspective-origin: 50% 42%;
+    perspective: var(--persp, 1150px);
+    perspective-origin: var(--po, 50% 42%);
   }
 
   /* the page itself — paper, gutters showing through between panels */
   .sheet {
     position: relative;
-    width: min(94vw, calc((100svh - 7.4rem) * .685));
+    width: var(--sw);
     aspect-ratio: 137 / 200;
-    max-height: calc(100svh - 7.4rem);
+    max-height: calc(100svh - 9.6rem);
     padding: var(--gutter);
     display: grid;
     gap: var(--gutter);
@@ -206,15 +207,18 @@
       0 2px 0 0 #ffffff2e inset;
 
     transform-style: preserve-3d;
-    transform-origin: 42% 52%;
+    transform-origin: var(--torg, 42% 52%);
 
     /* the page is never flat on: it swings in steep, settles to its own
        resting angle while the panels land, then tips away off the stack */
+    /* The finished page is the point: it comes to rest off-centre, at its
+       own angle, in real perspective — never square to the reader. */
     transform:
-      translate3d(0, calc(var(--exit, 0) * -7svh), calc(var(--exit, 0) * -540px))
-      rotateX(calc((var(--rx, 0deg) + var(--enter, 0) * 7deg) * var(--tiltf, 1)))
-      rotateY(calc((var(--ry, 0deg) + var(--enter, 0) * -15deg + var(--exit, 0) * -20deg) * var(--tiltf, 1)))
-      rotateZ(calc((var(--rz, 0deg) + var(--exit, 0) * -2deg) * var(--tiltf, 1)));
+      translate3d(calc(var(--ox, 0%) * var(--tiltf, 1)), calc(var(--exit, 0) * -7svh), calc(var(--exit, 0) * -520px))
+      rotateX(calc((var(--rx, 0deg) + var(--enter, 0) * 9deg) * var(--tiltf, 1)))
+      rotateY(calc((var(--ry, 0deg) + var(--enter, 0) * -16deg + var(--exit, 0) * -22deg) * var(--tiltf, 1)))
+      rotateZ(calc((var(--rz, 0deg) + var(--exit, 0) * -2deg) * var(--tiltf, 1)))
+      scale(calc(1 + (var(--sc, 1) - 1) * var(--tiltf, 1)));
     opacity: calc(1 - var(--exit, 0) * .55);
   }
   /* light raking across the tilted sheet */
@@ -322,28 +326,35 @@
   /* Entrance vectors — every panel of a page comes from somewhere else, and
      each one lands at its own height above the paper (--lift, positive Z:
      a panel at negative Z would render behind the page it lands on). */
-  .in-l    { transform: translate3d(calc((var(--p) - 1) * 130vw), 0, var(--lift, 0px)) rotate(calc((var(--p) - 1) * 10deg)); }
-  .in-r    { transform: translate3d(calc((1 - var(--p)) * 130vw), 0, var(--lift, 0px)) rotate(calc((1 - var(--p)) * 10deg)); }
-  .in-t    { transform: translate3d(0, calc((var(--p) - 1) * 130svh), var(--lift, 0px)) rotate(calc((var(--p) - 1) * 7deg)); }
-  .in-b    { transform: translate3d(0, calc((1 - var(--p)) * 130svh), var(--lift, 0px)) rotate(calc((1 - var(--p)) * 7deg)); }
-  .in-tl   { transform: translate3d(calc((var(--p) - 1) * 90vw), calc((var(--p) - 1) * 80svh), var(--lift, 0px)) rotate(calc((var(--p) - 1) * 16deg)); }
-  .in-tr   { transform: translate3d(calc((1 - var(--p)) * 90vw), calc((var(--p) - 1) * 80svh), var(--lift, 0px)) rotate(calc((1 - var(--p)) * 16deg)); }
-  .in-bl   { transform: translate3d(calc((var(--p) - 1) * 90vw), calc((1 - var(--p)) * 80svh), var(--lift, 0px)) rotate(calc((1 - var(--p)) * 16deg)); }
-  .in-br   { transform: translate3d(calc((1 - var(--p)) * 90vw), calc((1 - var(--p)) * 80svh), var(--lift, 0px)) rotate(calc((var(--p) - 1) * 16deg)); }
+  .in-l    { transform: translate3d(calc((var(--p) - 1) * 130vw), 0, var(--lift, 0px)) rotate(calc((var(--p) - 1) * 10deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
+  .in-r    { transform: translate3d(calc((1 - var(--p)) * 130vw), 0, var(--lift, 0px)) rotate(calc((1 - var(--p)) * 10deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
+  .in-t    { transform: translate3d(0, calc((var(--p) - 1) * 130svh), var(--lift, 0px)) rotate(calc((var(--p) - 1) * 7deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
+  .in-b    { transform: translate3d(0, calc((1 - var(--p)) * 130svh), var(--lift, 0px)) rotate(calc((1 - var(--p)) * 7deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
+  .in-tl   { transform: translate3d(calc((var(--p) - 1) * 90vw), calc((var(--p) - 1) * 80svh), var(--lift, 0px)) rotate(calc((var(--p) - 1) * 16deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
+  .in-tr   { transform: translate3d(calc((1 - var(--p)) * 90vw), calc((var(--p) - 1) * 80svh), var(--lift, 0px)) rotate(calc((1 - var(--p)) * 16deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
+  .in-bl   { transform: translate3d(calc((var(--p) - 1) * 90vw), calc((1 - var(--p)) * 80svh), var(--lift, 0px)) rotate(calc((1 - var(--p)) * 16deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
+  .in-br   { transform: translate3d(calc((1 - var(--p)) * 90vw), calc((1 - var(--p)) * 80svh), var(--lift, 0px)) rotate(calc((var(--p) - 1) * 16deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
   .in-deep {
-    transform: translate3d(0, 0, var(--lift, 0px)) scale(calc(.1 + .9 * var(--p))) rotate(calc((1 - var(--p)) * 14deg));
+    transform: translate3d(0, 0, var(--lift, 0px)) scale(calc(.1 + .9 * var(--p))) rotate(calc((1 - var(--p)) * 14deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1)));
     opacity: var(--p);
   }
   .in-spin {
     transform:
       translate3d(calc((1 - var(--p)) * 62vw), calc((1 - var(--p)) * 30svh), var(--lift, 0px))
       rotate(calc((1 - var(--p)) * 200deg))
-      scale(calc(.25 + .75 * var(--p)));
+      scale(calc(.25 + .75 * var(--p)))
+      rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1)));
     opacity: var(--p);
   }
 
   /* art panels are buttons — click opens the full drawing */
-  .cell--art { cursor: zoom-in; display: block; }
+  .cell--art {
+    cursor: zoom-in;
+    display: block;
+    background:
+      repeating-linear-gradient(-45deg, #17130f0d 0 6px, transparent 6px 13px),
+      var(--panel);
+  }
   .cell--art canvas {
     display: block;
     width: 100%;
@@ -351,9 +362,9 @@
     object-fit: contain;
     transform: scale(var(--z, 1)) translate(var(--tx, 0), var(--ty, 0));
     transform-origin: center;
-    background:
-      repeating-linear-gradient(-45deg, #17130f0d 0 6px, transparent 6px 13px),
-      var(--panel);
+    background: none;
+    /* the drawing lifts off the paper instead of printing flat onto it */
+    filter: drop-shadow(0 3px 2px #17130f33);
   }
   /* close-up panels crop into the same drawing */
   .cell[data-crop] canvas { object-fit: cover; }
@@ -408,7 +419,7 @@
     border: 2px solid var(--ink);
     padding: .4rem .55rem;
     font-family: var(--hand);
-    font-size: clamp(.72rem, .6rem + .5vmin, 1rem);
+    font-size: calc(var(--sw) * .0295);
     line-height: 1.15;
     color: var(--ink);
   }
@@ -418,7 +429,9 @@
 
   .cell--talk {
     display: grid;
-    place-items: center;
+    align-items: center;
+    justify-items: stretch;   /* balloon fills the panel and wraps inside it,
+                                 rather than sizing itself to max-content */
     padding: clamp(.5rem, 1.6vmin, 1.1rem);
     background:
       repeating-radial-gradient(circle at 30% 30%, #f5b60d33 0 2px, transparent 2px 7px),
@@ -426,12 +439,14 @@
   }
   .balloon {
     position: relative;
+    max-width: 100%;
+    overflow-wrap: break-word;
     background: #fff;
     border: 3px solid var(--ink);
     border-radius: 28px / 24px;
     padding: .6rem .8rem;
     font-family: var(--hand);
-    font-size: clamp(.78rem, .58rem + .85vmin, 1.15rem);
+    font-size: calc(var(--sw) * .0345);
     line-height: 1.15;
     color: var(--ink);
   }
@@ -455,7 +470,7 @@
   }
   .cell--note b {
     font-family: var(--tag);
-    font-size: var(--xs);
+    font-size: calc(var(--sw) * .019);
     font-weight: 400;
     letter-spacing: .14em;
     text-transform: uppercase;
@@ -464,7 +479,7 @@
   .cell--note p {
     margin: 0;
     font-family: var(--hand);
-    font-size: clamp(.75rem, .6rem + .6vmin, 1.05rem);
+    font-size: calc(var(--sw) * .029);
     line-height: 1.2;
   }
   .cell--slot {
@@ -475,7 +490,7 @@
       repeating-linear-gradient(-45deg, #17130f0f 0 5px, transparent 5px 11px),
       var(--panel);
     font-family: var(--tag);
-    font-size: 9px;
+    font-size: calc(var(--sw) * .017);
     letter-spacing: .1em;
     text-transform: uppercase;
     color: var(--ink-faint);
@@ -510,15 +525,15 @@
       drop-shadow(0 0 0 var(--yellow));
   }
   .pop { rotate: var(--tilt, 0deg); }
-  .pop--beetle { left: 60%; top: 57%; width: 48%; --lift: 130px; --tilt: -9deg; }
-  .pop--snail  { left: -18%; top: 52%; width: 58%; --lift: 105px; --tilt: 6deg; }
-  .pop--moth   { left: 58%; top: -5%; width: 47%; --lift: 155px; --tilt: 10deg; }
+  .pop--beetle { left: 69%; top: 62%; width: 44%; --lift: 210px; --tilt: -9deg; }
+  .pop--snail  { left: -18%; top: 52%; width: 58%; --lift: 190px; --tilt: 6deg; }
+  .pop--moth   { left: 58%; top: -5%; width: 47%; --lift: 230px; --tilt: 10deg; }
 
   .sfx {
     position: absolute;
     z-index: 5;
     font-family: var(--letter);
-    font-size: clamp(1.6rem, .8rem + 4.4vmin, 3.6rem);
+    font-size: calc(var(--sw) * .105);
     line-height: .8;
     color: var(--yellow);
     -webkit-text-stroke: 3px var(--ink);
@@ -893,13 +908,14 @@
   @media (max-width: 620px) {
     .issue { height: 340svh; }
     .sheet {
-      width: 94vw;
+      --sw: 94vw;
+      width: var(--sw);
       aspect-ratio: 100 / 158;
-      --tiltf: .45;          /* a gentler angle where the page is already small */
+      --tiltf: .4;          /* a gentler angle where the page is already small */
     }
-    .pop--beetle { left: 58%; top: 69%; width: 54%; --lift: 70px; }
-    .pop--snail  { left: -20%; top: 46%; width: 62%; --lift: 62px; }
-    .pop--moth   { left: 52%; top: -4%; width: 56%; --lift: 84px; }
+    .pop--beetle { left: 58%; top: 69%; width: 54%; --lift: 150px; }
+    .pop--snail  { left: -20%; top: 46%; width: 62%; --lift: 140px; }
+    .pop--moth   { left: 52%; top: -4%; width: 56%; --lift: 165px; }
     .sheet--one {
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1.25fr .9fr .8fr .7fr;
@@ -945,6 +961,10 @@
   :root[data-motion="off"] .issue { height: auto; }
   :root[data-motion="off"] .stage { position: static; height: auto; padding-block: 2.6rem; }
   :root[data-motion="off"] .cover__cue i { animation: none; }
+  :root[data-motion="off"] .pop { width: 34%; }
+  :root[data-motion="off"] .pop--beetle { left: 71%; top: 64%; }
+  :root[data-motion="off"] .pop--snail  { left: -9%; top: 62%; }
+  :root[data-motion="off"] .pop--moth   { left: 70%; top: -5%; }
 </style>
 
 <div class="progress" aria-hidden="true"></div>
@@ -989,9 +1009,9 @@
   </section>
 
   <!-- ══════════ PAGE ONE ══════════ -->
-  <section class="issue" id="page-1" data-stage>
+  <section class="issue" id="page-1" data-stage style="--po:32% 44%">
     <div class="stage">
-      <div class="sheet sheet--one" style="--ry:-9deg;--rx:3deg;--rz:-1deg">
+      <div class="sheet sheet--one" style="--ry:-23deg;--rx:6deg;--rz:-2deg;--ox:-8%;--sc:1.04">
         <span class="sheet__title">Page one · the boss beetle</span>
 
         <button type="button" class="cell cell--art cell--wide in-t" style="grid-area:a;--lift:26px" data-fly data-delay="0" data-span=".34" data-piece="0">
@@ -1003,18 +1023,18 @@
           <span class="cell__open">Open ⤢</span>
         </button>
 
-        <button type="button" class="cell cell--art in-l" style="grid-area:b;--lift:14px" data-fly data-delay=".14" data-span=".32" data-piece="0" data-crop="head">
+        <button type="button" class="cell cell--art in-l" style="grid-area:b;--lift:20px;--face:7deg" data-fly data-delay=".14" data-span=".32" data-piece="0" data-crop="head">
           <canvas data-draw="beetle" data-scale=".7" data-seed="2"></canvas>
           <span class="cap cap--bl">The head is purple on purpose.</span>
           <span class="cell__ph">Placeholder</span>
           <span class="cell__open">Open ⤢</span>
         </button>
 
-        <div class="cell cell--talk in-r" style="grid-area:c;--lift:8px" data-fly data-delay=".24" data-span=".32">
+        <div class="cell cell--talk in-r" style="grid-area:c;--lift:34px;--face:17deg" data-fly data-delay=".24" data-span=".32">
           <p class="balloon">He is red because he is the boss beetle. The dots are how you know.</p>
         </div>
 
-        <div class="cell cell--note in-bl" style="grid-area:d;--lift:6px" data-fly data-delay=".34" data-span=".3">
+        <div class="cell cell--note in-bl" style="grid-area:d;--lift:22px;--face:12deg" data-fly data-delay=".34" data-span=".3">
           <b>Materials</b>
           <p>Marker and crayon, on the paper from the printer.</p>
         </div>
@@ -1039,9 +1059,9 @@
   </section>
 
   <!-- ══════════ PAGE TWO ══════════ -->
-  <section class="issue" id="page-2" data-stage>
+  <section class="issue" id="page-2" data-stage style="--po:50% 44%">
     <div class="stage">
-      <div class="sheet sheet--two" style="--ry:8deg;--rx:2deg;--rz:1.2deg">
+      <div class="sheet sheet--two" style="--ry:11deg;--rx:18deg;--rz:1.5deg;--ox:7%;--torg:50% 32%">
         <span class="sheet__title">Page two · snail going somewhere</span>
 
         <button type="button" class="cell cell--art cell--wide in-l" style="grid-area:a;--lift:22px" data-fly data-delay="0" data-span=".34" data-piece="1">
@@ -1052,18 +1072,18 @@
           <span class="cell__open">Open ⤢</span>
         </button>
 
-        <div class="cell cell--talk in-t" style="grid-area:b;--lift:10px" data-fly data-delay=".16" data-span=".32">
+        <div class="cell cell--talk in-t" style="grid-area:b;--lift:36px;--facex:-21deg" data-fly data-delay=".16" data-span=".32">
           <p class="balloon">It took him all day but he got there.</p>
         </div>
 
-        <button type="button" class="cell cell--art in-r" style="grid-area:c;--lift:16px" data-fly data-delay=".28" data-span=".32" data-piece="1" data-crop="shell">
+        <button type="button" class="cell cell--art in-r" style="grid-area:c;--lift:24px;--facex:-12deg" data-fly data-delay=".28" data-span=".32" data-piece="1" data-crop="shell">
           <canvas data-draw="snail" data-scale=".6" data-seed="2"></canvas>
           <span class="cap cap--br">The shell is a spiral you have to do slow.</span>
           <span class="cell__ph">Placeholder</span>
           <span class="cell__open">Open ⤢</span>
         </button>
 
-        <button type="button" class="cell cell--art cell--wide in-b" style="grid-area:d;--lift:26px" data-fly data-delay=".4" data-span=".32" data-piece="1" data-crop="wide">
+        <button type="button" class="cell cell--art cell--wide in-b" style="grid-area:d;--lift:30px;--facex:-9deg" data-fly data-delay=".4" data-span=".32" data-piece="1" data-crop="wide">
           <canvas data-draw="snail" data-scale=".8" data-seed="5"></canvas>
           <span class="sfx sfx--tl">Slooow…</span>
           <span class="cap cap--br">Then he got to the leaf. That is the end of the walk.</span>
@@ -1082,9 +1102,9 @@
   </section>
 
   <!-- ══════════ PAGE THREE — splash ══════════ -->
-  <section class="issue" id="page-3" data-stage>
+  <section class="issue" id="page-3" data-stage style="--po:44% 52%;--persp:900px">
     <div class="stage">
-      <div class="sheet sheet--three" style="--ry:-5deg;--rx:-7deg;--rz:.5deg">
+      <div class="sheet sheet--three" style="--ry:-12deg;--rx:-8deg;--rz:1deg;--ox:-2%;--sc:1.2">
         <span class="sheet__title">Page three · moth on the window</span>
 
         <button type="button" class="cell cell--art cell--wide cell--double in-deep" style="grid-area:a;--lift:30px" data-fly data-delay="0" data-span=".38" data-piece="2">
@@ -1096,17 +1116,17 @@
           <span class="cell__open">Open ⤢</span>
         </button>
 
-        <button type="button" class="cell cell--art in-deep" style="grid-area:b;--lift:12px" data-fly data-delay=".26" data-span=".28" data-piece="2" data-crop="wingL">
+        <button type="button" class="cell cell--art in-deep" style="grid-area:b;--lift:18px;--face:8deg" data-fly data-delay=".26" data-span=".28" data-piece="2" data-crop="wingL">
           <canvas data-draw="moth" data-scale=".5" data-seed="2"></canvas>
           <span class="cell__ph">Placeholder</span>
           <span class="cell__open">Open ⤢</span>
         </button>
 
-        <div class="cell cell--talk in-deep" style="grid-area:c;--lift:8px" data-fly data-delay=".36" data-span=".28">
+        <div class="cell cell--talk in-deep" style="grid-area:c;--lift:30px;--face:11deg" data-fly data-delay=".36" data-span=".28">
           <p class="balloon">It stayed for a really long time.</p>
         </div>
 
-        <button type="button" class="cell cell--art in-deep" style="grid-area:d;--lift:12px" data-fly data-delay=".46" data-span=".28" data-piece="2" data-crop="wingR">
+        <button type="button" class="cell cell--art in-deep" style="grid-area:d;--lift:18px;--face:8deg" data-fly data-delay=".46" data-span=".28" data-piece="2" data-crop="wingR">
           <canvas data-draw="moth" data-scale=".5" data-seed="3"></canvas>
           <span class="cell__ph">Placeholder</span>
           <span class="cell__open">Open ⤢</span>
@@ -1123,9 +1143,9 @@
   </section>
 
   <!-- ══════════ PAGE FOUR — nine-panel grid, spiralling in ══════════ -->
-  <section class="issue" id="page-4" data-stage>
+  <section class="issue" id="page-4" data-stage style="--po:68% 46%">
     <div class="stage">
-      <div class="sheet sheet--four" style="--ry:7deg;--rx:4deg;--rz:-1.5deg">
+      <div class="sheet sheet--four" style="--ry:19deg;--rx:5deg;--rz:5deg;--ox:-6%;--sc:.98">
         <span class="sheet__title">Page four · the whole sketchbook</span>
 
         <button type="button" class="cell cell--art in-spin" style="grid-area:a;--lift:6px" data-fly data-delay="0" data-span=".26" data-piece="0">
@@ -1141,13 +1161,13 @@
           <span class="cell__open">Open ⤢</span>
         </button>
         <div class="cell cell--slot in-spin" style="grid-area:d;--lift:4px" data-fly data-delay=".18" data-span=".26">04<br>next scan</div>
-        <div class="cell cell--note in-spin" style="grid-area:e;--lift:20px" data-fly data-delay=".24" data-span=".26">
+        <div class="cell cell--note in-spin" style="grid-area:e;--lift:28px;--face:-12deg" data-fly data-delay=".24" data-span=".26">
           <b>The sketchbook</b>
           <p>Three scanned, the rest still on the fridge.</p>
         </div>
         <div class="cell cell--slot in-spin" style="grid-area:f;--lift:8px" data-fly data-delay=".3" data-span=".26">06<br>next scan</div>
         <div class="cell cell--slot in-spin" style="grid-area:g;--lift:12px" data-fly data-delay=".36" data-span=".26">07<br>next scan</div>
-        <div class="cell cell--talk in-spin" style="grid-area:h;--lift:22px" data-fly data-delay=".42" data-span=".26">
+        <div class="cell cell--talk in-spin" style="grid-area:h;--lift:34px;--face:-15deg" data-fly data-delay=".42" data-span=".26">
           <p class="balloon">Next one is a snake.</p>
         </div>
         <div class="cell cell--slot cell--last in-spin" style="grid-area:i;--lift:6px" data-fly data-delay=".48" data-span=".26">09<br>next scan</div>
