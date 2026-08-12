@@ -97,6 +97,9 @@
     .js .reveal,.js .reveal-l,.js .reveal-r{opacity:1!important;transform:none!important}
     .js .wipe{clip-path:none!important}
     .marquee-track{transform:none!important}
+    /* the benefit deck becomes a plain list — no pinning, no scaling */
+    .why-slot{position:static}
+    .why-card{transform:none!important;opacity:1!important}
   }
 
   /* ================= NAVBAR ================= */
@@ -434,48 +437,59 @@
   }
   .svc-more:hover{gap:18px;color:var(--gold-deep)}
 
-  /* ================= WHY — sticky numbered benefits ================= */
-  /* Reference concept: "Benefit .01" counters paired with a single
-     oversized keyword that swaps as each benefit scrolls past.        */
+  /* ================= WHY — stacked sticky benefit deck ================= */
+  /* Reference concept, measured off the live page: each benefit is a
+     sticky card pinned a little lower than the one before, so the deck
+     fans out as you scroll and the spacing visibly opens up. Cards sit
+     slightly under-scale until they settle into place, then ease up to
+     full size on a long decelerating curve — that's the delay.        */
   .why{
-    padding:110px 0 120px;color:var(--txt-inv);overflow:hidden;
+    padding:110px 0 0;color:var(--txt-inv);
     background:
       linear-gradient(180deg,rgba(18,35,60,.95),rgba(8,21,42,.98)),
       url('assets/svc-fence.jpg') center/cover no-repeat;
   }
-  .why-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:70px;align-items:start}
-  .why-sticky{position:sticky;top:calc(var(--nav-h) + 50px)}
-  .why-word{
-    font-family:var(--font-display);font-weight:800;
-    font-size:clamp(2.6rem,5vw,4rem);line-height:1;letter-spacing:-.035em;
-    color:transparent;-webkit-text-stroke:1.5px var(--gold);
-    margin-top:26px;min-height:1.1em;
-    transition:opacity .5s var(--ease),transform .5s var(--ease);
+  .why-head{max-width:760px;margin:0 auto 72px;text-align:center}
+  .why-stack{
+    display:flex;flex-direction:column;gap:30px;padding-bottom:150px;
   }
-  .why-word.swap{opacity:0;transform:translateY(-14px)}
-  .why-count{
-    display:flex;align-items:baseline;gap:10px;margin-top:18px;
-    font-family:var(--font-display);font-weight:700;color:var(--gold);
+  .why-slot{
+    position:sticky;
+    /* each card parks 18px below the previous one — the fanned deck */
+    top:calc(var(--nav-h) + 34px + var(--i) * 18px);
+    z-index:var(--z);
   }
-  .why-count b{font-size:2.6rem;line-height:1}
-  .why-count span{font-size:1rem;color:var(--txt-inv-soft)}
-  .why-list{display:grid;gap:20px}
   .why-card{
-    background:rgba(244,247,251,.045);
-    border:1px solid var(--line-dark);border-radius:20px;
-    padding:34px 34px 34px 32px;
-    transition:background .6s var(--ease),border-color .6s var(--ease),transform .6s var(--ease);
+    background:linear-gradient(150deg,rgba(30,52,84,.97),rgba(13,27,48,.97));
+    border:1px solid var(--line-dark);border-radius:24px;
+    padding:44px 48px;
+    display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center;
+    box-shadow:0 30px 70px -34px rgba(0,0,0,.85);
+    transform:scale(.965);transform-origin:top center;
+    transition:transform 1s var(--ease),border-color .8s var(--ease),
+               box-shadow .8s var(--ease),opacity .8s var(--ease);
   }
-  .why-card:hover{
-    background:rgba(244,247,251,.08);border-color:rgba(246,177,16,.45);transform:translateX(8px);
+  /* settled = this card has reached its pin point and is the live one */
+  .why-slot.settled .why-card{transform:scale(1);border-color:rgba(246,177,16,.3)}
+  /* tucked = the next card has stacked over it; sink it back a step */
+  .why-slot.tucked .why-card{transform:scale(.955);opacity:.85}
+  .why-key{
+    display:inline-flex;align-items:center;gap:11px;
+    font-family:var(--font-display);font-weight:700;
+    font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:16px;
   }
-  .why-card .tag{
-    display:inline-block;font-family:var(--font-display);font-weight:700;
-    font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
-    color:var(--gold);margin-bottom:14px;
+  .why-key svg{flex:none}
+  .why-card h3{
+    font-family:var(--font-display);font-size:clamp(1.3rem,2.2vw,1.7rem);
+    letter-spacing:-.02em;line-height:1.2;margin-bottom:12px;font-weight:800;
   }
-  .why-card h3{font-family:var(--font-display);font-size:1.22rem;margin-bottom:11px;font-weight:700}
-  .why-card p{font-size:.95rem;color:var(--txt-inv-soft)}
+  .why-card p{font-size:.97rem;color:var(--txt-inv-soft);max-width:60ch}
+  .why-num{
+    font-family:var(--font-display);font-weight:800;
+    font-size:clamp(1.4rem,2.6vw,2.1rem);line-height:1;letter-spacing:-.03em;
+    color:var(--gold);white-space:nowrap;text-align:right;opacity:.9;
+  }
 
   /* ================= PROCESS — scroll-drawn timeline ================= */
   .process{padding:110px 0 120px;background:var(--paper)}
@@ -616,10 +630,11 @@
     .burger{display:block}
     .lang-toggle{margin-left:auto}
     .hero{padding:calc(var(--nav-h) + 54px) 0 120px}
-    .intro-grid,.svc-row,.why-grid,.area-inner,.contact-grid{grid-template-columns:1fr;gap:44px}
+    .intro-grid,.svc-row,.area-inner,.contact-grid{grid-template-columns:1fr;gap:44px}
     .svc-row:nth-child(even) .svc-media{order:0}
-    .why-sticky{position:static}
-    .why-word{margin-top:18px}
+    .why-card{padding:36px 34px;gap:26px;grid-template-columns:1fr}
+    .why-num{text-align:left;order:-1;margin-bottom:-8px}
+    .why-slot{top:calc(var(--nav-h) + 22px + var(--i) * 12px)}
     .timeline{grid-template-columns:repeat(2,1fr);gap:38px}
     .timeline::before,.timeline::after{display:none}
     .foot-grid{grid-template-columns:1fr 1fr}
@@ -631,6 +646,10 @@
     .lang-toggle button{padding:5px 12px;font-size:.75rem}
     .hero-media{animation:none}
     .why{background-attachment:scroll}
+    /* too little viewport to stack cleanly — fall back to a plain list */
+    .why-slot{position:static}
+    .why-card{transform:none!important;opacity:1!important;padding:28px 24px}
+    .why-stack{gap:18px;padding-bottom:20px}
     .timeline{grid-template-columns:1fr}
     .stats{grid-template-columns:1fr;gap:26px}
     .f-row{grid-template-columns:1fr}
@@ -936,52 +955,99 @@
   </div>
 </section>
 
-<!-- ================= WHY — sticky numbered benefits ================= -->
+<!-- ================= WHY — stacked sticky benefit deck ================= -->
 <section class="why dark" id="why">
-  <div class="wrap why-grid">
-    <div class="why-sticky reveal-l">
-      <div class="sec-head" style="margin-bottom:0">
-        <span class="eyebrow solo" style="color:var(--gold)"><span class="script" data-i18n="why.script">Why</span>&nbsp;<span data-i18n="why.eyebrow">Landi</span></span>
-        <h2 data-i18n="why.title">Comfort you can afford, quality you can trust</h2>
-        <p data-i18n="why.sub">Big-company craftsmanship with the honesty and care of a local crew that answers the phone.</p>
-      </div>
-      <div class="why-word" id="whyWord" aria-hidden="true">Pricing</div>
-      <div class="why-count">
-        <b><span id="whyIdx">01</span></b><span>/ 06</span>
-      </div>
+  <div class="wrap">
+    <div class="why-head reveal">
+      <span class="eyebrow solo" style="color:var(--gold)"><span class="script" data-i18n="why.script">Why</span>&nbsp;<span data-i18n="why.eyebrow">Landi</span></span>
+      <h2 data-i18n="why.title">Comfort you can afford, quality you can trust</h2>
+      <p data-i18n="why.sub">Big-company craftsmanship with the honesty and care of a local crew that answers the phone.</p>
     </div>
 
-    <div class="why-list">
-      <article class="why-card reveal" data-word="Pricing" data-word-es="Precios">
-        <span class="tag" data-i18n="why.tag1">Benefit .01</span>
-        <h3 data-i18n="why.1t">Honest, upfront pricing</h3>
-        <p data-i18n="why.1p">Clear estimates before work begins — no surprise charges, no padding, no games. You'll know exactly what you're paying for and why.</p>
-      </article>
-      <article class="why-card reveal" data-word="Materials" data-word-es="Materiales">
-        <span class="tag" data-i18n="why.tag2">Benefit .02</span>
-        <h3 data-i18n="why.2t">Premium materials</h3>
-        <p data-i18n="why.2p">We install products chosen to survive Minnesota's freeze-thaw cycles — because a job done with cheap materials is a job you pay for twice.</p>
-      </article>
-      <article class="why-card reveal" data-word="Language" data-word-es="Idioma">
-        <span class="tag" data-i18n="why.tag3">Benefit .03</span>
-        <h3 data-i18n="why.3t">We speak your language</h3>
-        <p data-i18n="why.3p">Full service in English and Spanish, from the first phone call to the final walkthrough. Every detail explained clearly, in the language you're most comfortable in.</p>
-      </article>
-      <article class="why-card reveal" data-word="One crew" data-word-es="Un equipo">
-        <span class="tag" data-i18n="why.tag4">Benefit .04</span>
-        <h3 data-i18n="why.4t">One crew, start to finish</h3>
-        <p data-i18n="why.4p">The people who quote your project are the people who build it. No subcontractor roulette — just one accountable team on your property.</p>
-      </article>
-      <article class="why-card reveal" data-word="Respect" data-word-es="Respeto">
-        <span class="tag" data-i18n="why.tag5">Benefit .05</span>
-        <h3 data-i18n="why.5t">Clean, respectful job sites</h3>
-        <p data-i18n="why.5p">We treat your home like our own — protected surfaces during the work, and a site left broom-clean at the end of every day.</p>
-      </article>
-      <article class="why-card reveal" data-word="Efficiency" data-word-es="Eficiencia">
-        <span class="tag" data-i18n="why.tag6">Benefit .06</span>
-        <h3 data-i18n="why.6t">Energy-smart upgrades</h3>
-        <p data-i18n="why.6p">New roofing and siding done right doesn't just look better — it seals your home tighter and helps cut heating and cooling costs year-round.</p>
-      </article>
+    <div class="why-stack" id="whyStack">
+      <div class="why-slot" style="--i:0;--z:1">
+        <article class="why-card">
+          <div>
+            <span class="why-key">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              <span data-i18n="why.k1">Pricing</span>
+            </span>
+            <h3 data-i18n="why.1t">Honest, upfront pricing</h3>
+            <p data-i18n="why.1p">Clear estimates before work begins — no surprise charges, no padding, no games. You'll know exactly what you're paying for and why.</p>
+          </div>
+          <div class="why-num" data-i18n="why.tag1">Benefit .01</div>
+        </article>
+      </div>
+
+      <div class="why-slot" style="--i:1;--z:2">
+        <article class="why-card">
+          <div>
+            <span class="why-key">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M12 21L8 9M12 21l4-12"/></svg>
+              <span data-i18n="why.k2">Materials</span>
+            </span>
+            <h3 data-i18n="why.2t">Premium materials</h3>
+            <p data-i18n="why.2p">We install products chosen to survive Minnesota's freeze-thaw cycles — because a job done with cheap materials is a job you pay for twice.</p>
+          </div>
+          <div class="why-num" data-i18n="why.tag2">Benefit .02</div>
+        </article>
+      </div>
+
+      <div class="why-slot" style="--i:2;--z:3">
+        <article class="why-card">
+          <div>
+            <span class="why-key">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8c-2.5 2.4-2.5 5.6 0 8M12 8c2.5 2.4 2.5 5.6 0 8"/></svg>
+              <span data-i18n="why.k3">Language</span>
+            </span>
+            <h3 data-i18n="why.3t">We speak your language</h3>
+            <p data-i18n="why.3p">Full service in English and Spanish, from the first phone call to the final walkthrough. Every detail explained clearly, in the language you're most comfortable in.</p>
+          </div>
+          <div class="why-num" data-i18n="why.tag3">Benefit .03</div>
+        </article>
+      </div>
+
+      <div class="why-slot" style="--i:3;--z:4">
+        <article class="why-card">
+          <div>
+            <span class="why-key">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l7-7"/><path d="M14 4l6 6-4 4-6-6z"/><path d="M14 4l2-2 6 6-2 2"/></svg>
+              <span data-i18n="why.k4">One crew</span>
+            </span>
+            <h3 data-i18n="why.4t">One crew, start to finish</h3>
+            <p data-i18n="why.4p">The people who quote your project are the people who build it. No subcontractor roulette — just one accountable team on your property.</p>
+          </div>
+          <div class="why-num" data-i18n="why.tag4">Benefit .04</div>
+        </article>
+      </div>
+
+      <div class="why-slot" style="--i:4;--z:5">
+        <article class="why-card">
+          <div>
+            <span class="why-key">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M6 20V9l6-5 6 5v11"/><path d="M10 20v-5h4v5"/></svg>
+              <span data-i18n="why.k5">Respect</span>
+            </span>
+            <h3 data-i18n="why.5t">Clean, respectful job sites</h3>
+            <p data-i18n="why.5p">We treat your home like our own — protected surfaces during the work, and a site left broom-clean at the end of every day.</p>
+          </div>
+          <div class="why-num" data-i18n="why.tag5">Benefit .05</div>
+        </article>
+      </div>
+
+      <div class="why-slot" style="--i:5;--z:6">
+        <article class="why-card">
+          <div>
+            <span class="why-key">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></svg>
+              <span data-i18n="why.k6">Efficiency</span>
+            </span>
+            <h3 data-i18n="why.6t">Energy-smart upgrades</h3>
+            <p data-i18n="why.6p">New roofing and siding done right doesn't just look better — it seals your home tighter and helps cut heating and cooling costs year-round.</p>
+          </div>
+          <div class="why-num" data-i18n="why.tag6">Benefit .06</div>
+        </article>
+      </div>
     </div>
   </div>
 </section>
@@ -1265,6 +1331,8 @@ const I18N = {
     "why.sub": "Big-company craftsmanship with the honesty and care of a local crew that answers the phone.",
     "why.tag1": "Benefit .01", "why.tag2": "Benefit .02", "why.tag3": "Benefit .03",
     "why.tag4": "Benefit .04", "why.tag5": "Benefit .05", "why.tag6": "Benefit .06",
+    "why.k1": "Pricing", "why.k2": "Materials", "why.k3": "Language",
+    "why.k4": "One crew", "why.k5": "Respect", "why.k6": "Efficiency",
     "why.1t": "Honest, upfront pricing",
     "why.1p": "Clear estimates before work begins — no surprise charges, no padding, no games. You'll know exactly what you're paying for and why.",
     "why.2t": "Premium materials",
@@ -1357,6 +1425,8 @@ const I18N = {
     "why.sub": "Trabajo de primera con la honestidad y atención de un equipo local que sí contesta el teléfono.",
     "why.tag1": "Ventaja .01", "why.tag2": "Ventaja .02", "why.tag3": "Ventaja .03",
     "why.tag4": "Ventaja .04", "why.tag5": "Ventaja .05", "why.tag6": "Ventaja .06",
+    "why.k1": "Precios", "why.k2": "Materiales", "why.k3": "Idioma",
+    "why.k4": "Un equipo", "why.k5": "Respeto", "why.k6": "Eficiencia",
     "why.1t": "Precios honestos y claros",
     "why.1p": "Cotizaciones claras antes de empezar — sin cargos sorpresa ni letra chica. Sabrás exactamente qué estás pagando y por qué.",
     "why.2t": "Materiales de primera",
@@ -1439,7 +1509,6 @@ function applyLang(l){
   const en = document.getElementById('btn-en'), es = document.getElementById('btn-es');
   en.classList.toggle('active', l==='en'); es.classList.toggle('active', l==='es');
   en.setAttribute('aria-pressed', l==='en'); es.setAttribute('aria-pressed', l==='es');
-  syncWhyWord();
   buildMarquee();
 }
 document.getElementById('btn-en').addEventListener('click', ()=>applyLang('en'));
@@ -1480,13 +1549,18 @@ function onScroll(){
       const p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
       el.style.transform = 'translate3d(0,' + (p * -22) + 'px,0) scale(1.06)';
     });
+
+    syncWhyDeck();
   }
   ticking = false;
 }
 addEventListener('scroll', ()=>{
   if(!ticking){ requestAnimationFrame(onScroll); ticking = true; }
 }, {passive:true});
-onScroll();
+/* pin offsets shift at the breakpoints — re-evaluate the deck on resize */
+addEventListener('resize', ()=>{
+  if(!ticking){ requestAnimationFrame(onScroll); ticking = true; }
+}, {passive:true});
 
 /* ============================================================
    Reveal on scroll — the reference's core motion idea
@@ -1500,34 +1574,25 @@ document.querySelectorAll('.reveal,.reveal-l,.reveal-r,.wipe,.svc-row,.step,#tim
   .forEach(el=>revealIO.observe(el));
 
 /* ============================================================
-   Sticky benefit keyword — swaps as each card scrolls through
+   Stacked benefit deck
+   Each slot is sticky and parks a little lower than the last. A card
+   is "settled" once it reaches its pin point (eases up to full size)
+   and "tucked" once the following card has stacked over it.
    ============================================================ */
-const whyCards = [...document.querySelectorAll('.why-card')];
-const whyWord  = document.getElementById('whyWord');
-const whyIdx   = document.getElementById('whyIdx');
-let activeWhy  = 0;
+const whySlots = [...document.querySelectorAll('.why-slot')];
 
-function syncWhyWord(){
-  const card = whyCards[activeWhy];
-  if(!card) return;
-  const word = lang === 'es' ? card.dataset.wordEs : card.dataset.word;
-  whyWord.classList.add('swap');
-  setTimeout(()=>{
-    whyWord.textContent = word;
-    whyIdx.textContent = String(activeWhy + 1).padStart(2,'0');
-    whyWord.classList.remove('swap');
-  }, reduced ? 0 : 260);
-}
-
-const whyIO = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      const i = whyCards.indexOf(e.target);
-      if(i !== -1 && i !== activeWhy){ activeWhy = i; syncWhyWord(); }
-    }
+function syncWhyDeck(){
+  if(reduced || !whySlots.length) return;
+  const pinned = whySlots.map(slot=>{
+    /* the slot's own top offset, resolved from the sticky rule */
+    const pin = parseFloat(getComputedStyle(slot).top) || 0;
+    return slot.getBoundingClientRect().top <= pin + 1;
   });
-},{threshold:.55});
-whyCards.forEach(c=>whyIO.observe(c));
+  whySlots.forEach((slot,i)=>{
+    slot.classList.toggle('settled', pinned[i]);
+    slot.classList.toggle('tucked', !!pinned[i + 1]);
+  });
+}
 
 /* ============================================================
    Count-up stats
@@ -1636,9 +1701,10 @@ document.getElementById('quoteForm').addEventListener('submit', e=>{
 });
 
 /* ============================================================
-   Boot
+   Boot — after every const above has initialised
    ============================================================ */
 applyLang(lang);
+onScroll();
 </script>
 </body>
 </html>
