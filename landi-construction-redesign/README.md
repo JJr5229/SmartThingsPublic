@@ -5,6 +5,8 @@ The original (`landi-contractor-site` → `landi-contractor-site.vercel.app`) is
 untouched and stays deployed — this is a parallel project so the two can be
 compared side by side.
 
+- **Live (review build):** https://landi-construction-redesign.vercel.app
+  — Vercel project `landi-construction-redesign` (team Veer)
 - **Client:** Landi Construction & Handyman, 5896 Jefferson Street NE, Fridley, MN 55432
 - **License:** MN BC809633 · **Phone:** (612) 244-9041 · **Email:** landiconstruction57@gmail.com
 - **Stack:** single-file static `index.html`, no build step, no dependencies
@@ -40,6 +42,13 @@ canonical URL, and real `alt` text on the service imagery.
 Reuses the images already generated for the original build — nothing new was
 generated. See `assets/README.md` for the seven files and how to pull them.
 **They are not in this repo**; drop them in `assets/` before deploying.
+
+The review build currently live on Vercel was deployed from a copy whose image
+paths were rewritten to absolute URLs on the original deployment
+(`https://landi-contractor-site.vercel.app/assets/…`), because the build
+environment couldn't ship the binaries. That's fine for review but couples this
+site to the other project — once the seven files are in `assets/`, redeploy from
+this folder so the relative paths take over.
 
 ## Accessibility & resilience
 
