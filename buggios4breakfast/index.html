@@ -3,51 +3,49 @@
 <style>
   /* ═══════════════════════════════════════════════════════════════
      BUGGIOS4BREAKFAST — No. 1
-     A portfolio that reads like a comic book. Panels are not laid
-     out on the page; they fly onto it while you scroll — in from the
-     sides, down from the top, up out of the depth, and around a ring.
-     Four-colour process palette, newsprint panels, board-blue room.
+     Laid out as an actual comic book: printed pages with tiers,
+     gutters and panels. Each page's panels fly in separately, from
+     different directions, and assemble the page; the finished page
+     then pulls back off the stack as the next one comes in.
+     Any panel holding artwork opens full size.
      ═══════════════════════════════════════════════════════════════ */
 
   :root {
-    /* — the room the comic is lying in — */
-    --room:        #24548F;   /* process blue */
+    --room:        #24548F;
     --room-deep:   #1B4070;
-    --dot:         #ffffff2e; /* ben-day dots over the room */
-    --chrome:      #F6EBD2;   /* type on the room */
+    --dot:         #ffffff2e;
+    --chrome:      #F6EBD2;
     --chrome-soft: #f6ebd2a8;
 
-    /* — the paper the drawings live on — */
-    --paper:       #F3E8CF;
-    --paper-2:     #E9DCBE;
+    --paper:       #F4EAD3;   /* the printed page */
+    --panel:       #FBF5E6;   /* inside a panel */
+    --panel-2:     #EADCBB;
     --ink:         #17130F;
     --ink-soft:    #5c5445;
-    --ink-faint:   #948a74;
-    --hair:        #17130f2b;
+    --ink-faint:   #9a8f78;
+    --hair:        #17130f26;
 
-    /* — the four colours of the press — */
     --red:         #E0392A;
     --yellow:      #F5B60D;
     --leaf:        #3E7D4E;
     --violet:      #8A5FA8;
 
     --grain:       .5;
-    --shadow:      #17130f;
+    --shadow:      #0d1a2c;
 
-    /* Impact-class condensed display for cover lettering + sound effects.
-       No webfont: the CSP blocks font CDNs, and a silent fallback would
-       wreck the lettering. These stacks are chosen, not inherited. */
     --letter: Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Narrow Bold", "Helvetica Neue Condensed Bold", sans-serif;
     --hand:   "Ink Free", "Bradley Hand", "Segoe Print", "Chalkboard SE", "Comic Sans MS", cursive;
     --body:   Georgia, "Iowan Old Style", "Times New Roman", serif;
     --tag:    ui-monospace, "SFMono-Regular", "Roboto Mono", "Courier New", monospace;
 
-    --xs:  clamp(.66rem, .62rem + .16vw, .74rem);
-    --sm:  clamp(.8rem, .76rem + .2vw, .9rem);
-    --md:  clamp(1rem, .95rem + .3vw, 1.16rem);
-    --lg:  clamp(1.3rem, 1.1rem + .9vw, 1.85rem);
-    --xl:  clamp(1.9rem, 1.4rem + 2.4vw, 3.2rem);
-    --xxl: clamp(3rem, 1.7rem + 6vw, 7rem);
+    --xs:  clamp(.62rem, .58rem + .16vw, .72rem);
+    --sm:  clamp(.78rem, .74rem + .2vw, .88rem);
+    --md:  clamp(.95rem, .9rem + .3vw, 1.1rem);
+    --lg:  clamp(1.2rem, 1rem + .8vw, 1.7rem);
+    --xl:  clamp(1.8rem, 1.3rem + 2.2vw, 3rem);
+    --xxl: clamp(2.6rem, 1.5rem + 5vw, 6rem);
+
+    --gutter: clamp(7px, 1vmin, 13px);
   }
 
   @media (prefers-color-scheme: dark) {
@@ -57,10 +55,11 @@
       --dot:         #ffffff1a;
       --chrome:      #EADFC6;
       --chrome-soft: #eadfc699;
-      --paper:       #E4D8BB;
-      --paper-2:     #D8CBAB;
-      --grain:       .42;
-      --shadow:      #05070c;
+      --paper:       #E3D7B9;
+      --panel:       #EFE4C8;
+      --panel-2:     #D9CAA7;
+      --grain:       .44;
+      --shadow:      #04070d;
     }
   }
   :root[data-theme="dark"] {
@@ -69,10 +68,11 @@
     --dot:         #ffffff1a;
     --chrome:      #EADFC6;
     --chrome-soft: #eadfc699;
-    --paper:       #E4D8BB;
-    --paper-2:     #D8CBAB;
-    --grain:       .42;
-    --shadow:      #05070c;
+    --paper:       #E3D7B9;
+    --panel:       #EFE4C8;
+    --panel-2:     #D9CAA7;
+    --grain:       .44;
+    --shadow:      #04070d;
   }
 
   * { box-sizing: border-box; }
@@ -89,39 +89,14 @@
   }
 
   ::selection { background: var(--yellow); color: var(--ink); }
-
-  :focus-visible {
-    outline: 3px solid var(--yellow);
-    outline-offset: 3px;
-  }
-
-  /* ─────────────────── shared comic furniture ─────────────────── */
-
-  .panel {
-    position: relative;
-    background: var(--paper);
-    border: 3px solid var(--ink);
-    box-shadow: 7px 7px 0 var(--shadow);
-    color: var(--ink);
-  }
-  .panel::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image: var(--newsprint);
-    mix-blend-mode: multiply;
-    opacity: var(--grain);
-  }
+  :focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
 
   .letter {
     font-family: var(--letter);
     font-weight: 400;
-    letter-spacing: .01em;
     text-transform: uppercase;
     line-height: .86;
   }
-
   .tag {
     font-family: var(--tag);
     font-size: var(--xs);
@@ -129,88 +104,17 @@
     text-transform: uppercase;
   }
 
-  .caption {
-    background: var(--paper-2);
-    border: 2px solid var(--ink);
-    padding: .7rem .9rem;
-    font-family: var(--hand);
-    font-size: var(--md);
-    line-height: 1.25;
-    color: var(--ink);
-  }
-
-  .bubble {
-    position: relative;
-    background: #fff;
-    border: 3px solid var(--ink);
-    border-radius: 30px / 26px;
-    padding: 1rem 1.3rem;
-    font-family: var(--hand);
-    font-size: var(--lg);
-    line-height: 1.15;
-    color: var(--ink);
-    max-width: 30ch;
-  }
-  .bubble::before,
-  .bubble::after {
-    content: "";
-    position: absolute;
-    bottom: -25px;
-    left: 34px;
-    border: 13px solid transparent;
-    border-top-color: var(--ink);
-  }
-  .bubble::after {
-    bottom: -19px;
-    border-top-color: #fff;
-  }
-
-  .sfx {
-    font-family: var(--letter);
-    font-size: var(--xxl);
-    line-height: .8;
-    color: var(--yellow);
-    -webkit-text-stroke: 4px var(--ink);
-    paint-order: stroke fill;
-    text-shadow: 7px 7px 0 var(--red);
-    text-transform: uppercase;
-    pointer-events: none;
-    user-select: none;
-  }
-
-  .art {
-    display: block;
-    position: relative;
-    background:
-      repeating-linear-gradient(-45deg, #17130f0f 0 6px, transparent 6px 13px),
-      var(--paper);
-  }
-  .art canvas { display: block; width: 100%; height: auto; }
-  .art__stamp {
-    position: absolute;
-    left: .5rem;
-    bottom: .5rem;
-    z-index: 3;
-    background: var(--ink);
-    color: var(--paper);
-    padding: .2rem .5rem;
-    font-family: var(--tag);
-    font-size: 9px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-  }
-
-  /* ─────────────────── chrome: rail + motion switch ─────────────────── */
+  /* ═══════════ chrome ═══════════ */
 
   .chrome {
     position: fixed;
     z-index: 80;
-    top: 0; left: 0; right: 0;
+    inset: 0 0 auto 0;
     display: flex;
     align-items: center;
     gap: .8rem;
     padding: .5rem clamp(.7rem, 3vw, 1.4rem);
-    background: color-mix(in srgb, var(--room-deep) 88%, transparent);
+    background: color-mix(in srgb, var(--room-deep) 90%, transparent);
     border-bottom: 2px solid #00000038;
     backdrop-filter: blur(6px);
   }
@@ -219,14 +123,9 @@
     font-size: var(--sm);
     letter-spacing: .04em;
     text-transform: uppercase;
-    color: var(--chrome);
   }
   .chrome__mark b { color: var(--yellow); font-weight: 400; }
-  .chrome__pages {
-    display: flex;
-    gap: .25rem;
-    margin-left: auto;
-  }
+  .chrome__pages { display: flex; gap: .25rem; margin-left: auto; }
   .chrome__pages a {
     display: grid;
     place-items: center;
@@ -254,11 +153,10 @@
     cursor: pointer;
   }
   .motion b { color: var(--yellow); font-weight: 400; }
-
   .progress {
     position: fixed;
     z-index: 81;
-    left: 0; top: 0;
+    inset: 0 auto auto 0;
     height: 4px;
     width: 100%;
     transform-origin: 0 50%;
@@ -266,95 +164,409 @@
     background: var(--red);
   }
 
-  /* ─────────────────── 01 · the cover ─────────────────── */
+  @media (max-width: 560px) {
+    .chrome { flex-wrap: wrap; row-gap: .45rem; }
+    .chrome__mark { flex: 1 1 100%; }
+  }
+
+  /* ═══════════ the printed sheet ═══════════ */
+
+  .issue { position: relative; height: 300svh; }
+  .stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    display: grid;
+    place-items: center;
+    padding: 3.9rem clamp(.5rem, 2vw, 1.4rem) 2.2rem;
+    overflow: hidden;
+    perspective: 1500px;
+  }
+
+  /* the page itself — paper, gutters showing through between panels */
+  .sheet {
+    position: relative;
+    width: min(94vw, calc((100svh - 7.4rem) * .685));
+    aspect-ratio: 137 / 200;
+    max-height: calc(100svh - 7.4rem);
+    padding: var(--gutter);
+    display: grid;
+    gap: var(--gutter);
+    background: var(--paper);
+    box-shadow: 0 clamp(10px, 2vh, 26px) 0 -6px #00000040, 0 0 0 1px #00000030;
+    /* the finished page pulls back off the stack as the next one arrives */
+    transform:
+      translate3d(0, calc(var(--exit, 0) * -9svh), calc(var(--exit, 0) * -560px))
+      rotate(calc(var(--exit, 0) * -3.2deg));
+    opacity: calc(1 - var(--exit, 0) * .55);
+  }
+  .sheet::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: var(--newsprint);
+    mix-blend-mode: multiply;
+    opacity: calc(var(--grain) * .8);
+  }
+  .sheet__no {
+    position: absolute;
+    left: 50%;
+    bottom: calc(var(--gutter) * -1.5);
+    transform: translateX(-50%);
+    font-family: var(--tag);
+    font-size: 10px;
+    letter-spacing: .3em;
+    color: var(--ink-faint);
+  }
+  .sheet__title {
+    position: absolute;
+    left: 0;
+    top: calc(var(--gutter) * -1.9);
+    font-family: var(--tag);
+    font-size: 10px;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--chrome-soft);
+  }
+
+  /* — page layouts: real tiers, one per issue page — */
+
+  .sheet--one {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1.35fr 1fr .85fr;
+    grid-template-areas:
+      "a a a"
+      "b b c"
+      "d e f";
+  }
+  .sheet--two {
+    grid-template-columns: 1.15fr 1fr;
+    grid-template-rows: 1fr .78fr .95fr;
+    grid-template-areas:
+      "a b"
+      "a c"
+      "d d";
+  }
+  .sheet--three {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1.5fr 1fr .8fr;
+    grid-template-areas:
+      "a a a"
+      "a a a"
+      "b c d";
+  }
+  .sheet--four {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas:
+      "a b c"
+      "d e f"
+      "g h i";
+  }
+
+  /* ═══════════ panels ═══════════ */
+
+  .cell {
+    position: relative;
+    background: var(--panel);
+    border: 3px solid var(--ink);
+    overflow: hidden;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    color: var(--ink);
+    text-align: left;
+    font: inherit;
+    --p: 1;
+    will-change: transform, opacity;
+  }
+  .cell--wide { border-width: 4px; }
+
+  /* entrance vectors — every panel of a page comes from somewhere else */
+  .in-l    { transform: translate3d(calc((var(--p) - 1) * 130vw), 0, 0) rotate(calc((var(--p) - 1) * 10deg)); }
+  .in-r    { transform: translate3d(calc((1 - var(--p)) * 130vw), 0, 0) rotate(calc((1 - var(--p)) * 10deg)); }
+  .in-t    { transform: translate3d(0, calc((var(--p) - 1) * 130svh), 0) rotate(calc((var(--p) - 1) * 7deg)); }
+  .in-b    { transform: translate3d(0, calc((1 - var(--p)) * 130svh), 0) rotate(calc((1 - var(--p)) * 7deg)); }
+  .in-tl   { transform: translate3d(calc((var(--p) - 1) * 90vw), calc((var(--p) - 1) * 80svh), 0) rotate(calc((var(--p) - 1) * 16deg)); }
+  .in-tr   { transform: translate3d(calc((1 - var(--p)) * 90vw), calc((var(--p) - 1) * 80svh), 0) rotate(calc((1 - var(--p)) * 16deg)); }
+  .in-bl   { transform: translate3d(calc((var(--p) - 1) * 90vw), calc((1 - var(--p)) * 80svh), 0) rotate(calc((1 - var(--p)) * 16deg)); }
+  .in-br   { transform: translate3d(calc((1 - var(--p)) * 90vw), calc((1 - var(--p)) * 80svh), 0) rotate(calc((var(--p) - 1) * 16deg)); }
+  /* out of the depth — done with scale, not translateZ: a panel pushed to
+     negative Z would render behind the page it is landing on */
+  .in-deep {
+    transform: scale(calc(.1 + .9 * var(--p))) rotate(calc((1 - var(--p)) * 14deg));
+    opacity: var(--p);
+  }
+  .in-spin {
+    transform:
+      rotate(calc((1 - var(--p)) * 200deg))
+      translate3d(calc((1 - var(--p)) * 62vw), calc((1 - var(--p)) * 30svh), 0)
+      scale(calc(.25 + .75 * var(--p)));
+    opacity: var(--p);
+  }
+
+  /* art panels are buttons — click opens the full drawing */
+  .cell--art { cursor: zoom-in; display: block; }
+  .cell--art canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: scale(var(--z, 1)) translate(var(--tx, 0), var(--ty, 0));
+    transform-origin: center;
+    background:
+      repeating-linear-gradient(-45deg, #17130f0d 0 6px, transparent 6px 13px),
+      var(--panel);
+  }
+  /* close-up panels crop into the same drawing */
+  .cell[data-crop] canvas { object-fit: cover; }
+  .cell--art::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: var(--ink);
+    opacity: 0;
+    transition: opacity .18s ease;
+  }
+  .cell--art:hover::before,
+  .cell--art:focus-visible::before { opacity: .07; }
+  .cell__open {
+    position: absolute;
+    z-index: 3;
+    right: 5px;
+    top: 5px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--tag);
+    font-size: 8px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: .18rem .38rem;
+    opacity: 0;
+    transition: opacity .18s ease;
+  }
+  .cell--art:hover .cell__open,
+  .cell--art:focus-visible .cell__open { opacity: 1; }
+  .cell__ph {
+    position: absolute;
+    z-index: 3;
+    left: 5px;
+    bottom: 5px;
+    background: #17130fcc;
+    color: var(--paper);
+    font-family: var(--tag);
+    font-size: 8px;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    padding: .18rem .38rem;
+  }
+
+  /* caption boxes, balloons, sound effects — the furniture that makes a page a comic */
+  .cap {
+    position: absolute;
+    z-index: 4;
+    max-width: 62%;
+    background: var(--panel-2);
+    border: 2px solid var(--ink);
+    padding: .4rem .55rem;
+    font-family: var(--hand);
+    font-size: clamp(.72rem, .6rem + .5vmin, 1rem);
+    line-height: 1.15;
+    color: var(--ink);
+  }
+  .cap--tl { left: 0; top: 0; border-left: 0; border-top: 0; }
+  .cap--bl { left: 0; bottom: 0; border-left: 0; border-bottom: 0; }
+  .cap--br { right: 0; bottom: 0; border-right: 0; border-bottom: 0; }
+
+  .cell--talk {
+    display: grid;
+    place-items: center;
+    padding: clamp(.5rem, 1.6vmin, 1.1rem);
+    background:
+      repeating-radial-gradient(circle at 30% 30%, #f5b60d33 0 2px, transparent 2px 7px),
+      var(--panel);
+  }
+  .balloon {
+    position: relative;
+    background: #fff;
+    border: 3px solid var(--ink);
+    border-radius: 28px / 24px;
+    padding: .6rem .8rem;
+    font-family: var(--hand);
+    font-size: clamp(.78rem, .58rem + .85vmin, 1.15rem);
+    line-height: 1.15;
+    color: var(--ink);
+  }
+  .balloon::before,
+  .balloon::after {
+    content: "";
+    position: absolute;
+    bottom: -21px;
+    left: 26px;
+    border: 11px solid transparent;
+    border-top-color: var(--ink);
+  }
+  .balloon::after { bottom: -15px; border-top-color: #fff; }
+
+  .cell--note {
+    display: grid;
+    align-content: center;
+    gap: .3rem;
+    padding: clamp(.5rem, 1.6vmin, 1rem);
+    background: var(--panel-2);
+  }
+  .cell--note b {
+    font-family: var(--tag);
+    font-size: var(--xs);
+    font-weight: 400;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .cell--note p {
+    margin: 0;
+    font-family: var(--hand);
+    font-size: clamp(.75rem, .6rem + .6vmin, 1.05rem);
+    line-height: 1.2;
+  }
+  .cell--slot {
+    display: grid;
+    place-items: center;
+    text-align: center;
+    background:
+      repeating-linear-gradient(-45deg, #17130f0f 0 5px, transparent 5px 11px),
+      var(--panel);
+    font-family: var(--tag);
+    font-size: 9px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  .sfx {
+    position: absolute;
+    z-index: 5;
+    font-family: var(--letter);
+    font-size: clamp(1.6rem, .8rem + 4.4vmin, 3.6rem);
+    line-height: .8;
+    color: var(--yellow);
+    -webkit-text-stroke: 3px var(--ink);
+    paint-order: stroke fill;
+    text-shadow: 5px 5px 0 var(--red);
+    text-transform: uppercase;
+    pointer-events: none;
+    user-select: none;
+  }
+  .sfx--br { right: 3%; bottom: 6%; transform: rotate(-8deg); }
+  .sfx--tr { right: 3%; top: 6%; transform: rotate(6deg); }
+  .sfx--bl { left: 4%; bottom: 7%; transform: rotate(-5deg); }
+  .sfx--tl { left: 4%; top: 7%; transform: rotate(-5deg); }
+
+  /* speed lines, so a panel reads as a panel even before the art lands */
+  .zip {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: repeating-linear-gradient(72deg, #17130f14 0 2px, transparent 2px 16px);
+    mask-image: linear-gradient(105deg, #000 0 28%, transparent 62%);
+  }
+
+  /* ═══════════ cover ═══════════ */
 
   .cover {
     position: relative;
     min-height: 100svh;
     display: grid;
     place-items: center;
-    padding: 4.5rem 1rem 3rem;
+    gap: 1rem;
+    padding: 4.4rem 1rem 2.4rem;
     overflow: hidden;
   }
   .cover__sheet {
     position: relative;
-    width: min(100%, 660px);
+    width: min(94vw, calc((100svh - 9rem) * .685));
+    aspect-ratio: 137 / 200;
     display: grid;
-    gap: 0;
-    padding: 0;
-    animation: slam .7s cubic-bezier(.2,1.3,.4,1) both;
+    grid-template-rows: auto auto 1fr auto;
+    background: var(--paper);
+    border: 4px solid var(--ink);
+    box-shadow: 0 18px 0 -8px #00000040;
+    animation: slam .75s cubic-bezier(.2,1.25,.4,1) both;
   }
   @keyframes slam {
-    from { transform: scale(.86) rotate(-3deg); opacity: 0; }
+    from { transform: scale(.88) rotate(-2.5deg); opacity: 0; }
     to   { transform: none; opacity: 1; }
   }
-  @media (prefers-reduced-motion: reduce) {
-    .cover__sheet { animation: none; }
-  }
+  @media (prefers-reduced-motion: reduce) { .cover__sheet { animation: none; } }
+
   .cover__top {
     display: flex;
-    align-items: flex-end;
-    gap: .8rem;
-    padding: .9rem 1rem .5rem;
+    align-items: flex-start;
+    gap: .6rem;
+    padding: .7rem .8rem .4rem;
     border-bottom: 3px solid var(--ink);
   }
   .cover__mast {
+    margin: 0;
     font-family: var(--letter);
-    font-size: clamp(2.1rem, 1rem + 7.4vw, 4.6rem);
+    font-size: clamp(1.9rem, .8rem + 6.4vmin, 4rem);
     line-height: .82;
     text-transform: uppercase;
     color: var(--red);
     -webkit-text-stroke: 3px var(--ink);
     paint-order: stroke fill;
     text-shadow: 5px 5px 0 var(--yellow);
-    margin: 0;
   }
   .cover__price {
     flex: none;
     margin-left: auto;
-    align-self: flex-start;
     border: 3px solid var(--ink);
     background: var(--yellow);
-    padding: .3rem .5rem;
+    padding: .25rem .4rem;
     text-align: center;
     font-family: var(--tag);
-    font-size: 9px;
-    line-height: 1.35;
-    letter-spacing: .1em;
+    font-size: 8px;
+    line-height: 1.3;
+    letter-spacing: .08em;
     text-transform: uppercase;
     color: var(--ink);
     transform: rotate(4deg);
   }
-  .cover__price b { display: block; font-family: var(--letter); font-size: 19px; letter-spacing: 0; }
+  .cover__price b { display: block; font-family: var(--letter); font-size: 17px; letter-spacing: 0; }
   .cover__banner {
     display: flex;
     flex-wrap: wrap;
-    gap: .2rem .9rem;
-    padding: .45rem 1rem;
+    gap: .1rem .8rem;
+    padding: .35rem .8rem;
     background: var(--ink);
     color: var(--paper);
     font-family: var(--tag);
-    font-size: 10px;
-    letter-spacing: .18em;
+    font-size: 9px;
+    letter-spacing: .16em;
     text-transform: uppercase;
   }
   .cover__banner span:nth-child(2) { color: var(--yellow); }
-  .cover__art { border-bottom: 3px solid var(--ink); }
+  .cover__art { position: relative; overflow: hidden; border-bottom: 3px solid var(--ink); }
+  .cover__art canvas { width: 100%; height: 100%; object-fit: cover; display: block; }
   .cover__blurb {
-    padding: .9rem 1rem 1.2rem;
+    margin: 0;
+    padding: .7rem .8rem .9rem;
     font-family: var(--hand);
-    font-size: var(--lg);
+    font-size: clamp(.85rem, .7rem + .8vmin, 1.3rem);
     line-height: 1.2;
     color: var(--ink);
   }
   .cover__blurb em { color: var(--red); font-style: normal; }
-
   .cover__burst {
     position: absolute;
     z-index: 5;
-    right: -14px;
-    top: 40%;
-    width: 132px; height: 132px;
+    right: -18px;
+    top: 46%;
+    width: 124px; height: 124px;
     display: grid;
     place-items: center;
     text-align: center;
@@ -362,20 +574,18 @@
     background: var(--red);
     color: #fff;
     font-family: var(--letter);
-    font-size: 15px;
-    line-height: .95;
+    font-size: 13px;
+    line-height: 1;
     text-transform: uppercase;
     clip-path: polygon(50% 0%,61% 18%,80% 9%,80% 30%,100% 33%,86% 50%,100% 67%,80% 70%,80% 91%,61% 82%,50% 100%,39% 82%,20% 91%,20% 70%,0% 67%,14% 50%,0% 33%,20% 30%,20% 9%,39% 18%);
     transform: rotate(-9deg);
     filter: drop-shadow(4px 4px 0 var(--shadow));
   }
-
   .cover__cue {
     display: flex;
     align-items: center;
     gap: .6rem;
-    justify-content: center;
-    padding-top: 1.4rem;
+    margin: 0;
     font-family: var(--tag);
     font-size: var(--xs);
     letter-spacing: .2em;
@@ -383,8 +593,7 @@
     color: var(--chrome-soft);
   }
   .cover__cue i {
-    display: block;
-    width: 2px; height: 26px;
+    width: 2px; height: 22px;
     background: var(--yellow);
     animation: drop 1.7s ease-in-out infinite;
   }
@@ -393,313 +602,22 @@
     50%      { transform: translateY(4px) scaleY(1); opacity: 1; }
   }
 
-  /* ─────────────────── 02 · the piece pages (panels fly in) ─────────────────── */
+  /* ═══════════ back matter ═══════════ */
 
-  .page {
+  .back {
     position: relative;
-    height: 260svh;
-  }
-  .page__stage {
-    position: sticky;
-    top: 0;
-    height: 100svh;
-    overflow: hidden;
+    padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 3rem) clamp(2rem, 5vw, 3rem);
     display: grid;
-    place-items: center;
-    padding: 4.5rem 1rem 2rem;
-    perspective: 1300px;
-  }
-  .plate {
-    position: relative;
-    width: min(100%, 940px);
-    height: min(78svh, 700px);
-    transform-style: preserve-3d;
-  }
-
-  /* every flying thing reads its own progress from --p (0 → 1) */
-  [data-fly] {
-    --p: 1;
-    will-change: transform, opacity;
-  }
-  .fly-l  { transform: translate3d(calc((var(--p) - 1) * 118vw), 0, 0) rotate(calc((var(--p) - 1) * 13deg)); }
-  .fly-r  { transform: translate3d(calc((1 - var(--p)) * 118vw), 0, 0) rotate(calc((1 - var(--p)) * 13deg)); }
-  .fly-t  { transform: translate3d(0, calc((var(--p) - 1) * 115svh), 0) rotate(calc((var(--p) - 1) * 9deg)); }
-  .fly-b  { transform: translate3d(0, calc((1 - var(--p)) * 115svh), 0) rotate(calc((1 - var(--p)) * 9deg)); }
-  .fly-in { transform: translate3d(0, 0, calc((var(--p) - 1) * 1150px)) rotate(calc((1 - var(--p)) * 16deg)); opacity: var(--p); }
-  .fly-pop {
-    transform: scale(calc(.3 + .7 * var(--p))) rotate(calc(var(--rot, -7deg) * var(--p)));
-    opacity: var(--p);
-  }
-
-  .plate__art {
-    position: absolute;
-    left: 0; top: 0;
-    width: 58%;
-    max-height: 100%;
-    padding: 0;
-    overflow: hidden;
-  }
-  .plate__art .art canvas { max-height: min(58svh, 520px); width: auto; margin: 0 auto; }
-
-  .plate__cap {
-    position: absolute;
-    right: 0; top: 6%;
-    width: 38%;
-    display: grid;
-    gap: .55rem;
-    padding: 1.1rem;
-  }
-  .plate__cap h2 {
-    margin: 0;
-    font-family: var(--hand);
-    font-weight: 400;
-    font-size: var(--xl);
-    line-height: .95;
-    color: var(--ink);
-    text-wrap: balance;
-  }
-  .plate__meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .25rem .8rem;
-    padding-top: .5rem;
-    border-top: 2px solid var(--hair);
-    font-family: var(--tag);
-    font-size: var(--xs);
-    letter-spacing: .13em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    font-variant-numeric: tabular-nums;
-  }
-  .plate__meta b { color: var(--ink-faint); font-weight: 400; }
-
-  .plate__bubble {
-    position: absolute;
-    right: 2%;
-    bottom: 4%;
-    width: min(46%, 360px);
-  }
-  .plate__sfx {
-    position: absolute;
-    left: 38%;
-    top: 54%;
-    z-index: 6;
-  }
-  /* once the panels land, they keep breathing with the scroll */
-  .plate__art { translate: 0 calc((var(--sp, .5) - .5) * -30px); }
-  .plate__cap { translate: 0 calc((var(--sp, .5) - .5) * 22px); }
-  .plate__no {
-    position: absolute;
-    left: 0;
-    bottom: -2.6rem;
-    font-family: var(--tag);
-    font-size: var(--xs);
-    letter-spacing: .22em;
-    text-transform: uppercase;
-    color: var(--chrome-soft);
-  }
-
-  /* second layout: art wide across the bottom, caption dropping from above */
-  .plate--low .plate__art { left: 0; top: auto; bottom: 0; width: 66%; }
-  .plate--low .plate__cap { right: 0; top: 2%; width: 32%; }
-  .plate--low .plate__bubble { left: 2%; right: auto; top: 4%; bottom: auto; width: min(42%, 330px); }
-  .plate--low .plate__sfx { left: auto; right: 6%; top: auto; bottom: 12%; }
-
-  /* third layout: art centred, everything rushing at the reader */
-  .plate--deep .plate__art { left: 50%; top: 50%; width: min(56%, 420px); transform-origin: center; }
-  .plate--deep .plate__cap { right: 0; bottom: 2%; top: auto; width: 34%; }
-  .plate--deep .plate__bubble { left: 0; top: 2%; bottom: auto; right: auto; width: min(40%, 320px); }
-  .plate--deep .plate__sfx { left: 6%; bottom: 6%; top: auto; }
-  .plate--deep .fly-in.plate__art {
-    transform: translate3d(-50%, -50%, calc((var(--p) - 1) * 1150px)) rotate(calc((1 - var(--p)) * 16deg));
-  }
-
-  @media (max-width: 760px) {
-    .plate { height: min(84svh, 660px); }
-    .plate__art,
-    .plate--low .plate__art { width: 84%; left: 0; top: 4%; bottom: auto; }
-    .plate__cap,
-    .plate--low .plate__cap { width: 76%; right: 0; top: auto; bottom: 20%; }
-    .plate__bubble,
-    .plate--low .plate__bubble { width: 74%; left: auto; right: 0; bottom: 0; top: auto; }
-    .plate--deep .plate__art { width: 74%; }
-    .plate__art .art canvas { width: 100%; height: auto; max-height: none; }
-    .plate--deep .plate__cap { width: 74%; bottom: 12%; }
-    .plate--deep .plate__bubble { width: 68%; top: 0; }
-    .bubble { font-size: var(--md); }
-    /* on a phone the sound effect goes to the corner, clear of the lettering */
-    .plate__sfx,
-    .plate--low .plate__sfx,
-    .plate--deep .plate__sfx {
-      left: auto; right: -2%; top: 0; bottom: auto;
-      font-size: clamp(2.2rem, 12vw, 3.6rem);
-      -webkit-text-stroke-width: 3px;
-    }
-  }
-
-  @media (max-width: 540px) {
-    .chrome { flex-wrap: wrap; row-gap: .45rem; }
-    .chrome__mark { flex: 1 1 100%; }
-    .chrome__pages { margin-left: auto; }
-  }
-
-  /* ─────────────────── 03 · the ring ─────────────────── */
-
-  .ring-sec { position: relative; height: 300svh; }
-  .ring-stage {
-    position: sticky;
-    top: 0;
-    height: 100svh;
-    overflow: hidden;
-    display: grid;
-    place-items: center;
-    padding: 4.5rem 1rem 2rem;
-  }
-  .ring {
-    position: relative;
-    width: min(74vmin, 560px);
-    aspect-ratio: 1;
-    transform: rotate(calc((var(--sp, 0) - .5) * 210deg));
-  }
-  .ring__hub {
-    position: absolute;
-    inset: 24%;
-    display: grid;
-    place-content: center;
-    gap: .5rem;
-    text-align: center;
-    transform: rotate(calc((.5 - var(--sp, 0)) * 210deg));
-  }
-  .ring__hub h2 {
-    margin: 0;
-    font-family: var(--letter);
-    font-size: var(--xl);
-    line-height: .85;
-    text-transform: uppercase;
-    color: var(--yellow);
-    -webkit-text-stroke: 3px var(--ink);
-    paint-order: stroke fill;
-  }
-  .ring__hub p {
-    margin: 0;
-    font-family: var(--hand);
-    font-size: var(--sm);
-    color: var(--chrome);
-    max-width: 22ch;
-  }
-  .chip {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: clamp(88px, 17vmin, 132px);
-    margin: 0;
-    transform:
-      translate(-50%, -50%)
-      rotate(var(--a)) translateY(calc(min(37vmin, 280px) * -1)) rotate(calc(var(--a) * -1))
-      rotate(calc((.5 - var(--sp, 0)) * 210deg));
-  }
-  .chip__slot {
-    display: grid;
-    place-items: center;
-    aspect-ratio: 4 / 5;
-    padding: .4rem;
-    text-align: center;
-    font-family: var(--tag);
-    font-size: 9px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    background:
-      repeating-linear-gradient(-45deg, #17130f10 0 5px, transparent 5px 11px),
-      var(--paper);
-  }
-  .chip__slot canvas { width: 100%; height: auto; }
-  .chip__name {
-    display: block;
-    padding: .25rem .35rem;
-    border-top: 2px solid var(--ink);
-    background: var(--paper-2);
-    font-family: var(--tag);
-    font-size: 8px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    text-align: center;
-  }
-
-  /* ─────────────────── 04 · the long walk (sideways) ─────────────────── */
-
-  .walk-sec { position: relative; height: 300svh; }
-  .walk-stage {
-    position: sticky;
-    top: 0;
-    height: 100svh;
-    overflow: hidden;
-    display: grid;
-    align-content: center;
+    justify-items: center;
     gap: 1.4rem;
-    padding: 4.5rem 0 2rem;
   }
-  .walk-head {
-    padding: 0 clamp(1rem, 5vw, 3rem);
+  .back__head {
     display: grid;
     gap: .3rem;
-  }
-  .walk-head h2 {
-    margin: 0;
-    font-family: var(--letter);
-    font-size: var(--xl);
-    text-transform: uppercase;
-    color: var(--chrome);
-  }
-  .walk-head p {
-    margin: 0;
-    font-family: var(--hand);
-    font-size: var(--md);
-    color: var(--chrome-soft);
-    max-width: 44ch;
-  }
-  .walk-track {
-    display: flex;
-    gap: clamp(1rem, 3vw, 2.2rem);
-    padding: 1rem clamp(1rem, 5vw, 3rem);
-    width: max-content;
-    transform: translate3d(calc(var(--sp, 0) * -58%), 0, 0);
-  }
-  .walk-panel {
-    flex: none;
-    width: clamp(210px, 30vw, 330px);
-    display: grid;
-    grid-template-rows: auto 1fr;
-  }
-  .walk-panel .art { border-bottom: 2px solid var(--ink); }
-  .walk-panel p {
-    margin: 0;
-    padding: .7rem .8rem;
-    font-family: var(--hand);
-    font-size: var(--sm);
-    line-height: 1.3;
-    color: var(--ink);
-  }
-  .walk-panel:nth-child(odd)  { transform: translateY(calc(var(--sp, 0) * -22px)); }
-  .walk-panel:nth-child(even) { transform: translateY(calc(var(--sp, 0) * 26px)); }
-
-  /* ─────────────────── 05 · the bug files ─────────────────── */
-
-  .files {
-    position: relative;
-    padding: clamp(3.5rem, 9vw, 7rem) clamp(1rem, 5vw, 3rem);
-    display: grid;
-    gap: 1.6rem;
-    justify-items: center;
-  }
-  .files__head {
-    display: grid;
-    gap: .4rem;
     justify-items: center;
     text-align: center;
   }
-  .files__head h2 {
+  .back__head h2 {
     margin: 0;
     font-family: var(--letter);
     font-size: var(--xl);
@@ -708,23 +626,27 @@
     -webkit-text-stroke: 3px var(--ink);
     paint-order: stroke fill;
   }
-  .files__head p {
+  .back__head p {
     margin: 0;
     font-family: var(--hand);
     font-size: var(--md);
     color: var(--chrome-soft);
     max-width: 46ch;
   }
-  .files__grid {
+  .files {
     width: min(100%, 940px);
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-    gap: 1.1rem;
+    gap: 1rem;
   }
   .file {
     display: grid;
     gap: .3rem;
-    padding: 1rem 1.1rem 1.2rem;
+    padding: .9rem 1rem 1.1rem;
+    background: var(--panel);
+    border: 3px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--shadow);
+    color: var(--ink);
   }
   .file__k {
     font-family: var(--tag);
@@ -735,53 +657,26 @@
   }
   .file__v {
     font-family: var(--letter);
-    font-weight: 400;
-    font-size: clamp(1.9rem, 1.2rem + 2.4vw, 3rem);
+    font-size: clamp(1.8rem, 1.2rem + 2.2vw, 2.8rem);
     line-height: .9;
     color: var(--red);
     font-variant-numeric: tabular-nums;
   }
   .file__v small { font-size: .45em; }
-  .file p {
-    margin: 0;
-    font-family: var(--hand);
-    font-size: var(--sm);
-    line-height: 1.3;
-    color: var(--ink);
-  }
+  .file p { margin: 0; font-family: var(--hand); font-size: var(--sm); line-height: 1.3; }
   .file--slot .file__v { color: var(--ink-faint); font-size: var(--lg); }
 
-  /* ─────────────────── 06 · back cover ─────────────────── */
-
-  .back {
-    position: relative;
-    padding: clamp(3rem, 8vw, 6rem) 1rem clamp(2rem, 5vw, 3rem);
-    display: grid;
-    justify-items: center;
-    gap: 1.6rem;
-  }
   .coupon {
     width: min(100%, 620px);
     display: grid;
-    gap: .9rem;
-    padding: 1.6rem clamp(1.1rem, 4vw, 2.2rem) 1.8rem;
-    border-style: dashed;
-  }
-  .coupon h2 {
-    margin: 0;
-    font-family: var(--letter);
-    font-size: var(--lg);
-    text-transform: uppercase;
+    gap: .8rem;
+    padding: 1.5rem clamp(1.1rem, 4vw, 2rem) 1.6rem;
+    background: var(--panel);
+    border: 3px dashed var(--ink);
     color: var(--ink);
   }
-  .coupon p {
-    margin: 0;
-    font-family: var(--hand);
-    font-size: var(--md);
-    line-height: 1.35;
-    color: var(--ink);
-  }
-  .coupon__lines { display: grid; gap: .9rem; padding-top: .3rem; }
+  .coupon h2 { margin: 0; font-family: var(--letter); font-size: var(--lg); text-transform: uppercase; }
+  .coupon p { margin: 0; font-family: var(--hand); font-size: var(--md); line-height: 1.35; }
   .coupon__line {
     display: grid;
     gap: .25rem;
@@ -792,14 +687,13 @@
     color: var(--ink-soft);
   }
   .coupon__line i {
-    display: block;
     height: 1px;
     background: repeating-linear-gradient(90deg, var(--ink) 0 8px, transparent 8px 14px);
     opacity: .45;
   }
   .colophon {
     display: grid;
-    gap: .35rem;
+    gap: .3rem;
     justify-items: center;
     text-align: center;
     font-family: var(--tag);
@@ -810,44 +704,174 @@
   }
   .colophon a { color: var(--yellow); }
 
-  /* ─────────────────── motion off / reduced ─────────────────── */
+  /* ═══════════ the full-artwork view ═══════════ */
 
-  :root[data-motion="off"] [data-fly],
-  :root[data-motion="off"] .ring,
-  :root[data-motion="off"] .ring__hub,
-  :root[data-motion="off"] .chip,
-  :root[data-motion="off"] .walk-track,
-  :root[data-motion="off"] .walk-panel {
-    transform: none !important;
-    translate: none !important;
-    opacity: 1 !important;
+  .lb {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: grid;
+    place-items: center;
+    padding: clamp(.8rem, 3vw, 2rem);
   }
+  .lb[hidden] { display: none; }
+  .lb__scrim {
+    position: absolute;
+    inset: 0;
+    background: #060a12e8;
+    border: 0;
+    padding: 0;
+    cursor: zoom-out;
+  }
+  .lb__win {
+    position: relative;
+    width: min(100%, 940px);
+    max-height: min(92svh, 760px);
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(240px, .85fr);
+    background: var(--panel);
+    border: 4px solid var(--ink);
+    box-shadow: 12px 12px 0 #0006;
+    color: var(--ink);
+    overflow: hidden;
+    animation: lbin .28s cubic-bezier(.2,1.2,.4,1) both;
+  }
+  @keyframes lbin {
+    from { transform: scale(.9) rotate(-1.5deg); opacity: 0; }
+    to   { transform: none; opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) { .lb__win { animation: none; } }
+  .lb__art {
+    position: relative;
+    display: grid;
+    place-items: center;
+    padding: clamp(.6rem, 2vw, 1.4rem);
+    border-right: 4px solid var(--ink);
+    background:
+      repeating-linear-gradient(-45deg, #17130f0d 0 6px, transparent 6px 13px),
+      var(--panel);
+    overflow: auto;
+  }
+  .lb__art canvas { max-width: 100%; max-height: min(78svh, 620px); height: auto; }
+  .lb__side {
+    display: grid;
+    align-content: start;
+    gap: .55rem;
+    padding: clamp(1rem, 2.4vw, 1.6rem);
+    overflow: auto;
+  }
+  .lb__side h2 {
+    margin: 0;
+    font-family: var(--hand);
+    font-weight: 400;
+    font-size: var(--xl);
+    line-height: .95;
+    text-wrap: balance;
+  }
+  .lb__meta {
+    margin: 0;
+    padding-top: .4rem;
+    border-top: 2px solid var(--hair);
+    font-family: var(--tag);
+    font-size: var(--xs);
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .lb__quote {
+    margin: 0;
+    font-family: var(--hand);
+    font-size: var(--lg);
+    line-height: 1.2;
+  }
+  .lb__ph {
+    margin: 0;
+    font-family: var(--tag);
+    font-size: var(--xs);
+    letter-spacing: .1em;
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .lb__nav { display: flex; gap: .5rem; padding-top: .4rem; }
+  .lb__nav button,
+  .lb__x {
+    font-family: var(--tag);
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    border: 0;
+    padding: .5rem .7rem;
+    cursor: pointer;
+  }
+  .lb__nav button:hover, .lb__x:hover { background: var(--red); }
+  .lb__x {
+    position: absolute;
+    z-index: 3;
+    right: 0; top: 0;
+    padding: .5rem .65rem;
+  }
+
+  @media (max-width: 720px) {
+    .lb__win { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; }
+    .lb__art { border-right: 0; border-bottom: 4px solid var(--ink); }
+    .lb__art canvas { max-height: 42svh; }
+  }
+
+  /* ═══════════ narrow screens: the page stops being a page ═══════════ */
+
+  @media (max-width: 620px) {
+    .issue { height: 340svh; }
+    .sheet {
+      width: 94vw;
+      aspect-ratio: 100 / 158;
+    }
+    .sheet--one {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1.25fr .9fr .8fr .7fr;
+      grid-template-areas:
+        "a a"
+        "b b"
+        "c c"
+        "d e";
+    }
+    .cell--hide-sm { display: none; }
+    .sheet--two {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1.3fr .8fr .9fr;
+      grid-template-areas:
+        "a a"
+        "b c"
+        "d d";
+    }
+    .sheet--three {
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 1.6fr .8fr;
+      grid-template-areas:
+        "a a a"
+        "b c d";
+    }
+    .sheet--four {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      grid-template-areas:
+        "a b"
+        "c d"
+        "e f"
+        "g h";
+    }
+    .sheet--four .cell--last { display: none; }
+  }
+
+  /* ═══════════ panels parked ═══════════ */
+
+  :root[data-motion="off"] .cell { transform: none !important; opacity: 1 !important; }
+  :root[data-motion="off"] .sheet { transform: none !important; opacity: 1 !important; }
+  :root[data-motion="off"] .issue { height: auto; }
+  :root[data-motion="off"] .stage { position: static; height: auto; padding-block: 2.6rem; }
   :root[data-motion="off"] .cover__cue i { animation: none; }
-  :root[data-motion="off"] .walk-track { flex-wrap: wrap; width: auto; }
-  :root[data-motion="off"] .chip { position: static; margin: 0; }
-  :root[data-motion="off"] .ring {
-    width: min(100%, 900px);
-    aspect-ratio: auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1rem;
-  }
-  :root[data-motion="off"] .ring__hub { position: static; inset: auto; grid-column: 1 / -1; }
-  :root[data-motion="off"] .page,
-  :root[data-motion="off"] .ring-sec,
-  :root[data-motion="off"] .walk-sec { height: auto; }
-  :root[data-motion="off"] .page__stage,
-  :root[data-motion="off"] .ring-stage,
-  :root[data-motion="off"] .walk-stage { position: static; height: auto; padding-block: 3rem; }
-  :root[data-motion="off"] .plate {
-    height: auto;
-    display: grid;
-    gap: 1rem;
-    max-width: 640px;
-  }
-  :root[data-motion="off"] .plate > * { position: static; width: auto; translate: none; }
-  :root[data-motion="off"] .plate__sfx { justify-self: start; }
-  :root[data-motion="off"] .plate__no { position: static; }
 </style>
 
 <div class="progress" aria-hidden="true"></div>
@@ -859,12 +883,11 @@
   </button>
   <nav class="chrome__pages" aria-label="Pages">
     <a href="#cover" title="Cover">C</a>
-    <a href="#page-1" title="Beetle With Six Legs">1</a>
-    <a href="#page-2" title="Snail Going Somewhere">2</a>
-    <a href="#page-3" title="Moth I Saw On The Window">3</a>
-    <a href="#swarm" title="The whole swarm">4</a>
-    <a href="#walk" title="The long walk">5</a>
-    <a href="#files" title="The bug files">6</a>
+    <a href="#page-1" title="Page one — the boss beetle">1</a>
+    <a href="#page-2" title="Page two — snail going somewhere">2</a>
+    <a href="#page-3" title="Page three — moth on the window">3</a>
+    <a href="#page-4" title="Page four — the whole sketchbook">4</a>
+    <a href="#back" title="Back matter">B</a>
   </nav>
 </header>
 
@@ -872,7 +895,7 @@
 
   <!-- ══════════ COVER ══════════ -->
   <section class="cover" id="cover">
-    <div class="cover__sheet panel">
+    <div class="cover__sheet">
       <div class="cover__top">
         <h1 class="cover__mast">Buggios<br>4&nbsp;Breakfast</h1>
         <div class="cover__price"><b>25¢</b>free if<br>you are<br>my mom</div>
@@ -882,219 +905,217 @@
         <span>All-new drawings</span>
         <span>Marker + crayon</span>
       </div>
-      <div class="cover__art art" id="coverArt">
-        <span class="art__stamp">Placeholder — cover scan drops here</span>
-      </div>
+      <div class="cover__art" data-draw="beetle" data-scale=".8"></div>
       <p class="cover__blurb">
         Inside: a beetle who is <em>the boss</em>, a snail with somewhere to be,
         and one moth that stayed at the window all night.
       </p>
       <div class="cover__burst">Panels fly in!</div>
     </div>
-    <p class="cover__cue"><i></i> Scroll — the page builds itself <i></i></p>
+    <p class="cover__cue"><i></i> Scroll — the pages build themselves <i></i></p>
   </section>
 
-  <!-- ══════════ PAGE 1 — panels in from the sides ══════════ -->
-  <section class="page" id="page-1" data-stage>
-    <div class="page__stage">
-      <div class="plate">
-        <div class="plate__art panel fly-l" data-fly data-delay="0" data-span=".5">
-          <div class="art" data-draw="beetle">
-            <span class="art__stamp">Placeholder — scan drops here</span>
-          </div>
+  <!-- ══════════ PAGE ONE ══════════ -->
+  <section class="issue" id="page-1" data-stage>
+    <div class="stage">
+      <div class="sheet sheet--one">
+        <span class="sheet__title">Page one · the boss beetle</span>
+
+        <button type="button" class="cell cell--art cell--wide in-t" style="grid-area:a" data-fly data-delay="0" data-span=".34" data-piece="0">
+          <canvas data-draw="beetle" data-scale=".9"></canvas>
+          <span class="zip"></span>
+          <span class="cap cap--tl">March 2026. He did this one at the table, before breakfast.</span>
+          <span class="sfx sfx--br">Skitter!</span>
+          <span class="cell__ph">Placeholder</span>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+
+        <button type="button" class="cell cell--art in-l" style="grid-area:b" data-fly data-delay=".14" data-span=".32" data-piece="0" data-crop="head">
+          <canvas data-draw="beetle" data-scale=".7" data-seed="2"></canvas>
+          <span class="cap cap--bl">The head is purple on purpose.</span>
+          <span class="cell__ph">Placeholder</span>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+
+        <div class="cell cell--talk in-r" style="grid-area:c" data-fly data-delay=".24" data-span=".32">
+          <p class="balloon">He is red because he is the boss beetle. The dots are how you know.</p>
         </div>
-        <div class="plate__cap panel fly-r" data-fly data-delay=".1" data-span=".5">
-          <h2>Beetle With Six Legs</h2>
-          <p class="plate__meta"><span>March 2026</span><b>/</b><span>Drawing</span><b>/</b><span>Marker, crayon</span></p>
+
+        <div class="cell cell--note in-bl" style="grid-area:d" data-fly data-delay=".34" data-span=".3">
+          <b>Materials</b>
+          <p>Marker and crayon, on the paper from the printer.</p>
         </div>
-        <div class="plate__bubble bubble fly-b" data-fly data-delay=".3" data-span=".45">
-          He is red because he is the boss beetle. The dots are how you know.
-        </div>
-        <div class="plate__sfx sfx fly-pop" data-fly data-delay=".45" data-span=".3" style="--rot:-11deg">Skitter!</div>
-        <p class="plate__no">Page one · in from the sides</p>
+
+        <button type="button" class="cell cell--art in-b" style="grid-area:e" data-fly data-delay=".42" data-span=".3" data-piece="0" data-crop="legs">
+          <canvas data-draw="beetle" data-scale=".55" data-seed="3"></canvas>
+          <span class="cell__ph">Placeholder</span>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+
+        <div class="cell cell--slot cell--hide-sm in-br" style="grid-area:f" data-fly data-delay=".5" data-span=".3">Frame 06<br>next scan</div>
+
+        <span class="sheet__no">— 1 —</span>
       </div>
     </div>
   </section>
 
-  <!-- ══════════ PAGE 2 — down from the top ══════════ -->
-  <section class="page" id="page-2" data-stage>
-    <div class="page__stage">
-      <div class="plate plate--low">
-        <div class="plate__art panel fly-b" data-fly data-delay="0" data-span=".5">
-          <div class="art" data-draw="snail">
-            <span class="art__stamp">Placeholder — scan drops here</span>
-          </div>
+  <!-- ══════════ PAGE TWO ══════════ -->
+  <section class="issue" id="page-2" data-stage>
+    <div class="stage">
+      <div class="sheet sheet--two">
+        <span class="sheet__title">Page two · snail going somewhere</span>
+
+        <button type="button" class="cell cell--art cell--wide in-l" style="grid-area:a" data-fly data-delay="0" data-span=".34" data-piece="1">
+          <canvas data-draw="snail" data-scale=".9"></canvas>
+          <span class="zip"></span>
+          <span class="cap cap--tl">April. It took him all day.</span>
+          <span class="cell__ph">Placeholder</span>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+
+        <div class="cell cell--talk in-t" style="grid-area:b" data-fly data-delay=".16" data-span=".32">
+          <p class="balloon">It took him all day but he got there.</p>
         </div>
-        <div class="plate__cap panel fly-t" data-fly data-delay=".12" data-span=".5">
-          <h2>Snail Going Somewhere</h2>
-          <p class="plate__meta"><span>April 2026</span><b>/</b><span>Drawing</span><b>/</b><span>Marker, crayon</span></p>
-        </div>
-        <div class="plate__bubble bubble fly-t" data-fly data-delay=".3" data-span=".45">
-          It took him all day but he got there.
-        </div>
-        <div class="plate__sfx sfx fly-pop" data-fly data-delay=".5" data-span=".3" style="--rot:8deg">Slooow…</div>
-        <p class="plate__no">Page two · down from the top</p>
+
+        <button type="button" class="cell cell--art in-r" style="grid-area:c" data-fly data-delay=".28" data-span=".32" data-piece="1" data-crop="shell">
+          <canvas data-draw="snail" data-scale=".6" data-seed="2"></canvas>
+          <span class="cap cap--br">The shell is a spiral you have to do slow.</span>
+          <span class="cell__ph">Placeholder</span>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+
+        <button type="button" class="cell cell--art cell--wide in-b" style="grid-area:d" data-fly data-delay=".4" data-span=".32" data-piece="1" data-crop="wide">
+          <canvas data-draw="snail" data-scale=".8" data-seed="5"></canvas>
+          <span class="sfx sfx--tl">Slooow…</span>
+          <span class="cap cap--br">Then he got to the leaf. That is the end of the walk.</span>
+          <span class="cell__ph">Placeholder</span>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+
+        <span class="sheet__no">— 2 —</span>
       </div>
     </div>
   </section>
 
-  <!-- ══════════ PAGE 3 — up out of the depth ══════════ -->
-  <section class="page" id="page-3" data-stage>
-    <div class="page__stage">
-      <div class="plate plate--deep">
-        <div class="plate__art panel fly-in" data-fly data-delay="0" data-span=".55">
-          <div class="art" data-draw="moth">
-            <span class="art__stamp">Placeholder — scan drops here</span>
-          </div>
+  <!-- ══════════ PAGE THREE — splash ══════════ -->
+  <section class="issue" id="page-3" data-stage>
+    <div class="stage">
+      <div class="sheet sheet--three">
+        <span class="sheet__title">Page three · moth on the window</span>
+
+        <button type="button" class="cell cell--art cell--wide in-deep" style="grid-area:a" data-fly data-delay="0" data-span=".38" data-piece="2">
+          <canvas data-draw="moth" data-scale="1"></canvas>
+          <span class="zip"></span>
+          <span class="cap cap--tl">June. Drawn the next morning, from remembering.</span>
+          <span class="sfx sfx--tr">Tap tap tap</span>
+          <span class="cell__ph">Placeholder</span>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+
+        <button type="button" class="cell cell--art in-deep" style="grid-area:b" data-fly data-delay=".26" data-span=".28" data-piece="2" data-crop="wingL">
+          <canvas data-draw="moth" data-scale=".5" data-seed="2"></canvas>
+          <span class="cell__ph">Placeholder</span>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+
+        <div class="cell cell--talk in-deep" style="grid-area:c" data-fly data-delay=".36" data-span=".28">
+          <p class="balloon">It stayed for a really long time.</p>
         </div>
-        <div class="plate__cap panel fly-in" data-fly data-delay=".18" data-span=".5">
-          <h2>Moth I Saw On The Window</h2>
-          <p class="plate__meta"><span>June 2026</span><b>/</b><span>Painting</span><b>/</b><span>Marker, crayon</span></p>
-        </div>
-        <div class="plate__bubble bubble fly-in" data-fly data-delay=".32" data-span=".45">
-          I saw a real one at night and it stayed for a really long time so I drew it after.
-        </div>
-        <div class="plate__sfx sfx fly-pop" data-fly data-delay=".55" data-span=".3" style="--rot:-6deg">Tap tap tap</div>
-        <p class="plate__no">Page three · straight at you</p>
+
+        <button type="button" class="cell cell--art in-deep" style="grid-area:d" data-fly data-delay=".46" data-span=".28" data-piece="2" data-crop="wingR">
+          <canvas data-draw="moth" data-scale=".5" data-seed="3"></canvas>
+          <span class="cell__ph">Placeholder</span>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+
+        <span class="sheet__no">— 3 —</span>
       </div>
     </div>
   </section>
 
-  <!-- ══════════ THE SWARM — everything on a ring ══════════ -->
-  <section class="ring-sec" id="swarm" data-stage>
-    <div class="ring-stage">
-      <div class="ring">
-        <div class="ring__hub">
-          <h2>The Swarm</h2>
-          <p>Every page in the sketchbook, going around. Empty frames are waiting for the next scan.</p>
+  <!-- ══════════ PAGE FOUR — nine-panel grid, spiralling in ══════════ -->
+  <section class="issue" id="page-4" data-stage>
+    <div class="stage">
+      <div class="sheet sheet--four">
+        <span class="sheet__title">Page four · the whole sketchbook</span>
+
+        <button type="button" class="cell cell--art in-spin" style="grid-area:a" data-fly data-delay="0" data-span=".26" data-piece="0">
+          <canvas data-draw="beetle" data-scale=".5"></canvas>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+        <button type="button" class="cell cell--art in-spin" style="grid-area:b" data-fly data-delay=".06" data-span=".26" data-piece="1">
+          <canvas data-draw="snail" data-scale=".45"></canvas>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+        <button type="button" class="cell cell--art in-spin" style="grid-area:c" data-fly data-delay=".12" data-span=".26" data-piece="2">
+          <canvas data-draw="moth" data-scale=".45"></canvas>
+          <span class="cell__open">Open ⤢</span>
+        </button>
+        <div class="cell cell--slot in-spin" style="grid-area:d" data-fly data-delay=".18" data-span=".26">04<br>next scan</div>
+        <div class="cell cell--note in-spin" style="grid-area:e" data-fly data-delay=".24" data-span=".26">
+          <b>The sketchbook</b>
+          <p>Three scanned, the rest still on the fridge.</p>
         </div>
+        <div class="cell cell--slot in-spin" style="grid-area:f" data-fly data-delay=".3" data-span=".26">06<br>next scan</div>
+        <div class="cell cell--slot in-spin" style="grid-area:g" data-fly data-delay=".36" data-span=".26">07<br>next scan</div>
+        <div class="cell cell--talk in-spin" style="grid-area:h" data-fly data-delay=".42" data-span=".26">
+          <p class="balloon">Next one is a snake.</p>
+        </div>
+        <div class="cell cell--slot cell--last in-spin" style="grid-area:i" data-fly data-delay=".48" data-span=".26">09<br>next scan</div>
 
-        <figure class="chip panel" style="--a:0deg">
-          <div class="chip__slot" data-draw="beetle" data-scale=".24"></div>
-          <figcaption class="chip__name">Boss beetle</figcaption>
-        </figure>
-        <figure class="chip panel" style="--a:45deg">
-          <div class="chip__slot" data-draw="snail" data-scale=".2"></div>
-          <figcaption class="chip__name">Snail</figcaption>
-        </figure>
-        <figure class="chip panel" style="--a:90deg">
-          <div class="chip__slot" data-draw="moth" data-scale=".22"></div>
-          <figcaption class="chip__name">Window moth</figcaption>
-        </figure>
-        <figure class="chip panel" style="--a:135deg">
-          <div class="chip__slot">Frame 04<br>empty</div>
-          <figcaption class="chip__name">Next scan</figcaption>
-        </figure>
-        <figure class="chip panel" style="--a:180deg">
-          <div class="chip__slot">Frame 05<br>empty</div>
-          <figcaption class="chip__name">Next scan</figcaption>
-        </figure>
-        <figure class="chip panel" style="--a:225deg">
-          <div class="chip__slot">Frame 06<br>empty</div>
-          <figcaption class="chip__name">Next scan</figcaption>
-        </figure>
-        <figure class="chip panel" style="--a:270deg">
-          <div class="chip__slot">Frame 07<br>empty</div>
-          <figcaption class="chip__name">Next scan</figcaption>
-        </figure>
-        <figure class="chip panel" style="--a:315deg">
-          <div class="chip__slot">Frame 08<br>empty</div>
-          <figcaption class="chip__name">Next scan</figcaption>
-        </figure>
+        <span class="sheet__no">— 4 —</span>
       </div>
     </div>
   </section>
 
-  <!-- ══════════ THE LONG WALK — sideways ══════════ -->
-  <section class="walk-sec" id="walk" data-stage>
-    <div class="walk-stage">
-      <div class="walk-head">
-        <h2>The Long Walk</h2>
-        <p>One drawing, told in four frames — the way it was explained to me at the table.</p>
-      </div>
-      <div class="walk-track">
-        <figure class="walk-panel panel">
-          <div class="art" data-draw="snail" data-scale=".42" data-seed="1">
-            <span class="art__stamp">Placeholder</span>
-          </div>
-          <p>First he was under the step where it is wet.</p>
-        </figure>
-        <figure class="walk-panel panel">
-          <div class="art" data-draw="snail" data-scale=".42" data-seed="2">
-            <span class="art__stamp">Placeholder</span>
-          </div>
-          <p>Then he went on the sidewalk which is the dangerous part.</p>
-        </figure>
-        <figure class="walk-panel panel">
-          <div class="art" data-draw="snail" data-scale=".42" data-seed="3">
-            <span class="art__stamp">Placeholder</span>
-          </div>
-          <p>Then it got hot so he waited a really long time.</p>
-        </figure>
-        <figure class="walk-panel panel">
-          <div class="art" data-draw="snail" data-scale=".42" data-seed="4">
-            <span class="art__stamp">Placeholder</span>
-          </div>
-          <p>Then he got to the leaf. That is the end of the walk.</p>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════ THE BUG FILES ══════════ -->
-  <section class="files" id="files">
-    <div class="files__head">
+  <!-- ══════════ BACK MATTER ══════════ -->
+  <section class="back" id="back">
+    <div class="back__head">
       <h2>The Bug Files</h2>
       <p>The numbers on the back of the issue, like every comic has.</p>
     </div>
-    <div class="files__grid">
-      <div class="file panel">
+
+    <div class="files">
+      <div class="file">
         <span class="file__k">Drawings in this issue</span>
         <span class="file__v">3</span>
         <p>Beetle, snail, moth. More are drawn but not scanned yet.</p>
       </div>
-      <div class="file panel">
+      <div class="file">
         <span class="file__k">Legs, counted</span>
         <span class="file__v">6</span>
         <p>Correct on the first try, which the artist would like noted.</p>
       </div>
-      <div class="file panel">
+      <div class="file">
         <span class="file__k">Longest sitting</span>
         <span class="file__v">40<small> min</small></span>
         <p>The moth one. It was drawn from memory the next morning.</p>
       </div>
-      <div class="file panel file--slot">
+      <div class="file file--slot">
         <span class="file__k">Artist</span>
         <span class="file__v">⟨name⟩</span>
         <p>Placeholder — name, age and a photo of the artist go here.</p>
       </div>
-      <div class="file panel file--slot">
+      <div class="file file--slot">
         <span class="file__k">Materials</span>
         <span class="file__v">Marker, crayon</span>
         <p>Placeholder — the real supply list goes here.</p>
       </div>
-      <div class="file panel file--slot">
+      <div class="file file--slot">
         <span class="file__k">Next issue</span>
         <span class="file__v">⟨soon⟩</span>
         <p>Placeholder — cover blurb for issue two goes here.</p>
       </div>
     </div>
-  </section>
 
-  <!-- ══════════ BACK COVER ══════════ -->
-  <section class="back">
-    <div class="coupon panel">
+    <div class="coupon">
       <h2>Write to the artist</h2>
-      <p>
-        Cut along the dotted line, or don't — the form is a placeholder either way.
-        Real contact details drop in here.
-      </p>
-      <div class="coupon__lines">
-        <div class="coupon__line"><span>Your name</span><i></i></div>
-        <div class="coupon__line"><span>Which bug was your favourite</span><i></i></div>
-        <div class="coupon__line"><span>Should there be a snake issue</span><i></i></div>
-      </div>
+      <p>Cut along the dotted line, or don't — the form is a placeholder either way.</p>
+      <div class="coupon__line"><span>Your name</span><i></i></div>
+      <div class="coupon__line"><span>Which bug was your favourite</span><i></i></div>
+      <div class="coupon__line"><span>Should there be a snake issue</span><i></i></div>
     </div>
+
     <div class="colophon">
       <span>Buggios4Breakfast · Issue No. 1 · all art placeholder</span>
       <span>Powered by <a href="https://veersolutions.com" rel="noopener">Veer</a></span>
@@ -1103,13 +1124,33 @@
 
 </main>
 
+<!-- full artwork view -->
+<div class="lb" id="lb" hidden>
+  <button type="button" class="lb__scrim" id="lbScrim" aria-label="Close full artwork"></button>
+  <div class="lb__win" role="dialog" aria-modal="true" aria-labelledby="lbTitle">
+    <div class="lb__art" id="lbArt"></div>
+    <div class="lb__side">
+      <span class="tag" id="lbNo"></span>
+      <h2 id="lbTitle"></h2>
+      <p class="lb__meta" id="lbMeta"></p>
+      <p class="lb__quote" id="lbQuote"></p>
+      <p class="lb__ph">Placeholder — the full-resolution scan drops in here.</p>
+      <div class="lb__nav">
+        <button type="button" id="lbPrev">← Previous</button>
+        <button type="button" id="lbNext">Next →</button>
+      </div>
+    </div>
+    <button type="button" class="lb__x" id="lbClose" aria-label="Close">✕ Close</button>
+  </div>
+</div>
+
 <script>
 (function () {
   "use strict";
 
   var root = document.documentElement;
 
-  /* ───────── newsprint grain (generated, not an image file) ───────── */
+  /* ───────── newsprint grain ───────── */
 
   function newsprint() {
     var n = 190, c = document.createElement("canvas");
@@ -1134,9 +1175,10 @@
   }
   root.style.setProperty("--newsprint", newsprint());
 
-  /* ───────── placeholder art: marker + crayon bugs, drawn live ─────────
-     Stand-ins only. When the real scans land, swap each .art for an <img>
-     and delete the data-draw hook. Nothing else needs to change. */
+  /* ───────── placeholder art ─────────
+     Drawn live so the layout can be judged with something in every panel.
+     When the scans arrive: drop an <img> in place of each panel's <canvas>
+     and put the file in PIECES[n].src for the full-size view. */
 
   var INK = "#2a2620";
 
@@ -1187,7 +1229,8 @@
   }
 
   function drawBeetle(ctx, w, h, off) {
-    var rnd = seeded(7 + (off || 0) * 149), cx = w / 2, cy = h * 0.52, R = Math.min(w, h) * 0.27, i, side, y;
+    var rnd = seeded(7 + (off || 0) * 149), cx = w / 2, cy = h * 0.52;
+    var R = Math.min(w, h) * 0.27, i, side, y;
     var body = ellipsePts(cx, cy, R, R * 1.25, 44, rnd);
     crayonFill(ctx, body, "#c2452f", rnd); stroke(ctx, body, INK, 5, rnd);
     var head = ellipsePts(cx, cy - R * 1.32, R * 0.46, R * 0.36, 30, rnd);
@@ -1211,7 +1254,8 @@
   }
 
   function drawSnail(ctx, w, h, off) {
-    var rnd = seeded(31 + (off || 0) * 149), cx = w * 0.56, cy = h * 0.55, R = Math.min(w, h) * 0.3, t, i;
+    var rnd = seeded(31 + (off || 0) * 149), cx = w * 0.56, cy = h * 0.55;
+    var R = Math.min(w, h) * 0.3, t, i;
     var foot = [];
     for (t = 0; t <= 28; t++) {
       var p = t / 28;
@@ -1239,7 +1283,8 @@
   }
 
   function drawMoth(ctx, w, h, off) {
-    var rnd = seeded(97 + (off || 0) * 149), cx = w / 2, cy = h * 0.5, S = Math.min(w, h) * 0.34, side, a;
+    var rnd = seeded(97 + (off || 0) * 149), cx = w / 2, cy = h * 0.5;
+    var S = Math.min(w, h) * 0.34, side, a;
     for (side = -1; side <= 1; side += 2) {
       var up = ellipsePts(cx + side * S * 0.72, cy - S * 0.24, S * 0.72, S * 0.5, 40, rnd, side * -0.42);
       crayonFill(ctx, up, "#9b6fb0", rnd); stroke(ctx, up, INK, 5, rnd);
@@ -1260,103 +1305,194 @@
   var DRAW = { beetle: drawBeetle, snail: drawSnail, moth: drawMoth };
   var SIZE = { beetle: [620, 780], snail: [700, 560], moth: [640, 640] };
 
-  function place(host) {
-    var key = host.dataset.draw;
-    if (!DRAW[key]) return;
-    var scale = parseFloat(host.dataset.scale || "1");
+  /* the artworks behind the panels — the full view reads from here */
+  var PIECES = [
+    { key: "beetle", title: "Beetle With Six Legs", date: "March 2026", type: "Drawing",
+      materials: "Marker, crayon",
+      quote: "He is red because he is the boss beetle. The dots are how you know.",
+      page: "Page one · panel 1" },
+    { key: "snail", title: "Snail Going Somewhere", date: "April 2026", type: "Drawing",
+      materials: "Marker, crayon",
+      quote: "It took him all day but he got there.",
+      page: "Page two · panel 1" },
+    { key: "moth", title: "Moth I Saw On The Window", date: "June 2026", type: "Painting",
+      materials: "Marker, crayon",
+      quote: "I saw a real one at night and it stayed for a really long time so I drew it after.",
+      page: "Page three · splash" }
+  ];
+
+  /* crops let one drawing serve as an establishing shot and a close-up */
+  var CROPS = {
+    head:  { z: 1.9, tx: "0%",   ty: "20%" },   /* translate down to reveal the top */
+    legs:  { z: 1.8, tx: "-8%",  ty: "-18%" },
+    shell: { z: 2.2, tx: "4%",   ty: "-6%" },
+    wide:  { z: 1.25, tx: "0%",  ty: "0%" },
+    wingL: { z: 2.0, tx: "20%",  ty: "8%" },
+    wingR: { z: 2.0, tx: "-20%", ty: "8%" }
+  };
+
+  function render(canvas, key, scale, seed) {
     var dim = SIZE[key], w = dim[0], h = dim[1];
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    var c = document.createElement("canvas");
-    c.width = w * scale * dpr;
-    c.height = h * scale * dpr;
-    c.style.aspectRatio = w + " / " + h;
-    var ctx = c.getContext("2d");
+    canvas.width = Math.round(w * scale * dpr);
+    canvas.height = Math.round(h * scale * dpr);
+    var ctx = canvas.getContext("2d");
     ctx.scale(scale * dpr, scale * dpr);
-    DRAW[key](ctx, w, h, parseInt(host.dataset.seed || "0", 10));
-    host.insertBefore(c, host.firstChild);
-  }
-  Array.prototype.forEach.call(document.querySelectorAll("[data-draw]"), place);
-
-  /* the cover gets the beetle at a cover-sized crop */
-  var coverArt = document.getElementById("coverArt");
-  if (coverArt) {
-    coverArt.dataset.draw = "beetle";
-    coverArt.dataset.scale = "0.62";
-    place(coverArt);
+    DRAW[key](ctx, w, h, seed);
   }
 
-  /* ───────── the scroll engine ───────── */
+  /* panel canvases */
+  Array.prototype.forEach.call(document.querySelectorAll("canvas[data-draw]"), function (c) {
+    var key = c.dataset.draw;
+    if (!DRAW[key]) return;
+    render(c, key, parseFloat(c.dataset.scale || "1"), parseInt(c.dataset.seed || "0", 10));
+    var cell = c.closest(".cell");
+    var crop = cell && cell.dataset.crop ? CROPS[cell.dataset.crop] : null;
+    if (crop) {
+      c.style.setProperty("--z", crop.z);
+      c.style.setProperty("--tx", crop.tx);
+      c.style.setProperty("--ty", crop.ty);
+    }
+  });
+
+  /* the cover art sits in a plain div */
+  Array.prototype.forEach.call(document.querySelectorAll("div[data-draw]"), function (host) {
+    var key = host.dataset.draw;
+    if (!DRAW[key]) return;
+    var c = document.createElement("canvas");
+    render(c, key, parseFloat(host.dataset.scale || "1"), 0);
+    host.appendChild(c);
+  });
+
+  /* ───────── full artwork view ───────── */
+
+  var lb = document.getElementById("lb");
+  var lbArt = document.getElementById("lbArt");
+  var lbNo = document.getElementById("lbNo");
+  var lbTitle = document.getElementById("lbTitle");
+  var lbMeta = document.getElementById("lbMeta");
+  var lbQuote = document.getElementById("lbQuote");
+  var lbClose = document.getElementById("lbClose");
+  var opener = null;
+  var shown = -1;
+
+  function show(i) {
+    var piece = PIECES[i];
+    if (!piece) return;
+    shown = i;
+    lbArt.innerHTML = "";
+    var c = document.createElement("canvas");
+    render(c, piece.key, 1.15, 0);
+    lbArt.appendChild(c);
+    lbNo.textContent = piece.page;
+    lbTitle.textContent = piece.title;
+    lbMeta.textContent = piece.date + "  /  " + piece.type + "  /  " + piece.materials;
+    lbQuote.textContent = "“" + piece.quote + "”";
+  }
+
+  function open(i, from) {
+    opener = from || null;
+    lb.hidden = false;
+    document.body.style.overflow = "hidden";
+    show(i);
+    lbClose.focus();
+  }
+  function close() {
+    lb.hidden = true;
+    document.body.style.overflow = "";
+    if (opener) opener.focus();
+    opener = null;
+  }
+  function step(d) { show((shown + d + PIECES.length) % PIECES.length); }
+
+  Array.prototype.forEach.call(document.querySelectorAll(".cell--art"), function (btn) {
+    btn.addEventListener("click", function () {
+      open(parseInt(btn.dataset.piece || "0", 10), btn);
+    });
+  });
+  document.getElementById("lbScrim").addEventListener("click", close);
+  lbClose.addEventListener("click", close);
+  document.getElementById("lbPrev").addEventListener("click", function () { step(-1); });
+  document.getElementById("lbNext").addEventListener("click", function () { step(1); });
+  document.addEventListener("keydown", function (e) {
+    if (lb.hidden) return;
+    if (e.key === "Escape") close();
+    else if (e.key === "ArrowLeft") step(-1);
+    else if (e.key === "ArrowRight") step(1);
+  });
+
+  /* ───────── scroll engine ───────── */
 
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
   var motionOn = !reduce.matches;
   var btn = document.getElementById("motionBtn");
-  var state = document.getElementById("motionState");
+  var stateEl = document.getElementById("motionState");
   var progress = document.querySelector(".progress");
   var links = Array.prototype.slice.call(document.querySelectorAll(".chrome__pages a"));
 
   var stages = Array.prototype.map.call(document.querySelectorAll("[data-stage]"), function (sec) {
     return {
       sec: sec,
+      sheet: sec.querySelector(".sheet"),
       items: Array.prototype.slice.call(sec.querySelectorAll("[data-fly]"))
     };
   });
+
+  function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+  function ease(t) { return 1 - Math.pow(1 - clamp(t), 3); }
 
   function setMotion(on) {
     motionOn = on;
     root.setAttribute("data-motion", on ? "on" : "off");
     btn.setAttribute("aria-pressed", String(on));
-    state.textContent = on ? "flying" : "parked";
-    if (on) { frame(); } else {
+    stateEl.textContent = on ? "flying" : "parked";
+    if (on) frame();
+    else {
       stages.forEach(function (s) {
-        s.sec.style.removeProperty("--sp");
+        if (s.sheet) s.sheet.style.removeProperty("--exit");
         s.items.forEach(function (el) { el.style.removeProperty("--p"); });
       });
     }
   }
-
-  function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
-  function ease(t) { return 1 - Math.pow(1 - clamp(t), 3); }
 
   var ticking = false;
   function frame() {
     ticking = false;
     var vh = window.innerHeight;
 
-    var doc = document.documentElement;
-    var scrollable = doc.scrollHeight - vh;
+    var scrollable = document.documentElement.scrollHeight - vh;
     progress.style.setProperty("--read", scrollable > 0 ? clamp(window.scrollY / scrollable) : 0);
 
-    if (!motionOn) return;
+    if (motionOn) {
+      for (var i = 0; i < stages.length; i++) {
+        var s = stages[i];
+        var r = s.sec.getBoundingClientRect();
+        var run = r.height - vh;
+        var sp = run > 0 ? clamp(-r.top / run) : (r.top <= 0 ? 1 : 0);
 
-    for (var i = 0; i < stages.length; i++) {
-      var s = stages[i];
-      var r = s.sec.getBoundingClientRect();
-      var run = r.height - vh;
+        /* panels start arriving as the page rises and are all home by the
+           time it is pinned, so a page is never on screen half-empty */
+        var e = clamp((vh * 0.92 - r.top) / (vh * 1.3));
 
-      /* --sp: the whole pinned run, 0 → 1. Drives the ring and the walk. */
-      var p = run > 0 ? clamp(-r.top / run) : (r.top <= 0 ? 1 : 0);
-      s.sec.style.setProperty("--sp", p.toFixed(4));
+        for (var j = 0; j < s.items.length; j++) {
+          var el = s.items[j];
+          var delay = parseFloat(el.dataset.delay || "0");
+          var span = parseFloat(el.dataset.span || "0.32");
+          el.style.setProperty("--p", ease((e - delay) / span).toFixed(4));
+        }
 
-      /* entrance: panels start flying just before the page pins and are all
-         home by mid-pin, so the assembled page holds instead of sitting empty */
-      var e = clamp((vh * 0.9 - r.top) / (vh * 1.35));
-
-      for (var j = 0; j < s.items.length; j++) {
-        var el = s.items[j];
-        var delay = parseFloat(el.dataset.delay || "0");
-        var span = parseFloat(el.dataset.span || "0.5");
-        el.style.setProperty("--p", ease((e - delay) / span).toFixed(4));
+        /* the assembled page pulls off the stack at the end of its run */
+        if (s.sheet) s.sheet.style.setProperty("--exit", clamp((sp - 0.82) / 0.18).toFixed(4));
       }
     }
 
-    /* which page is on screen — for the rail */
     var current = null;
     for (var k = 0; k < links.length; k++) {
       var target = document.querySelector(links[k].getAttribute("href"));
+      links[k].setAttribute("aria-current", "false");
       if (!target) continue;
       var tr = target.getBoundingClientRect();
       if (tr.top <= vh * 0.5 && tr.bottom >= vh * 0.5) current = links[k];
-      links[k].setAttribute("aria-current", "false");
     }
     if (current) current.setAttribute("aria-current", "true");
   }
@@ -1368,7 +1504,7 @@
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll);
   btn.addEventListener("click", function () { setMotion(!motionOn); });
-  reduce.addEventListener("change", function (e) { setMotion(!e.matches); });
+  reduce.addEventListener("change", function (ev) { setMotion(!ev.matches); });
 
   setMotion(motionOn);
   frame();
