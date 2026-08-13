@@ -78,6 +78,9 @@
 
   * { box-sizing: border-box; }
 
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
   body {
     margin: 0;
     background: var(--room);
@@ -115,9 +118,8 @@
     align-items: center;
     gap: .8rem;
     padding: .5rem clamp(.7rem, 3vw, 1.4rem);
-    background: color-mix(in srgb, var(--room-deep) 90%, transparent);
+    background: var(--room-deep);
     border-bottom: 2px solid #00000038;
-    backdrop-filter: blur(6px);
   }
   .chrome__mark {
     font-family: var(--letter);
@@ -207,7 +209,6 @@
        mix-blend-mode would flatten the 3D the panels are lifted into */
     background-color: var(--paper);
     background-image: var(--newsprint);
-    background-blend-mode: multiply;
 
     border: 3px solid #17130f2e;
     box-shadow:
@@ -329,7 +330,6 @@
     text-align: left;
     font: inherit;
     --p: 1;
-    will-change: transform, opacity;
     /* panels are inked boards lying on the page, not printing on it */
     box-shadow:
       0 calc(var(--lift, 0px) * .22 + 3px) calc(var(--lift, 0px) * .3 + 7px) calc(var(--lift, 0px) * -.08 - 2px) #17130f5c,
@@ -398,8 +398,8 @@
     transform: scale(var(--z, 1)) translate(var(--tx, 0), var(--ty, 0));
     transform-origin: center;
     background: none;
-    /* the drawing lifts off the paper instead of printing flat onto it */
-    filter: drop-shadow(0 3px 2px #17130f33);
+    /* the lift-off-the-paper shadow is baked into the raster in render() —
+       a CSS filter here re-rasterises on every transform frame */
   }
   /* close-up panels crop into the same drawing */
   .cell[data-crop] canvas { object-fit: cover; }
@@ -542,23 +542,15 @@
     background: none;
     cursor: zoom-in;
     --p: 1;
-    will-change: transform, opacity;
   }
   .pop canvas {
     display: block;
     width: 100%;
     height: auto;
-    filter:
-      drop-shadow(0 calc(var(--lift, 90px) * .16) calc(var(--lift, 90px) * .2) #17130f6b)
-      drop-shadow(0 2px 0 #17130f2e);
-    transition: filter .2s ease;
+    transition: scale .2s ease;
   }
   .pop:hover canvas,
-  .pop:focus-visible canvas {
-    filter:
-      drop-shadow(0 calc(var(--lift, 90px) * .2) calc(var(--lift, 90px) * .26) #17130f7a)
-      drop-shadow(0 0 0 var(--yellow));
-  }
+  .pop:focus-visible canvas { scale: 1.03; }
   .pop { rotate: var(--tilt, 0deg); }
   .pop--beetle { left: 69%; top: 62%; width: 44%; --lift: 210px; --tilt: -9deg; }
   .pop--snail  { left: -18%; top: 52%; width: 58%; --lift: 190px; --tilt: 6deg; }
@@ -1534,14 +1526,31 @@
     wingR: { z: 2.0, tx: "-20%", ty: "8%" }
   };
 
+  var PAD = 20;   /* room around the art for its baked shadow */
+
   function render(canvas, key, scale, seed) {
     var dim = SIZE[key], w = dim[0], h = dim[1];
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.round(w * scale * dpr);
-    canvas.height = Math.round(h * scale * dpr);
+    var k = scale * dpr;
+
+    /* draw the figure once, off-screen */
+    var off = document.createElement("canvas");
+    off.width = Math.round(w * k);
+    off.height = Math.round(h * k);
+    var octx = off.getContext("2d");
+    octx.scale(k, k);
+    DRAW[key](octx, w, h, seed);
+
+    /* stamp it down with a shadow baked into the pixels — costs nothing
+       to animate, unlike a CSS filter on a transforming element */
+    canvas.width = Math.round((w + PAD * 2) * k);
+    canvas.height = Math.round((h + PAD * 2) * k);
+    canvas.style.aspectRatio = (w + PAD * 2) + " / " + (h + PAD * 2);
     var ctx = canvas.getContext("2d");
-    ctx.scale(scale * dpr, scale * dpr);
-    DRAW[key](ctx, w, h, seed);
+    ctx.shadowColor = "rgba(23,19,15,.34)";
+    ctx.shadowBlur = 7 * k;
+    ctx.shadowOffsetY = 4 * k;
+    ctx.drawImage(off, Math.round(PAD * k), Math.round(PAD * k));
   }
 
   /* panel canvases */
@@ -1633,13 +1642,42 @@
   var progress = document.querySelector(".progress");
   var links = Array.prototype.slice.call(document.querySelectorAll(".chrome__pages a"));
 
+  /* the room takes on each page's colour as it arrives */
+  var TINTS = {
+    "page-1": "#e0392a30",   /* the boss beetle - process red */
+    "page-2": "#3e7d4e33",   /* the snail - leaf green */
+    "page-3": "#8a5fa838",   /* the moth at night - violet */
+    "page-4": "#f5b60d24"    /* the sketchbook - printer's yellow */
+  };
+  var tintEl = document.getElementById("tint");
+
+  /* everything the scroll loop needs is resolved once here: no querying,
+     no parsing and no property reads inside the frame */
   var stages = Array.prototype.map.call(document.querySelectorAll("[data-stage]"), function (sec) {
     return {
       sec: sec,
       sheet: sec.querySelector(".sheet"),
-      items: Array.prototype.slice.call(sec.querySelectorAll("[data-fly]"))
+      tint: TINTS[sec.id] || "transparent",
+      rect: null,
+      lastSp: -1, lastEnter: -1, lastExit: -1,
+      items: Array.prototype.map.call(sec.querySelectorAll("[data-fly]"), function (el) {
+        return {
+          el: el,
+          delay: parseFloat(el.dataset.delay || "0"),
+          span: parseFloat(el.dataset.span || "0.32"),
+          last: -1
+        };
+      })
     };
   });
+
+  var linkTargets = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });
+  var lastTint = "";
+  var activeLink = null;
+  var lastRead = -1;
+  var scrollable = 1;
+  function measureDoc() { scrollable = document.documentElement.scrollHeight - window.innerHeight; }
+  measureDoc();
 
   function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
   function ease(t) { return 1 - Math.pow(1 - clamp(t), 3); }
@@ -1656,76 +1694,121 @@
           s.sheet.style.removeProperty("--exit");
           s.sheet.style.removeProperty("--enter");
         }
-        s.items.forEach(function (el) { el.style.removeProperty("--p"); });
+        s.items.forEach(function (it) { it.el.style.removeProperty("--p"); it.last = -1; });
+        s.lastSp = s.lastEnter = s.lastExit = -1;
       });
       root.style.setProperty("--mx", 0);
       root.style.setProperty("--my", 0);
+      smoothY = window.scrollY;
     }
   }
 
   var ticking = false;
+  var EPS = 0.0015;
+
+  /* A wheel click lands as a single ~100px jump. Driving the animation
+     straight off it steps the page through ~13% of its arc in one frame,
+     which is what reads as jerky. So the driver follows the scroll
+     position with damping, and the pages glide to where you scrolled. */
+  var smoothY = window.scrollY;
+  var DAMP = 0.11;
+
   function frame() {
     ticking = false;
     var vh = window.innerHeight;
+    var i, j, s2;
 
-    var scrollable = document.documentElement.scrollHeight - vh;
-    progress.style.setProperty("--read", scrollable > 0 ? clamp(window.scrollY / scrollable) : 0);
+    /* ---- reads, all together: one layout pass, no thrashing ---- */
+    for (i = 0; i < stages.length; i++) {
+      stages[i].rect = stages[i].sec.getBoundingClientRect();
+    }
+    var sy = window.scrollY;
 
-    if (motionOn) {
-      for (var i = 0; i < stages.length; i++) {
-        var s = stages[i];
-        var r = s.sec.getBoundingClientRect();
-        var run = r.height - vh;
-        var sp = run > 0 ? clamp(-r.top / run) : (r.top <= 0 ? 1 : 0);
-
-        /* panels start arriving as the page rises and are all home by the
-           time it is pinned, so a page is never on screen half-empty */
-        var e = clamp((vh * 0.95 - r.top) / (vh * 1.05));
-
-        for (var j = 0; j < s.items.length; j++) {
-          var el = s.items[j];
-          var delay = parseFloat(el.dataset.delay || "0");
-          var span = parseFloat(el.dataset.span || "0.32");
-          el.style.setProperty("--p", ease((e - delay) / span).toFixed(4));
-        }
-
-        s.sec.style.setProperty("--sp", sp.toFixed(4));
-
-        if (s.sheet) {
-          /* --enter swings the page in from a steep angle while the panels
-             land; --exit tips it away once the page has been read */
-          s.sheet.style.setProperty("--enter", (1 - e).toFixed(4));
-          s.sheet.style.setProperty("--exit", clamp((sp - 0.78) / 0.22).toFixed(4));
-        }
-      }
+    /* how far behind the real scroll the animation is running, in px.
+       Rects are measured against the real position, so this offset is
+       added back to every top edge to place them at the eased position. */
+    var gap = sy - smoothY;
+    if (motionOn && Math.abs(gap) > 0.5) {
+      smoothY += gap * DAMP;
+      gap = sy - smoothY;
+      ticking = true;
+      requestAnimationFrame(frame);
+    } else {
+      smoothY = sy;
+      gap = 0;
     }
 
-    /* the room takes on each page's colour as it arrives */
-    var tints = {
-      "page-1": "#e0392a30",   /* the boss beetle — process red */
-      "page-2": "#3e7d4e33",   /* the snail — leaf green */
-      "page-3": "#8a5fa838",   /* the moth at night — violet */
-      "page-4": "#f5b60d24"    /* the sketchbook — printer's yellow */
-    };
-    var tintEl = document.getElementById("tint");
-    var activeTint = "transparent";
-    for (var t = 0; t < stages.length; t++) {
-      var tr2 = stages[t].sec.getBoundingClientRect();
-      if (tr2.top <= vh * 0.5 && tr2.bottom >= vh * 0.5) {
-        activeTint = tints[stages[t].sec.id] || "transparent";
-      }
+    /* ---- writes ---- */
+    var read = scrollable > 0 ? clamp(sy / scrollable) : 0;
+    if (Math.abs(read - lastRead) > EPS) {
+      progress.style.setProperty("--read", read.toFixed(4));
+      lastRead = read;
     }
-    tintEl.style.backgroundColor = activeTint;
 
+    var tint = "transparent";
     var current = null;
-    for (var k = 0; k < links.length; k++) {
-      var target = document.querySelector(links[k].getAttribute("href"));
-      links[k].setAttribute("aria-current", "false");
-      if (!target) continue;
-      var tr = target.getBoundingClientRect();
+
+    for (i = 0; i < stages.length; i++) {
+      s2 = stages[i];
+      var r = s2.rect;
+      var top = r.top + gap;
+      var run = r.height - vh;
+      var sp = run > 0 ? clamp(-top / run) : (top <= 0 ? 1 : 0);
+
+      if (r.top <= vh * 0.5 && r.bottom >= vh * 0.5) tint = s2.tint;
+
+      if (!motionOn) continue;
+
+      /* panels start arriving as the page rises and are all home by the
+         time it is pinned, so a page is never on screen half-empty */
+      var e = clamp((vh * 0.95 - top) / (vh * 1.05));
+
+      for (j = 0; j < s2.items.length; j++) {
+        var it = s2.items[j];
+        var v = ease((e - it.delay) / it.span);
+        if (Math.abs(v - it.last) > EPS) {
+          it.el.style.setProperty("--p", v.toFixed(4));
+          it.last = v;
+        }
+      }
+
+      if (Math.abs(sp - s2.lastSp) > EPS) {
+        s2.sec.style.setProperty("--sp", sp.toFixed(4));
+        s2.lastSp = sp;
+      }
+
+      if (s2.sheet) {
+        /* --enter swings the page in from a steep angle while the panels
+           land; --exit tips it away once the page has been read */
+        var enter = 1 - e;
+        var exit = clamp((sp - 0.78) / 0.22);
+        if (Math.abs(enter - s2.lastEnter) > EPS) {
+          s2.sheet.style.setProperty("--enter", enter.toFixed(4));
+          s2.lastEnter = enter;
+        }
+        if (Math.abs(exit - s2.lastExit) > EPS) {
+          s2.sheet.style.setProperty("--exit", exit.toFixed(4));
+          s2.lastExit = exit;
+        }
+      }
+    }
+
+    if (tint !== lastTint) {
+      tintEl.style.backgroundColor = tint;
+      lastTint = tint;
+    }
+
+    for (var k = 0; k < linkTargets.length; k++) {
+      var t = linkTargets[k];
+      if (!t) continue;
+      var tr = t.getBoundingClientRect();
       if (tr.top <= vh * 0.5 && tr.bottom >= vh * 0.5) current = links[k];
     }
-    if (current) current.setAttribute("aria-current", "true");
+    if (current !== activeLink) {
+      if (activeLink) activeLink.setAttribute("aria-current", "false");
+      if (current) current.setAttribute("aria-current", "true");
+      activeLink = current;
+    }
   }
 
   function onScroll() {
@@ -1754,7 +1837,7 @@
   }
 
   window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll);
+  window.addEventListener("resize", function () { measureDoc(); onScroll(); });
   btn.addEventListener("click", function () { setMotion(!motionOn); });
   reduce.addEventListener("change", function (ev) { setMotion(!ev.matches); });
 
