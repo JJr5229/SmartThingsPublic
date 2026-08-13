@@ -180,7 +180,7 @@
 
   /* ═══════════ the printed sheet ═══════════ */
 
-  .issue { position: relative; height: 300svh; }
+  .issue { position: relative; height: 190svh; }
   .stage {
     position: sticky;
     top: 0;
@@ -253,7 +253,7 @@
     pointer-events: none;
     user-select: none;
     transform:
-      translate(-50%, calc(-50% + (var(--sp, .5) - .5) * -52svh))
+      translate(-50%, calc(-50% + (var(--sp, .5) - .5) * -85svh))
       rotate(var(--grot, -6deg));
   }
   .stage .sheet { z-index: 1; }
@@ -361,16 +361,16 @@
   /* Entrance vectors — every panel of a page comes from somewhere else, and
      each one lands at its own height above the paper (--lift, positive Z:
      a panel at negative Z would render behind the page it lands on). */
-  .in-l    { transform: translate3d(calc((var(--p) - 1) * 130vw), 0, var(--lift, 0px)) rotate(calc((var(--p) - 1) * 10deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
-  .in-r    { transform: translate3d(calc((1 - var(--p)) * 130vw), 0, var(--lift, 0px)) rotate(calc((1 - var(--p)) * 10deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
-  .in-t    { transform: translate3d(0, calc((var(--p) - 1) * 130svh), var(--lift, 0px)) rotate(calc((var(--p) - 1) * 7deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
-  .in-b    { transform: translate3d(0, calc((1 - var(--p)) * 130svh), var(--lift, 0px)) rotate(calc((1 - var(--p)) * 7deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
-  .in-tl   { transform: translate3d(calc((var(--p) - 1) * 90vw), calc((var(--p) - 1) * 80svh), var(--lift, 0px)) rotate(calc((var(--p) - 1) * 16deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
-  .in-tr   { transform: translate3d(calc((1 - var(--p)) * 90vw), calc((var(--p) - 1) * 80svh), var(--lift, 0px)) rotate(calc((1 - var(--p)) * 16deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
-  .in-bl   { transform: translate3d(calc((var(--p) - 1) * 90vw), calc((1 - var(--p)) * 80svh), var(--lift, 0px)) rotate(calc((1 - var(--p)) * 16deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
-  .in-br   { transform: translate3d(calc((1 - var(--p)) * 90vw), calc((1 - var(--p)) * 80svh), var(--lift, 0px)) rotate(calc((var(--p) - 1) * 16deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1))); }
+  .in-l    { transform: translate3d(calc((var(--p) - 1) * 130vw), 0, var(--lift, 0px)) rotate(calc((var(--p) - 1) * 10deg)) rotateY(calc(var(--face, 0deg) * (1 - var(--p, 1)) * 3)) rotateX(calc(var(--facex, 0deg) * (1 - var(--p, 1)) * 3)); }
+  .in-r    { transform: translate3d(calc((1 - var(--p)) * 130vw), 0, var(--lift, 0px)) rotate(calc((1 - var(--p)) * 10deg)) rotateY(calc(var(--face, 0deg) * (1 - var(--p, 1)) * 3)) rotateX(calc(var(--facex, 0deg) * (1 - var(--p, 1)) * 3)); }
+  .in-t    { transform: translate3d(0, calc((var(--p) - 1) * 130svh), var(--lift, 0px)) rotate(calc((var(--p) - 1) * 7deg)) rotateY(calc(var(--face, 0deg) * (1 - var(--p, 1)) * 3)) rotateX(calc(var(--facex, 0deg) * (1 - var(--p, 1)) * 3)); }
+  .in-b    { transform: translate3d(0, calc((1 - var(--p)) * 130svh), var(--lift, 0px)) rotate(calc((1 - var(--p)) * 7deg)) rotateY(calc(var(--face, 0deg) * (1 - var(--p, 1)) * 3)) rotateX(calc(var(--facex, 0deg) * (1 - var(--p, 1)) * 3)); }
+  .in-tl   { transform: translate3d(calc((var(--p) - 1) * 90vw), calc((var(--p) - 1) * 80svh), var(--lift, 0px)) rotate(calc((var(--p) - 1) * 16deg)) rotateY(calc(var(--face, 0deg) * (1 - var(--p, 1)) * 3)) rotateX(calc(var(--facex, 0deg) * (1 - var(--p, 1)) * 3)); }
+  .in-tr   { transform: translate3d(calc((1 - var(--p)) * 90vw), calc((var(--p) - 1) * 80svh), var(--lift, 0px)) rotate(calc((1 - var(--p)) * 16deg)) rotateY(calc(var(--face, 0deg) * (1 - var(--p, 1)) * 3)) rotateX(calc(var(--facex, 0deg) * (1 - var(--p, 1)) * 3)); }
+  .in-bl   { transform: translate3d(calc((var(--p) - 1) * 90vw), calc((1 - var(--p)) * 80svh), var(--lift, 0px)) rotate(calc((1 - var(--p)) * 16deg)) rotateY(calc(var(--face, 0deg) * (1 - var(--p, 1)) * 3)) rotateX(calc(var(--facex, 0deg) * (1 - var(--p, 1)) * 3)); }
+  .in-br   { transform: translate3d(calc((1 - var(--p)) * 90vw), calc((1 - var(--p)) * 80svh), var(--lift, 0px)) rotate(calc((var(--p) - 1) * 16deg)) rotateY(calc(var(--face, 0deg) * (1 - var(--p, 1)) * 3)) rotateX(calc(var(--facex, 0deg) * (1 - var(--p, 1)) * 3)); }
   .in-deep {
-    transform: translate3d(0, 0, var(--lift, 0px)) scale(calc(.1 + .9 * var(--p))) rotate(calc((1 - var(--p)) * 14deg)) rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1)));
+    transform: translate3d(0, 0, var(--lift, 0px)) scale(calc(.1 + .9 * var(--p))) rotate(calc((1 - var(--p)) * 14deg)) rotateY(calc(var(--face, 0deg) * (1 - var(--p, 1)) * 3)) rotateX(calc(var(--facex, 0deg) * (1 - var(--p, 1)) * 3));
     opacity: var(--p);
   }
   .in-spin {
@@ -378,7 +378,7 @@
       translate3d(calc((1 - var(--p)) * 62vw), calc((1 - var(--p)) * 30svh), var(--lift, 0px))
       rotate(calc((1 - var(--p)) * 200deg))
       scale(calc(.25 + .75 * var(--p)))
-      rotateY(calc(var(--face, 0deg) * var(--tiltf, 1))) rotateX(calc(var(--facex, 0deg) * var(--tiltf, 1)));
+      rotateY(calc(var(--face, 0deg) * (1 - var(--p, 1)) * 3)) rotateX(calc(var(--facex, 0deg) * (1 - var(--p, 1)) * 3));
     opacity: var(--p);
   }
 
@@ -970,7 +970,7 @@
   /* ═══════════ narrow screens: the page stops being a page ═══════════ */
 
   @media (max-width: 620px) {
-    .issue { height: 340svh; }
+    .issue { height: 215svh; }
     .sheet {
       --sw: 94vw;
       width: var(--sw);
@@ -1680,7 +1680,7 @@
 
         /* panels start arriving as the page rises and are all home by the
            time it is pinned, so a page is never on screen half-empty */
-        var e = clamp((vh * 0.92 - r.top) / (vh * 1.3));
+        var e = clamp((vh * 0.95 - r.top) / (vh * 1.05));
 
         for (var j = 0; j < s.items.length; j++) {
           var el = s.items[j];
@@ -1695,7 +1695,7 @@
           /* --enter swings the page in from a steep angle while the panels
              land; --exit tips it away once the page has been read */
           s.sheet.style.setProperty("--enter", (1 - e).toFixed(4));
-          s.sheet.style.setProperty("--exit", clamp((sp - 0.82) / 0.18).toFixed(4));
+          s.sheet.style.setProperty("--exit", clamp((sp - 0.78) / 0.22).toFixed(4));
         }
       }
     }
