@@ -154,6 +154,14 @@
     cursor: pointer;
   }
   .motion b { color: var(--yellow); font-weight: 400; }
+  .tint {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-color: transparent;
+    transition: background-color .9s ease;
+  }
   .progress {
     position: fixed;
     z-index: 81;
@@ -215,8 +223,8 @@
        own angle, in real perspective — never square to the reader. */
     transform:
       translate3d(calc(var(--ox, 0%) * var(--tiltf, 1)), calc(var(--exit, 0) * -7svh), calc(var(--exit, 0) * -520px))
-      rotateX(calc((var(--rx, 0deg) + var(--enter, 0) * 9deg) * var(--tiltf, 1)))
-      rotateY(calc((var(--ry, 0deg) + var(--enter, 0) * -16deg + var(--exit, 0) * -22deg) * var(--tiltf, 1)))
+      rotateX(calc((var(--rx, 0deg) + var(--enter, 0) * 9deg) * var(--tiltf, 1) + var(--my, 0) * -2.6deg))
+      rotateY(calc((var(--ry, 0deg) + var(--enter, 0) * -16deg + var(--exit, 0) * -22deg) * var(--tiltf, 1) + var(--mx, 0) * 3.2deg))
       rotateZ(calc((var(--rz, 0deg) + var(--exit, 0) * -2deg) * var(--tiltf, 1)))
       scale(calc(1 + (var(--sc, 1) - 1) * var(--tiltf, 1)));
     opacity: calc(1 - var(--exit, 0) * .55);
@@ -230,6 +238,26 @@
     pointer-events: none;
     background: linear-gradient(104deg, #fff9 0 12%, #ffffff2e 26%, transparent 52%, #17130f1f 88%, #17130f38 100%);
   }
+  .ghost {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 0;
+    font-family: var(--letter);
+    font-size: clamp(8rem, 30vw, 26rem);
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: transparent;
+    -webkit-text-stroke: 3px #ffffff1f;
+    pointer-events: none;
+    user-select: none;
+    transform:
+      translate(-50%, calc(-50% + (var(--sp, .5) - .5) * -52svh))
+      rotate(var(--grot, -6deg));
+  }
+  .stage .sheet { z-index: 1; }
+
   .sheet__no {
     position: absolute;
     left: 50%;
@@ -308,6 +336,13 @@
       0 0 0 1px #17130f14;
   }
   .cell--wide { border-width: 7px; }
+  /* the pointer moves the room: everything drifts by its own height above
+     the paper, so depth reads even while the page is at rest */
+  .cell, .pop {
+    translate:
+      calc(var(--mx, 0) * (var(--lift, 0px) + 14px) * -0.16)
+      calc(var(--my, 0) * (var(--lift, 0px) + 14px) * -0.12);
+  }
   /* the splash gets a second rule outside the first — the heaviest panel on the issue */
   .cell--double { outline: 2px solid var(--ink); outline-offset: 5px; }
 
@@ -568,7 +603,10 @@
     gap: 1rem;
     padding: 4.4rem 1rem 2.4rem;
     overflow: hidden;
+    perspective: 1100px;
   }
+  .cover__slam { animation: slam .75s cubic-bezier(.2,1.25,.4,1) both; }
+  @media (prefers-reduced-motion: reduce) { .cover__slam { animation: none; } }
   .cover__sheet {
     position: relative;
     width: min(94vw, calc((100svh - 9rem) * .685));
@@ -577,14 +615,18 @@
     grid-template-rows: auto auto 1fr auto;
     background: var(--paper);
     border: 4px solid var(--ink);
-    box-shadow: 0 18px 0 -8px #00000040;
-    animation: slam .75s cubic-bezier(.2,1.25,.4,1) both;
+    box-shadow:
+      0 clamp(14px, 3vh, 34px) clamp(18px, 4vh, 50px) -10px #00000078,
+      0 2px 0 0 #ffffff2e inset;
+    transform:
+      rotateY(calc(-8deg + var(--mx, 0) * 4.5deg))
+      rotateX(calc(3.5deg + var(--my, 0) * -4.5deg))
+      rotateZ(-1.2deg);
   }
   @keyframes slam {
     from { transform: scale(.88) rotate(-2.5deg); opacity: 0; }
     to   { transform: none; opacity: 1; }
   }
-  @media (prefers-reduced-motion: reduce) { .cover__sheet { animation: none; } }
 
   .cover__top {
     display: flex;
@@ -664,6 +706,28 @@
     transform: rotate(-9deg);
     filter: drop-shadow(4px 4px 0 var(--shadow));
   }
+  .pop--cover {
+    right: -9%;
+    left: auto;
+    bottom: -4%;
+    top: auto;
+    width: 42%;
+    --lift: 120px;
+    --tilt: -13deg;
+  }
+  .cover__cmyk {
+    display: flex;
+    gap: 4px;
+    padding: 0 .8rem .6rem;
+  }
+  .cover__cmyk i {
+    width: 11px; height: 11px;
+    border: 2px solid var(--ink);
+  }
+  .cover__cmyk i:nth-child(1) { background: #29A8DF; }
+  .cover__cmyk i:nth-child(2) { background: #D5348C; }
+  .cover__cmyk i:nth-child(3) { background: var(--yellow); }
+  .cover__cmyk i:nth-child(4) { background: var(--ink); }
   .cover__cue {
     display: flex;
     align-items: center;
@@ -914,8 +978,10 @@
       --tiltf: .4;          /* a gentler angle where the page is already small */
     }
     .pop--beetle { left: 58%; top: 69%; width: 54%; --lift: 150px; }
-    .pop--snail  { left: -20%; top: 46%; width: 62%; --lift: 140px; }
+    .pop--snail  { left: -18%; top: 20%; width: 56%; --lift: 140px; }
     .pop--moth   { left: 52%; top: -4%; width: 56%; --lift: 165px; }
+    .pop--cover  { right: -14%; bottom: -7%; width: 44%; --lift: 80px; }
+    .ghost { font-size: clamp(5rem, 38vw, 11rem); -webkit-text-stroke-width: 2px; }
     .sheet--one {
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1.25fr .9fr .8fr .7fr;
@@ -956,7 +1022,9 @@
   /* ═══════════ panels parked ═══════════ */
 
   :root[data-motion="off"] .cell,
-  :root[data-motion="off"] .pop { transform: none !important; opacity: 1 !important; }
+  :root[data-motion="off"] .pop { transform: none !important; translate: none !important; opacity: 1 !important; }
+  :root[data-motion="off"] .cover__sheet { transform: none; }
+  :root[data-motion="off"] .ghost { display: none; }
   :root[data-motion="off"] .sheet { transform: none !important; opacity: 1 !important; }
   :root[data-motion="off"] .issue { height: auto; }
   :root[data-motion="off"] .stage { position: static; height: auto; padding-block: 2.6rem; }
@@ -968,6 +1036,7 @@
 </style>
 
 <div class="progress" aria-hidden="true"></div>
+<div class="tint" id="tint" aria-hidden="true"></div>
 
 <header class="chrome">
   <span class="chrome__mark">Buggios<b>4</b>Breakfast &nbsp;·&nbsp; No. 1</span>
@@ -988,6 +1057,7 @@
 
   <!-- ══════════ COVER ══════════ -->
   <section class="cover" id="cover">
+    <div class="cover__slam">
     <div class="cover__sheet">
       <div class="cover__top">
         <h1 class="cover__mast">Buggios<br>4&nbsp;Breakfast</h1>
@@ -1004,6 +1074,11 @@
         and one moth that stayed at the window all night.
       </p>
       <div class="cover__burst">Panels fly in!</div>
+      <div class="cover__cmyk" title="Printed in four colours"><i></i><i></i><i></i><i></i></div>
+      <button type="button" class="pop pop--cover" data-piece="0" aria-label="Open Beetle With Six Legs full size">
+        <canvas data-draw="beetle" data-scale=".55" data-seed="6"></canvas>
+      </button>
+    </div>
     </div>
     <p class="cover__cue"><i></i> Scroll — the pages build themselves <i></i></p>
   </section>
@@ -1011,6 +1086,7 @@
   <!-- ══════════ PAGE ONE ══════════ -->
   <section class="issue" id="page-1" data-stage style="--po:32% 44%">
     <div class="stage">
+      <span class="ghost" style="--grot:-7deg" aria-hidden="true">Skitter!</span>
       <div class="sheet sheet--one" style="--ry:-23deg;--rx:6deg;--rz:-2deg;--ox:-8%;--sc:1.04">
         <span class="sheet__title">Page one · the boss beetle</span>
 
@@ -1061,6 +1137,7 @@
   <!-- ══════════ PAGE TWO ══════════ -->
   <section class="issue" id="page-2" data-stage style="--po:50% 44%">
     <div class="stage">
+      <span class="ghost" style="--grot:5deg" aria-hidden="true">Slooow</span>
       <div class="sheet sheet--two" style="--ry:11deg;--rx:18deg;--rz:1.5deg;--ox:7%;--torg:50% 32%">
         <span class="sheet__title">Page two · snail going somewhere</span>
 
@@ -1104,6 +1181,7 @@
   <!-- ══════════ PAGE THREE — splash ══════════ -->
   <section class="issue" id="page-3" data-stage style="--po:44% 52%;--persp:900px">
     <div class="stage">
+      <span class="ghost" style="--grot:-4deg" aria-hidden="true">Tap tap</span>
       <div class="sheet sheet--three" style="--ry:-12deg;--rx:-8deg;--rz:1deg;--ox:-2%;--sc:1.2">
         <span class="sheet__title">Page three · moth on the window</span>
 
@@ -1145,6 +1223,7 @@
   <!-- ══════════ PAGE FOUR — nine-panel grid, spiralling in ══════════ -->
   <section class="issue" id="page-4" data-stage style="--po:68% 46%">
     <div class="stage">
+      <span class="ghost" style="--grot:6deg" aria-hidden="true">More!</span>
       <div class="sheet sheet--four" style="--ry:19deg;--rx:5deg;--rz:5deg;--ox:-6%;--sc:.98">
         <span class="sheet__title">Page four · the whole sketchbook</span>
 
@@ -1333,6 +1412,21 @@
       ctx.moveTo(x0 + rnd() * 10, y + (rnd() - 0.5) * 3);
       ctx.lineTo(x1 - rnd() * 10, y + 4 + (rnd() - 0.5) * 3);
       ctx.stroke();
+    }
+    /* ben-day shading pass: printed dots gathering in the lower-right,
+       so every shape reads as four-colour print, not flat marker */
+    ctx.fillStyle = "#17130f";
+    ctx.globalAlpha = 0.11;
+    var row = 0;
+    for (var dy = y0; dy < y1; dy += 8, row++) {
+      for (var dx = x0 + (row % 2) * 4; dx < x1; dx += 8) {
+        var u = (dx - x0) / Math.max(1, x1 - x0), v2 = (dy - y0) / Math.max(1, y1 - y0);
+        if (u + v2 > 1.05) {
+          ctx.beginPath();
+          ctx.arc(dx, dy, 1.6 + (u + v2 - 1) * 1.6, 0, 6.2832);
+          ctx.fill();
+        }
+      }
     }
     ctx.restore(); ctx.globalAlpha = 1;
   }
@@ -1564,6 +1658,8 @@
         }
         s.items.forEach(function (el) { el.style.removeProperty("--p"); });
       });
+      root.style.setProperty("--mx", 0);
+      root.style.setProperty("--my", 0);
     }
   }
 
@@ -1593,6 +1689,8 @@
           el.style.setProperty("--p", ease((e - delay) / span).toFixed(4));
         }
 
+        s.sec.style.setProperty("--sp", sp.toFixed(4));
+
         if (s.sheet) {
           /* --enter swings the page in from a steep angle while the panels
              land; --exit tips it away once the page has been read */
@@ -1601,6 +1699,23 @@
         }
       }
     }
+
+    /* the room takes on each page's colour as it arrives */
+    var tints = {
+      "page-1": "#e0392a30",   /* the boss beetle — process red */
+      "page-2": "#3e7d4e33",   /* the snail — leaf green */
+      "page-3": "#8a5fa838",   /* the moth at night — violet */
+      "page-4": "#f5b60d24"    /* the sketchbook — printer's yellow */
+    };
+    var tintEl = document.getElementById("tint");
+    var activeTint = "transparent";
+    for (var t = 0; t < stages.length; t++) {
+      var tr2 = stages[t].sec.getBoundingClientRect();
+      if (tr2.top <= vh * 0.5 && tr2.bottom >= vh * 0.5) {
+        activeTint = tints[stages[t].sec.id] || "transparent";
+      }
+    }
+    tintEl.style.backgroundColor = activeTint;
 
     var current = null;
     for (var k = 0; k < links.length; k++) {
@@ -1615,6 +1730,27 @@
 
   function onScroll() {
     if (!ticking) { ticking = true; requestAnimationFrame(frame); }
+  }
+
+  /* pointer parallax: the pointer steers the room. Panels and breakouts
+     drift by their own lift, so depth reads even while a page is at rest. */
+  if (window.matchMedia("(pointer: fine)").matches) {
+    var mx = 0, my = 0, txp = 0, typ = 0, easing = false;
+    var lerp = function () {
+      mx += (txp - mx) * 0.07;
+      my += (typ - my) * 0.07;
+      root.style.setProperty("--mx", mx.toFixed(4));
+      root.style.setProperty("--my", my.toFixed(4));
+      if (Math.abs(txp - mx) > 0.002 || Math.abs(typ - my) > 0.002) {
+        requestAnimationFrame(lerp);
+      } else { easing = false; }
+    };
+    window.addEventListener("pointermove", function (ev) {
+      if (!motionOn) return;
+      txp = (ev.clientX / window.innerWidth - 0.5) * 2;
+      typ = (ev.clientY / window.innerHeight - 0.5) * 2;
+      if (!easing) { easing = true; requestAnimationFrame(lerp); }
+    }, { passive: true });
   }
 
   window.addEventListener("scroll", onScroll, { passive: true });
