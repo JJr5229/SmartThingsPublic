@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GLP-1 Companion Planner — MDRN Milestone Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* ============================================================
+   GLP-1 COMPANION PLANNER — MDRN Milestone Co.
+   Design Signature: Quiet Clinical (Scandi minimal, pushed clinical).
+   Hanken Grotesk throughout, IBM Plex Mono for EVERY number.
+   4px near-square corners, 1px hairline borders, NO drop shadows.
+   Cool desaturated ground, one amber dose-day signal.
+   Week-strip-first asymmetric dashboard. Motif: the dose ring.
+   ============================================================ */
+
+/* ---------- palettes (body class = active theme) ---------- */
+body.slate-amber{
+  --bg:#F7F8FA; --surface:#FFFFFF; --surface2:#EFF1F5;
+  --primary:#3E4C6D; --primary-light:#5A6B90; --primary-dark:#2A3550;
+  --accent:#C67A1E; --text:#161A22; --muted:#697086; --border:#DDE1E9;
+  --success:#2E7D5B; --danger:#B23A3A; --warning:#C67A1E;
+  --hero-grad:linear-gradient(103deg,#3E4C6D 0%,#2A3550 100%);
+  --card-shadow:none; --hero-shadow:none;
+}
+body.clay{
+  --bg:#F8F6F3; --surface:#FFFFFF; --surface2:#F0ECE6;
+  --primary:#7A5544; --primary-light:#9A7261; --primary-dark:#553424;
+  --accent:#B07D3F; --text:#1F1A17; --muted:#7A6E66; --border:#E4DDD4;
+  --success:#4A7C42; --danger:#A8443A; --warning:#B07D3F;
+  --hero-grad:linear-gradient(103deg,#7A5544 0%,#553424 100%);
+  --card-shadow:none; --hero-shadow:none;
+}
+body.fern{
+  --bg:#F4F7F4; --surface:#FFFFFF; --surface2:#E7EFE9;
+  --primary:#2F5D4A; --primary-light:#4A7D66; --primary-dark:#1C3E30;
+  --accent:#A8563C; --text:#131A16; --muted:#65756C; --border:#D6E1D9;
+  --success:#2F7D57; --danger:#A8563C; --warning:#B07D3F;
+  --hero-grad:linear-gradient(103deg,#2F5D4A 0%,#1C3E30 100%);
+  --card-shadow:none; --hero-shadow:none;
+}
+body.dusk{
+  --bg:#12151C; --surface:#1A1E27; --surface2:#232833;
+  --primary:#7C8DBD; --primary-light:#9AA9D4; --primary-dark:#0C0F15;
+  --accent:#D99A45; --text:#E7EAF0; --muted:#8B93A5; --border:#2A303C;
+  --success:#5FB08A; --danger:#D2716B; --warning:#D99A45;
+  --hero-grad:linear-gradient(103deg,#2E3852 0%,#171B25 100%);
+  --card-shadow:none; --hero-shadow:none;
+}
+body.ink{
+  --bg:#FAFAFA; --surface:#FFFFFF; --surface2:#F0F0F0;
+  --primary:#2B2B2B; --primary-light:#4A4A4A; --primary-dark:#121212;
+  --accent:#2F6FB5; --text:#111111; --muted:#6E6E6E; --border:#E1E1E1;
+  --success:#2E7D5B; --danger:#B23A3A; --warning:#B5761F;
+  --hero-grad:linear-gradient(103deg,#2B2B2B 0%,#121212 100%);
+  --card-shadow:none; --hero-shadow:none;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:'Hanken Grotesk',system-ui,-apple-system,Segoe UI,sans-serif;
+  background:var(--bg); color:var(--text);
+  line-height:1.5; font-size:15px;
+  -webkit-font-smoothing:antialiased;
+}
+/* every number in the app is mono — the clinical signal */
+.num,.stat-value,.mono,input[type=number],input[type=date],input[type=time],.tally,.day-num,.dose-level{
+  font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-variant-numeric:tabular-nums;
+}
+h1,h2,h3,h4{margin:0;font-weight:600;letter-spacing:-.011em;line-height:1.22;}
+p{margin:0 0 10px;}
+a{color:var(--primary);}
+button{font-family:inherit;}
+
+/* ---------- hairline primitives (no shadows anywhere) ---------- */
+.card{
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:4px; padding:22px 24px; box-shadow:none;
+}
+.rule{height:1px;background:var(--border);border:0;margin:18px 0;}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:500;
+  letter-spacing:.13em; text-transform:uppercase; color:var(--muted);
+}
+
+/* ---------- welcome overlay (house-standard treatment) ---------- */
+.welcome-overlay{
+  position:fixed; inset:0; z-index:9999;
+  background:radial-gradient(ellipse at 50% 25%, var(--surface2) 0%, var(--primary-dark) 130%);
+  display:flex; align-items:center; justify-content:center;
+  padding:2rem; overflow-y:auto;
+}
+.welcome-overlay.hidden{display:none;}
+.welcome-card{
+  background:var(--surface); border-radius:14px; padding:40px 42px;
+  max-width:520px; width:100%; box-shadow:0 30px 80px rgba(0,0,0,.3); text-align:center;
+}
+.welcome-brand{display:block;width:150px;height:auto;margin:0 auto 14px;}
+.welcome-brand-rule{width:190px;height:1px;background:var(--border);margin:0 auto 20px;}
+.welcome-badge{
+  width:64px;height:64px;border-radius:50%;background:var(--hero-grad);
+  display:flex;align-items:center;justify-content:center;color:#fff;
+  margin:0 auto 14px;box-shadow:0 6px 16px rgba(0,0,0,.15);
+}
+.welcome-badge svg{width:32px;height:32px;}
+.welcome-card h1{font-size:25px;margin-bottom:6px;letter-spacing:-.02em;}
+.welcome-tagline{color:var(--muted);font-size:14.5px;margin-bottom:24px;}
+.welcome-form{text-align:left;display:grid;gap:14px;margin-bottom:8px;}
+.welcome-note{
+  font-size:12.5px;color:var(--muted);background:var(--surface2);
+  border:1px solid var(--border);border-radius:4px;padding:11px 13px;
+  margin:18px 0 4px;line-height:1.45;text-align:left;
+}
+
+/* ---------- forms ---------- */
+label{display:block;}
+.fld-label{
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  margin-bottom:5px;display:block;
+}
+input[type=text],input[type=number],input[type=date],input[type=time],select,textarea{
+  width:100%;padding:9px 11px;font-family:inherit;font-size:14.5px;
+  color:var(--text);background:var(--surface);
+  border:1px solid var(--border);border-radius:4px;
+}
+textarea{resize:vertical;min-height:76px;line-height:1.5;}
+input:focus,select:focus,textarea:focus{
+  outline:2px solid var(--primary);outline-offset:-1px;border-color:var(--primary);
+}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:8px 14px;font-size:13.5px;font-weight:600;
+  color:var(--text);background:var(--surface);
+  border:1px solid var(--border);border-radius:4px;cursor:pointer;
+  transition:border-color .12s,color .12s,background .12s;
+}
+.btn:hover{border-color:var(--primary);color:var(--primary);}
+.btn:focus-visible{outline:2px solid var(--primary);outline-offset:2px;}
+.btn-primary{background:var(--primary);border-color:var(--primary);color:#fff;}
+.btn-primary:hover{background:var(--primary-dark);border-color:var(--primary-dark);color:#fff;}
+.btn-ghost{background:transparent;}
+.btn-sm{padding:5px 10px;font-size:12.5px;}
+.btn-danger:hover{border-color:var(--danger);color:var(--danger);}
+
+/* ---------- app shell ---------- */
+.app-shell{display:flex;flex-direction:column;min-height:100vh;}
+.app-header{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:12px 22px;background:var(--surface);
+  border-bottom:1px solid var(--border);position:sticky;top:0;z-index:60;
+}
+.hdr-badge{
+  width:32px;height:32px;border-radius:50%;background:var(--hero-grad);
+  display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;
+}
+.hdr-badge svg{width:16px;height:16px;}
+.hdr-name{font-weight:700;font-size:14.5px;letter-spacing:.02em;}
+.hdr-sub{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);
+}
+.hdr-tools{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;}
+.hamburger{display:none;}
+
+.app-body{display:flex;flex:1;min-height:0;}
+.app-sidebar{
+  width:228px;flex-shrink:0;background:var(--surface);
+  border-right:1px solid var(--border);padding:18px 0 26px;overflow-y:auto;
+}
+.sb-group{margin-bottom:4px;}
+.sb-group-head{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  padding:14px 20px 7px;
+}
+.nav-btn{
+  display:flex;align-items:center;gap:9px;width:100%;text-align:left;
+  padding:8px 20px;font-size:14px;font-weight:500;color:var(--text);
+  background:transparent;border:0;border-left:2px solid transparent;cursor:pointer;
+}
+.nav-btn:hover{background:var(--surface2);}
+.nav-btn.active{
+  background:var(--surface2);border-left-color:var(--primary);
+  color:var(--primary);font-weight:600;
+}
+.nav-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--accent);
+  margin-left:auto;flex-shrink:0;
+}
+.sb-palette-section{margin:18px 12px 0;padding:14px 12px 4px;border-top:1px solid var(--border);}
+.sb-palette-label{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:9px;
+}
+.sb-palette-dots{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.pal-btn{
+  width:22px;height:22px;border-radius:50%;border:1px solid var(--border);
+  cursor:pointer;padding:0;position:relative;
+}
+.pal-btn.active{outline:2px solid var(--primary);outline-offset:2px;}
+
+.app-main{flex:1;min-width:0;padding:26px 30px 60px;overflow-x:hidden;}
+.section{display:none;}
+.section.active{display:block;}
+.sec-head{
+  display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;
+  padding-bottom:12px;border-bottom:1px solid var(--border);margin-bottom:20px;
+}
+.sec-head h2{font-size:24px;letter-spacing:-.02em;}
+.sec-head .sec-sub{color:var(--muted);font-size:14px;flex-basis:100%;margin:0;}
+.sec-tools{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;}
+.hint{
+  font-size:13px;color:var(--muted);background:var(--surface2);
+  border:1px solid var(--border);border-radius:4px;padding:10px 13px;
+  margin-bottom:18px;line-height:1.45;
+}
+</style>
+<style>
+/* ============ THE WEEK STRIP — dashboard hero, dose-anchored ============
+   Deliberately NOT a row of 4 stat cards (every sibling does that).       */
+.week-strip{
+  background:var(--hero-grad);border-radius:4px;color:#fff;
+  padding:20px 22px 18px;margin-bottom:18px;
+}
+.ws-top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:16px;}
+.ws-top .eyebrow{color:rgba(255,255,255,.66);}
+.ws-title{font-size:19px;font-weight:600;letter-spacing:-.01em;}
+.ws-right{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:rgba(255,255,255,.8);}
+.ws-days{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;}
+.ws-day{
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);
+  border-radius:4px;padding:9px 4px 10px;text-align:center;min-width:0;
+}
+.ws-day.is-dose{border-color:var(--accent);background:rgba(255,255,255,.13);}
+.ws-day.is-today{outline:1px solid rgba(255,255,255,.55);outline-offset:-1px;}
+.ws-dow{
+  font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:rgba(255,255,255,.62);
+}
+.ws-dnum{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;margin:2px 0 7px;}
+.ws-ticks{display:flex;gap:3px;justify-content:center;}
+.ws-tick{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.24);}
+.ws-tick.on{background:#fff;}
+.ws-dosetag{
+  display:block;margin-top:6px;font-family:'IBM Plex Mono',monospace;
+  font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);
+}
+.ws-legend{
+  display:flex;gap:14px;flex-wrap:wrap;margin-top:13px;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.6);
+}
+.ws-legend span{display:flex;align-items:center;gap:5px;}
+.ws-legend i{width:5px;height:5px;border-radius:50%;background:#fff;display:inline-block;}
+
+/* ============ asymmetric hero + 2 (not a 4-card row) ============ */
+.dash-split{display:grid;grid-template-columns:1.62fr 1fr;gap:16px;margin-bottom:18px;}
+.dash-side{display:grid;grid-template-rows:1fr 1fr;gap:16px;min-width:0;}
+.mini-tile{
+  background:var(--surface);border:1px solid var(--border);border-radius:4px;
+  padding:18px 20px;display:flex;flex-direction:column;justify-content:center;min-width:0;
+}
+.mini-tile .stat-value{font-size:33px;font-weight:600;line-height:1.05;letter-spacing:-.02em;}
+.mini-tile .stat-label{font-size:13px;color:var(--muted);margin-top:5px;}
+.mini-tile.accent .stat-value{color:var(--accent);}
+
+/* protein ring — the signature feature's live visual */
+.ring-panel{
+  background:var(--surface);border:1px solid var(--border);border-radius:4px;
+  padding:20px 22px;display:flex;gap:22px;align-items:center;flex-wrap:wrap;min-width:0;
+}
+.ring-wrap{position:relative;width:120px;height:120px;flex-shrink:0;}
+.ring-wrap svg{transform:rotate(-90deg);}
+.ring-track{stroke:var(--surface2);}
+.ring-fill{stroke:var(--primary);transition:stroke-dashoffset .45s ease;}
+.ring-center{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+}
+.ring-center .rc-num{
+  font-family:'IBM Plex Mono',monospace;font-size:23px;font-weight:600;line-height:1;
+}
+.ring-center .rc-lab{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);margin-top:3px;
+}
+.ring-side{flex:1;min-width:150px;}
+.wk-bars{display:flex;gap:5px;align-items:stretch;height:58px;margin-top:12px;}
+.wk-bar{flex:1;height:100%;background:var(--surface2);border-radius:2px 2px 0 0;position:relative;min-width:0;}
+.wk-bar i{
+  position:absolute;left:0;right:0;bottom:0;background:var(--primary);
+  border-radius:2px 2px 0 0;display:block;
+}
+.wk-bar.met i{background:var(--success);}
+.wk-bar-labels{
+  display:flex;gap:5px;margin-top:5px;font-family:'IBM Plex Mono',monospace;
+  font-size:9px;color:var(--muted);
+}
+.wk-bar-labels span{flex:1;text-align:center;min-width:0;}
+
+/* NSV strip — full width, horizontal */
+.nsv-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:18px;}
+.nsv-card{
+  background:var(--surface);border:1px solid var(--border);border-left:2px solid var(--accent);
+  border-radius:4px;padding:14px 16px;
+}
+.nsv-card .nsv-date{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:5px;
+}
+.nsv-card .nsv-text{font-size:14px;line-height:1.45;}
+
+/* generic responsive grids */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.panel-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
+
+/* ---------- tables ---------- */
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:4px;}
+table.data{width:100%;border-collapse:collapse;min-width:520px;background:var(--surface);}
+table.data th{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  text-align:left;padding:11px 13px;border-bottom:1px solid var(--border);white-space:nowrap;
+}
+table.data td{padding:11px 13px;border-bottom:1px solid var(--border);font-size:14px;vertical-align:middle;}
+table.data tr:last-child td{border-bottom:0;}
+table.data td input,table.data td select{padding:6px 8px;font-size:13.5px;}
+
+/* ---------- chips / pills ---------- */
+.chip{
+  display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:3px;
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:500;
+  letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--border);
+  background:var(--surface2);color:var(--muted);
+}
+.chip.good{color:var(--success);border-color:var(--success);background:transparent;}
+.chip.ok{color:var(--muted);}
+.chip.rough{color:var(--danger);border-color:var(--danger);background:transparent;}
+.chip.dose{color:var(--accent);border-color:var(--accent);background:transparent;}
+.tick-btn{
+  width:26px;height:26px;border-radius:3px;border:1px solid var(--border);
+  background:var(--surface);cursor:pointer;padding:0;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.tick-btn[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);}
+.tick-btn svg{width:13px;height:13px;stroke:#fff;opacity:0;}
+.tick-btn[aria-pressed="true"] svg{opacity:1;}
+
+/* symptom chart — severity by days-since-dose */
+.sym-chart{display:flex;gap:6px;align-items:stretch;height:110px;margin-top:6px;}
+.sym-col{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:5px;min-width:0;}
+.sym-bar{width:100%;background:var(--primary);border-radius:2px 2px 0 0;min-height:2px;}
+.sym-bar.hi{background:var(--danger);}
+.sym-lab{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--muted);white-space:nowrap;}
+
+.empty{
+  text-align:center;padding:34px 20px;color:var(--muted);font-size:14px;
+  border:1px dashed var(--border);border-radius:4px;background:var(--surface);
+}
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translateX(-50%);
+  background:var(--primary);color:#fff;padding:11px 20px;border-radius:4px;
+  font-size:14px;font-weight:500;z-index:10000;opacity:0;pointer-events:none;
+  transition:opacity .2s;
+}
+.toast.show{opacity:1;}
+
+/* modal */
+.modal-back{
+  position:fixed;inset:0;background:rgba(10,12,16,.55);z-index:9998;
+  display:none;align-items:center;justify-content:center;padding:22px;overflow-y:auto;
+}
+.modal-back.show{display:flex;}
+.modal{
+  background:var(--surface);border-radius:6px;padding:26px 28px;
+  max-width:470px;width:100%;border:1px solid var(--border);
+}
+.modal h3{font-size:18px;margin-bottom:6px;}
+.modal .m-sub{color:var(--muted);font-size:13.5px;margin-bottom:18px;line-height:1.45;}
+.err{color:var(--danger);font-size:13px;margin-top:8px;display:none;}
+.err.show{display:block;}
+.warn-box{
+  background:var(--surface2);border:1px solid var(--border);border-left:2px solid var(--warning);
+  border-radius:4px;padding:11px 13px;font-size:12.5px;color:var(--muted);
+  line-height:1.45;margin:14px 0;
+}
+
+/* ============ MOBILE — anti-patterns from mobile-responsive.md ============ */
+@media (max-width:820px){
+  .dash-split{grid-template-columns:1fr !important;}
+  .dash-side{grid-template-rows:auto auto;}
+}
+@media (max-width:700px){
+  .two-col{grid-template-columns:1fr !important;}
+  .ring-panel{flex-direction:column;align-items:flex-start;}
+  .hamburger{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:34px;height:34px;border:1px solid var(--border);border-radius:4px;
+    background:var(--surface);cursor:pointer;padding:0;
+  }
+  .app-sidebar{
+    position:fixed;top:0;left:0;bottom:0;width:250px;z-index:200;
+    transform:translateX(-102%);transition:transform .22s ease;
+    border-right:1px solid var(--border);padding-top:16px;
+  }
+  .app-sidebar.open{transform:translateX(0);}
+  .sb-scrim{
+    position:fixed;inset:0;background:rgba(10,12,16,.45);z-index:150;display:none;
+  }
+  .sb-scrim.show{display:block;}
+  .app-main{padding:20px 16px 54px;}
+  .app-header{padding:10px 14px;}
+  .hdr-tools{width:100%;margin-left:0;}
+  .ws-days{grid-template-columns:repeat(4,1fr);}
+  .sec-head h2{font-size:21px;}
+  .welcome-card{padding:30px 22px;}
+}
+@media (max-width:420px){
+  .ws-days{grid-template-columns:repeat(3,1fr);}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important;}}
+
+/* ---------- print ---------- */
+@media print{
+  .app-header,.app-sidebar,.sec-tools,.sb-scrim,.hdr-tools,.btn,.toast,.hint{display:none !important;}
+  .app-main{padding:0;}
+  .section{display:none !important;}
+  .section.active{display:block !important;}
+  body{background:#fff;color:#000;font-size:12px;}
+  .card,.table-wrap,.mini-tile,.ring-panel{border-color:#bbb;break-inside:avoid;}
+  .week-strip{background:#fff !important;color:#000 !important;border:1px solid #bbb;}
+  .ws-day{border-color:#ccc;}
+  .ws-dow,.ws-right,.ws-legend{color:#444 !important;}
+  table.data{min-width:0;}
+}
+</style>
+</head>
+<body class="slate-amber">
+
+<!-- ===================== WELCOME / ONBOARDING ===================== -->
+<div class="welcome-overlay" id="welcome-overlay">
+  <div class="welcome-card">
+    <img class="welcome-brand" src="data:image/png;base64,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" alt="MDRN Milestone Co.">
+    <div class="welcome-brand-rule"></div>
+    <div class="welcome-badge">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2"></circle>
+        <circle cx="12" cy="4" r="3.2" fill="currentColor"></circle>
+      </svg>
+    </div>
+    <h1>GLP-1 Companion Planner</h1>
+    <p class="welcome-tagline">Your week, anchored on dose day.</p>
+
+    <div class="welcome-form">
+      <div><label class="fld-label" for="w-name">Your name</label>
+        <input type="text" id="w-name" placeholder="Alex"></div>
+      <div class="form-grid">
+        <div><label class="fld-label" for="w-start">Started treatment</label>
+          <input type="date" id="w-start"></div>
+        <div><label class="fld-label" for="w-doseday">Dose day</label>
+          <select id="w-doseday">
+            <option value="1">Monday</option><option value="2">Tuesday</option>
+            <option value="3">Wednesday</option><option value="4">Thursday</option>
+            <option value="5">Friday</option><option value="6">Saturday</option>
+            <option value="0">Sunday</option>
+          </select></div>
+      </div>
+      <div class="form-grid">
+        <div><label class="fld-label" for="w-protein">Daily protein target (g)</label>
+          <input type="number" id="w-protein" placeholder="100" min="0" step="5"></div>
+        <div><label class="fld-label" for="w-water">Daily water target (oz)</label>
+          <input type="number" id="w-water" placeholder="64" min="0" step="8"></div>
+      </div>
+    </div>
+
+    <div class="welcome-note">
+      This is a private organizer, not medical advice. Everything you enter stays on this
+      device. Your protein target, dose schedule and any changes to them are decisions for
+      you and your prescriber &mdash; this planner just keeps the record.
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;">
+      <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="beginPlanning()">Begin Planning</button>
+      <button class="btn btn-ghost" style="flex:1;justify-content:center;" onclick="skipWelcome()">I'll fill in details later</button>
+    </div>
+  </div>
+</div>
+
+<div class="sb-scrim" id="sb-scrim" onclick="closeNav()"></div>
+
+<!-- ===================== APP SHELL ===================== -->
+<div class="app-shell">
+  <header class="app-header">
+    <button class="hamburger" onclick="toggleNav()" aria-label="Menu">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <div class="hdr-badge">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2"></circle>
+        <circle cx="12" cy="4" r="3.2" fill="currentColor"></circle>
+      </svg>
+    </div>
+    <div>
+      <div class="hdr-name">GLP-1 COMPANION</div>
+      <div class="hdr-sub">MDRN Milestone Co.</div>
+    </div>
+    <div class="hdr-tools">
+      <button class="btn btn-sm" onclick="openSaveModal()" title="Download a backup of your planner">Save</button>
+      <button class="btn btn-sm" onclick="triggerRestore()" title="Restore from a saved backup">Restore</button>
+      <button class="btn btn-sm" onclick="shareSummary()">Share</button>
+      <button class="btn btn-sm" onclick="window.print()">Print</button>
+      <input type="file" id="restore-file" accept=".json" style="display:none" onchange="handleRestoreFile(event)">
+    </div>
+  </header>
+
+  <div class="app-body">
+    <nav class="app-sidebar" id="app-sidebar">
+      <div class="sb-group">
+        <div class="sb-group-head">Overview</div>
+        <button class="nav-btn active" data-sec="dashboard" onclick="showSection('dashboard')">Dashboard</button>
+        <button class="nav-btn" data-sec="details" onclick="showSection('details')">My Details<span class="nav-dot" id="details-dot" style="display:none"></span></button>
+      </div>
+      <div class="sb-group">
+        <div class="sb-group-head">Each Week</div>
+        <button class="nav-btn" data-sec="dose" onclick="showSection('dose')">Dose Log</button>
+        <button class="nav-btn" data-sec="daily" onclick="showSection('daily')">Daily Log</button>
+        <button class="nav-btn" data-sec="howitsat" onclick="showSection('howitsat')">How It Sat</button>
+      </div>
+      <div class="sb-group">
+        <div class="sb-group-head">Track</div>
+        <button class="nav-btn" data-sec="symptoms" onclick="showSection('symptoms')">Symptoms</button>
+        <button class="nav-btn" data-sec="measurements" onclick="showSection('measurements')">Measurements</button>
+        <button class="nav-btn" data-sec="strength" onclick="showSection('strength')">Strength</button>
+      </div>
+      <div class="sb-group">
+        <div class="sb-group-head">Keep</div>
+        <button class="nav-btn" data-sec="nsv" onclick="showSection('nsv')">Non-Scale Victories</button>
+        <button class="nav-btn" data-sec="questions" onclick="showSection('questions')">Questions for My Provider</button>
+        <button class="nav-btn" data-sec="refills" onclick="showSection('refills')">Refills &amp; Costs</button>
+        <button class="nav-btn" data-sec="checklist" onclick="showSection('checklist')">Checklist</button>
+      </div>
+      <div class="sb-palette-section">
+        <div class="sb-palette-label">Palette</div>
+        <div class="sb-palette-dots" id="pal-row"></div>
+      </div>
+    </nav>
+
+    <main class="app-main">
+      <!-- ---------- DASHBOARD ---------- -->
+      <section id="sec-dashboard" class="section active">
+        <div class="sec-head">
+          <h2 id="dash-greeting">This week</h2>
+          <div class="sec-tools"><button class="btn btn-sm" onclick="showSection('daily')">Log today</button></div>
+          <p class="sec-sub" id="dash-sub">A private record of how this is actually going.</p>
+        </div>
+        <div id="week-strip-mount"></div>
+        <div class="dash-split">
+          <div class="ring-panel">
+            <div class="ring-wrap">
+              <svg width="120" height="120" viewBox="0 0 120 120">
+                <circle class="ring-track" cx="60" cy="60" r="52" fill="none" stroke-width="11"></circle>
+                <circle class="ring-fill" id="dash-ring" cx="60" cy="60" r="52" fill="none" stroke-width="11"
+                        stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7"></circle>
+              </svg>
+              <div class="ring-center">
+                <div class="rc-num" id="dash-ring-num">0g</div>
+                <div class="rc-lab">today</div>
+              </div>
+            </div>
+            <div class="ring-side">
+              <div class="eyebrow">Protein first</div>
+              <div style="font-size:15px;font-weight:600;margin:4px 0 2px;" id="dash-protein-line">Target not set</div>
+              <div style="font-size:13px;color:var(--muted);" id="dash-protein-sub">Set a daily target in My Details.</div>
+              <div class="wk-bars" id="dash-wk-bars"></div>
+              <div class="wk-bar-labels" id="dash-wk-labels"></div>
+            </div>
+          </div>
+          <div class="dash-side">
+            <div class="mini-tile accent">
+              <div class="eyebrow">Next dose</div>
+              <div class="stat-value" id="dash-next-dose">&mdash;</div>
+              <div class="stat-label" id="dash-next-dose-sub">Set your dose day</div>
+            </div>
+            <div class="mini-tile">
+              <div class="eyebrow">Current dose</div>
+              <div class="stat-value dose-level" id="dash-dose-level">&mdash;</div>
+              <div class="stat-label" id="dash-dose-sub">No doses logged yet</div>
+            </div>
+          </div>
+        </div>
+        <div class="eyebrow" style="margin-bottom:9px;">Recent non-scale victories</div>
+        <div class="nsv-strip" id="dash-nsv"></div>
+        <div class="two-col">
+          <div class="card">
+            <div class="eyebrow">How you've felt since your last dose</div>
+            <div class="sym-chart" id="dash-sym-chart"></div>
+            <div style="font-size:12.5px;color:var(--muted);margin-top:10px;" id="dash-sym-note">
+              Log symptoms to see how they track against your dose day.</div>
+          </div>
+          <div class="card">
+            <div class="eyebrow">Coming up</div>
+            <div id="dash-upcoming" style="margin-top:10px;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- MY DETAILS ---------- -->
+      <section id="sec-details" class="section">
+        <div class="sec-head"><h2>My Details</h2>
+          <p class="sec-sub">Everything here saves automatically. <span style="color:var(--success)">&#10003; saves automatically</span></p></div>
+        <div class="card">
+          <div class="form-grid">
+            <div><label class="fld-label" for="d-name">Your name</label><input type="text" id="d-name" oninput="detailChanged()"></div>
+            <div><label class="fld-label" for="d-start">Started treatment</label><input type="date" id="d-start" oninput="detailChanged()"></div>
+            <div><label class="fld-label" for="d-doseday">Dose day</label>
+              <select id="d-doseday" oninput="detailChanged()">
+                <option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option>
+                <option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option>
+                <option value="0">Sunday</option></select></div>
+            <div><label class="fld-label" for="d-med">Medication (your own label)</label><input type="text" id="d-med" placeholder="e.g. weekly pen" oninput="detailChanged()"></div>
+            <div><label class="fld-label" for="d-protein">Daily protein target (g)</label><input type="number" id="d-protein" min="0" step="5" oninput="detailChanged()"></div>
+            <div><label class="fld-label" for="d-water">Daily water target (oz)</label><input type="number" id="d-water" min="0" step="8" oninput="detailChanged()"></div>
+            <div><label class="fld-label" for="d-fiber">Daily fiber target (g)</label><input type="number" id="d-fiber" min="0" step="1" oninput="detailChanged()"></div>
+            <div><label class="fld-label" for="d-prescriber">Prescriber / clinic</label><input type="text" id="d-prescriber" oninput="detailChanged()"></div>
+            <div><label class="fld-label" for="d-pharmacy">Pharmacy</label><input type="text" id="d-pharmacy" oninput="detailChanged()"></div>
+            <div><label class="fld-label" for="d-nextappt">Next appointment</label><input type="date" id="d-nextappt" oninput="detailChanged()"></div>
+          </div>
+          <hr class="rule">
+          <div class="eyebrow" style="margin-bottom:10px;">Starting measurements (optional)</div>
+          <div class="form-grid">
+            <div><label class="fld-label" for="d-startweight">Starting weight</label><input type="number" id="d-startweight" step="0.1" oninput="detailChanged()"></div>
+            <div><label class="fld-label" for="d-unit">Units</label>
+              <select id="d-unit" oninput="detailChanged()"><option value="lb">lb / in</option><option value="kg">kg / cm</option></select></div>
+          </div>
+          <div class="warn-box" style="margin-top:20px;">
+            This planner never suggests a dose, a schedule, or a change to either. Those are
+            decisions for you and your prescriber &mdash; bring the <strong>Questions for My
+            Provider</strong> page to your next appointment.
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- DOSE LOG ---------- -->
+      <section id="sec-dose" class="section">
+        <div class="sec-head"><h2>Dose Log</h2>
+          <div class="sec-tools"><button class="btn btn-sm btn-primary" onclick="addDose()">+ Log a dose</button></div>
+          <p class="sec-sub">What you took and when. Rotating your injection site is standard practice &mdash; the site column is here so you don't have to remember which one you used last.</p></div>
+        <div class="stat-grid" style="margin-bottom:18px;">
+          <div class="mini-tile"><div class="eyebrow">Doses logged</div><div class="stat-value num" id="dose-count">0</div></div>
+          <div class="mini-tile"><div class="eyebrow">Current dose</div><div class="stat-value dose-level" id="dose-current">&mdash;</div></div>
+          <div class="mini-tile"><div class="eyebrow">Weeks on treatment</div><div class="stat-value num" id="dose-weeks">0</div></div>
+          <div class="mini-tile"><div class="eyebrow">Last site used</div><div class="stat-value" style="font-size:19px;" id="dose-lastsite">&mdash;</div></div>
+        </div>
+        <div class="table-wrap"><table class="data">
+          <thead><tr><th>Date</th><th>Dose</th><th>Site</th><th>Taken</th><th>Notes</th><th></th></tr></thead>
+          <tbody id="dose-body"></tbody></table></div>
+        <div id="dose-empty"></div>
+      </section>
+
+      <!-- ---------- DAILY LOG (signature) ---------- -->
+      <section id="sec-daily" class="section">
+        <div class="sec-head"><h2>Daily Log</h2>
+          <div class="sec-tools">
+            <button class="btn btn-sm" onclick="shiftDay(-1)">&larr;</button>
+            <button class="btn btn-sm" onclick="shiftDay(0)">Today</button>
+            <button class="btn btn-sm" onclick="shiftDay(1)">&rarr;</button>
+          </div>
+          <p class="sec-sub" id="daily-date-label">&mdash;</p></div>
+        <div class="hint">
+          <strong>Protein first.</strong> Eat the protein on your plate before anything else, at every
+          meal. On a GLP-1 you get full fast &mdash; whatever you eat first is what actually lands.
+        </div>
+        <div class="dash-split">
+          <div class="ring-panel">
+            <div class="ring-wrap">
+              <svg width="120" height="120" viewBox="0 0 120 120">
+                <circle class="ring-track" cx="60" cy="60" r="52" fill="none" stroke-width="11"></circle>
+                <circle class="ring-fill" id="daily-ring" cx="60" cy="60" r="52" fill="none" stroke-width="11"
+                        stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7"></circle>
+              </svg>
+              <div class="ring-center">
+                <div class="rc-num" id="daily-ring-num">0g</div>
+                <div class="rc-lab" id="daily-ring-lab">of 0g</div>
+              </div>
+            </div>
+            <div class="ring-side">
+              <div class="eyebrow" style="margin-bottom:9px;">Protein by meal</div>
+              <div id="daily-meals"></div>
+            </div>
+          </div>
+          <div class="dash-side">
+            <div class="mini-tile">
+              <div class="eyebrow">Water</div>
+              <div style="display:flex;align-items:baseline;gap:8px;">
+                <input type="number" id="daily-water" min="0" step="4" style="width:82px;" oninput="dailyChanged()">
+                <span style="color:var(--muted);font-size:13px;" id="daily-water-target">oz</span>
+              </div>
+              <div class="stat-label" style="margin-top:8px;">Fiber</div>
+              <div style="display:flex;align-items:baseline;gap:8px;">
+                <input type="number" id="daily-fiber" min="0" step="1" style="width:82px;" oninput="dailyChanged()">
+                <span style="color:var(--muted);font-size:13px;" id="daily-fiber-target">g</span>
+              </div>
+            </div>
+            <div class="mini-tile">
+              <div class="eyebrow" style="margin-bottom:9px;">Also today</div>
+              <div id="daily-ticks" style="display:grid;gap:9px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <label class="fld-label" for="daily-note">Notes for today</label>
+          <textarea id="daily-note" placeholder="Energy, appetite, anything you want to remember." oninput="dailyChanged()"></textarea>
+        </div>
+      </section>
+
+      <!-- ---------- HOW IT SAT ---------- -->
+      <section id="sec-howitsat" class="section">
+        <div class="sec-head"><h2>How It Sat</h2>
+          <div class="sec-tools"><button class="btn btn-sm btn-primary" onclick="addFood()">+ Add a food</button></div>
+          <p class="sec-sub">Foods change on a GLP-1 &mdash; things you used to love can stop agreeing with you, and it's rarely obvious which. Log it once and the pattern shows up on its own.</p></div>
+        <div class="panel-row" style="margin-bottom:18px;">
+          <div class="card"><div class="eyebrow">Sits well</div><div id="food-good" style="margin-top:10px;"></div></div>
+          <div class="card"><div class="eyebrow">Hit or miss</div><div id="food-ok" style="margin-top:10px;"></div></div>
+          <div class="card"><div class="eyebrow">Rough</div><div id="food-rough" style="margin-top:10px;"></div></div>
+        </div>
+        <div class="table-wrap"><table class="data">
+          <thead><tr><th>Date</th><th>Food</th><th>How it sat</th><th>Notes</th><th></th></tr></thead>
+          <tbody id="food-body"></tbody></table></div>
+        <div id="food-empty"></div>
+      </section>
+
+      <!-- ---------- SYMPTOMS ---------- -->
+      <section id="sec-symptoms" class="section">
+        <div class="sec-head"><h2>Symptoms</h2>
+          <div class="sec-tools"><button class="btn btn-sm btn-primary" onclick="addSymptom()">+ Log a symptom</button></div>
+          <p class="sec-sub">Charted against days since your dose, not against the calendar &mdash; that's the view that actually shows a pattern.</p></div>
+        <div class="card" style="margin-bottom:18px;">
+          <div class="eyebrow">Average severity by day since dose</div>
+          <div class="sym-chart" id="sym-chart"></div>
+          <div style="font-size:12.5px;color:var(--muted);margin-top:10px;" id="sym-insight">Log a few symptoms to see your pattern.</div>
+        </div>
+        <div class="table-wrap"><table class="data">
+          <thead><tr><th>Date</th><th>Symptom</th><th>Severity</th><th>Day since dose</th><th>Notes</th><th></th></tr></thead>
+          <tbody id="sym-body"></tbody></table></div>
+        <div id="sym-empty"></div>
+      </section>
+
+      <!-- ---------- MEASUREMENTS ---------- -->
+      <section id="sec-measurements" class="section">
+        <div class="sec-head"><h2>Measurements</h2>
+          <div class="sec-tools"><button class="btn btn-sm btn-primary" onclick="addMeasure()">+ Add an entry</button></div>
+          <p class="sec-sub">Weekly, not daily. Weight moves for a dozen reasons that have nothing to do with how the week went &mdash; and on a GLP-1 it stalls for weeks at a time while everything else keeps improving.</p></div>
+        <div class="stat-grid" style="margin-bottom:18px;">
+          <div class="mini-tile"><div class="eyebrow">Latest</div><div class="stat-value num" id="mea-latest">&mdash;</div></div>
+          <div class="mini-tile"><div class="eyebrow">Change from start</div><div class="stat-value num" id="mea-change">&mdash;</div></div>
+          <div class="mini-tile"><div class="eyebrow">Entries</div><div class="stat-value num" id="mea-count">0</div></div>
+        </div>
+        <div class="card" style="margin-bottom:18px;">
+          <div class="eyebrow">Trend</div>
+          <div class="sym-chart" id="mea-chart" style="height:120px;"></div>
+        </div>
+        <div class="table-wrap"><table class="data">
+          <thead><tr><th>Date</th><th>Weight</th><th>Waist</th><th>Hips</th><th>Chest</th><th>Arm</th><th></th></tr></thead>
+          <tbody id="mea-body"></tbody></table></div>
+        <div id="mea-empty"></div>
+      </section>
+
+      <!-- ---------- STRENGTH ---------- -->
+      <section id="sec-strength" class="section">
+        <div class="sec-head"><h2>Strength</h2>
+          <div class="sec-tools"><button class="btn btn-sm btn-primary" onclick="addSession()">+ Log a session</button></div>
+          <p class="sec-sub">Losing weight costs muscle as well as fat unless you give your body a reason to keep it. Two sessions a week is the usual target.</p></div>
+        <div class="stat-grid" style="margin-bottom:18px;">
+          <div class="mini-tile"><div class="eyebrow">This week</div><div class="stat-value num" id="str-week">0<span style="font-size:17px;color:var(--muted)"> / 2</span></div></div>
+          <div class="mini-tile"><div class="eyebrow">Sessions logged</div><div class="stat-value num" id="str-total">0</div></div>
+          <div class="mini-tile"><div class="eyebrow">Current streak</div><div class="stat-value num" id="str-streak">0<span style="font-size:17px;color:var(--muted)"> wks</span></div></div>
+        </div>
+        <div class="table-wrap"><table class="data">
+          <thead><tr><th>Date</th><th>Session</th><th>Minutes</th><th>How it felt</th><th></th></tr></thead>
+          <tbody id="str-body"></tbody></table></div>
+        <div id="str-empty"></div>
+      </section>
+
+      <!-- ---------- NON-SCALE VICTORIES ---------- -->
+      <section id="sec-nsv" class="section">
+        <div class="sec-head"><h2>Non-Scale Victories</h2>
+          <div class="sec-tools"><button class="btn btn-sm btn-primary" onclick="addNSV()">+ Add a victory</button></div>
+          <p class="sec-sub">The scale will stall. These are what's actually changing while it does &mdash; and on a hard week they're the record worth rereading.</p></div>
+        <div class="hint" id="nsv-prompt"></div>
+        <div id="nsv-list"></div>
+      </section>
+
+      <!-- ---------- QUESTIONS FOR MY PROVIDER ---------- -->
+      <section id="sec-questions" class="section">
+        <div class="sec-head"><h2>Questions for My Provider</h2>
+          <div class="sec-tools">
+            <button class="btn btn-sm btn-primary" onclick="addQuestion()">+ Add a question</button>
+            <button class="btn btn-sm" onclick="window.print()">Print for my appointment</button>
+          </div>
+          <p class="sec-sub">The thing you meant to ask and forgot the moment you sat down. Write it here when it occurs to you; print this page before you go.</p></div>
+        <div id="q-appt" class="hint"></div>
+        <div id="q-list"></div>
+      </section>
+
+      <!-- ---------- REFILLS & COSTS ---------- -->
+      <section id="sec-refills" class="section">
+        <div class="sec-head"><h2>Refills &amp; Costs</h2>
+          <div class="sec-tools"><button class="btn btn-sm btn-primary" onclick="addRefill()">+ Log a fill</button></div>
+          <p class="sec-sub">Refill dates, prior-authorisation status, and what this is actually costing you month to month.</p></div>
+        <div class="stat-grid" style="margin-bottom:18px;">
+          <div class="mini-tile accent"><div class="eyebrow">Next refill</div><div class="stat-value" style="font-size:26px;" id="ref-next">&mdash;</div><div class="stat-label" id="ref-next-sub"></div></div>
+          <div class="mini-tile"><div class="eyebrow">Spent so far</div><div class="stat-value num" id="ref-total">&mdash;</div></div>
+          <div class="mini-tile"><div class="eyebrow">Average per fill</div><div class="stat-value num" id="ref-avg">&mdash;</div></div>
+        </div>
+        <div class="table-wrap"><table class="data">
+          <thead><tr><th>Filled</th><th>Next due</th><th>Cost</th><th>Prior auth</th><th>Pharmacy</th><th></th></tr></thead>
+          <tbody id="ref-body"></tbody></table></div>
+        <div id="ref-empty"></div>
+      </section>
+
+      <!-- ---------- CHECKLIST ---------- -->
+      <section id="sec-checklist" class="section">
+        <div class="sec-head"><h2>Checklist</h2>
+          <div class="sec-tools"><button class="btn btn-sm" onclick="resetChecklist()">Reset to default</button></div>
+          <p class="sec-sub">Organised by treatment stage rather than by month &mdash; people start this at very different points and move at very different speeds.</p></div>
+        <div class="stat-grid" style="margin-bottom:18px;">
+          <div class="mini-tile"><div class="eyebrow">Done</div><div class="stat-value num" id="ck-done">0</div></div>
+          <div class="mini-tile"><div class="eyebrow">Remaining</div><div class="stat-value num" id="ck-left">0</div></div>
+          <div class="mini-tile"><div class="eyebrow">Complete</div><div class="stat-value num" id="ck-pct">0%</div></div>
+        </div>
+        <div id="ck-list"></div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ===================== SAVE (encrypt) MODAL ===================== -->
+<div class="modal-back" id="save-modal">
+  <div class="modal">
+    <h3>Protect Your Backup</h3>
+    <p class="m-sub">Your backup is encrypted before it downloads, so a file that ends up in the
+      wrong inbox is unreadable without this phrase.</p>
+    <label class="fld-label" for="pp1">Passphrase</label>
+    <input type="text" id="pp1" autocomplete="off" spellcheck="false">
+    <div style="margin:8px 0 14px;"><button class="btn btn-sm" onclick="newPhrase()">New phrase</button>
+      <button class="btn btn-sm btn-ghost" onclick="togglePP()" id="pp-toggle">Hide</button></div>
+    <label class="fld-label" for="pp2">Type it again</label>
+    <input type="text" id="pp2" autocomplete="off" spellcheck="false">
+    <label class="fld-label" for="pp-hint" style="margin-top:14px;">Hint (optional, stored unencrypted)</label>
+    <input type="text" id="pp-hint" placeholder="e.g. in the blue notebook">
+    <div class="err" id="pp-err"></div>
+    <div class="warn-box">
+      If you lose this phrase, the backup cannot be recovered by anyone &mdash; including us.
+      Write it down somewhere that isn't this device.
+    </div>
+    <div style="display:flex;gap:10px;margin-top:6px;">
+      <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="doEncryptedSave()">Download backup</button>
+      <button class="btn btn-ghost" onclick="closeModal('save-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== RESTORE (decrypt) MODAL ===================== -->
+<div class="modal-back" id="restore-modal">
+  <div class="modal">
+    <h3>Unlock Your Backup</h3>
+    <p class="m-sub" id="restore-hint">This backup is encrypted. Enter the passphrase you used when you saved it.</p>
+    <label class="fld-label" for="rp1">Passphrase</label>
+    <input type="text" id="rp1" autocomplete="off" spellcheck="false">
+    <div class="err" id="rp-err"></div>
+    <div style="display:flex;gap:10px;margin-top:16px;">
+      <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="doDecryptRestore()">Restore</button>
+      <button class="btn btn-ghost" onclick="closeModal('restore-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   STATE.  Note: `let APP` at script top level does NOT attach to
+   window — reference APP directly everywhere, including from
+   automation page.evaluate() calls.  window.APP is undefined.
+   ============================================================ */
+let APP = {
+  palette:'slate-amber',
+  details:{name:'',start:'',doseDay:'3',med:'',proteinTarget:100,waterTarget:64,fiberTarget:25,
+           prescriber:'',pharmacy:'',nextAppt:'',startWeight:'',unit:'lb'},
+  days:{},          /* 'YYYY-MM-DD' -> {meals:{}, water, fiber, ticks:{}, note} */
+  doses:[], foods:[], symptoms:[], measures:[], sessions:[], nsv:[], questions:[], refills:[],
+  checklist:[]
+};
+
+const PALETTES=[
+  {id:'slate-amber',label:'Slate & Amber',swatch:'#3E4C6D'},
+  {id:'clay',       label:'Clay',         swatch:'#7A5544'},
+  {id:'fern',       label:'Fern',         swatch:'#2F5D4A'},
+  {id:'dusk',       label:'Dusk',         swatch:'#2E3852'},
+  {id:'ink',        label:'Ink',          swatch:'#2B2B2B'}
+];
+const MEALS=['Breakfast','Lunch','Dinner','Snack'];
+const TICKS=[['moved','Moved my body'],['slow','Ate slowly'],['strength','Strength session'],['dose','Took my dose']];
+const DOW=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const SITES=['Left abdomen','Right abdomen','Left thigh','Right thigh','Left arm','Right arm'];
+const NSV_PROMPTS=[
+  'What fits differently this week?','What did you turn down without it being hard?',
+  'What has more energy in it than it used to?','What did someone else notice?',
+  'What did you do this week that you would not have three months ago?',
+  'What stopped being a decision and started being a habit?'
+];
+const CHECKLIST_SEED=[
+  ['Starting out',[
+    'Confirm dose day and set a recurring reminder','Ask about expected side effects and what is worth calling about',
+    'Set a daily protein target with your prescriber or dietitian','Stock protein you can eat on a bad-stomach day',
+    'Buy a water bottle you will actually carry','Ask about fiber, constipation and what to keep on hand',
+    'Note your starting measurements','Find out what your refill cadence and cost will be']],
+  ['Finding the rhythm',[
+    'Learn which foods sit well and which do not','Rotate injection sites on a set pattern',
+    'Get two strength sessions into a normal week','Work out what a bad day eats like and keep it stocked',
+    'Track how symptoms track against dose day','Set a weekly weigh-in time and stop weighing daily']],
+  ['Dose changes',[
+    'Log the date and level of every change','Watch for symptoms returning after a step up',
+    'Check whether protein intake dropped when appetite did','Ask about prior authorisation before you need the refill']],
+  ['Keeping it',[
+    'Review non-scale victories on a stalled week','Bring your questions list to every appointment',
+    'Check muscle is holding as weight comes off','Have a plan for travelling with your medication',
+    'Talk about what maintenance looks like']]
+];
+
+/* ---------- persistence ---------- */
+function save(){ try{ localStorage.setItem('glp1CompanionState', JSON.stringify(APP)); }catch(e){} }
+function load(){
+  try{ const raw=localStorage.getItem('glp1CompanionState');
+       if(raw){ const p=JSON.parse(raw); if(p&&typeof p==='object') APP=Object.assign(APP,p); } }
+  catch(e){}
+}
+
+/* ---------- small helpers ---------- */
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function todayISO(){ return isoOf(new Date()); }
+function isoOf(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function parseISO(s){ const p=String(s||'').split('-'); if(p.length!==3) return null;
+  const d=new Date(+p[0],+p[1]-1,+p[2]); return isNaN(d.getTime())?null:d; }
+function addDays(d,n){ const c=new Date(d.getFullYear(),d.getMonth(),d.getDate()); c.setDate(c.getDate()+n); return c; }
+function daysBetween(a,b){ return Math.round((parseISO(b)-parseISO(a))/86400000); }
+function fmtShort(iso){ const d=parseISO(iso); return d? d.toLocaleDateString(undefined,{month:'short',day:'numeric'}) : '—'; }
+function uid(){ return 'x'+Math.random().toString(36).slice(2,9); }
+function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+function openModal(id){ $(id).classList.add('show'); }
+function closeModal(id){ $(id).classList.remove('show'); }
+
+/* ---------- palettes ---------- */
+function switchPalette(name){ document.body.className=name; APP.palette=name; save(); renderPalRow(); renderAll(); }
+function renderPalRow(){
+  const row=$('pal-row'); row.innerHTML='';
+  PALETTES.forEach(p=>{
+    const b=document.createElement('button');
+    b.className='pal-btn'+(APP.palette===p.id?' active':'');
+    b.style.background=p.swatch; b.title=p.label;
+    b.setAttribute('aria-label',p.label);
+    b.onclick=()=>switchPalette(p.id);
+    row.appendChild(b);
+  });
+}
+
+/* ---------- navigation ---------- */
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  const el=$('sec-'+id); if(el) el.classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.sec===id));
+  closeNav(); window.scrollTo(0,0); renderAll();
+}
+function toggleNav(){ $('app-sidebar').classList.toggle('open'); $('sb-scrim').classList.toggle('show'); }
+function closeNav(){ $('app-sidebar').classList.remove('open'); $('sb-scrim').classList.remove('show'); }
+
+/* ---------- welcome ---------- */
+function seedIfEmpty(){
+  if(!APP.checklist.length){
+    CHECKLIST_SEED.forEach(([phase,items])=>items.forEach(t=>
+      APP.checklist.push({id:uid(),phase:phase,text:t,done:false})));
+  }
+}
+function beginPlanning(){
+  APP.details.name=$('w-name').value.trim();
+  APP.details.start=$('w-start').value||todayISO();
+  APP.details.doseDay=$('w-doseday').value;
+  const p=parseFloat($('w-protein').value); if(!isNaN(p)) APP.details.proteinTarget=p;
+  const w=parseFloat($('w-water').value);   if(!isNaN(w)) APP.details.waterTarget=w;
+  seedIfEmpty(); save(); hideWelcome(); renderAll();
+}
+function skipWelcome(){
+  if(!APP.details.start) APP.details.start=todayISO();
+  seedIfEmpty(); save(); hideWelcome(); renderAll();
+}
+function hideWelcome(){ $('welcome-overlay').classList.add('hidden'); }
+
+/* ---------- details ---------- */
+function fillDetails(){
+  const d=APP.details;
+  $('d-name').value=d.name||''; $('d-start').value=d.start||''; $('d-doseday').value=d.doseDay||'3';
+  $('d-med').value=d.med||''; $('d-protein').value=d.proteinTarget||''; $('d-water').value=d.waterTarget||'';
+  $('d-fiber').value=d.fiberTarget||''; $('d-prescriber').value=d.prescriber||''; $('d-pharmacy').value=d.pharmacy||'';
+  $('d-nextappt').value=d.nextAppt||''; $('d-startweight').value=d.startWeight||''; $('d-unit').value=d.unit||'lb';
+}
+function detailChanged(){
+  const d=APP.details;
+  d.name=$('d-name').value; d.start=$('d-start').value; d.doseDay=$('d-doseday').value;
+  d.med=$('d-med').value; d.proteinTarget=parseFloat($('d-protein').value)||0;
+  d.waterTarget=parseFloat($('d-water').value)||0; d.fiberTarget=parseFloat($('d-fiber').value)||0;
+  d.prescriber=$('d-prescriber').value; d.pharmacy=$('d-pharmacy').value; d.nextAppt=$('d-nextappt').value;
+  d.startWeight=$('d-startweight').value; d.unit=$('d-unit').value;
+  save(); updateDetailsDot();
+  /* re-render the sidebar indicator only — never the focused form itself */
+}
+function updateDetailsDot(){
+  const d=APP.details, incomplete=!d.name||!d.start||!d.proteinTarget;
+  $('details-dot').style.display=incomplete?'block':'none';
+}
+
+/* ---------- DAILY LOG (signature feature) ---------- */
+let dailyDate=todayISO();
+function shiftDay(n){
+  dailyDate = n===0 ? todayISO() : isoOf(addDays(parseISO(dailyDate),n));
+  renderDaily();
+}
+function dayRec(iso){
+  if(!APP.days[iso]) APP.days[iso]={meals:{},water:0,fiber:0,ticks:{},note:''};
+  const r=APP.days[iso];
+  if(!r.meals) r.meals={}; if(!r.ticks) r.ticks={};
+  return r;
+}
+function dayProtein(iso){
+  const r=APP.days[iso]; if(!r||!r.meals) return 0;
+  return MEALS.reduce((s,m)=>s+(parseFloat(r.meals[m])||0),0);
+}
+function isDoseDay(iso){ const d=parseISO(iso); return d && String(d.getDay())===String(APP.details.doseDay); }
+function setRing(ringId,numId,labId,got,target){
+  const C=2*Math.PI*52, pct=target>0?Math.min(1,got/target):0;
+  const ring=$(ringId); if(ring) ring.setAttribute('stroke-dashoffset', String(C*(1-pct)));
+  if($(numId)) $(numId).textContent=Math.round(got)+'g';
+  if(labId&&$(labId)) $(labId).textContent='of '+(target||0)+'g';
+}
+function renderDaily(){
+  const iso=dailyDate, r=dayRec(iso), d=parseISO(iso);
+  const isToday=iso===todayISO();
+  $('daily-date-label').textContent =
+    (isToday?'Today · ':'') + d.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})
+    + (isDoseDay(iso)?'  ·  dose day':'');
+
+  /* protein-first meal rows */
+  const mount=$('daily-meals'); mount.innerHTML='';
+  MEALS.forEach(m=>{
+    const row=document.createElement('div');
+    row.style.cssText='display:flex;align-items:center;gap:9px;margin-bottom:8px;';
+    const first = r.ticks['first_'+m] ? 'true':'false';
+    row.innerHTML =
+      '<button class="tick-btn" aria-pressed="'+first+'" title="Protein first at this meal" '+
+        'onclick="toggleFirst(\''+m+'\')"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" '+
+        'stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5.5 5.5L20 6"/></svg></button>'+
+      '<span style="flex:1;font-size:14px;">'+m+'</span>'+
+      '<input type="number" min="0" step="1" class="num" style="width:74px;padding:5px 8px;" '+
+        'value="'+(r.meals[m]!=null?esc(r.meals[m]):'')+'" placeholder="0" '+
+        'oninput="setMeal(\''+m+'\',this.value)"><span style="color:var(--muted);font-size:12.5px;width:12px;">g</span>';
+    mount.appendChild(row);
+  });
+
+  setRing('daily-ring','daily-ring-num','daily-ring-lab',dayProtein(iso),APP.details.proteinTarget);
+  $('daily-water').value = r.water||'';
+  $('daily-fiber').value = r.fiber||'';
+  $('daily-water-target').textContent = 'of '+(APP.details.waterTarget||0)+' oz';
+  $('daily-fiber-target').textContent = 'of '+(APP.details.fiberTarget||0)+' g';
+  $('daily-note').value = r.note||'';
+
+  const tm=$('daily-ticks'); tm.innerHTML='';
+  TICKS.forEach(([k,label])=>{
+    if(k==='dose' && !isDoseDay(iso)) return;
+    const on=r.ticks[k]?'true':'false';
+    const row=document.createElement('div');
+    row.style.cssText='display:flex;align-items:center;gap:9px;';
+    row.innerHTML='<button class="tick-btn" aria-pressed="'+on+'" onclick="toggleTick(\''+k+'\')">'+
+      '<svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">'+
+      '<path d="M4 12.5l5.5 5.5L20 6"/></svg></button><span style="font-size:13.5px;">'+label+'</span>';
+    tm.appendChild(row);
+  });
+}
+function setMeal(m,v){ const r=dayRec(dailyDate); r.meals[m]=v; save();
+  setRing('daily-ring','daily-ring-num','daily-ring-lab',dayProtein(dailyDate),APP.details.proteinTarget); }
+function toggleFirst(m){ const r=dayRec(dailyDate); r.ticks['first_'+m]=!r.ticks['first_'+m]; save(); renderDaily(); }
+function toggleTick(k){ const r=dayRec(dailyDate); r.ticks[k]=!r.ticks[k]; save(); renderDaily(); }
+function dailyChanged(){
+  const r=dayRec(dailyDate);
+  r.water=parseFloat($('daily-water').value)||0;
+  r.fiber=parseFloat($('daily-fiber').value)||0;
+  r.note=$('daily-note').value; save();
+}
+</script>
+
+<script>
+/* ================= DASHBOARD ================= */
+function weekStart(){ const t=parseISO(todayISO()); return addDays(t,-((t.getDay()+6)%7)); } /* Monday */
+function renderDashboard(){
+  const name=APP.details.name?(', '+APP.details.name.split(' ')[0]):'';
+  $('dash-greeting').textContent='This week'+name;
+
+  /* --- the week strip (dose-anchored hero) --- */
+  const ws=weekStart(), pt=APP.details.proteinTarget||0, wt=APP.details.waterTarget||0;
+  let html='<div class="week-strip"><div class="ws-top"><div>'+
+    '<div class="eyebrow">Week of '+fmtShort(isoOf(ws))+'</div>'+
+    '<div class="ws-title">Your week, anchored on dose day</div></div>'+
+    '<div class="ws-right" id="ws-right"></div></div><div class="ws-days">';
+  let logged=0;
+  for(let i=0;i<7;i++){
+    const d=addDays(ws,i), iso=isoOf(d), r=APP.days[iso];
+    const prot=dayProtein(iso), water=r?(r.water||0):0, moved=r&&r.ticks&&r.ticks.moved;
+    if(r&&(prot||water||moved)) logged++;
+    const cls='ws-day'+(isDoseDay(iso)?' is-dose':'')+(iso===todayISO()?' is-today':'');
+    html+='<div class="'+cls+'"><div class="ws-dow">'+DOW[d.getDay()]+'</div>'+
+      '<div class="ws-dnum">'+d.getDate()+'</div><div class="ws-ticks">'+
+      '<span class="ws-tick'+(pt&&prot>=pt?' on':'')+'" title="Protein target"></span>'+
+      '<span class="ws-tick'+(wt&&water>=wt?' on':'')+'" title="Water target"></span>'+
+      '<span class="ws-tick'+(moved?' on':'')+'" title="Moved"></span></div>'+
+      (isDoseDay(iso)?'<span class="ws-dosetag">dose</span>':'')+'</div>';
+  }
+  html+='</div><div class="ws-legend"><span><i></i>protein</span><span><i></i>water</span>'+
+    '<span><i></i>movement</span><span style="color:var(--accent)">▲ dose day</span></div></div>';
+  $('week-strip-mount').innerHTML=html;
+  $('ws-right').textContent=logged+' of 7 days logged';
+
+  /* --- protein ring + week bars --- */
+  const tIso=todayISO();
+  setRing('dash-ring','dash-ring-num',null,dayProtein(tIso),pt);
+  $('dash-protein-line').textContent = pt? (Math.round(dayProtein(tIso))+'g of '+pt+'g today') : 'Target not set';
+  $('dash-protein-sub').textContent  = pt? 'Protein first, at every meal.' : 'Set a daily target in My Details.';
+  let bars='',labs='',maxP=Math.max(pt,1);
+  for(let i=0;i<7;i++){
+    const iso=isoOf(addDays(ws,i)), p=dayProtein(iso), h=Math.min(100,(p/maxP)*100);
+    bars+='<div class="wk-bar'+(pt&&p>=pt?' met':'')+'"><i style="height:'+h+'%"></i></div>';
+    labs+='<span>'+DOW[addDays(ws,i).getDay()][0]+'</span>';
+  }
+  $('dash-wk-bars').innerHTML=bars; $('dash-wk-labels').innerHTML=labs;
+
+  /* --- next dose / current dose --- */
+  const dd=parseInt(APP.details.doseDay,10), t=parseISO(todayISO());
+  if(!isNaN(dd)){
+    let delta=(dd-t.getDay()+7)%7;
+    $('dash-next-dose').textContent = delta===0?'Today':(delta+' day'+(delta===1?'':'s'));
+    $('dash-next-dose-sub').textContent = delta===0? DOW[dd]+' — dose day' : 'on '+DOW[dd];
+  }
+  const last=APP.doses.slice().sort((a,b)=>(a.date<b.date?1:-1))[0];
+  $('dash-dose-level').textContent = last&&last.dose? last.dose : '—';
+  $('dash-dose-sub').textContent   = last? ('since '+fmtShort(last.date)) : 'No doses logged yet';
+
+  /* --- NSV strip --- */
+  const nsv=APP.nsv.slice().sort((a,b)=>(a.date<b.date?1:-1)).slice(0,3);
+  $('dash-nsv').innerHTML = nsv.length? nsv.map(n=>
+      '<div class="nsv-card"><div class="nsv-date">'+fmtShort(n.date)+'</div>'+
+      '<div class="nsv-text">'+esc(n.text)+'</div></div>').join('')
+    : '<div class="empty">Nothing here yet. The scale will stall — this is the page that helps on those weeks.</div>';
+
+  /* --- symptoms by day-since-dose --- */
+  drawSymChart('dash-sym-chart');
+  const n=APP.symptoms.length;
+  $('dash-sym-note').textContent = n? (n+' symptom'+(n===1?'':'s')+' logged. Taller bars are the days you tend to feel it most.')
+                                    : 'Log symptoms to see how they track against your dose day.';
+
+  /* --- coming up --- */
+  const up=[];
+  if(APP.details.nextAppt) up.push(['Appointment', fmtShort(APP.details.nextAppt)]);
+  const nextRef=nextUpcomingRefill();
+  if(nextRef) up.push(['Refill due', fmtShort(nextRef.next)]);
+  const openQ=APP.questions.filter(q=>!q.asked).length;
+  if(openQ) up.push(['Questions to ask', openQ+' waiting']);
+  $('dash-upcoming').innerHTML = up.length? up.map(([k,v])=>
+      '<div style="display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);">'+
+      '<span style="font-size:14px;">'+k+'</span><span class="num" style="font-size:14px;color:var(--muted)">'+v+'</span></div>').join('')
+    : '<div style="color:var(--muted);font-size:14px;">Nothing scheduled yet.</div>';
+}
+function drawSymChart(mountId){
+  const el=$(mountId); if(!el) return;
+  const buckets=[[],[],[],[],[],[],[]];
+  APP.symptoms.forEach(s=>{ const d=parseInt(s.sinceDose,10); if(!isNaN(d)&&d>=0&&d<7) buckets[d].push(parseFloat(s.sev)||0); });
+  let out='';
+  for(let i=0;i<7;i++){
+    const arr=buckets[i], avg=arr.length? arr.reduce((a,b)=>a+b,0)/arr.length : 0;
+    const h=Math.max(2,(avg/5)*100);
+    out+='<div class="sym-col"><div class="sym-bar'+(avg>=3.5?' hi':'')+'" style="height:'+h+'%" '+
+      'title="'+(arr.length?avg.toFixed(1)+' avg':'no data')+'"></div><div class="sym-lab">d'+i+'</div></div>';
+  }
+  el.innerHTML=out;
+}
+
+/* next refill still ahead of today — not merely the earliest on record */
+function nextUpcomingRefill(){
+  const t=todayISO();
+  return APP.refills.filter(r=>r.next && r.next>=t).sort((a,b)=>(a.next>b.next?1:-1))[0] || null;
+}
+
+/* ================= generic row helpers ================= */
+function delRow(arr,id){ const i=APP[arr].findIndex(x=>x.id===id); if(i>-1){APP[arr].splice(i,1); save(); renderAll();} }
+function setField(arr,id,field,val){ const o=APP[arr].find(x=>x.id===id); if(o){o[field]=val; save();} }
+function delBtn(arr,id){ return '<button class="btn btn-sm btn-ghost btn-danger" onclick="delRow(\''+arr+'\',\''+id+'\')">Remove</button>'; }
+function emptyMsg(id,msg){ const e=$(id); if(e) e.innerHTML='<div class="empty">'+msg+'</div>'; }
+
+/* ================= DOSE LOG ================= */
+function addDose(){ APP.doses.push({id:uid(),date:todayISO(),dose:'',site:SITES[0],taken:true,note:''}); save(); renderDose(); }
+function renderDose(){
+  const rows=APP.doses.slice().sort((a,b)=>(a.date<b.date?1:-1));
+  $('dose-body').innerHTML=rows.map(r=>
+    '<tr><td><input type="date" value="'+esc(r.date)+'" onchange="setField(\'doses\',\''+r.id+'\',\'date\',this.value);renderAll()"></td>'+
+    '<td><input type="text" style="width:88px" placeholder="0.5 mg" value="'+esc(r.dose)+'" oninput="setField(\'doses\',\''+r.id+'\',\'dose\',this.value)"></td>'+
+    '<td><select onchange="setField(\'doses\',\''+r.id+'\',\'site\',this.value);renderDose()">'+
+      SITES.map(s=>'<option'+(s===r.site?' selected':'')+'>'+s+'</option>').join('')+'</select></td>'+
+    '<td><input type="checkbox" '+(r.taken?'checked':'')+' onchange="setField(\'doses\',\''+r.id+'\',\'taken\',this.checked)"></td>'+
+    '<td><input type="text" value="'+esc(r.note)+'" oninput="setField(\'doses\',\''+r.id+'\',\'note\',this.value)"></td>'+
+    '<td>'+delBtn('doses',r.id)+'</td></tr>').join('');
+  $('dose-empty').innerHTML = rows.length?'':'<div class="empty">No doses logged yet. Add your most recent one to start the record.</div>';
+  $('dose-count').textContent=rows.length;
+  $('dose-current').textContent=rows[0]&&rows[0].dose?rows[0].dose:'—';
+  $('dose-lastsite').textContent=rows[0]?rows[0].site:'—';
+  $('dose-weeks').textContent = APP.details.start? Math.max(0,Math.floor(daysBetween(APP.details.start,todayISO())/7)) : 0;
+}
+
+/* ================= HOW IT SAT ================= */
+function addFood(){ APP.foods.push({id:uid(),date:todayISO(),food:'',sat:'ok',note:''}); save(); renderFoods(); }
+function renderFoods(){
+  const rows=APP.foods.slice().sort((a,b)=>(a.date<b.date?1:-1));
+  const chip=v=>v==='good'?'good':(v==='rough'?'rough':'ok');
+  $('food-body').innerHTML=rows.map(r=>
+    '<tr><td><input type="date" value="'+esc(r.date)+'" onchange="setField(\'foods\',\''+r.id+'\',\'date\',this.value);renderFoods()"></td>'+
+    '<td><input type="text" value="'+esc(r.food)+'" placeholder="Greek yogurt" oninput="setField(\'foods\',\''+r.id+'\',\'food\',this.value);renderFoodLists()"></td>'+
+    '<td><select onchange="setField(\'foods\',\''+r.id+'\',\'sat\',this.value);renderFoods()">'+
+      ['good','ok','rough'].map(v=>'<option value="'+v+'"'+(v===r.sat?' selected':'')+'>'+
+        (v==='good'?'Sat well':v==='ok'?'Hit or miss':'Rough')+'</option>').join('')+'</select></td>'+
+    '<td><input type="text" value="'+esc(r.note)+'" oninput="setField(\'foods\',\''+r.id+'\',\'note\',this.value)"></td>'+
+    '<td>'+delBtn('foods',r.id)+'</td></tr>').join('');
+  $('food-empty').innerHTML = rows.length?'':'<div class="empty">Nothing logged yet. Add a food after a meal that surprised you — good or bad.</div>';
+  renderFoodLists();
+}
+function renderFoodLists(){
+  const g={good:[],ok:[],rough:[]};
+  APP.foods.forEach(f=>{ if(f.food&&g[f.sat]) g[f.sat].push(f.food); });
+  const put=(id,arr)=>$(id).innerHTML = arr.length
+    ? arr.slice(0,12).map(x=>'<div style="font-size:13.5px;padding:4px 0;border-bottom:1px solid var(--border)">'+esc(x)+'</div>').join('')
+    : '<div style="color:var(--muted);font-size:13px;">—</div>';
+  put('food-good',g.good); put('food-ok',g.ok); put('food-rough',g.rough);
+}
+
+/* ================= SYMPTOMS ================= */
+function sinceLastDose(iso){
+  const prior=APP.doses.filter(d=>d.taken&&d.date<=iso).sort((a,b)=>(a.date<b.date?1:-1))[0];
+  return prior? Math.min(6,Math.max(0,daysBetween(prior.date,iso))) : '';
+}
+function addSymptom(){ const d=todayISO();
+  APP.symptoms.push({id:uid(),date:d,name:'',sev:3,sinceDose:sinceLastDose(d),note:''}); save(); renderSymptoms(); }
+function renderSymptoms(){
+  const rows=APP.symptoms.slice().sort((a,b)=>(a.date<b.date?1:-1));
+  $('sym-body').innerHTML=rows.map(r=>
+    '<tr><td><input type="date" value="'+esc(r.date)+'" onchange="setField(\'symptoms\',\''+r.id+'\',\'date\',this.value);reSince(\''+r.id+'\')"></td>'+
+    '<td><input type="text" value="'+esc(r.name)+'" placeholder="Nausea" oninput="setField(\'symptoms\',\''+r.id+'\',\'name\',this.value)"></td>'+
+    '<td><select onchange="setField(\'symptoms\',\''+r.id+'\',\'sev\',this.value);renderSymptoms()">'+
+      [1,2,3,4,5].map(v=>'<option value="'+v+'"'+(String(v)===String(r.sev)?' selected':'')+'>'+v+'</option>').join('')+'</select></td>'+
+    '<td class="num" style="color:var(--muted)">'+(r.sinceDose===''?'—':'day '+r.sinceDose)+'</td>'+
+    '<td><input type="text" value="'+esc(r.note)+'" oninput="setField(\'symptoms\',\''+r.id+'\',\'note\',this.value)"></td>'+
+    '<td>'+delBtn('symptoms',r.id)+'</td></tr>').join('');
+  $('sym-empty').innerHTML = rows.length?'':'<div class="empty">Nothing logged. Severity is 1 (barely there) to 5 (had to stop what I was doing).</div>';
+  drawSymChart('sym-chart');
+  const worst=[0,1,2,3,4,5,6].map(i=>{
+    const a=APP.symptoms.filter(s=>String(s.sinceDose)===String(i)).map(s=>parseFloat(s.sev)||0);
+    return {d:i,avg:a.length?a.reduce((x,y)=>x+y,0)/a.length:0,n:a.length};
+  }).filter(x=>x.n).sort((a,b)=>b.avg-a.avg)[0];
+  $('sym-insight').textContent = worst
+    ? 'So far you tend to feel it most on day '+worst.d+' after your dose (average severity '+worst.avg.toFixed(1)+' of 5). Worth mentioning at your next appointment.'
+    : 'Log a few symptoms to see your pattern.';
+}
+function reSince(id){ const s=APP.symptoms.find(x=>x.id===id); if(s){ s.sinceDose=sinceLastDose(s.date); save(); renderSymptoms(); } }
+
+/* ================= MEASUREMENTS ================= */
+function addMeasure(){ APP.measures.push({id:uid(),date:todayISO(),weight:'',waist:'',hips:'',chest:'',arm:''}); save(); renderMeasures(); }
+function renderMeasures(){
+  const rows=APP.measures.slice().sort((a,b)=>(a.date<b.date?1:-1));
+  const f=['weight','waist','hips','chest','arm'];
+  $('mea-body').innerHTML=rows.map(r=>
+    '<tr><td><input type="date" value="'+esc(r.date)+'" onchange="setField(\'measures\',\''+r.id+'\',\'date\',this.value);renderMeasures()"></td>'+
+    f.map(k=>'<td><input type="number" step="0.1" style="width:76px" class="num" value="'+esc(r[k])+'" '+
+      'oninput="setField(\'measures\',\''+r.id+'\',\''+k+'\',this.value);renderMeasures()"></td>').join('')+
+    '<td>'+delBtn('measures',r.id)+'</td></tr>').join('');
+  $('mea-empty').innerHTML = rows.length?'':'<div class="empty">No entries yet. Once a week, same time of day, is plenty.</div>';
+  const u=APP.details.unit==='kg'?'kg':'lb';
+  const withW=rows.filter(r=>r.weight!=='').map(r=>parseFloat(r.weight));
+  $('mea-count').textContent=rows.length;
+  $('mea-latest').textContent = withW.length? withW[0]+' '+u : '—';
+  const start=parseFloat(APP.details.startWeight);
+  $('mea-change').textContent = (withW.length&&!isNaN(start))
+    ? ((withW[0]-start>=0?'+':'')+(withW[0]-start).toFixed(1)+' '+u) : '—';
+  const series=rows.slice().reverse().filter(r=>r.weight!=='').map(r=>parseFloat(r.weight));
+  const el=$('mea-chart');
+  if(series.length<2){ el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:8px 0;">Two entries or more and a trend line appears here.</div>'; }
+  else{
+    const mn=Math.min.apply(null,series), mx=Math.max.apply(null,series), span=(mx-mn)||1;
+    el.innerHTML=series.map(v=>'<div class="sym-col"><div class="sym-bar" style="height:'+
+      (12+((v-mn)/span)*88)+'%" title="'+v+' '+u+'"></div></div>').join('');
+  }
+}
+
+/* ================= STRENGTH ================= */
+function addSession(){ APP.sessions.push({id:uid(),date:todayISO(),what:'',mins:'',felt:''}); save(); renderStrength(); }
+function renderStrength(){
+  const rows=APP.sessions.slice().sort((a,b)=>(a.date<b.date?1:-1));
+  $('str-body').innerHTML=rows.map(r=>
+    '<tr><td><input type="date" value="'+esc(r.date)+'" onchange="setField(\'sessions\',\''+r.id+'\',\'date\',this.value);renderStrength()"></td>'+
+    '<td><input type="text" value="'+esc(r.what)+'" placeholder="Full body" oninput="setField(\'sessions\',\''+r.id+'\',\'what\',this.value)"></td>'+
+    '<td><input type="number" class="num" style="width:70px" value="'+esc(r.mins)+'" oninput="setField(\'sessions\',\''+r.id+'\',\'mins\',this.value)"></td>'+
+    '<td><input type="text" value="'+esc(r.felt)+'" placeholder="Strong" oninput="setField(\'sessions\',\''+r.id+'\',\'felt\',this.value)"></td>'+
+    '<td>'+delBtn('sessions',r.id)+'</td></tr>').join('');
+  $('str-empty').innerHTML = rows.length?'':'<div class="empty">Nothing logged yet. Fifteen minutes counts.</div>';
+  const ws=isoOf(weekStart()), we=isoOf(addDays(weekStart(),6));
+  $('str-week').innerHTML = APP.sessions.filter(s=>s.date>=ws&&s.date<=we).length+'<span style="font-size:17px;color:var(--muted)"> / 2</span>';
+  $('str-total').textContent=rows.length;
+  let streak=0;
+  for(let w=0;w<52;w++){
+    const s=isoOf(addDays(weekStart(),-7*w)), e=isoOf(addDays(weekStart(),-7*w+6));
+    if(APP.sessions.filter(x=>x.date>=s&&x.date<=e).length>=2) streak++; else break;
+  }
+  $('str-streak').innerHTML=streak+'<span style="font-size:17px;color:var(--muted)"> wks</span>';
+}
+
+/* ================= NSV / QUESTIONS / REFILLS / CHECKLIST ================= */
+function addNSV(){ APP.nsv.push({id:uid(),date:todayISO(),text:''}); save(); renderNSV(); }
+function renderNSV(){
+  $('nsv-prompt').innerHTML='<strong>Prompt:</strong> '+NSV_PROMPTS[APP.nsv.length%NSV_PROMPTS.length];
+  const rows=APP.nsv.slice().sort((a,b)=>(a.date<b.date?1:-1));
+  $('nsv-list').innerHTML = rows.length? rows.map(n=>
+    '<div class="card" style="margin-bottom:12px;"><div style="display:flex;gap:12px;align-items:center;margin-bottom:8px;">'+
+    '<input type="date" style="width:150px" value="'+esc(n.date)+'" onchange="setField(\'nsv\',\''+n.id+'\',\'date\',this.value);renderNSV()">'+
+    '<div style="margin-left:auto">'+delBtn('nsv',n.id)+'</div></div>'+
+    '<textarea oninput="setField(\'nsv\',\''+n.id+'\',\'text\',this.value)" placeholder="Write it here.">'+esc(n.text)+'</textarea></div>').join('')
+    : '<div class="empty">Nothing yet. Start with anything that is easier now than it was a month ago.</div>';
+}
+function addQuestion(){ APP.questions.push({id:uid(),text:'',asked:false}); save(); renderQuestions(); }
+function renderQuestions(){
+  $('q-appt').innerHTML = APP.details.nextAppt
+    ? '<strong>Next appointment:</strong> '+fmtShort(APP.details.nextAppt)+' — '+APP.questions.filter(q=>!q.asked).length+' question(s) still to ask.'
+    : 'Add your next appointment date in My Details and it will show here.';
+  $('q-list').innerHTML = APP.questions.length? APP.questions.map(q=>
+    '<div class="card" style="margin-bottom:10px;display:flex;gap:12px;align-items:flex-start;">'+
+    '<button class="tick-btn" aria-pressed="'+(q.asked?'true':'false')+'" onclick="setField(\'questions\',\''+q.id+'\',\'asked\','+(!q.asked)+');renderQuestions()">'+
+    '<svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5.5 5.5L20 6"/></svg></button>'+
+    '<textarea style="flex:1;min-height:52px;'+(q.asked?'opacity:.5;':'')+'" oninput="setField(\'questions\',\''+q.id+'\',\'text\',this.value)" placeholder="Ask about…">'+esc(q.text)+'</textarea>'+
+    delBtn('questions',q.id)+'</div>').join('')
+    : '<div class="empty">Nothing here yet. Add the thing you keep meaning to ask.</div>';
+}
+function addRefill(){ APP.refills.push({id:uid(),filled:todayISO(),next:'',cost:'',pa:'n/a',pharmacy:APP.details.pharmacy||''}); save(); renderRefills(); }
+function renderRefills(){
+  const rows=APP.refills.slice().sort((a,b)=>(a.filled<b.filled?1:-1));
+  const PA=['n/a','pending','approved','denied'];
+  $('ref-body').innerHTML=rows.map(r=>
+    '<tr><td><input type="date" value="'+esc(r.filled)+'" onchange="setField(\'refills\',\''+r.id+'\',\'filled\',this.value);renderRefills()"></td>'+
+    '<td><input type="date" value="'+esc(r.next)+'" onchange="setField(\'refills\',\''+r.id+'\',\'next\',this.value);renderRefills()"></td>'+
+    '<td><input type="number" step="0.01" class="num" style="width:88px" value="'+esc(r.cost)+'" oninput="setField(\'refills\',\''+r.id+'\',\'cost\',this.value);renderRefills()"></td>'+
+    '<td><select onchange="setField(\'refills\',\''+r.id+'\',\'pa\',this.value)">'+
+      PA.map(v=>'<option value="'+v+'"'+(v===r.pa?' selected':'')+'>'+v+'</option>').join('')+'</select></td>'+
+    '<td><input type="text" value="'+esc(r.pharmacy)+'" oninput="setField(\'refills\',\''+r.id+'\',\'pharmacy\',this.value)"></td>'+
+    '<td>'+delBtn('refills',r.id)+'</td></tr>').join('');
+  $('ref-empty').innerHTML = rows.length?'':'<div class="empty">Nothing logged. Add your last fill so the next due date shows on your dashboard.</div>';
+  const costs=rows.map(r=>parseFloat(r.cost)).filter(n=>!isNaN(n));
+  const total=costs.reduce((a,b)=>a+b,0);
+  $('ref-total').textContent = costs.length? '$'+total.toFixed(0) : '—';
+  $('ref-avg').textContent   = costs.length? '$'+(total/costs.length).toFixed(0) : '—';
+  const up=nextUpcomingRefill();
+  $('ref-next').textContent = up? fmtShort(up.next) : '—';
+  $('ref-next-sub').textContent = up? (daysBetween(todayISO(),up.next)+' days away') : 'Nothing upcoming';
+}
+function renderChecklist(){
+  const phases=[];
+  APP.checklist.forEach(i=>{ if(!phases.includes(i.phase)) phases.push(i.phase); });
+  $('ck-list').innerHTML = phases.map(p=>
+    '<div class="card" style="margin-bottom:14px;"><div class="eyebrow" style="margin-bottom:12px;">'+esc(p)+'</div>'+
+    APP.checklist.filter(i=>i.phase===p).map(i=>
+      '<div style="display:flex;gap:10px;align-items:center;padding:7px 0;">'+
+      '<button class="tick-btn" aria-pressed="'+(i.done?'true':'false')+'" onclick="setField(\'checklist\',\''+i.id+'\',\'done\','+(!i.done)+');renderChecklist()">'+
+      '<svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5.5 5.5L20 6"/></svg></button>'+
+      '<span style="font-size:14px;'+(i.done?'opacity:.5;text-decoration:line-through;':'')+'">'+esc(i.text)+'</span></div>').join('')+
+    '</div>').join('');
+  const done=APP.checklist.filter(i=>i.done).length, tot=APP.checklist.length;
+  $('ck-done').textContent=done; $('ck-left').textContent=tot-done;
+  $('ck-pct').textContent = tot? Math.round(done/tot*100)+'%' : '0%';
+}
+function resetChecklist(){ APP.checklist=[]; seedIfEmpty(); save(); renderChecklist(); toast('Checklist reset'); }
+
+/* ================= render all ================= */
+function renderAll(){
+  renderDashboard(); renderDaily(); renderDose(); renderFoods(); renderSymptoms();
+  renderMeasures(); renderStrength(); renderNSV(); renderQuestions(); renderRefills();
+  renderChecklist(); updateDetailsDot();
+}
+</script>
+
+<script>
+/* ============================================================
+   ENCRYPTED SAVE / RESTORE
+   AES-256-GCM via the browser's own Web Crypto. Key derived from
+   the buyer's passphrase with PBKDF2-SHA256, 300,000 iterations.
+   No server, no library. Encryption is mandatory — there is no
+   plain-JSON export path, so an unencrypted backup can't happen
+   by accident. Restore still accepts old plaintext files.
+   ============================================================ */
+const ITER=300000;
+const WORDS=('anchor amber apple arbor arrow autumn bamboo basil beacon birch bison blossom bramble breeze bridge bright brook '+
+'butter cabin cactus canvas cedar chalk cherry cinder cliff clover cobalt copper coral cotton crane crater crest crimson crocus '+
+'crystal cypress daisy dapple dawn delta denim dune dusk ember fable falcon fathom fennel fern fiddle finch flannel flint forest '+
+'fossil gable garnet gentle ginger glacier glimmer granite gravel grove hammock harbor harvest hazel heather heron hickory hollow '+
+'honey ivory jasper juniper kettle lagoon lantern lattice laurel lavender ledger lichen lilac linen lumen lunar mallow maple '+
+'marble marigold meadow mellow mesa mineral minnow mint mirror mosaic moss mulberry myrtle nectar nimbus noble nutmeg oaken '+
+'ochre olive onyx opal orchard osprey otter paddle pampas pantry parsley pebble pewter pine plover pollen poplar prairie quarry '+
+'quartz quiet quill radish raven ribbon ridge rille river rosemary rowan russet saffron sage sandbar sapling satin scarlet '+
+'sequoia shale shallow shore signal silver sorrel spruce squall stanza stipple stone summit sunder sycamore tallow tamarind '+
+'teal thicket thimble thistle thorn thrush timber tinder topaz trellis tulip tundra umber valley velvet verbena vessel vetiver '+
+'walnut warble willow window winter wisteria yarrow yonder zenith zephyr').split(/\s+/);
+
+function makePhrase(){ let w=[]; const r=new Uint32Array(4); crypto.getRandomValues(r);
+  for(let i=0;i<4;i++) w.push(WORDS[r[i]%WORDS.length]); return w.join('-'); }
+function newPhrase(){ const p=makePhrase(); $('pp1').value=p; $('pp2').value=p; $('pp-err').classList.remove('show'); }
+function togglePP(){
+  const a=$('pp1'),b=$('pp2'),t=$('pp-toggle'),hide=a.type==='text';
+  a.type=b.type=hide?'password':'text'; t.textContent=hide?'Show':'Hide';
+}
+const b64=buf=>btoa(String.fromCharCode.apply(null,new Uint8Array(buf)));
+const unb64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+
+async function deriveKey(pass,salt){
+  const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(pass),'PBKDF2',false,['deriveKey']);
+  return crypto.subtle.deriveKey({name:'PBKDF2',salt:salt,iterations:ITER,hash:'SHA-256'},
+    base,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
+}
+function openSaveModal(){
+  $('pp-err').classList.remove('show');
+  if(!$('pp1').value) newPhrase();
+  openModal('save-modal');
+}
+async function doEncryptedSave(){
+  const p1=$('pp1').value.trim(), p2=$('pp2').value.trim(), err=$('pp-err');
+  if(p1.length<8){ err.textContent='Use at least 8 characters — the suggested phrase is a good length.'; err.classList.add('show'); return; }
+  if(p1!==p2){ err.textContent='The two phrases do not match.'; err.classList.add('show'); return; }
+  err.classList.remove('show');
+  try{
+    const salt=crypto.getRandomValues(new Uint8Array(16)), iv=crypto.getRandomValues(new Uint8Array(12));
+    const key=await deriveKey(p1,salt);
+    const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv:iv},key,new TextEncoder().encode(JSON.stringify(APP)));
+    const payload={mdrnEncrypted:true,v:1,product:'GLP-1 Companion Planner',
+      kdf:'PBKDF2-SHA256',iterations:ITER,salt:b64(salt),iv:b64(iv),
+      hint:$('pp-hint').value.trim(),data:b64(ct)};
+    downloadJSON(payload,'glp1-companion-'+todayISO()+'.json');
+    closeModal('save-modal'); toast('Encrypted backup downloaded');
+  }catch(e){ err.textContent='Could not encrypt on this browser: '+e.message; err.classList.add('show'); }
+}
+function downloadJSON(obj,filename){
+  const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+}
+function triggerRestore(){ $('restore-file').value=''; $('restore-file').click(); }
+let pendingPayload=null;
+function handleRestoreFile(ev){
+  const f=ev.target.files&&ev.target.files[0]; if(!f) return;
+  const rd=new FileReader();
+  rd.onload=()=>{
+    let parsed; try{ parsed=JSON.parse(rd.result); }
+    catch(e){ toast('That file is not a valid backup'); return; }
+    if(parsed && parsed.mdrnEncrypted){
+      pendingPayload=parsed;
+      $('rp1').value=''; $('rp-err').classList.remove('show');
+      $('restore-hint').textContent = parsed.hint
+        ? 'This backup is encrypted. Your hint: “'+parsed.hint+'”'
+        : 'This backup is encrypted. Enter the passphrase you used when you saved it.';
+      openModal('restore-modal');
+    } else {
+      applyRestored(parsed); toast('Backup restored');   /* pre-encryption file */
+    }
+  };
+  rd.readAsText(f);
+}
+async function doDecryptRestore(){
+  const err=$('rp-err'), pass=$('rp1').value.trim();
+  if(!pass){ err.textContent='Enter the passphrase.'; err.classList.add('show'); return; }
+  try{
+    const key=await deriveKey(pass,unb64(pendingPayload.salt));
+    const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(pendingPayload.iv)},key,unb64(pendingPayload.data));
+    applyRestored(JSON.parse(new TextDecoder().decode(pt)));
+    closeModal('restore-modal'); toast('Backup restored');
+  }catch(e){
+    err.textContent='That passphrase did not unlock this file. Check for typos and try again.';
+    err.classList.add('show');
+  }
+}
+function applyRestored(obj){
+  if(!obj||typeof obj!=='object') return;
+  APP=Object.assign(APP,obj);
+  if(!APP.days) APP.days={};
+  ['doses','foods','symptoms','measures','sessions','nsv','questions','refills','checklist']
+    .forEach(k=>{ if(!Array.isArray(APP[k])) APP[k]=[]; });
+  document.body.className=APP.palette||'slate-amber';
+  save(); fillDetails(); renderPalRow(); renderAll(); hideWelcome();
+}
+
+/* ---------- share ---------- */
+function shareSummary(){
+  const d=APP.details, last=APP.doses.slice().sort((a,b)=>(a.date<b.date?1:-1))[0];
+  const lines=['GLP-1 Companion — summary','',
+    'Weeks on treatment: '+(d.start?Math.max(0,Math.floor(daysBetween(d.start,todayISO())/7)):'—'),
+    'Current dose: '+((last&&last.dose)||'—'),
+    'Protein target: '+(d.proteinTarget||'—')+'g/day',
+    'Doses logged: '+APP.doses.length,
+    'Symptoms logged: '+APP.symptoms.length,
+    'Non-scale victories: '+APP.nsv.length,
+    'Questions to ask: '+APP.questions.filter(q=>!q.asked).length,'',
+    'Shared from a private planner. Not a medical record.'];
+  const text=lines.join('\n');
+  if(navigator.share){ navigator.share({title:'GLP-1 Companion',text:text}).catch(()=>{}); }
+  else if(navigator.clipboard){ navigator.clipboard.writeText(text).then(()=>toast('Summary copied')).catch(()=>toast('Could not copy')); }
+  else toast('Sharing is not available in this browser');
+}
+
+/* ---------- boot ---------- */
+(function boot(){
+  load();
+  document.body.className=APP.palette||'slate-amber';
+  renderPalRow(); fillDetails(); seedIfEmpty();
+  const started = APP.details.name || APP.doses.length || Object.keys(APP.days).length ||
+                  localStorage.getItem('glp1CompanionState');
+  if(started) hideWelcome();
+  if(!$('w-start').value) $('w-start').value=todayISO();
+  if(!$('w-doseday').value) $('w-doseday').value=APP.details.doseDay||'3';
+  renderAll();
+})();
+</script>
+</body>
+</html>

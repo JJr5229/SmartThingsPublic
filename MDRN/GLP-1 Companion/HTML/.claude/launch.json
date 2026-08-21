@@ -1,0 +1,10 @@
+{
+  "configurations": [
+    {
+      "name": "glp1-companion",
+      "type": "static",
+      "command": "python -m http.server 8936 --directory .",
+      "url": "http://localhost:8936/glp1-companion-planner-v1.html"
+    }
+  ]
+}
