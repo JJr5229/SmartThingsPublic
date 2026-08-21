@@ -1,0 +1,696 @@
+<title>One Habit at a Time</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+
+<style>
+  :root {
+    --bg:        #EFF2EF;
+    --surface:   #FAFBF9;
+    --surface-2: #E7ECE8;
+    --ink:       #141C1A;
+    --ink-2:     #4A5754;
+    --ink-3:     #7C8A86;
+    --line:      #D3DBD6;
+    --line-2:    #BFCAC4;
+    --accent:    #0F6B62;
+    --accent-2:  #0B564F;
+    --accent-soft:#D6E6E2;
+    --ember:     #A85E15;
+    --ember-soft:#F1E2CE;
+    --shadow: 0 1px 2px rgba(20,28,26,.05), 0 8px 24px -16px rgba(20,28,26,.35);
+
+    --display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
+    --body: "Newsreader", Georgia, "Times New Roman", serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+    --measure: 66ch;
+    --radius: 3px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:        #0E1413;
+      --surface:   #161E1C;
+      --surface-2: #1D2725;
+      --ink:       #E7EDE9;
+      --ink-2:     #9DABA7;
+      --ink-3:     #74827E;
+      --line:      #26312E;
+      --line-2:    #35423E;
+      --accent:    #4FBFAE;
+      --accent-2:  #79D6C7;
+      --accent-soft:#173430;
+      --ember:     #E0983F;
+      --ember-soft:#3A2A15;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:        #0E1413;
+    --surface:   #161E1C;
+    --surface-2: #1D2725;
+    --ink:       #E7EDE9;
+    --ink-2:     #9DABA7;
+    --ink-3:     #74827E;
+    --line:      #26312E;
+    --line-2:    #35423E;
+    --accent:    #4FBFAE;
+    --accent-2:  #79D6C7;
+    --accent-soft:#173430;
+    --ember:     #E0983F;
+    --ember-soft:#3A2A15;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.62;
+    margin: 0;
+    padding: 0 20px 96px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 780px; margin: 0 auto; }
+
+  h1, h2, h3, .ui { font-family: var(--display); }
+  h1, h2, h3 { text-wrap: balance; line-height: 1.16; margin: 0; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* ---------- masthead ---------- */
+  .masthead { padding: 64px 0 36px; border-bottom: 1px solid var(--line); }
+  .masthead h1 {
+    font-size: clamp(38px, 8vw, 60px);
+    font-weight: 700;
+    letter-spacing: -.025em;
+    margin: 14px 0 0;
+  }
+  .standfirst {
+    max-width: var(--measure);
+    color: var(--ink-2);
+    font-size: 19px;
+    margin: 18px 0 0;
+  }
+
+  /* ---------- rules of the road ---------- */
+  .rules { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); margin: 36px 0 0; border-radius: var(--radius); overflow: hidden; }
+  @media (min-width: 680px) { .rules { grid-template-columns: repeat(3, 1fr); } }
+  .rule { background: var(--surface); padding: 20px 22px; }
+  .rule h3 { font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
+  .rule p { margin: 8px 0 0; font-size: 15.5px; line-height: 1.5; color: var(--ink-2); }
+
+  /* ---------- status strip ---------- */
+  .status {
+    margin: 44px 0 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .status-top {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px;
+    padding: 20px 22px 18px;
+    border-bottom: 1px solid var(--line);
+  }
+  .weekmark {
+    font-family: var(--mono); font-size: 12px; font-weight: 600;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3);
+  }
+  .weekmark b { color: var(--accent); font-weight: 600; }
+  .status-top h2 { font-size: clamp(22px, 4.4vw, 28px); font-weight: 600; letter-spacing: -.02em; flex-basis: 100%; }
+  .status-ask { flex-basis: 100%; margin: 6px 0 0; color: var(--ink-2); max-width: var(--measure); }
+
+  .weeknav { display: flex; align-items: center; gap: 8px; padding: 12px 22px; background: var(--surface-2); flex-wrap: wrap; }
+  .weeknav .spacer { flex: 1; }
+
+  button, .btn {
+    font-family: var(--display); font-size: 13.5px; font-weight: 600;
+    color: var(--ink); background: var(--surface);
+    border: 1px solid var(--line-2); border-radius: var(--radius);
+    padding: 7px 13px; cursor: pointer;
+    transition: background .12s ease, border-color .12s ease, color .12s ease;
+  }
+  button:hover { border-color: var(--accent); color: var(--accent); }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  button[disabled] { opacity: .4; cursor: default; }
+  button[disabled]:hover { border-color: var(--line-2); color: var(--ink); }
+
+  .datefield { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
+  .datefield input {
+    font-family: var(--mono); font-size: 12.5px; color: var(--ink);
+    background: var(--surface); border: 1px solid var(--line-2);
+    border-radius: var(--radius); padding: 6px 8px;
+  }
+  .datefield input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  /* ---------- the board ---------- */
+  .board-wrap { overflow-x: auto; padding: 4px 0 2px; }
+  table.board { border-collapse: collapse; width: 100%; min-width: 480px; }
+  table.board th, table.board td { padding: 0; }
+  table.board thead th {
+    font-family: var(--mono); font-size: 10.5px; font-weight: 500;
+    letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3);
+    padding: 0 0 10px; text-align: center; width: 44px;
+  }
+  table.board thead th.rowhead { text-align: left; width: auto; min-width: 168px; }
+  table.board thead th .dnum { display: block; font-size: 12px; color: var(--ink-2); font-weight: 500; letter-spacing: 0; }
+  table.board thead th.today, table.board thead th.today .dnum { color: var(--ember); font-weight: 600; }
+
+  td.rowhead {
+    font-family: var(--display); font-size: 14.5px; font-weight: 500;
+    padding: 0 14px 0 0; white-space: nowrap;
+  }
+  td.rowhead .wk { font-family: var(--mono); font-size: 11px; color: var(--ink-3); margin-right: 8px; }
+  tr.newthisweek td.rowhead { color: var(--accent); font-weight: 600; }
+  tbody tr { border-top: 1px solid var(--line); }
+  tbody tr:first-child { border-top: none; }
+  td.cell { text-align: center; height: 44px; }
+
+  .tick {
+    width: 30px; height: 30px; padding: 0;
+    border: 1px solid var(--line-2); border-radius: var(--radius);
+    background: var(--surface); display: inline-flex; align-items: center; justify-content: center;
+  }
+  .tick svg { width: 16px; height: 16px; opacity: 0; transform: scale(.7); transition: opacity .14s ease, transform .14s ease; }
+  .tick[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); }
+  .tick[aria-pressed="true"] svg { opacity: 1; transform: scale(1); stroke: var(--surface); }
+  :root[data-theme="dark"] .tick[aria-pressed="true"] svg { stroke: #0E1413; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tick[aria-pressed="true"] svg { stroke: #0E1413; } }
+  .tick:hover { border-color: var(--accent); }
+  .tick.is-today { box-shadow: 0 0 0 2px var(--ember-soft); border-color: var(--ember); }
+  .tick.is-future { opacity: .35; }
+
+  .tally { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); text-align: right; white-space: nowrap; padding-left: 12px; }
+  .tally.met { color: var(--accent); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+
+  /* ---------- generic section ---------- */
+  section { margin: 56px 0 0; }
+  .sechead { display: flex; align-items: baseline; gap: 14px; border-bottom: 1px solid var(--line); padding-bottom: 10px; margin-bottom: 26px; }
+  .sechead h2 { font-size: 24px; font-weight: 600; letter-spacing: -.02em; }
+  .sechead .count { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); margin-left: auto; }
+
+  p { max-width: var(--measure); }
+  .lede { color: var(--ink-2); }
+
+  /* ---------- week stack ---------- */
+  .stack { display: flex; flex-direction: column; }
+  .week {
+    display: grid; grid-template-columns: 56px 1fr; gap: 0 18px;
+    padding: 22px 0; border-top: 1px solid var(--line);
+  }
+  .week:first-child { border-top: none; }
+  .wnum {
+    font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: .06em;
+    color: var(--ink-3); padding-top: 5px;
+  }
+  .week h3 { font-size: 20px; font-weight: 600; letter-spacing: -.015em; }
+  .week .ask { margin: 8px 0 0; font-size: 17px; }
+  .meta { margin: 14px 0 0; display: grid; gap: 7px; }
+  .meta div { font-size: 15px; line-height: 1.5; color: var(--ink-2); max-width: var(--measure); }
+  .meta .k {
+    font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--ink-3); margin-right: 9px;
+  }
+  .week.is-current { background: var(--accent-soft); margin: 0 -20px; padding: 22px 20px; border-radius: var(--radius); border-top-color: transparent; }
+  .week.is-current .wnum { color: var(--accent); }
+  .week.is-past .wnum::after { content: " ✓"; color: var(--accent); }
+  .week.is-future { opacity: .52; }
+  .tag {
+    display: inline-block; font-family: var(--mono); font-size: 10px; font-weight: 600;
+    letter-spacing: .09em; text-transform: uppercase; padding: 3px 7px; border-radius: 2px;
+    margin-left: 10px; vertical-align: 3px;
+  }
+  .tag.now { background: var(--accent); color: var(--surface); }
+  :root[data-theme="dark"] .tag.now { color: #0E1413; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tag.now { color: #0E1413; } }
+  .tag.keep { background: transparent; color: var(--ink-3); border: 1px solid var(--line-2); }
+
+  /* ---------- notes ---------- */
+  textarea {
+    width: 100%; min-height: 110px; resize: vertical;
+    font-family: var(--body); font-size: 16.5px; line-height: 1.55; color: var(--ink);
+    background: var(--surface); border: 1px solid var(--line-2);
+    border-radius: var(--radius); padding: 14px 16px;
+  }
+  textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+  .notehint { font-family: var(--mono); font-size: 11px; color: var(--ink-3); margin: 9px 0 0; }
+
+  /* ---------- slip / footer ---------- */
+  .plainbox { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px 26px; }
+  .plainbox h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+  .plainbox p + h3 { margin-top: 22px; }
+  .plainbox p { margin: 0; color: var(--ink-2); }
+
+  footer { margin: 64px 0 0; padding-top: 22px; border-top: 1px solid var(--line); }
+  footer p { font-size: 14.5px; color: var(--ink-3); line-height: 1.55; }
+
+  @media print {
+    .weeknav, .datefield, .notehint { display: none; }
+    body { background: #fff; color: #000; padding: 0; }
+    .week.is-future { opacity: 1; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="eyebrow">Twelve weeks &middot; one habit at a time</div>
+    <h1>One Habit at a Time</h1>
+    <p class="standfirst">A weight-loss plan that never asks you to overhaul your life on a Monday. You add one small habit each week and keep the ones you already have. By week twelve you are not on a diet &mdash; you have twelve things you just do.</p>
+
+    <div class="rules">
+      <div class="rule">
+        <h3>One thing per week</h3>
+        <p>You are only ever learning one new habit. Everything else is already automatic, or it will be.</p>
+      </div>
+      <div class="rule">
+        <h3>Nothing gets dropped</h3>
+        <p>Week 5 means five habits, not a new one. The board grows because that is the whole point.</p>
+      </div>
+      <div class="rule">
+        <h3>A missed day is a missed day</h3>
+        <p>It is not a reset, a failure, or a reason to start over next month. Tick the next box.</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="status">
+    <div class="status-top">
+      <div class="weekmark">Week <b id="wk-label">1</b> of 12 &middot; <span id="wk-dates">&mdash;</span></div>
+      <h2 id="wk-title">&mdash;</h2>
+      <p class="status-ask" id="wk-ask">&mdash;</p>
+    </div>
+    <div class="weeknav">
+      <button id="prev" type="button">&larr; Previous</button>
+      <button id="next" type="button">Next &rarr;</button>
+      <button id="today-btn" type="button">Jump to today</button>
+      <span class="spacer"></span>
+      <label class="datefield" for="start">Started
+        <input type="date" id="start">
+      </label>
+    </div>
+    <div style="padding: 18px 22px 20px;">
+      <div class="board-wrap">
+        <table class="board">
+          <thead><tr id="board-head"></tr></thead>
+          <tbody id="board-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="sechead">
+      <h2>This week, in your words</h2>
+    </div>
+    <textarea id="note" placeholder="What got easier? What got in the way? Anything you noticed that has nothing to do with the scale &mdash; sleep, energy, clothes, mood, knees."></textarea>
+    <p class="notehint" id="note-status">Saved in this browser only.</p>
+  </section>
+
+  <section>
+    <div class="sechead">
+      <h2>The twelve</h2>
+      <span class="count">each one stays</span>
+    </div>
+    <div class="stack" id="stack"></div>
+  </section>
+
+  <section>
+    <div class="sechead">
+      <h2>Two things worth settling now</h2>
+    </div>
+    <div class="plainbox">
+      <h3>About the scale</h3>
+      <p>Weight moves for a dozen reasons that have nothing to do with what you did &mdash; salt, sleep, hormones, a heavy meal the night before. If you weigh daily, you will react to noise. Weigh once a week at the same time, or skip it entirely and track the habits instead. The habits are the thing you control; the weight is a lagging report on them.</p>
+      <h3>When you fall off</h3>
+      <p>You will. A vacation, a bad week, a sick kid. The recovery rule is that you restart at the <em>next meal</em>, not next Monday &mdash; and you restart with the habits from weeks 1 through 3, not all twelve. Getting back is a small move, not a fresh start.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>This is a behavior plan, not medical advice. If you are pregnant, take medication that affects blood sugar or blood pressure, have a heart or kidney condition, or have any history of disordered eating, talk to your doctor before changing how you eat or move &mdash; some of these habits need adjusting for you specifically.</p>
+    <p>Everything you tick or type is stored in this browser and nowhere else.</p>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var KEY = "one-habit-at-a-time.v1";
+
+  var HABITS = [
+    { n: 1,  short: "Water first",     title: "A glass of water before you eat",
+      ask: "One full glass of water right before every meal. Drink it before the first bite, not alongside.",
+      why: "The point this week is not hydration, it is proof. One promise, kept seven days, with almost no cost. It also puts a small pause between deciding to eat and eating.",
+      smaller: "Just before dinner. One glass, once a day.",
+      anchor: "Sitting down at the table.", target: 7 },
+    { n: 2,  short: "Protein at breakfast", title: "Protein within an hour of waking",
+      ask: "Aim for 25–30g of protein in your first meal — eggs, Greek yogurt, cottage cheese, leftover chicken, a shake.",
+      why: "Protein keeps you full far longer than toast or cereal does. Most 10am snack raids are really a breakfast problem.",
+      smaller: "Any protein at all, even a hard-boiled egg on the way out.",
+      anchor: "Right after the coffee is poured.", target: 7 },
+    { n: 3,  short: "Walk after a meal", title: "Ten minutes of walking after one meal",
+      ask: "Pick the meal you are most reliably home for and walk ten minutes after it. Outside, a treadmill, laps of the house — all count.",
+      why: "Walking after eating blunts the blood-sugar spike, and ten minutes is short enough that you cannot argue with it. This is how movement starts.",
+      smaller: "Five minutes. To the end of the block and back.",
+      anchor: "Pushing your chair back from the table.", target: 7 },
+    { n: 4,  short: "Same wake time",   title: "One wake time, held within thirty minutes",
+      ask: "Pick a wake time you can hold every day, weekends included, give or take half an hour.",
+      why: "Short and irregular sleep raises hunger, kills the appetite-satisfaction signal, and makes every other habit here harder. Fixing the wake time fixes the bedtime on its own.",
+      smaller: "Weekdays only, and let the weekend drift.",
+      anchor: "The alarm, placed across the room.", target: 7 },
+    { n: 5,  short: "Half plate veg",   title: "Half the plate, vegetables, first",
+      ask: "At two meals a day, cover half the plate in vegetables before anything else goes on it.",
+      why: "You get volume and fiber for very few calories, and it crowds out the rest without you counting anything. Loading the plate in that order is what makes it work.",
+      smaller: "One meal a day. Frozen and bagged salad both count.",
+      anchor: "Reaching for the plate.", target: 7 },
+    { n: 6,  short: "Slow the meal",    title: "Put the fork down between bites",
+      ask: "At one meal a day, set the fork down after each bite and let the meal take twenty minutes.",
+      why: "Fullness takes about twenty minutes to register. Eat a big meal in eight and you have overshot before your body has any say in it.",
+      smaller: "Fork down for the first five bites, then eat normally.",
+      anchor: "The first bite of dinner.", target: 7 },
+    { n: 7,  short: "Dinner decided",   title: "Know what dinner is by 4pm",
+      ask: "By four o'clock each day, know what dinner is and know the ingredients are in the house.",
+      why: "Almost no takeout decision gets made by a rested person with a plan. It gets made at six by someone tired and empty-handed. Move the decision to when you still have judgment.",
+      smaller: "Three days a week. Start with the days you get home latest.",
+      anchor: "The afternoon slump.", target: 7 },
+    { n: 8,  short: "Strength ×2",     title: "Fifteen minutes of strength, twice a week",
+      ask: "Two sessions: squats or sit-to-stands, pushups against a wall or the floor, a row or a pull, and carry something heavy across the room. Fifteen minutes.",
+      why: "Losing weight costs you muscle as well as fat unless you give your body a reason to keep it. Muscle is also most of why the weight stays off afterward.",
+      smaller: "One session, ten minutes, bodyweight only.",
+      anchor: "The same two days every week — pick them now.", target: 2 },
+    { n: 9,  short: "Drink swap",       title: "One caloric drink swapped, daily",
+      ask: "Swap one soda, juice, sweet coffee or beer for water, sparkling water, black coffee or tea.",
+      why: "Liquid calories barely register as fullness — you drink 200 calories and eat the same dinner anyway. One swap a day is a real dent with no hunger cost.",
+      smaller: "Swap every other day, or make it a half-size instead of a swap.",
+      anchor: "The moment you reach for the usual one.", target: 7 },
+    { n: 10, short: "Kitchen closed",   title: "The kitchen closes at a set time",
+      ask: "Pick a time — eight o'clock is a good default — and stop eating after it. Wipe the counter, turn the light off, done.",
+      why: "Most unplanned eating happens at night, and almost none of it is hunger. It is tiredness, boredom, or the television. A closing time makes it one decision instead of forty.",
+      smaller: "No eating in front of the TV. Keep everything at the table.",
+      anchor: "Finishing the dinner dishes.", target: 7 },
+    { n: 11, short: "Weekly reset",     title: "One reset hour a week",
+      ask: "Same hour, same day, every week: plan the week's dinners, write the list, shop, and prep two things ahead — a protein and a vegetable.",
+      why: "This is the habit that carries the other ten. An hour on Sunday is what turns weeks 5, 7 and 9 from daily decisions into things that are simply already handled.",
+      smaller: "Twenty minutes. Just the meal plan and the shopping list.",
+      anchor: "Sunday morning, with the first coffee.", target: 1 },
+    { n: 12, short: "Slip plan",        title: "Write down how you come back",
+      ask: "Write two things: which three habits you will defend no matter what, and what \"back on track\" means — the next meal, not next Monday.",
+      why: "Nobody runs eleven habits perfectly forever. The people who keep the weight off are not the ones who never slip; they are the ones who already decided what happens next.",
+      smaller: "Pick one habit you will never let go, and name it out loud.",
+      anchor: "The first day you miss something.", target: 1 }
+  ];
+
+  var DAY_LETTERS = ["M", "T", "W", "T", "F", "S", "S"];
+
+  // ---- state -------------------------------------------------------------
+  var state = { start: null, checks: {}, notes: {} };
+  var viewWeek = 1;
+
+  function todayISO() {
+    var d = new Date();
+    return isoOf(d);
+  }
+  function isoOf(d) {
+    var m = String(d.getMonth() + 1).padStart(2, "0");
+    var day = String(d.getDate()).padStart(2, "0");
+    return d.getFullYear() + "-" + m + "-" + day;
+  }
+  function parseISO(s) {
+    var p = String(s || "").split("-");
+    if (p.length !== 3) return null;
+    var d = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+    return isNaN(d.getTime()) ? null : d;
+  }
+  function addDays(d, n) {
+    var c = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    c.setDate(c.getDate() + n);
+    return c;
+  }
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object") {
+          state.start = typeof parsed.start === "string" ? parsed.start : null;
+          state.checks = (parsed.checks && typeof parsed.checks === "object") ? parsed.checks : {};
+          state.notes = (parsed.notes && typeof parsed.notes === "object") ? parsed.notes : {};
+        }
+      }
+    } catch (e) { /* private mode, blocked storage — run with defaults */ }
+    if (!parseISO(state.start)) state.start = todayISO();
+  }
+
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); }
+    catch (e) { /* nothing to do; the page still works for this session */ }
+  }
+
+  function currentWeek() {
+    var s = parseISO(state.start);
+    if (!s) return 1;
+    var t = parseISO(todayISO());
+    var days = Math.floor((t - s) / 86400000);
+    return Math.min(12, Math.max(1, Math.floor(days / 7) + 1));
+  }
+
+  function dayOfWeek(week, i) { // i = 0..6
+    var s = parseISO(state.start);
+    return addDays(s, (week - 1) * 7 + i);
+  }
+
+  function ckey(habitN, week, dayIdx) { return habitN + ":" + week + ":" + dayIdx; }
+
+  // ---- rendering ---------------------------------------------------------
+  var fmtShort = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" });
+
+  function renderStatus() {
+    var h = HABITS[viewWeek - 1];
+    document.getElementById("wk-label").textContent = viewWeek;
+    document.getElementById("wk-title").textContent = h.title;
+    document.getElementById("wk-ask").textContent = h.ask;
+    var a = dayOfWeek(viewWeek, 0), b = dayOfWeek(viewWeek, 6);
+    document.getElementById("wk-dates").textContent = fmtShort.format(a) + " – " + fmtShort.format(b);
+    document.getElementById("prev").disabled = viewWeek <= 1;
+    document.getElementById("next").disabled = viewWeek >= 12;
+  }
+
+  function renderBoard() {
+    var head = document.getElementById("board-head");
+    var body = document.getElementById("board-body");
+    head.textContent = "";
+    body.textContent = "";
+
+    var today = isoOf(new Date());
+
+    var th0 = document.createElement("th");
+    th0.className = "rowhead";
+    th0.scope = "col";
+    th0.textContent = "Habit";
+    head.appendChild(th0);
+
+    for (var i = 0; i < 7; i++) {
+      var d = dayOfWeek(viewWeek, i);
+      var th = document.createElement("th");
+      th.scope = "col";
+      if (isoOf(d) === today) th.className = "today";
+      th.appendChild(document.createTextNode(DAY_LETTERS[d.getDay() === 0 ? 6 : d.getDay() - 1]));
+      var num = document.createElement("span");
+      num.className = "dnum";
+      num.textContent = d.getDate();
+      th.appendChild(num);
+      head.appendChild(th);
+    }
+    var thT = document.createElement("th");
+    thT.scope = "col";
+    thT.style.textAlign = "right";
+    thT.textContent = "Week";
+    head.appendChild(thT);
+
+    for (var w = 1; w <= viewWeek; w++) {
+      var habit = HABITS[w - 1];
+      var tr = document.createElement("tr");
+      if (w === viewWeek) tr.className = "newthisweek";
+
+      var td = document.createElement("td");
+      td.className = "rowhead";
+      var wk = document.createElement("span");
+      wk.className = "wk";
+      wk.textContent = String(w).padStart(2, "0");
+      td.appendChild(wk);
+      td.appendChild(document.createTextNode(habit.short));
+      tr.appendChild(td);
+
+      var done = 0;
+      for (var dI = 0; dI < 7; dI++) {
+        var date = dayOfWeek(viewWeek, dI);
+        var iso = isoOf(date);
+        var key = ckey(habit.n, viewWeek, dI);
+        var on = state.checks[key] === true;
+        if (on) done++;
+
+        var cell = document.createElement("td");
+        cell.className = "cell";
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "tick" + (iso === today ? " is-today" : "") + (iso > today ? " is-future" : "");
+        btn.setAttribute("aria-pressed", on ? "true" : "false");
+        btn.setAttribute("aria-label", habit.short + ", " + fmtShort.format(date));
+        btn.dataset.key = key;
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5.5 5.5L20 6"/></svg>';
+        cell.appendChild(btn);
+        tr.appendChild(cell);
+      }
+
+      var tally = document.createElement("td");
+      var target = habit.target;
+      tally.className = "tally" + (done >= target ? " met" : "");
+      tally.textContent = done + "/" + target;
+      tr.appendChild(tally);
+
+      body.appendChild(tr);
+    }
+  }
+
+  function renderStack() {
+    var stack = document.getElementById("stack");
+    stack.textContent = "";
+    HABITS.forEach(function (h) {
+      var el = document.createElement("div");
+      el.className = "week " + (h.n === viewWeek ? "is-current" : (h.n < viewWeek ? "is-past" : "is-future"));
+
+      var num = document.createElement("div");
+      num.className = "wnum";
+      num.textContent = "WK " + String(h.n).padStart(2, "0");
+      el.appendChild(num);
+
+      var main = document.createElement("div");
+
+      var head = document.createElement("h3");
+      head.textContent = h.title;
+      if (h.n === viewWeek) {
+        var tag = document.createElement("span");
+        tag.className = "tag now";
+        tag.textContent = "this week";
+        head.appendChild(tag);
+      } else if (h.n < viewWeek) {
+        var keep = document.createElement("span");
+        keep.className = "tag keep";
+        keep.textContent = "still doing it";
+        head.appendChild(keep);
+      }
+      main.appendChild(head);
+
+      var ask = document.createElement("p");
+      ask.className = "ask";
+      ask.textContent = h.ask;
+      main.appendChild(ask);
+
+      var meta = document.createElement("div");
+      meta.className = "meta";
+      [["Why", h.why], ["If that is too much", h.smaller], ["Attach it to", h.anchor]].forEach(function (pair) {
+        var row = document.createElement("div");
+        var k = document.createElement("span");
+        k.className = "k";
+        k.textContent = pair[0];
+        row.appendChild(k);
+        row.appendChild(document.createTextNode(pair[1]));
+        meta.appendChild(row);
+      });
+      main.appendChild(meta);
+
+      el.appendChild(main);
+      stack.appendChild(el);
+    });
+  }
+
+  function renderNote() {
+    var ta = document.getElementById("note");
+    ta.value = state.notes[viewWeek] || "";
+  }
+
+  function renderAll() {
+    renderStatus();
+    renderBoard();
+    renderStack();
+    renderNote();
+  }
+
+  // ---- events ------------------------------------------------------------
+  document.getElementById("board-body").addEventListener("click", function (e) {
+    var btn = e.target.closest(".tick");
+    if (!btn) return;
+    var key = btn.dataset.key;
+    var on = state.checks[key] === true;
+    if (on) delete state.checks[key];
+    else state.checks[key] = true;
+    btn.setAttribute("aria-pressed", on ? "false" : "true");
+    save();
+    renderBoard();
+  });
+
+  document.getElementById("prev").addEventListener("click", function () {
+    if (viewWeek > 1) { viewWeek--; renderAll(); }
+  });
+  document.getElementById("next").addEventListener("click", function () {
+    if (viewWeek < 12) { viewWeek++; renderAll(); }
+  });
+  document.getElementById("today-btn").addEventListener("click", function () {
+    viewWeek = currentWeek();
+    renderAll();
+  });
+
+  var startInput = document.getElementById("start");
+  startInput.addEventListener("change", function () {
+    if (parseISO(startInput.value)) {
+      state.start = startInput.value;
+      save();
+      viewWeek = currentWeek();
+      renderAll();
+    } else {
+      startInput.value = state.start;
+    }
+  });
+
+  var noteTimer = null;
+  var noteEl = document.getElementById("note");
+  noteEl.addEventListener("input", function () {
+    state.notes[viewWeek] = noteEl.value;
+    clearTimeout(noteTimer);
+    noteTimer = setTimeout(function () {
+      save();
+      var s = document.getElementById("note-status");
+      s.textContent = "Saved.";
+      setTimeout(function () { s.textContent = "Saved in this browser only."; }, 1400);
+    }, 450);
+  });
+
+  // ---- go ----------------------------------------------------------------
+  load();
+  startInput.value = state.start;
+  viewWeek = currentWeek();
+  renderAll();
+})();
+</script>
