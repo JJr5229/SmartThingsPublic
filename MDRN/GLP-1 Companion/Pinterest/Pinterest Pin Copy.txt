@@ -1,0 +1,118 @@
+================================================================================
+GLP-1 COMPANION PLANNER — PINTEREST PIN COPY
+MDRN Milestone Co.  ·  3 pins, three different buyer motivations
+================================================================================
+
+
+--------------------------------------------------------------------------------
+PIN 1 — OVERVIEW  ("what is this")
+--------------------------------------------------------------------------------
+
+TITLE (58 characters)
+GLP-1 Planner: Dose Log, Protein Tracker & Symptom Journal
+
+DESCRIPTION (275 characters)
+A private digital planner built for life on a GLP-1. Track your weekly dose,
+hit your protein target, log which foods still agree with you, and chart
+symptoms by day since your dose. Opens in any browser, saves to your own
+device, no account needed. Instant download on Etsy.
+
+HASHTAGS
+#glp1 #weightlossjourney #digitalplanner #healthtracker
+
+SUGGESTED BOARDS
+  • Digital Planners & Printables
+  • Health & Wellness Tracking
+  • Weight Loss Journey
+  • Medication & Appointment Organisation
+
+RECOMMENDED IMAGE
+Hero image (Phase 3, pending) — or `Etsy/screenshots/02_dashboard.png` as an
+interim, re-cropped to 2:3. See the vertical-format note at the end of this file.
+
+
+--------------------------------------------------------------------------------
+PIN 2 — STANDOUT FEATURE  ("How It Sat")
+--------------------------------------------------------------------------------
+
+TITLE (50 characters)
+Log a Food Once and This Planner Finds the Pattern
+
+DESCRIPTION (281 characters)
+Foods change on a GLP-1 — things you used to love can quietly stop agreeing
+with you, and it is rarely obvious which. Log it once and this planner sorts
+it into Sits Well, Hit or Miss, or Rough on its own, so the pattern shows up
+without you having to remember it. Grab it on Etsy.
+
+HASHTAGS
+#glp1 #foodjournal #digitalplanner #wellnesstracker #mealplanning
+
+SUGGESTED BOARDS
+  • Food Journals & Meal Tracking
+  • Digital Planners & Printables
+  • GLP-1 Tips
+  • Gut-Friendly Eating
+
+RECOMMENDED IMAGE
+`Etsy/screenshots/05_how_it_sat.png` — the three-bucket card row is the whole
+idea in one glance. Re-crop to 2:3 with the bucket cards filling the top third.
+
+
+--------------------------------------------------------------------------------
+PIN 3 — THE PLATEAU  ("the weeks the scale won't show you")
+--------------------------------------------------------------------------------
+
+TITLE (54 characters)
+For the Weeks the Scale Moves and the Progress Doesn't
+
+DESCRIPTION (269 characters)
+Inches lost, strength sessions, clothes fitting differently, symptoms easing —
+the progress a weekly weigh-in never captures. This planner keeps measurements,
+non-scale victories and your provider questions in one calm, private place.
+Instant download, no subscription.
+
+HASHTAGS
+#nonscalevictory #weightlossjourney #glp1 #selfcarejournal
+
+SUGGESTED BOARDS
+  • Non-Scale Victories
+  • Weight Loss Motivation
+  • Self-Care & Journaling
+  • Digital Planners & Printables
+
+RECOMMENDED IMAGE
+`Etsy/screenshots/08_non_scale_victories.png`, or the Measurements shot
+(`07_measurements.png`) if you want the inches-lost totals to lead. Re-crop to
+2:3.
+
+
+--------------------------------------------------------------------------------
+VERTICAL-FORMAT NOTE — ACTION NEEDED BEFORE PINNING
+--------------------------------------------------------------------------------
+
+Pinterest ranks 2:3 vertical images (1000 x 1500 px) noticeably better than
+landscape. Every image produced for this listing so far is 4:3 or wider, because
+that is the Etsy listing convention — posting one straight to Pinterest gets it
+letterboxed and it will underperform.
+
+Before pinning, either:
+  (a) re-crop the recommended image to 2:3 at 1000 x 1500, or
+  (b) commission a dedicated 2:3 pin graphic using the same composite treatment
+      as the Etsy hero (same house wordmark, same Hanken Grotesk headline, same
+      amber accent word), just on a 1000 x 1500 canvas.
+
+Option (b) is the better result and is not produced by default — say the word and
+it can be built alongside the remaining Phase 3 imagery.
+
+One more option worth knowing about: the 9:16 vertical video already produced for
+this listing (`Etsy/video/glp1-companion-vertical.mp4`, 24s) can be uploaded as a
+Pinterest Idea Pin as-is. Video pins are not subject to the 2:3 still-image
+convention, and that file is already the right shape.
+
+
+--------------------------------------------------------------------------------
+COMPLIANCE
+--------------------------------------------------------------------------------
+Same two rules as the Etsy listing apply here and have been followed:
+no brand-name drug terms (trademark risk), and no medical or therapeutic claims —
+the copy describes recording and displaying what the buyer enters, nothing more.
