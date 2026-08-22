@@ -84,6 +84,13 @@ Slate & Amber, Clay, Fern, Dusk and Ink. Switch with one click in the sidebar at
 any time; two of them are darker themes for evening logging. Your choice is saved
 with the rest of your data.
 
+TWO PEOPLE, ONE FILE
+If a partner is also on a GLP-1, add them in My Details and the planner keeps two
+completely separate records — own dose day, own protein target, own history — in
+this one file, with a switcher in the header. Saving a second copy of the file is
+not a substitute: copies share the same saved data and would overwrite each other.
+One backup covers everyone under a single passphrase.
+
 PRINT VIEW
 Any single section prints on its own, cleanly, without the navigation or buttons —
 useful for taking your dose history or your questions list to an appointment.

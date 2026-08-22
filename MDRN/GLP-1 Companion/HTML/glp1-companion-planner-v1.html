@@ -158,6 +158,28 @@ input:focus,select:focus,textarea:focus{
   padding:12px 22px;background:var(--surface);
   border-bottom:1px solid var(--border);position:sticky;top:0;z-index:60;
 }
+.prof-switch{
+  display:inline-flex;align-items:center;gap:7px;
+}
+.prof-dot{
+  width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0;
+}
+.prof-row{
+  display:flex;align-items:center;gap:10px;
+  border:1px solid var(--border);border-radius:4px;
+  padding:4px 8px 4px 4px;margin-bottom:8px;background:var(--surface);
+}
+.prof-row.active{border-color:var(--primary);}
+.prof-pick{
+  flex:1;display:flex;align-items:center;gap:9px;
+  background:transparent;border:0;cursor:pointer;text-align:left;
+  font-family:inherit;font-size:14.5px;font-weight:500;color:var(--text);padding:8px 6px;
+}
+.prof-pick:hover{background:var(--surface2);}
+.prof-cur{
+  margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+}
 .hdr-badge{
   width:32px;height:32px;border-radius:50%;background:var(--hero-grad);
   display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;
@@ -516,6 +538,12 @@ table.data td input,table.data td select{padding:6px 8px;font-size:13.5px;}
       <div class="hdr-sub">MDRN Milestone Co.</div>
     </div>
     <div class="hdr-tools">
+      <button class="btn btn-sm prof-switch" id="prof-switch" style="display:none;"
+              onclick="openProfileModal()" title="Switch between people">
+        <span class="prof-dot"></span><span id="prof-switch-name">Person 1</span>
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
       <button class="btn btn-sm" onclick="openSaveModal()" title="Download a backup of your planner">Save</button>
       <button class="btn btn-sm" onclick="triggerRestore()" title="Restore from a saved backup">Restore</button>
       <button class="btn btn-sm" onclick="shareSummary()">Share</button>
@@ -643,6 +671,7 @@ table.data td input,table.data td select{padding:6px 8px;font-size:13.5px;}
             <div><label class="fld-label" for="d-unit">Units</label>
               <select id="d-unit" oninput="detailChanged()"><option value="lb">lb / in</option><option value="kg">kg / cm</option></select></div>
           </div>
+          <div class="card" id="details-profiles" style="margin-top:22px;"></div>
           <div class="warn-box" style="margin-top:20px;">
             This planner never suggests a dose, a schedule, or a change to either. Those are
             decisions for you and your prescriber &mdash; bring the <strong>Questions for My
@@ -848,6 +877,38 @@ table.data td input,table.data td select{padding:6px 8px;font-size:13.5px;}
 <div class="toast" id="toast"></div>
 
 <!-- ===================== SAVE (encrypt) MODAL ===================== -->
+<div class="modal-back" id="profile-modal">
+  <div class="modal">
+    <h3>People</h3>
+    <p class="m-sub">Each person keeps their own dose log, daily log, measurements and history.
+      Switching does not affect anyone else's records.</p>
+    <div id="profile-list" style="margin:16px 0 6px;"></div>
+    <div style="display:flex;gap:10px;margin-top:16px;">
+      <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="openNewProfile()">Add another person</button>
+      <button class="btn btn-ghost" onclick="closeModal('profile-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-back" id="newprofile-modal">
+  <div class="modal">
+    <h3>Add a second person</h3>
+    <p class="m-sub">They get their own dose day, protein target and history, kept separately in
+      this same file. You can switch between you at any time from the header.</p>
+    <label class="fld-label" for="np-name">Their name</label>
+    <input type="text" id="np-name" autocomplete="off" placeholder="Sam">
+    <div class="err" id="np-err"></div>
+    <div class="warn-box" style="margin-top:14px;">
+      A backup covers everyone in this planner under one passphrase. Profiles keep your
+      <em>records</em> separate &mdash; they are not a lock between the two of you.
+    </div>
+    <div style="display:flex;gap:10px;margin-top:6px;">
+      <button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="addProfile()">Add</button>
+      <button class="btn btn-ghost" onclick="closeModal('newprofile-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-back" id="save-modal">
   <div class="modal">
     <h3>Protect Your Backup</h3>
@@ -902,6 +963,7 @@ let APP = {
   doses:[], foods:[], symptoms:[], measures:[], sessions:[], nsv:[], questions:[], refills:[],
   checklist:[]
 };
+const APP_DEFAULT = JSON.parse(JSON.stringify(APP));
 
 const PALETTES=[
   {id:'slate-amber',label:'Slate & Amber',swatch:'#3E4C6D'},
@@ -939,12 +1001,120 @@ const CHECKLIST_SEED=[
     'Talk about what maintenance looks like']]
 ];
 
-/* ---------- persistence ---------- */
-function save(){ try{ localStorage.setItem('glp1CompanionState', JSON.stringify(APP)); }catch(e){} }
+/* ---------- persistence (profile-aware) ----------
+   Person 1 keeps the original 'glp1CompanionState' key so anyone who bought an
+   earlier build keeps their data untouched; only person 2 onwards gets a suffix.
+   NOTE: every file:// document shares one localStorage origin, so saving a second
+   copy of this file does NOT give you a second record -- it reads and overwrites
+   the first. Profiles are the only correct way to track two people. */
+const PROF_KEY='glp1CompanionProfiles';
+let PROFILES={active:'p1',list:[{id:'p1',name:''}]};
+function profKey(id){ return id==='p1' ? 'glp1CompanionState' : 'glp1CompanionState:'+id; }
+function loadProfiles(){
+  try{ const raw=localStorage.getItem(PROF_KEY);
+       if(raw){ const p=JSON.parse(raw);
+         if(p&&Array.isArray(p.list)&&p.list.length){ PROFILES=p; return; } } }
+  catch(e){}
+  PROFILES={active:'p1',list:[{id:'p1',name:''}]};
+}
+function saveProfiles(){ try{ localStorage.setItem(PROF_KEY, JSON.stringify(PROFILES)); }catch(e){} }
+function activeProfile(){ return PROFILES.list.find(x=>x.id===PROFILES.active) || PROFILES.list[0]; }
+function save(){ try{ localStorage.setItem(profKey(PROFILES.active), JSON.stringify(APP)); }catch(e){} }
 function load(){
-  try{ const raw=localStorage.getItem('glp1CompanionState');
+  APP=JSON.parse(JSON.stringify(APP_DEFAULT));
+  try{ const raw=localStorage.getItem(profKey(PROFILES.active));
        if(raw){ const p=JSON.parse(raw); if(p&&typeof p==='object') APP=Object.assign(APP,p); } }
   catch(e){}
+}
+
+/* ---------- profiles ---------- */
+function profileLabel(pr){ return (pr && pr.name) ? pr.name : 'Person '+(PROFILES.list.findIndex(x=>x.id===(pr&&pr.id))+1); }
+function syncProfileName(){
+  const pr=activeProfile();
+  if(pr && APP.details && APP.details.name && pr.name!==APP.details.name){
+    pr.name=APP.details.name; saveProfiles(); renderProfileUI();
+  }
+}
+function switchProfile(id){
+  if(id===PROFILES.active) { closeModal('profile-modal'); return; }
+  save();                                   // never lose the outgoing person's edits
+  PROFILES.active=id; saveProfiles();
+  load();
+  document.body.className=APP.palette||'slate-amber';
+  seedIfEmpty(); fillDetails(); renderPalRow(); renderProfileUI(); renderAll();
+  closeModal('profile-modal'); showSection('dashboard');
+  const started = APP.details.name || APP.doses.length || Object.keys(APP.days).length;
+  if(started) hideWelcome(); else showWelcome();
+  toast('Switched to '+profileLabel(activeProfile()));
+}
+function addProfile(){
+  const inp=$('np-name'), name=(inp?inp.value.trim():'');
+  const err=$('np-err');
+  if(!name){ if(err){err.textContent='Enter a name for the second person.'; err.classList.add('show');} return; }
+  if(err) err.classList.remove('show');
+  save();
+  // name person 1 from their own details if they never got a label
+  const first=PROFILES.list[0];
+  if(first && !first.name) first.name = (APP.details && APP.details.name) || 'Person 1';
+  let n=2, id='p2';
+  while(PROFILES.list.some(x=>x.id===id)){ n++; id='p'+n; }
+  PROFILES.list.push({id:id,name:name});
+  PROFILES.active=id; saveProfiles();
+  APP=JSON.parse(JSON.stringify(APP_DEFAULT));
+  APP.details.name=name;
+  save();
+  document.body.className=APP.palette;
+  seedIfEmpty(); fillDetails(); renderPalRow(); renderProfileUI(); renderAll();
+  closeModal('newprofile-modal');
+  showWelcome();
+  const wn=$('w-name'); if(wn) wn.value=name;
+  toast(name+' added');
+}
+function removeProfile(id){
+  if(PROFILES.list.length<2) return;
+  const pr=PROFILES.list.find(x=>x.id===id); if(!pr) return;
+  if(!confirm('Delete '+profileLabel(pr)+' and everything logged for them? This cannot be undone.')) return;
+  try{ localStorage.removeItem(profKey(id)); }catch(e){}
+  PROFILES.list=PROFILES.list.filter(x=>x.id!==id);
+  if(PROFILES.active===id) PROFILES.active=PROFILES.list[0].id;
+  saveProfiles(); load();
+  document.body.className=APP.palette||'slate-amber';
+  fillDetails(); renderPalRow(); renderProfileUI(); renderAll();
+  closeModal('profile-modal');
+}
+function openProfileModal(){
+  const wrap=$('profile-list'); if(!wrap) return;
+  wrap.innerHTML=PROFILES.list.map(pr=>
+    '<div class="prof-row'+(pr.id===PROFILES.active?' active':'')+'">'+
+      '<button class="prof-pick" onclick="switchProfile(\''+pr.id+'\')">'+
+        '<span class="prof-dot"></span>'+esc(profileLabel(pr))+
+        (pr.id===PROFILES.active?'<span class="prof-cur">current</span>':'')+'</button>'+
+      (PROFILES.list.length>1 ? '<button class="btn btn-sm btn-ghost" onclick="removeProfile(\''+pr.id+'\')">Remove</button>' : '')+
+    '</div>').join('');
+  openModal('profile-modal');
+}
+function openNewProfile(){
+  const i=$('np-name'); if(i) i.value='';
+  const e=$('np-err'); if(e) e.classList.remove('show');
+  closeModal('profile-modal'); openModal('newprofile-modal');
+}
+function renderProfileUI(){
+  const multi=PROFILES.list.length>1;
+  const sw=$('prof-switch');
+  if(sw){ sw.style.display = multi ? 'inline-flex' : 'none';
+          const n=$('prof-switch-name'); if(n) n.textContent=profileLabel(activeProfile()); }
+  const add=$('details-profiles');
+  if(add){
+    add.innerHTML = multi
+      ? '<div class="eyebrow">People</div><p class="sec-sub" style="margin:6px 0 12px;">'+
+        'This planner is tracking '+PROFILES.list.length+' people. Each one keeps their own dose log, '+
+        'daily log and history.</p><button class="btn btn-sm" onclick="openProfileModal()">Manage people</button>'
+      : '<div class="eyebrow">Someone else too?</div><p class="sec-sub" style="margin:6px 0 12px;">'+
+        'If a partner is also on a GLP-1, add them here and the planner keeps two separate records in '+
+        'this one file. Saving a second copy of the file does not work &mdash; copies share the same '+
+        'saved data and would overwrite each other.</p>'+
+        '<button class="btn btn-sm btn-primary" onclick="openNewProfile()">Add a second person</button>';
+  }
 }
 
 /* ---------- small helpers ---------- */
@@ -1006,6 +1176,7 @@ function skipWelcome(){
   seedIfEmpty(); save(); hideWelcome(); renderAll();
 }
 function hideWelcome(){ $('welcome-overlay').classList.add('hidden'); }
+function showWelcome(){ $('welcome-overlay').classList.remove('hidden'); }
 
 /* ---------- details ---------- */
 function fillDetails(){
@@ -1022,7 +1193,7 @@ function detailChanged(){
   d.waterTarget=parseFloat($('d-water').value)||0; d.fiberTarget=parseFloat($('d-fiber').value)||0;
   d.prescriber=$('d-prescriber').value; d.pharmacy=$('d-pharmacy').value; d.nextAppt=$('d-nextappt').value;
   d.startWeight=$('d-startweight').value; d.unit=$('d-unit').value;
-  save(); updateDetailsDot();
+  save(); updateDetailsDot(); syncProfileName();
   /* re-render the sidebar indicator only — never the focused form itself */
 }
 function updateDetailsDot(){
@@ -1458,8 +1629,14 @@ async function doEncryptedSave(){
   try{
     const salt=crypto.getRandomValues(new Uint8Array(16)), iv=crypto.getRandomValues(new Uint8Array(12));
     const key=await deriveKey(p1,salt);
-    const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv:iv},key,new TextEncoder().encode(JSON.stringify(APP)));
-    const payload={mdrnEncrypted:true,v:1,product:'GLP-1 Companion Planner',
+    save();                                  // flush the on-screen person first
+    const bundle={profiles:PROFILES,states:{}};
+    PROFILES.list.forEach(pr=>{
+      try{ const raw=localStorage.getItem(profKey(pr.id));
+           bundle.states[pr.id]= raw ? JSON.parse(raw) : {}; }catch(e){ bundle.states[pr.id]={}; }
+    });
+    const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv:iv},key,new TextEncoder().encode(JSON.stringify(bundle)));
+    const payload={mdrnEncrypted:true,v:2,product:'GLP-1 Companion Planner',
       kdf:'PBKDF2-SHA256',iterations:ITER,salt:b64(salt),iv:b64(iv),
       hint:$('pp-hint').value.trim(),data:b64(ct)};
     downloadJSON(payload,'glp1-companion-'+todayISO()+'.json');
@@ -1508,12 +1685,23 @@ async function doDecryptRestore(){
 }
 function applyRestored(obj){
   if(!obj||typeof obj!=='object') return;
-  APP=Object.assign(APP,obj);
+  /* v2 bundle: every person in one file. v1 and older: a single person's state,
+     which restores over whoever is currently selected. */
+  if(obj.profiles && obj.states && Array.isArray(obj.profiles.list)){
+    PROFILES={active:obj.profiles.active,list:obj.profiles.list.slice()};
+    if(!PROFILES.list.some(x=>x.id===PROFILES.active)) PROFILES.active=PROFILES.list[0].id;
+    PROFILES.list.forEach(pr=>{
+      try{ localStorage.setItem(profKey(pr.id), JSON.stringify(obj.states[pr.id]||{})); }catch(e){}
+    });
+    saveProfiles(); load(); renderProfileUI();
+  } else {
+    APP=Object.assign(APP,obj);
+  }
   if(!APP.days) APP.days={};
   ['doses','foods','symptoms','measures','sessions','nsv','questions','refills','checklist']
     .forEach(k=>{ if(!Array.isArray(APP[k])) APP[k]=[]; });
   document.body.className=APP.palette||'slate-amber';
-  save(); fillDetails(); renderPalRow(); renderAll(); hideWelcome();
+  save(); fillDetails(); renderPalRow(); renderProfileUI(); renderAll(); hideWelcome();
 }
 
 /* ---------- share ---------- */
@@ -1536,11 +1724,12 @@ function shareSummary(){
 
 /* ---------- boot ---------- */
 (function boot(){
+  loadProfiles();
   load();
   document.body.className=APP.palette||'slate-amber';
-  renderPalRow(); fillDetails(); seedIfEmpty();
+  renderPalRow(); fillDetails(); seedIfEmpty(); renderProfileUI();
   const started = APP.details.name || APP.doses.length || Object.keys(APP.days).length ||
-                  localStorage.getItem('glp1CompanionState');
+                  localStorage.getItem(profKey(PROFILES.active));
   if(started) hideWelcome();
   if(!$('w-start').value) $('w-start').value=todayISO();
   if(!$('w-doseday').value) $('w-doseday').value=APP.details.doseDay||'3';

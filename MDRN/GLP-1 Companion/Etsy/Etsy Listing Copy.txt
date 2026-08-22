@@ -58,13 +58,15 @@ health notes on their own device rather than in someone else's account.
 ✔ Refills & Costs with next-refill reminder and spend to date
 ✔ Getting-started Checklist covering your first weeks
 ✔ Five one-click color themes, plus a clean print view for any section
+✔ Two people, one file — add a partner and each of you keeps a separate record
 ✔ Passphrase-encrypted backup file — your data never leaves your device
 
 
 WHAT'S INCLUDED
 One (1) digital file (.html) delivered as an instant download. It opens in any
 modern browser on desktop, tablet or phone. No installation, no account, no
-subscription, no software to learn. Licensed for single-user personal use.
+subscription, no software to learn. Licensed for single-household personal use — you
+and a partner can each keep separate records in the one file.
 
 
 COLOR / THEME OPTIONS
@@ -127,6 +129,11 @@ A: Use Save to write an encrypted backup, move that file across, then use Restor
 Q: Does it work on my phone?
 A: Yes. The layout adapts to phone screens, and there is a menu button for
    navigating between sections.
+
+Q: Can two of us use it?
+A: Yes. In My Details, choose Add a second person. A partner also on a GLP-1 gets
+   their own dose day, protein target and history, kept separately in the same
+   file, and a switcher appears in the header. One backup covers you both.
 
 Q: Can I print it?
 A: Yes. Any section can be printed on its own — useful for bringing your dose
@@ -211,11 +218,12 @@ COMPLIANCE NOTES — PLEASE READ BEFORE PUBLISHING
    sentences are the house wording used across the sibling listings, and the price
    is the Premium tier from the pricing ladder. One open question remains below.
 
-5. ONE OPEN LICENSE QUESTION.
-   "Single-user personal use" is the house default and is what is written above.
-   Two cases this niche raises that the other planners do not:
-     - a couple or household where both people are on a GLP-1, and
-     - a health coach or dietitian who wants to use it with their own clients.
-   The current wording excludes both. That may well be what you want; it is
-   flagged only because this is the first planner in the line where either case
-   is likely to come up as a buyer question.
+5. LICENSE IS NOW SINGLE-HOUSEHOLD, NOT SINGLE-USER.
+   The app supports two or more people in one file, each with their own records,
+   so the license was widened to match what the product actually does. This is a
+   deliberate deviation from the house "single-user personal use" wording used by
+   the other planners — it is the only one in the line with built-in profiles.
+
+   Coaches and dietitians are still excluded. Using this with your own clients is
+   a different product with different needs (a client roster, per-client notes),
+   not a bigger version of this one.

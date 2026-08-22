@@ -97,14 +97,39 @@ itself** — the house line uses `color`/`license`/`organize` exclusively, and t
 planner had been drafted in British spelling in 16 places (`Fibre` and
 `prior-authorisation` were visible in the app's own UI).
 
-## Still open
+## Profiles: two people in one file
 
-1. **One license edge case.** "Single-user personal use" is the house default and
-   is what ships. This niche raises two cases the other planners do not: a couple
-   or household where both people are on a GLP-1, and a health coach or dietitian
-   using it with clients. The current wording excludes both. That may be exactly
-   right — flagged only because it is likely to come up as a buyer question here
-   first.
+Added after testing showed the obvious workaround silently destroys data. **Every
+`file://` document shares one localStorage origin**, so saving a second copy of the
+planner does not create a second record — it reads and overwrites the first. Two
+people in a household would have quietly wiped each other's dose history, with no
+error. The Getting Started Guide had been telling buyers to do exactly that.
+
+How it works:
+- **Invisible for a single user.** No profile UI until a second person is added, so
+  every screenshot, video and slide already shot stays valid.
+- **Activation** is one line at the foot of My Details → *Add a second person*.
+- A **switcher appears in the header** once two exist. Palette is per-person, so a
+  switch is visually obvious.
+- **Person 1 keeps the original storage key**; only person 2+ get suffixed keys, so
+  anyone who bought an earlier build loses nothing on upgrade.
+- **One encrypted backup covers everyone** under a single passphrase (payload `v:2`;
+  `v:1` single-person files still restore). Profiles separate *records*, not privacy
+  between partners — stated plainly in the app and the guide.
+
+Verified by a 23-assertion suite: legacy data survives, per-person isolation of dose
+log and targets, switch round-trip, backup carries both people with zero plaintext
+leakage, restore returns each history to the right person, removal works, no JS
+errors, and no horizontal overflow in any of 12 sections at 375px with the switcher
+present.
+
+License widened from "single-user" to **single-household** to match. Coaches and
+dietitians remain excluded — that is a different product (client roster, per-client
+notes), not a bigger version of this one.
+
+The Getting Started Guide is now **8 pages**: adding the backup note pushed section 04
+past the page, so it splits across two pages rather than shrinking the type, per the
+guide's own typography rule.
 
 ~~2. Brand-name search terms.~~ **Settled.** The owner confirmed directly: no
    brands of GLP-1 are to be named. Every reference is to the drug class. This is
