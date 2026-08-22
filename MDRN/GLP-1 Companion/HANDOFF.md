@@ -12,7 +12,7 @@ Last session: 2026-08-21
 | 0 | Concept, 12 modules, Design Signature | — | Archetype: **Quiet Clinical**. Hanken Grotesk + IBM Plex Mono, near-square 2–4px corners, hairline borders and no card shadow, cool slate on cool grey, week-strip dashboard, dose-ring motif |
 | 1 | Planner app | `HTML/glp1-companion-planner-v1.html` | No JS errors; no horizontal overflow in any of 12 sections at 375px; full encrypt/decrypt round-trip with zero plaintext leakage |
 | 1 | Badge icon | `Icon/glp1-companion-icon.png` | Exactly 1024×1024, real transparency, 86% circle fill |
-| 2 | Screenshots ×12 | `Etsy/screenshots/` | Palettes rotated across the set; all 12 slide-plan screens now captured |
+| 2 | Screenshots ×15 | `Etsy/screenshots/` | Palettes rotated across the set; includes the two-person switcher and the activation card |
 | 4 | Etsy demo videos ×2 | `Etsy/video/` | 13.28s and 13.56s, 1280×920 — both under the 15s cap |
 | 4b | Vertical social cut | `Etsy/video/glp1-companion-vertical.mp4` | 24.12s, 1080×1920 (exact 9:16) |
 | 5 | Etsy listing copy | `Etsy/Etsy Listing Copy.txt` | Title 121 chars, keyword in first 32; exactly 13 tags, all ≤19 chars, zero repeated root words |

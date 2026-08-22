@@ -30,7 +30,9 @@ SLIDES = [
     ("06", "04_symptoms.png",            "Charted By Day Since Dose",       "Dose",    "tilted"),
     ("07", "06_dose_log.png",            "Every Dose, Site And Step",       "Every",   "tilted"),
     ("08", "12_strength.png",            "Keep The Muscle You Have",        "Muscle",  "tilted"),
-    ("09", "11_welcome_onboarding.png",  "Set Up In Under A Minute",        "Minute",  "tilted"),
+    # two people in one file is the line's only such feature -- it earns a slide more
+    # than a generic onboarding screen does
+    ("09", "14_two_people.png",           "Two People, One File",            "Two",     "tilted"),
     # phone is near head-on: bbox is more robust than diagonal extremes here
     ("10", "10_mobile_dashboard.png",    "On Your Phone, Wherever You Are", "Phone",   "bbox"),
 ]
