@@ -36,9 +36,14 @@ from composite_greenscreen_mockup import (                      # noqa: E402
     composite_screenshot_into_greenscreen, find_green_quad,
 )
 
-CANVAS   = 1254
-HEAD_MIN = 70      # px, ~5.6% of canvas width
-SUB_MIN  = 22      # px, ~1.75% of canvas width
+# 2000px matches Etsy's long-edge guidance and the 2K source masters. Everything
+# below is expressed as a fraction of CANVAS so the layout holds if it changes --
+# an earlier version hard-coded 1254px values, which silently downsized the 2K
+# sources back to 1254 and threw away the upscale.
+CANVAS   = 2000
+HEAD_MIN = round(CANVAS * 0.0558)   # 112px at 2000 -- the text floor
+SUB_MIN  = round(CANVAS * 0.0175)   #  35px at 2000
+PAD      = round(CANVAS * 0.0526)   # 105px at 2000
 
 SLATE  = (62, 76, 109)     # --primary
 INK    = (22, 26, 34)      # --text
@@ -107,7 +112,8 @@ def wrap(draw, text, font, max_w):
     return lines
 
 
-def draw_ring_divider(draw, x, y, width, color=SLATE, ring=AMBER, r=9):
+def draw_ring_divider(draw, x, y, width, color=SLATE, ring=AMBER, r=None):
+    r = r or round(CANVAS * 0.0072)
     """The dose-ring motif, drawn as a real shape -- never a font dingbat."""
     cx = x + width // 2
     draw.line([(x, y), (cx - r - 10, y)], fill=color, width=2)
@@ -135,12 +141,12 @@ def build_hero(src, screenshot, out):
     d = ImageDraw.Draw(im)
 
     # text lives in the clean left ~40% the scene was generated with
-    pad, col_w = 66, int(CANVAS * 0.42) - 96
+    pad, col_w = PAD, int(CANVAS * 0.42) - round(CANVAS * 0.0765)
 
     # explicit line breaks -- auto-wrap in a narrow column breaks this badly
     # ("The / Weeks / The Scale"), and the phrase has an obvious natural rhythm.
     lines = ["The Weeks", "The Scale", "Won't Show", "You"]
-    size = 128
+    size = round(CANVAS * 0.102)
     while size >= HEAD_MIN:
         f = load(size, 700)
         if max(d.textlength(ln, font=f) for ln in lines) <= col_w:
@@ -160,7 +166,7 @@ def build_hero(src, screenshot, out):
     draw_ring_divider(d, pad, y, col_w)
     y += 30
 
-    sf = load(max(SUB_MIN, 26), 500)
+    sf = load(max(SUB_MIN, round(CANVAS * 0.0207)), 500)
     for ln in wrap(d, "Dose Log · Protein First · How It Sat · Symptoms · Non-Scale Victories",
                    sf, col_w):
         d.text((pad, y), ln, font=sf, fill=MUTED)
@@ -184,9 +190,9 @@ def build_lifestyle(src, out, headline, accent_word):
     base.alpha_composite(Image.fromarray(arr, "RGBA"), (0, 0))
     d = ImageDraw.Draw(base)
 
-    pad = 66
+    pad = PAD
     max_w = CANVAS - pad * 2
-    size = 110
+    size = round(CANVAS * 0.0877)
     while size >= HEAD_MIN:
         f = load(size, 700)
         lines = wrap(d, headline, f, max_w)
@@ -196,7 +202,7 @@ def build_lifestyle(src, out, headline, accent_word):
     if size < HEAD_MIN:
         raise SystemExit(f"{os.path.basename(out)}: headline {size}px below the {HEAD_MIN}px floor")
 
-    y = 52
+    y = round(CANVAS * 0.026)
     for ln in lines:
         draw_accent_line(d, pad, y, ln, f, accent_word)
         y += int(size * 1.1)
