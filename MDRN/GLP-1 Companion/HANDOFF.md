@@ -80,7 +80,8 @@ Why they were replaced: `nano_banana_2` takes an optional `resolution` parameter
 that **defaults to `1k`**, and the original batch never passed it. Nobody chose
 1024×1024; it was just what came back. That is smaller than the 1254px compositing
 canvas and well under Etsy's ~2000px guidance, so every image would have been
-upscaled at composite time. The four were re-run through `upscale_image` at 2K
+upscaled at composite time. (The finisher now composites at 2000px; it previously
+hard-coded 1254px, which would have thrown the upscale away.) The four were re-run through `upscale_image` at 2K
 (2 credits each) rather than regenerated, because regenerating re-rolls the image
 and images 2 and 3 are a matched before/after pair of the same person whose
 continuity would have had to be rebuilt.
@@ -96,7 +97,8 @@ python3 finish_imagery.py --sources ./source-photos
 ```
 
 Writes `01_hero.png`, `14_lifestyle_before.png`, `15_lifestyle_after.png`,
-`16_lifestyle_appointment.png` at 1254×1254.
+`16_lifestyle_appointment.png` at 2000×2000 — Etsy's long-edge guidance, and the
+size the 2K masters were upscaled for.
 
 This script has been **tested end to end** against a synthetic green-screen fixture:
 green-quad detection, the tilted perspective warp, Hanken Grotesk loading from Google
@@ -104,7 +106,7 @@ Fonts, the amber accent word, the drawn ring divider, the text floor and the bri
 check all confirmed working. The only untested variable is the real photography.
 
 It fails loudly rather than shipping something wrong — if no green quad is found, or if
-a headline would fall below the 70px floor, it stops.
+a headline would fall below the 112px floor, it stops.
 
 If the hero's warped screenshot shows a green fringe or overhangs the bezel, pass a
 safety inset — see the docstring in
