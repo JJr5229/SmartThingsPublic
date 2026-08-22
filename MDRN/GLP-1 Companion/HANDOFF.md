@@ -161,7 +161,10 @@ planner had been drafted in British spelling in 16 places (`Fibre` and
    right — flagged only because it is likely to come up as a buyer question here
    first.
 
-2. **Brand-name search terms.** Still omitted deliberately, pending your call.
+~~2. Brand-name search terms.~~ **Settled.** The owner confirmed directly: no
+   brands of GLP-1 are to be named. Every reference is to the drug class. This is
+   policy for this listing and any future copy in this niche — not a hedge to be
+   revisited for search volume.
 
 Separately, the Pinterest copy flags that every image in the set is square or
 landscape, while Pinterest ranks 2:3 verticals (1000×1500). Re-crop before pinning,

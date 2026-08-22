@@ -114,5 +114,8 @@ convention, and that file is already the right shape.
 COMPLIANCE
 --------------------------------------------------------------------------------
 Same two rules as the Etsy listing apply here and have been followed:
-no brand-name drug terms (trademark risk), and no medical or therapeutic claims —
-the copy describes recording and displaying what the buyer enters, nothing more.
+no brand-name drug terms, and no medical or therapeutic claims — the copy
+describes recording and displaying what the buyer enters, nothing more.
+
+The no-brand-names rule is confirmed owner policy, not just a risk hedge. Do not
+add brand names to a pin description or hashtag set to chase reach.

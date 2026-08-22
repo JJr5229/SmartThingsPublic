@@ -187,12 +187,16 @@ See Pricing.txt in this folder for the per-listing record.
 COMPLIANCE NOTES — PLEASE READ BEFORE PUBLISHING
 --------------------------------------------------------------------------------
 
-1. NO BRAND-NAME DRUG TERMS ARE USED, DELIBERATELY.
+1. NO BRAND-NAME DRUG TERMS ARE USED. CONFIRMED BY THE OWNER.
    The highest-volume search terms in this category are brand names owned by
    their manufacturers. Using them in a title, tags or description risks a
    trademark takedown and, on Etsy, listing removal. Every reference here is to
-   the drug class ("GLP-1") instead. This costs real search volume and it is a
-   deliberate trade-off — flagging it so the decision is yours, not mine.
+   the drug class ("GLP-1") instead.
+
+   This was raised as a trade-off and the owner confirmed the decision directly:
+   no brands of GLP-1 are to be named. Treat it as settled policy for this
+   listing and for any future copy in this niche — do not reintroduce brand
+   names to chase search volume.
 
 2. NO MEDICAL OR THERAPEUTIC CLAIMS.
    The copy never claims the planner causes weight loss, reduces side effects or
