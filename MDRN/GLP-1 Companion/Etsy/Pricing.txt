@@ -1,0 +1,42 @@
+GLP-1 COMPANION PLANNER — PRICING
+MDRN Milestone Co.
+
+TIER: Premium
+
+  $36   Etsy anchor price (the crossed-out "original")
+  $28   Etsy sale price (what is actually charged)
+  $21   website price
+
+STATUS: assigned from the product-line ranking and the pricing ladder's own
+        criteria. NOT yet owner-confirmed per-listing.
+
+WHY PREMIUM
+  The product-line ranking doc already lists this planner as "Suggested price
+  tier: Premium." That matches the ladder's stated rule for the tier: a
+  low-price-sensitivity wellness or lifestyle audience. It sits in the same
+  bracket as Mindset Reset, Manifestation and Legacy Binder.
+
+WHY NOT BUSINESS
+  Business tier ($48/$36/$27) is reserved for tools that earn or protect the
+  buyer's money in their own income-generating work — Real Estate CRM, Therapist
+  Practice, First Home Buyer, STR Host. The GLP-1 Companion is a personal
+  wellness tool. Depth of build is not the criterion for that tier; buyer
+  calculus is.
+
+  Worth noting against that, if a bump is ever reconsidered: this buyer is
+  already spending a large amount monthly on the medication itself, which is
+  the least price-sensitive wellness audience in the line. Twelve modules and
+  encrypted backups would defend a higher number. It stays Premium here because
+  the documented tier criteria are about buyer calculus, not app size — the same
+  reasoning that keeps Teacher Planner at Standard despite genuine software
+  depth.
+
+LISTING SEQUENCE
+  List at the $36 anchor briefly first, then start the Etsy sale and renew it
+  before each expiry. This keeps the anchor defensible as a price that was
+  genuinely charged rather than one that never was.
+
+WEBSITE
+  No site page exists for this planner yet. When one is added, tag its price
+  block with:  <!-- PRICE: confirmed — Premium tier -->
+  (or the "assign tier — confirm" form while this remains unconfirmed).

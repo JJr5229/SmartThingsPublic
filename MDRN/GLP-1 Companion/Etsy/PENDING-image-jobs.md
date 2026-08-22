@@ -55,7 +55,7 @@ remote sandbox:
 
 - **Headline is composited locally in Hanken Grotesk**, the app's own display font,
   not rendered by the image model — so every image in the set shares one font,
-  one weight, one colour treatment and one divider style.
+  one weight, one color treatment and one divider style.
   - Hero headline: `The Weeks The Scale Won't Show You` (accent word: SCALE, amber #C67A1E)
   - Divider: thin slate rule broken by a small drawn ring (the dose-ring motif,
     drawn as a real PIL shape — never a font dingbat, per the tofu pitfall)
@@ -90,4 +90,4 @@ per the no-duplication rule:
 
 Note slide 09 deliberately uses the welcome screen rather than repeating a module —
 per the rule that running out of modules means using a genuinely different SCREEN,
-never a recoloured repeat.
+never a recolored repeat.

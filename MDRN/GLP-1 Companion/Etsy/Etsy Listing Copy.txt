@@ -29,7 +29,7 @@ you enter updates the charts live.
 
 Twelve sections cover the whole picture. Dose Log tracks each week's injection,
 site rotation and titration history. Daily Log puts protein by meal in front of
-you with a ring that fills as you go, plus water, fibre and the small daily wins
+you with a ring that fills as you go, plus water, fiber and the small daily wins
 (moved my body, ate slowly). How It Sat is the section people tell us they wish
 they had started sooner — log a food once and the app sorts it into "Sits well,"
 "Hit or miss," or "Rough" on its own, so the pattern surfaces without you having
@@ -43,12 +43,12 @@ refill is due.
 Perfect for anyone starting or already on a GLP-1 who wants to keep their own
 records in one calm, private place — and for anyone tired of diet-culture
 tracking apps that turn a medical routine into a scoreboard. It also suits people
-who want something organised to bring to appointments, or who simply prefer their
+who want something organized to bring to appointments, or who simply prefer their
 health notes on their own device rather than in someone else's account.
 
 ✔ Dashboard with live weekly stats, protein ring and dose-day countdown
 ✔ Dose Log with injection site rotation and titration history
-✔ Daily Log — protein by meal, water, fibre, daily movement ticks
+✔ Daily Log — protein by meal, water, fiber, daily movement ticks
 ✔ How It Sat — foods sort themselves into Sits well / Hit or miss / Rough
 ✔ Symptoms charted by day since dose, not by calendar date
 ✔ Measurements tracker with inches-lost totals
@@ -57,18 +57,17 @@ health notes on their own device rather than in someone else's account.
 ✔ Questions for My Provider, ready to bring to your appointment
 ✔ Refills & Costs with next-refill reminder and spend to date
 ✔ Getting-started Checklist covering your first weeks
-✔ Five one-click colour themes, plus a clean print view for any section
+✔ Five one-click color themes, plus a clean print view for any section
 ✔ Passphrase-encrypted backup file — your data never leaves your device
 
 
 WHAT'S INCLUDED
 One (1) digital file (.html) delivered as an instant download. It opens in any
 modern browser on desktop, tablet or phone. No installation, no account, no
-subscription, no software to learn. Single-user personal-use licence.
-[ASSUMPTION — confirm licence wording before publishing]
+subscription, no software to learn. Licensed for single-user personal use.
 
 
-COLOUR / THEME OPTIONS
+COLOR / THEME OPTIONS
 Five palettes are built in and switch with one click inside the app, any time:
   • Slate & Amber (default)
   • Clay
@@ -138,8 +137,8 @@ PLEASE NOTE
 No physical item ships with this purchase. Please make sure you have a modern
 browser (Chrome, Safari, Firefox or Edge, updated within the last couple of
 years) before purchasing. All screenshots and videos show placeholder sample
-data, not a real person's records. Digital downloads are non-refundable once
-delivered. [ASSUMPTION — confirm against your shop's actual refund policy]
+data, not a real person's records. As with all digital downloads, this item is
+non-refundable once the file has been downloaded.
 
 This planner is a personal record-keeping tool. It is not a medical device and
 does not provide medical advice, dosing guidance or treatment recommendations.
@@ -165,12 +164,23 @@ TAGS (exactly 13, each ≤20 characters)
 
 
 --------------------------------------------------------------------------------
-SUGGESTED PRICE
+PRICE — PREMIUM TIER
 --------------------------------------------------------------------------------
-Flagship tier — $24 / $32 / $40.
-This is the house flagship tier rather than standard, on the basis of twelve
-modules, live charting and passphrase-encrypted backups.
-[ASSUMPTION — confirm the tier and the exact figure before publishing]
+  $36  Etsy anchor price (the crossed-out "original")
+  $28  Etsy sale price (what is actually charged)
+  $21  website price
+
+Premium is what the product-line ranking already assigned this planner, and it
+matches the tier's own stated criteria: a low-price-sensitivity wellness audience,
+the same bracket as Mindset Reset, Manifestation and Legacy Binder. It is not
+Business tier — that one is reserved for tools that earn or protect the buyer's
+money in their own work, which this is not.
+
+Sequencing, per house practice: list at the $36 anchor briefly first, then start
+the sale. That keeps the anchor defensible as a price that was genuinely charged
+rather than one that never was.
+
+See Pricing.txt in this folder for the per-listing record.
 
 
 --------------------------------------------------------------------------------
@@ -192,5 +202,16 @@ COMPLIANCE NOTES — PLEASE READ BEFORE PUBLISHING
 3. NO PROMOTIONAL LANGUAGE, NO ALL CAPS, NO "INSPIRED BY" PHRASING.
    Checked and clean.
 
-4. THREE ITEMS ARE MARKED [ASSUMPTION] ABOVE — licence wording, refund policy
-   and price. Please confirm or correct all three before the listing goes live.
+4. LICENSE, REFUND POLICY AND PRICE ARE NO LONGER ASSUMPTIONS.
+   All three now match the rest of the product line: the license and refund
+   sentences are the house wording used across the sibling listings, and the price
+   is the Premium tier from the pricing ladder. One open question remains below.
+
+5. ONE OPEN LICENSE QUESTION.
+   "Single-user personal use" is the house default and is what is written above.
+   Two cases this niche raises that the other planners do not:
+     - a couple or household where both people are on a GLP-1, and
+     - a health coach or dietitian who wants to use it with their own clients.
+   The current wording excludes both. That may well be what you want; it is
+   flagged only because this is the first planner in the line where either case
+   is likely to come up as a buyer question.

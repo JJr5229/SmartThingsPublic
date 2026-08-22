@@ -24,7 +24,7 @@ titration history builds itself as you go.
 DAILY LOG  ·  the signature section
 Protein first, then everything else. Enter protein by meal — breakfast, lunch,
 dinner, snack — and a ring fills toward your daily target as you type. Water and
-fibre sit alongside it, and a short row of ticks covers the things that are easy
+fiber sit alongside it, and a short row of ticks covers the things that are easy
 to lose track of: moved my body, ate slowly, strength session, took my dose. A
 free-text note closes out the day. Move between days with the arrows or jump
 straight back to today.
@@ -64,12 +64,12 @@ it occurs to you, tick it off once it has been answered, and print the page befo
 your appointment.
 
 REFILLS & COSTS
-Refill dates, prior-authorisation status, and what this is actually costing you
+Refill dates, prior-authorization status, and what this is actually costing you
 month to month. The dashboard surfaces the next refill still ahead of you, and a
 running total tracks what you have spent so far.
 
 CHECKLIST
-Organised by treatment stage rather than by month — people start this at very
+Organized by treatment stage rather than by month — people start this at very
 different points and move at very different speeds. Covers the first week, the
 first month, each titration step, and the longer-term maintenance habits, with
 your own items addable at any stage.
@@ -79,7 +79,7 @@ your own items addable at any stage.
 ACROSS EVERY SECTION
 --------------------------------------------------------------------------------
 
-FIVE COLOUR THEMES
+FIVE COLOR THEMES
 Slate & Amber, Clay, Fern, Dusk and Ink. Switch with one click in the sidebar at
 any time; two of them are darker themes for evening logging. Your choice is saved
 with the rest of your data.

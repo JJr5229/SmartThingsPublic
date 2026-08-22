@@ -107,16 +107,16 @@ def wrap(draw, text, font, max_w):
     return lines
 
 
-def draw_ring_divider(draw, x, y, width, colour=SLATE, ring=AMBER, r=9):
+def draw_ring_divider(draw, x, y, width, color=SLATE, ring=AMBER, r=9):
     """The dose-ring motif, drawn as a real shape -- never a font dingbat."""
     cx = x + width // 2
-    draw.line([(x, y), (cx - r - 10, y)], fill=colour, width=2)
-    draw.line([(cx + r + 10, y), (x + width, y)], fill=colour, width=2)
+    draw.line([(x, y), (cx - r - 10, y)], fill=color, width=2)
+    draw.line([(cx + r + 10, y), (x + width, y)], fill=color, width=2)
     draw.ellipse([cx - r, y - r, cx + r, y + r], outline=ring, width=3)
 
 
 def draw_accent_line(draw, x, y, line, font, accent_word, base=INK, accent=AMBER):
-    """Draw one line, colouring `accent_word` in amber."""
+    """Draw one line, coloring `accent_word` in amber."""
     for tok in re.split(r"(\s+)", line):
         if not tok:
             continue

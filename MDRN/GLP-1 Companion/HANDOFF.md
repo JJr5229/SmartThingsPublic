@@ -29,7 +29,7 @@ Scored against the three living siblings — Fortis Mindset Reset, Meal Prep, Re
 | Type pairing | Hanken Grotesk + **IBM Plex Mono** | Fraunces/Inter · Space Grotesk/Work Sans · Quicksand/Work Sans — none use a mono face |
 | Corner radius | 2–4px (max 14) | 5–20px |
 | Shadow depth | 2 declarations, `--card-shadow:none` | 9–12 declarations |
-| Colour temperature | cool slate #3E4C6D | Meal Prep warm sage #4A7C59 |
+| Color temperature | cool slate #3E4C6D | Meal Prep warm sage #4A7C59 |
 | Ground | cool near-white #F7F8FA | Meal Prep warm cream #F6F5EE |
 | Layout skeleton | 7-day dose-anchored week strip + ring panel | 4-stat-card row |
 | Motif | dose ring (circle + dot) | — |
@@ -118,7 +118,7 @@ Backdrop and screenshot assignment, decided up front per the no-duplication rule
 
 Slides 09 and 08 deliberately use the welcome screen and Strength rather than repeating a
 module already shown — per the rule that running out of modules means using a genuinely
-different *screen*, never a recoloured repeat. `13_encrypted_backup.png` is held in
+different *screen*, never a recolored repeat. `13_encrypted_backup.png` is held in
 reserve as an eighth slide if one is wanted; it proves the encryption claim the listing
 leans on.
 
@@ -134,16 +134,36 @@ After steps 2 and 3 that lands at 1 hero + 7 feature slides + 3 lifestyle = 11. 
 
 ---
 
-## Two open decisions before the listing goes live
+## Decisions now settled from house precedent
 
-1. **Marked `[ASSUMPTION]` in `Etsy/Etsy Listing Copy.txt`** — licence wording, refund
-   policy, and the suggested flagship price ($24 / $32 / $40). All three are defaults,
-   not confirmed facts.
-2. **No brand-name drug terms are used anywhere, deliberately.** Those are the highest-volume
-   search terms in this category, given up to avoid a trademark takedown and possible listing
-   removal. Every reference is to the drug class instead. That is a real cost in search
-   traffic and it is your call, not an oversight.
+| Item | Value | Source |
+|---|---|---|
+| License | "Licensed for single-user personal use." | House wording — `license` appears 24× across sibling listings, `licence` 0× |
+| Refund | "As with all digital downloads, this item is non-refundable once the file has been downloaded." | Verbatim from the Renew listing |
+| Price | **Premium** — $36 anchor / $28 Etsy sale / $21 web | `mdrn_pricing_strategy.md`; the ranking doc already assigned this planner Premium |
 
-Separately, the Pinterest copy flags that every image in the set is square or landscape,
-while Pinterest ranks 2:3 verticals (1000×1500). Re-crop before pinning, or commission
-dedicated pin graphics. The 24s vertical video can be posted as an Idea Pin as-is.
+The three numbers in the ladder are **Etsy anchor / Etsy sale / website price** —
+not three product tiers. An earlier draft of this listing had that wrong, and had
+the tier wrong too (Flagship). Both are corrected, and `Etsy/Pricing.txt` now
+records the per-listing detail per house convention.
+
+Spelling was normalized to US English across every deliverable **including the app
+itself** — the house line uses `color`/`license`/`organize` exclusively, and this
+planner had been drafted in British spelling in 16 places (`Fibre` and
+`prior-authorisation` were visible in the app's own UI).
+
+## Still open
+
+1. **One license edge case.** "Single-user personal use" is the house default and
+   is what ships. This niche raises two cases the other planners do not: a couple
+   or household where both people are on a GLP-1, and a health coach or dietitian
+   using it with clients. The current wording excludes both. That may be exactly
+   right — flagged only because it is likely to come up as a buyer question here
+   first.
+
+2. **Brand-name search terms.** Still omitted deliberately, pending your call.
+
+Separately, the Pinterest copy flags that every image in the set is square or
+landscape, while Pinterest ranks 2:3 verticals (1000×1500). Re-crop before pinning,
+or commission dedicated pin graphics. The 24s vertical video can be posted as an
+Idea Pin as-is.

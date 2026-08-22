@@ -24,7 +24,7 @@ SUGGESTED BOARDS
   • Digital Planners & Printables
   • Health & Wellness Tracking
   • Weight Loss Journey
-  • Medication & Appointment Organisation
+  • Medication & Appointment Organization
 
 RECOMMENDED IMAGE
 Hero image (Phase 3, pending) — or `Etsy/screenshots/02_dashboard.png` as an
