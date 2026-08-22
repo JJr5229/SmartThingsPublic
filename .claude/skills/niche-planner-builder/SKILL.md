@@ -530,6 +530,34 @@ from — the Etsy copy and Feature List already written in Phase 5; this phase i
 reformat of material you've already produced, not new research. Save both the PDF and the plain-text
 Feature List it's built from to `Getting Started/`.
 
+### Phase 5d — Lead-magnet checklist + companion guide page
+
+Read `references/lead-magnet-checklist.md`. Every planner also ships a **free printable checklist
+PDF** and a **companion guide page** on the MDRN website. This is the top of the funnel and a
+different deliverable from the Phase 5c Getting Started Guide: 5c goes to someone who already
+bought and wears the planner's palette; this goes to a stranger who has never heard of the brand
+and wears the *website* brand, because every guide on the site has to read as one publication.
+
+The governing rule is **give away the what, sell the how.** The product's value was never the
+information — a wedding timeline is on a hundred blogs already, and withholding it just forfeits
+the traffic. The value is the mechanism: the budget that totals itself, the RSVPs that move the
+headcount. So a static printable checklist is safe and actively useful — it *creates* the pain the
+app resolves. **Never ship a spreadsheet, a fillable/calculating PDF, or a free "lite" build of the
+app**, however much more generous they look; those hand over the mechanism and contradict the
+line's own "no spreadsheet" positioning.
+
+Build the guide page first (1,200–1,800 words, answering what the buyer actually searches for
+rather than "why buy our app"), then reformat it into the PDF with `scripts/build_checklist_pdf.py`
+— the guide *is* the checklist, so the PDF costs almost nothing on top. Wire the page into
+`guides/index.html`, `sitemap.xml`, and the product page's cross-link, and tag the Kit signup
+per-planner so a wedding subscriber doesn't get meal-prep email.
+
+Two failure modes the reference calls out, both of which have already happened once: an opt-in
+whose "FREE" framing implies the *planner* is free, and content pages that end in a dead bottom
+band. The build script's layout guard catches the second automatically — when it flags a thin page
+the fix is almost always that a section is genuinely under-written, so add real items rather than
+lowering the threshold.
+
 ### Phase 6 — Deliver
 
 Before summarizing, run the **distinctiveness gate one final time** (per Phase 0 / the Phase 1
@@ -542,7 +570,10 @@ Then check the image set against the count target: at least 7 feature images, at
 most 3 lifestyle/pain-point images, 10 total. If a person appears in more than one lifestyle image,
 confirm they're visibly different people (not the same demographic repeated) before delivering —
 this is a real check to make, not just a reminder to hold in mind while generating. Also confirm the
-Phase 5c Getting Started Guide PDF and its Feature List exist in `Getting Started/`, that all three
+Phase 5c Getting Started Guide PDF and its Feature List exist in `Getting Started/`, that the
+Phase 5d guide page and checklist PDF exist (`Website/guides/<slug>.html` and
+`Website/downloads/MDRN_<Name>_Checklist.pdf`) and that the checklist build reported a clean
+layout rather than a flagged page, that all three
 videos exist (the two 15s Etsy videos plus the Phase 4b 25s vertical video), that the badge icon PNG
 exists in `Icon/` and follows the design spec (single centered glyph, ~50% ratio, no rings — see
 `references/architecture.md`), and — if the build ran
@@ -571,6 +602,9 @@ conversation. Flag anything you filled in with a reasonable guess rather than fi
   the Etsy listing copy, plus the vertical-image-format gap to flag
 - `references/getting-started-guide.md` — branded onboarding PDF structure and the
   HTML-pages-to-PDF build technique
+- `references/lead-magnet-checklist.md` — the free printable checklist + companion guide page:
+  the give-away-the-what/sell-the-how rule, why a spreadsheet is never the answer, page
+  structure, opt-in copy rules, and the dead-bottom-band layout guard
 
 ## Scripts
 
@@ -584,6 +618,9 @@ conversation. Flag anything you filled in with a reasonable guess rather than fi
   an AI-generated device mockup's green-screen display, for photorealistic hero/feature images with
   guaranteed-accurate on-screen text (see `references/marketing-imagery.md` for why this beats a
   single AI generation call)
+- `scripts/build_checklist_pdf.py` — reusable: build the Phase 5d printable checklist PDF in the
+  MDRN website brand, with a ruled Notes block that absorbs leftover page height and an automatic
+  per-page layout guard (overflow / too-full / too-thin). See `references/lead-magnet-checklist.md`
 - `scripts/extract_badge_icon.py` — reusable: export a planner's circular welcome-badge as a
   standalone transparent PNG for `Icon/`, working around a headless-Chromium quirk where
   screenshotting the badge in place inside the full app page doesn't yield real transparency
