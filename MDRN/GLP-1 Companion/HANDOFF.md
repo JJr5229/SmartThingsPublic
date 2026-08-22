@@ -38,120 +38,46 @@ Distinct on all seven axes.
 
 ---
 
-## What is left: Phases 3 and 3b (imagery only)
+## Imagery: COMPLETE
 
-Everything else is done. The blocker is **network access, not the connector and not credits.**
+All 11 listing images are built and committed, every one 2000x2000.
 
-The four generated source photos are complete and paid for. The Higgsfield connector is
-authorised and `show_generation_by_ids` returns `all_found: true`, `status: completed`
-for all four. They just cannot be downloaded from inside a Claude Code Web session,
-because the environment's network policy denies their CDN host:
+| Set | Count | Files |
+|---|---|---|
+| Hero | 1 | `01_hero.png` |
+| Feature slides | 7 | `04_slide.png` .. `10_slide.png` |
+| Lifestyle | 3 | `14/15/16_lifestyle_*.png` |
 
-```
-connect_rejected  d8j0ntlcm91z4.cloudfront.net:443
-```
+**Phase 6 image gate: PASS** — 7 feature (min 7), 3 lifestyle (max 3), 11 total (min 10).
 
-Reachable from that environment: github.com, raw.githubusercontent.com, api.github.com,
-s3.amazonaws.com, storage.googleapis.com, fonts.gstatic.com, package registries.
-Everything else is denied — it is an allowlist, and network policy is fixed when the
-environment is created.
+Every slide has a unique backdrop and a unique screenshot, per the no-duplication
+rule. Each device screen is a real app screenshot perspective-warped into a
+chroma-key green rectangle, so no UI text was ever drawn by an image model.
+Residual-green check passes on all 11 (slide 05 retains 647 green pixels, which
+are the real herbs in the scene at x1534-1711/y1343-1457, not a screen fringe).
 
-**Do not regenerate these four. They exist.**
+Brightness spread: hero+lifestyle 1.30x, feature slides 1.29x — both inside the
+1.5x consistency limit, so the set reads as one shoot.
 
-### Step 1 — get the four photos
-
-Download these into `MDRN/GLP-1 Companion/Etsy/source-photos/` (gitignored — sources
-do not belong in the repo):
-
-Base: `https://d8j0ntlcm91z4.cloudfront.net/user_3FcBTDEZMCROpBK3unX0E1xh16T/`
-
-| Save as | File |
-|---|---|
-| `1_hero_green.png` | `hf_20260822_030636_1695e470-c2cd-4cf6-85e9-659bfd8fb646.png` |
-| `2_before.png` | `hf_20260822_030639_4d7350ec-768f-4d43-97cf-0611b4144ba3.png` |
-| `3_after.png` | `hf_20260822_030641_47c39c4a-8cd0-4c22-be0a-53080125920c.png` |
-| `4_appointment.png` | `hf_20260822_030644_993f6ac7-9c4c-4d16-ac5d-e178052c94c5.png` |
-
-**These are the 2K masters and supersede the original four.** All four are
-2160×2160 PNG, verified. Mean brightness 182.0 / 145.8 / 165.9 / 165.3 — a 1.25×
-spread, inside the 1.5× consistency limit, unchanged by the upscale.
-
-Why they were replaced: `nano_banana_2` takes an optional `resolution` parameter
-that **defaults to `1k`**, and the original batch never passed it. Nobody chose
-1024×1024; it was just what came back. That is smaller than the 1254px compositing
-canvas and well under Etsy's ~2000px guidance, so every image would have been
-upscaled at composite time. (The finisher now composites at 2000px; it previously
-hard-coded 1254px, which would have thrown the upscale away.) The four were re-run through `upscale_image` at 2K
-(2 credits each) rather than regenerated, because regenerating re-rolls the image
-and images 2 and 3 are a matched before/after pair of the same person whose
-continuity would have had to be rebuilt.
-
-The original 1k jobs are superseded and should not be used:
-`5d63076d…`, `edb4df11…`, `cbdd76da…`, `afa89a6c…`.
-
-### Step 2 — run the finisher
+Sources are kept out of git: `Etsy/source-photos/` and `Etsy/backdrops/` are
+gitignored. Regenerate the composites at any time with:
 
 ```bash
 cd "MDRN/GLP-1 Companion/Etsy"
-python3 finish_imagery.py --sources ./source-photos
+python3 finish_imagery.py --sources ./source-photos   # hero + 3 lifestyle
+python3 build_slides.py                               # 7 feature slides
 ```
 
-Writes `01_hero.png`, `14_lifestyle_before.png`, `15_lifestyle_after.png`,
-`16_lifestyle_appointment.png` at 2000×2000 — Etsy's long-edge guidance, and the
-size the 2K masters were upscaled for.
+Two bugs were found and fixed while doing this, both now guarded:
 
-This script has been **tested end to end** against a synthetic green-screen fixture:
-green-quad detection, the tilted perspective warp, Hanken Grotesk loading from Google
-Fonts, the amber accent word, the drawn ring divider, the text floor and the brightness
-check all confirmed working. The only untested variable is the real photography.
-
-It fails loudly rather than shipping something wrong — if no green quad is found, or if
-a headline would fall below the 112px floor, it stops.
-
-If the hero's warped screenshot shows a green fringe or overhangs the bezel, pass a
-safety inset — see the docstring in
-`.claude/skills/niche-planner-builder/scripts/composite_greenscreen_mockup.py`.
-
-### Step 3 — Phase 3b, the seven feature slides
-
-`references/feature-slides.md` makes a photorealistic device mockup **mandatory** on every
-feature slide, each with a **unique** backdrop scene. Flat CSS bezels are explicitly
-deprecated for final listing images. So this needs seven more backdrop generations
-(~11 credits; balance was 614 at last check).
-
-Backdrop and screenshot assignment, decided up front per the no-duplication rule:
-
-| Slide | Screenshot | Backdrop scene |
-|---|---|---|
-| 04 | `03_daily_log_signature.png` | pale desk, morning window light, glass of water |
-| 05 | `05_how_it_sat.png` | kitchen counter, wooden board, herbs |
-| 06 | `04_symptoms.png` | bedside table, evening lamp, dark palette on screen |
-| 07 | `06_dose_log.png` | clean shelf, minimal, cool light |
-| 08 | `12_strength.png` | gym bench corner, matte surfaces |
-| 09 | `11_welcome_onboarding.png` | armchair side table, soft daylight |
-| 10 | `10_mobile_dashboard.png` (phone) | café table, phone propped |
-
-Slides 09 and 08 deliberately use the welcome screen and Strength rather than repeating a
-module already shown — per the rule that running out of modules means using a genuinely
-different *screen*, never a recolored repeat. `13_encrypted_backup.png` is held in
-reserve as an eighth slide if one is wanted; it proves the encryption claim the listing
-leans on.
-
-**Pass `resolution: "2k"` on every one of these generations.** The parameter defaults
-to `1k` and that default is what produced the problem above. 2K costs the same order of
-credits and removes the upscale step entirely.
-
-Every backdrop prompt should specify the screen as **a perfectly flat, solid, evenly lit
-bright chroma-key green rectangle, no glare, no reflections, no text**, and should keep the
-same bright soft cool daylight and pale surfaces as the hero so the set reads as one shoot.
-No hands — devices sitting on their own, per the device-mockup rule.
-
-### Step 4 — close out Phase 6
-
-Image-count gate: **≥7 feature, ≤3 lifestyle, 10 total.**
-After steps 2 and 3 that lands at 1 hero + 7 feature slides + 3 lifestyle = 11. Passes.
-
----
+1. `finish_imagery.py` hard-coded a 1254px canvas, which would have downsized the
+   2K masters and silently thrown the upscale away. Canvas is now 2000px with every
+   geometry constant expressed as a fraction of it.
+2. `find_green_quad` documented itself as using "the largest green-screen region"
+   but actually fed every green pixel in the frame into the corner maths. The kitchen
+   backdrop's herbs would have dragged a corner off the screen. Now filtered to the
+   largest connected component — fixed in the shared skill, so every future planner
+   benefits.
 
 ## Decisions now settled from house precedent
 

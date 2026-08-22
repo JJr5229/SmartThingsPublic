@@ -1,2 +1,5 @@
 .fonts/
 source-photos/
+
+# generation sources, not deliverables
+backdrops/
