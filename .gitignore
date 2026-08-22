@@ -21,3 +21,7 @@
 
 # Build files
 /build
+
+# Python bytecode cache
+__pycache__/
+*.pyc
