@@ -31,6 +31,52 @@ from PIL import Image
 import numpy as np
 
 
+
+def _largest_blob(mask, coarse=4):
+    """Restrict `mask` to its largest 4-connected component.
+
+    find_green_quad has always documented itself as finding "the largest green-screen
+    region", but it used to feed EVERY green pixel into the corner maths. A backdrop with
+    any second green thing in frame -- a plant, herbs on a counter, a green mug, colour
+    spill onto a nearby surface -- would drag a diagonal-extreme corner off the screen and
+    warp the screenshot into a skewed quad. Real case: a kitchen backdrop generated with
+    "fresh green herbs" beside the laptop.
+
+    Labelled on a coarse grid for speed (a 2048px image is ~262k cells at coarse=4), then
+    the winning component's bounding box is applied back to the full-resolution mask.
+    """
+    from collections import deque
+    small = mask[::coarse, ::coarse]
+    H, W = small.shape
+    seen = np.zeros_like(small, dtype=bool)
+    best, best_n = None, 0
+    for sy in range(H):
+        for sx in range(W):
+            if not small[sy, sx] or seen[sy, sx]:
+                continue
+            q = deque([(sy, sx)])
+            seen[sy, sx] = True
+            cells, n = [], 0
+            while q:
+                y, x = q.popleft()
+                cells.append((y, x)); n += 1
+                for dy, dx in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                    ny, nx = y + dy, x + dx
+                    if 0 <= ny < H and 0 <= nx < W and small[ny, nx] and not seen[ny, nx]:
+                        seen[ny, nx] = True
+                        q.append((ny, nx))
+            if n > best_n:
+                best_n, best = n, cells
+    if best is None:
+        return mask
+    ys = [c[0] for c in best]; xs = [c[1] for c in best]
+    y0, y1 = min(ys) * coarse, (max(ys) + 1) * coarse
+    x0, x1 = min(xs) * coarse, (max(xs) + 1) * coarse
+    out = np.zeros_like(mask)
+    out[y0:y1, x0:x1] = mask[y0:y1, x0:x1]
+    return out
+
+
 def find_green_quad(bg, green_threshold=140, margin=40, mode="auto"):
     """Returns (tl, tr, br, bl) corners of the largest green-screen region in `bg` (a PIL Image).
 
@@ -50,6 +96,7 @@ def find_green_quad(bg, green_threshold=140, margin=40, mode="auto"):
     arr = np.array(bg.convert("RGB"))
     r, g, b = arr[:, :, 0].astype(int), arr[:, :, 1].astype(int), arr[:, :, 2].astype(int)
     mask = (g > green_threshold) & (g > r + margin) & (g > b + margin)
+    mask = _largest_blob(mask)          # ignore plants, mugs, spill -- see _largest_blob
     ys, xs = np.where(mask)
     if len(xs) == 0:
         raise ValueError("No green-screen pixels found — check the threshold or that the source image actually has a flat green region.")
