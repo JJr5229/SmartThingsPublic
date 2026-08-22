@@ -40,23 +40,23 @@ Distinct on all seven axes.
 
 ## Imagery: COMPLETE
 
-All 11 listing images are built and committed, every one 2000x2000.
+All 12 listing images are built and committed, every one 2000x2000.
 
 | Set | Count | Files |
 |---|---|---|
 | Hero | 1 | `01_hero.png` |
-| Feature slides | 7 | `04_slide.png` .. `10_slide.png` |
+| Feature slides | 8 | `04_slide.png` .. `11_slide.png` |
 | Lifestyle | 3 | `14/15/16_lifestyle_*.png` |
 
-**Phase 6 image gate: PASS** — 7 feature (min 7), 3 lifestyle (max 3), 11 total (min 10).
+**Phase 6 image gate: PASS** — 8 feature (min 7), 3 lifestyle (max 3), 12 total (min 10).
 
 Every slide has a unique backdrop and a unique screenshot, per the no-duplication
 rule. Each device screen is a real app screenshot perspective-warped into a
 chroma-key green rectangle, so no UI text was ever drawn by an image model.
-Residual-green check passes on all 11 (slide 05 retains 647 green pixels, which
+Residual-green check passes on all 12 (slide 05 retains 647 green pixels, which
 are the real herbs in the scene at x1534-1711/y1343-1457, not a screen fringe).
 
-Brightness spread: hero+lifestyle 1.30x, feature slides 1.29x — both inside the
+Brightness spread: hero+lifestyle 1.30x, feature slides 1.29x across all eight — both inside the
 1.5x consistency limit, so the set reads as one shoot.
 
 Sources are kept out of git: `Etsy/source-photos/` and `Etsy/backdrops/` are

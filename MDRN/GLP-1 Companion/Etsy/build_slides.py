@@ -35,6 +35,7 @@ SLIDES = [
     ("09", "14_two_people.png",           "Two People, One File",            "Two",     "tilted"),
     # phone is near head-on: bbox is more robust than diagonal extremes here
     ("10", "10_mobile_dashboard.png",    "On Your Phone, Wherever You Are", "Phone",   "bbox"),
+    ("11", "13_encrypted_backup.png",     "Locked Before It Leaves",         "Locked",  "tilted"),
 ]
 
 
