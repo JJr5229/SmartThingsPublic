@@ -60,20 +60,33 @@ environment is created.
 
 ### Step 1 — get the four photos
 
-Download these and put them in `MDRN/GLP-1 Companion/Etsy/source-photos/`
-(that folder is gitignored — the sources do not belong in the repo):
+Download these into `MDRN/GLP-1 Companion/Etsy/source-photos/` (gitignored — sources
+do not belong in the repo):
 
 Base: `https://d8j0ntlcm91z4.cloudfront.net/user_3FcBTDEZMCROpBK3unX0E1xh16T/`
 
 | Save as | File |
 |---|---|
-| `1_hero_green.png` | `hf_20260821_210038_5d63076d-95e9-45d5-b431-3204069a7c7b.png` |
-| `2_before.png` | `hf_20260821_210038_edb4df11-585d-4367-a531-f0f62b4de0bf.png` |
-| `3_after.png` | `hf_20260821_210038_cbdd76da-21b3-4f2c-befc-ab1ecb9cfbdf.png` |
-| `4_appointment.png` | `hf_20260821_210038_afa89a6c-c2bc-4ce5-ba62-40e6708c22af.png` |
+| `1_hero_green.png` | `hf_20260822_030636_1695e470-c2cd-4cf6-85e9-659bfd8fb646.png` |
+| `2_before.png` | `hf_20260822_030639_4d7350ec-768f-4d43-97cf-0611b4144ba3.png` |
+| `3_after.png` | `hf_20260822_030641_47c39c4a-8cd0-4c22-be0a-53080125920c.png` |
+| `4_appointment.png` | `hf_20260822_030644_993f6ac7-9c4c-4d16-ac5d-e178052c94c5.png` |
 
-All four are 1024×1024 PNG. Their mean brightnesses are 181.9 / 146.0 / 166.1 / 165.4 —
-a 1.25× spread, inside the 1.5× consistency limit. The set is cohesive as generated.
+**These are the 2K masters and supersede the original four.** All four are
+2160×2160 PNG, verified. Mean brightness 182.0 / 145.8 / 165.9 / 165.3 — a 1.25×
+spread, inside the 1.5× consistency limit, unchanged by the upscale.
+
+Why they were replaced: `nano_banana_2` takes an optional `resolution` parameter
+that **defaults to `1k`**, and the original batch never passed it. Nobody chose
+1024×1024; it was just what came back. That is smaller than the 1254px compositing
+canvas and well under Etsy's ~2000px guidance, so every image would have been
+upscaled at composite time. The four were re-run through `upscale_image` at 2K
+(2 credits each) rather than regenerated, because regenerating re-rolls the image
+and images 2 and 3 are a matched before/after pair of the same person whose
+continuity would have had to be rebuilt.
+
+The original 1k jobs are superseded and should not be used:
+`5d63076d…`, `edb4df11…`, `cbdd76da…`, `afa89a6c…`.
 
 ### Step 2 — run the finisher
 
@@ -121,6 +134,10 @@ module already shown — per the rule that running out of modules means using a 
 different *screen*, never a recolored repeat. `13_encrypted_backup.png` is held in
 reserve as an eighth slide if one is wanted; it proves the encryption claim the listing
 leans on.
+
+**Pass `resolution: "2k"` on every one of these generations.** The parameter defaults
+to `1k` and that default is what produced the problem above. 2K costs the same order of
+credits and removes the upscale step entirely.
 
 Every backdrop prompt should specify the screen as **a perfectly flat, solid, evenly lit
 bright chroma-key green rectangle, no glare, no reflections, no text**, and should keep the

@@ -46,6 +46,27 @@ the nano-banana variants seems fine in the moment." `nano_banana_pro` exists and
 quality (better text/diagram rendering) at higher cost — only reach for it if the user explicitly
 asks for higher quality or better text rendering in a generated image for a specific build.
 
+### ALWAYS pass `resolution` explicitly — the default is 1k and it is silently wrong
+
+`nano_banana_2` takes an optional `resolution` parameter with options `1k` / `2k` / `4k`, and its
+**default is `1k`** (1024x1024 on a square aspect ratio). Omit the parameter and every photo in the
+build comes back at 1024px — which is *smaller than the 1254px compositing canvas this skill uses*,
+so the hero and every lifestyle image get upscaled during compositing before a buyer ever sees them.
+Etsy's own guidance asks for ~2000px on the long edge; 1024 misses it outright.
+
+This is not hypothetical. A real build (GLP-1 Companion) submitted its whole four-image set without
+the parameter, and nobody chose 1024 — it was just what came back. Caught only when the numbers were
+questioned directly, after the images were already generated.
+
+**Pass `resolution: "2k"` on every generation in this skill's workflow.** 2048px clears both the
+1254px canvas and Etsy's 2000px guidance with room to crop. Reach for `4k` only when the user asks
+for it — the files get large fast, and large files are painful to move between environments.
+
+If a set has *already* been generated at 1k, prefer `upscale_image` (2 credits each, `resolution:
+"2k"`) over regenerating. Regenerating re-rolls the image: any character-continuity pair (a "before"
+and "after" shot of the same person, per the continuity rule below) breaks, and that continuity is
+more expensive to rebuild than the upscale is to run.
+
 ## One headline font and treatment for the ENTIRE image set — decide once, reuse everywhere
 
 The user has directly flagged a real bug: the hero image used the niche's actual display font

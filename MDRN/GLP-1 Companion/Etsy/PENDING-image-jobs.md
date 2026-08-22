@@ -91,3 +91,9 @@ per the no-duplication rule:
 Note slide 09 deliberately uses the welcome screen rather than repeating a module —
 per the rule that running out of modules means using a genuinely different SCREEN,
 never a recolored repeat.
+
+---
+
+**SUPERSEDED 2026-08-22.** These four 1k jobs were re-run through `upscale_image`
+at 2K. Use the 2160x2160 masters listed in `../HANDOFF.md` Step 1 instead. The job
+IDs below are kept only as provenance for what the upscales were derived from.
