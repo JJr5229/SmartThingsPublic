@@ -18,6 +18,8 @@ Last session: 2026-08-21
 | 5 | Etsy listing copy | `Etsy/Etsy Listing Copy.txt` | Title 121 chars, keyword in first 32; exactly 13 tags, all ≤19 chars, zero repeated root words |
 | 5b | Pinterest pins ×3 | `Pinterest/Pinterest Pin Copy.txt` | Titles 50–58 chars, descriptions 269–281 — all inside platform ranges |
 | 5c | Getting Started Guide | `Getting Started/` | 7 pages, every page confirmed 8.50 × 11.00 in at 288 DPI |
+| 5d | Lead magnet + guide page | **website repo** | Guide page 1,276 words, checklist PDF 5 pages, layout guard clean |
+| — | Website product page | **website repo** | `planners/glp1-companion.html`, tile added, sitemap created |
 | 6 | Distinctiveness gate | — | **Passes.** See below |
 
 ### Distinctiveness gate (re-run at Phase 6)
@@ -140,3 +142,40 @@ Separately, the Pinterest copy flags that every image in the set is square or
 landscape, while Pinterest ranks 2:3 verticals (1000×1500). Re-crop before pinning,
 or commission dedicated pin graphics. The 24s vertical video can be posted as an
 Idea Pin as-is.
+
+
+---
+
+## Website deliverables live in the OTHER repo
+
+Phase 5d and the product page are in **`JJr5229/mdrn-milestone-website`**, branch
+`claude/glp1-companion-launch` — not here. That repo is the live Vercel site, so the
+guide page and the checklist PDF have to sit there to be served.
+
+| File | Note |
+|---|---|
+| `planners/glp1-companion.html` | The planner had no page on the site at all before this |
+| `guides/glp1-companion-checklist.html` | 1,276 words; jump-link TOC; one inline email capture |
+| `guides/index.html` | New — this is the site's first guide |
+| `downloads/MDRN_GLP-1_Companion_Checklist.pdf` | 5 pages, layout guard reported clean |
+| `sitemap.xml` | New — the site had none; now covers all 22 pages |
+| `assets/img/icons/glp1-companion.png` | The Phase 0 badge, resized to the site's 160px convention |
+| `assets/video/glp1-companion.mp4` | Etsy demo 1, reused as the PDP demo |
+
+Two things still need a human:
+
+1. **The buy links are placeholders** (`href="#"`), matching every other planner page in
+   that repo — they are wired up at listing time.
+2. **Kit tagging.** The reference is explicit that each download must be tagged separately
+   so a GLP-1 subscriber does not receive meal-prep email. The form posts to the shared
+   form id 9658917; the per-guide tag has to be set in Kit itself.
+
+Build the checklist PDF again with:
+
+```bash
+python3 /tmp/build_glp1_checklist.py     # see the commit for the phase content
+```
+
+Note for this container: Python Playwright cannot use `playwright install` here, so the
+build script injects `executable_path=/opt/pw-browsers/chromium-1194/chrome-linux/chrome`
+and the agent proxy at launch rather than editing the shared skill script.
