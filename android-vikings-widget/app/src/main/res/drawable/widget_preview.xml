@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="180dp"
+    android:height="180dp"
+    android:viewportWidth="180"
+    android:viewportHeight="180">
+    <path
+        android:fillColor="#4F2683"
+        android:pathData="M0,16 A16,16 0 0 1 16,0 L164,0 A16,16 0 0 1 180,16 L180,164 A16,16 0 0 1 164,180 L16,180 A16,16 0 0 1 0,164 Z" />
+    <!-- Title bar -->
+    <path android:fillColor="#FFFFFF" android:pathData="M16,20 h64 v10 h-64 z" />
+    <path android:fillColor="#FFC62F" android:pathData="M16,36 h34 v7 h-34 z" />
+    <!-- Game rows -->
+    <path android:fillColor="#66FFFFFF" android:pathData="M16,60 h30 v7 h-30 z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M56,60 h44 v7 h-44 z" />
+    <path android:fillColor="#7CE38B" android:pathData="M132,60 h32 v7 h-32 z" />
+    <path android:fillColor="#66FFFFFF" android:pathData="M16,82 h30 v7 h-30 z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M56,82 h38 v7 h-38 z" />
+    <path android:fillColor="#FF8A80" android:pathData="M132,82 h32 v7 h-32 z" />
+    <path android:fillColor="#66FFFFFF" android:pathData="M16,104 h30 v7 h-30 z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M56,104 h40 v7 h-40 z" />
+    <path android:fillColor="#7CE38B" android:pathData="M132,104 h32 v7 h-32 z" />
+    <!-- Highlighted next game -->
+    <path android:fillColor="#33FFFFFF" android:pathData="M12,120 h156 v24 h-156 z" />
+    <path android:fillColor="#FFC62F" android:pathData="M16,128 h30 v7 h-30 z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M56,128 h42 v7 h-42 z" />
+    <path android:fillColor="#66FFFFFF" android:pathData="M16,154 h30 v7 h-30 z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M56,154 h36 v7 h-36 z" />
+</vector>

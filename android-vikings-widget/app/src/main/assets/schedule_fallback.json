@@ -1,0 +1,13 @@
+{
+  "_README": "Offline fallback, shown when the network fetch fails and no cache exists. Fill 'games' in from the published season schedule. 'kickoff' is ISO-8601 UTC; the widget converts it to the device's time zone. Leave scores out entirely - the widget fills those in from the network. See ScheduleJson.kt for the full field list.",
+  "_example": {
+    "week": "Week 1",
+    "kickoff": "2026-09-13T17:00:00Z",
+    "opponent": "GB",
+    "opponentName": "Green Bay Packers",
+    "home": true,
+    "venue": "U.S. Bank Stadium"
+  },
+  "season": 2026,
+  "games": []
+}
