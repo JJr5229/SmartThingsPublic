@@ -216,7 +216,7 @@ Lesson lists here are firm; the per-lesson detail gets written when each book is
 **Artifact — Twelve situations, twelve finished letters,** each with the ask that produced it printed above.
 
 ## No. 6 — Around the House
-**8 lessons · ~30 pages**
+**8 lessons · 25 pages · BUILT**
 
 1. Dinner from what's actually in the fridge
 2. The shopping list that matches the week
@@ -230,9 +230,9 @@ Lesson lists here are firm; the per-lesson detail gets written when each book is
 **Artifact — A month of kitchen asks,** one per day, printable for the fridge.
 
 ## No. 7 — Family Life
-**9 lessons · ~34 pages**
+**9 lessons · 26 pages · BUILT**
 
-1. Homework help that teaches instead of doing it — **the ethics handled head-on, not dodged**
+1. Homework help that teaches instead of doing it — **ethics settled 2026-09-03: Claude explains, demonstrates on a parallel problem and quizzes; it never produces work that gets handed in. The school's rules are named as the authority, and the test is whether the child can explain it afterwards.**
 2. Explaining school things to a child who's stuck
 3. When your kid asks you something you don't know
 4. The hard conversations — practicing them first
@@ -328,7 +328,10 @@ a customer seeing No. 1 and No. 4 with nothing between them reads as an incomple
 
 7. ✅ **No. 5 — Letters, Emails, and Awkward Messages** — 38 pages, 12 finished messages. First Tier 2 title.
 
-**Seven products built: two free, five paid.** Next in Tier 2: *Around the House*, *Family Life*, *Paperwork and Plain English*, *Learning Something New*.
+8. ✅ **No. 6 — Around the House** — 25 pages, plus a month of kitchen asks for the fridge.
+9. ✅ **No. 7 — Family Life** — 26 pages, plus the homework helper card.
+
+**Nine products built: two free, seven paid.** Tier 2 has two left: *Paperwork and Plain English* and *Learning Something New*.
 
 **Production note.** All books share one builder and one stylesheet at
 `veer/everyday-claude-guides/build/`. Each guide folder holds `build.json` and
@@ -340,7 +343,7 @@ That's a coherent six-product line, one free entry point, and a bundle worth sel
 
 # Open content questions
 
-- [ ] Lesson 1 of *Family Life* — homework help — needs its ethical position written before the book is outlined further. Recommend: Claude explains and quizzes, never produces submittable work, and the guide says so plainly to the parent.
+- [x] ~~Lesson 1 of *Family Life* — homework ethics~~ → **settled and shipped**: explains, demonstrates on a parallel problem, quizzes; never produces submittable work; school rules are the authority; the test is whether the child can explain it back.
 - [ ] *Paperwork and Plain English* lesson 1 sets the limits. Get that page reviewed before the rest is drafted.
 - [ ] Decide whether the doctor's-appointment chapter in *101 Everyday Things* is enough to satisfy health demand without a standalone health title. **Leaning yes** — a chapter inside a browse book carries far less risk than a book with "health" on the cover.
 - [ ] All version-specific facts stay in each book's "Current as of" page and get verified at build time.
