@@ -197,3 +197,7 @@ i{ font-style:italic; color:var(--maroon); }
 .disclaimer-page p{
   font-size:9.5pt; line-height:1.7; color:var(--ink-soft); max-width:5.4in;
 }
+
+/* the browse-and-flip book: many short asks, each its own object */
+.asks{ margin:.05in 0 .1in; }
+.asks .tag{ margin-bottom:.11in; }

@@ -1,3 +1,5 @@
 .fontcache/
 fonts-embedded.css
 _build.html
+_build_*.html
+_probe_*.html

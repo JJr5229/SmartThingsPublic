@@ -1,7 +1,7 @@
 # The Everyday Claude Guides — Curriculum Spec
 *What each book actually teaches, lesson by lesson. Companion to `everyday-claude-roadmap.md`, which covers positioning and channels.*
 
-Last updated: 2026-09-02
+Last updated: 2026-09-03
 
 ---
 
@@ -125,7 +125,7 @@ Chosen deliberately over "write me a poem" or "plan my week." It is universal, i
 
 ---
 
-## No. 2 — Asking Better Questions
+## No. 4 — Asking Better Questions
 **8 lessons · ~32 pages**
 
 *Promise: you'll get a useful answer the first time instead of a vague one you keep having to fix.*
@@ -150,7 +150,7 @@ This is the consumer counterpart to the business line's prompting guide — same
 ---
 
 ## No. 3 — 101 Everyday Things to Ask Claude
-**Not a lesson book — a catalog · ~32 pages · likely the volume leader**
+**Not a lesson book — a catalog · 26 pages · BUILT · the volume leader**
 
 *Promise: open to any page, find something worth trying today.*
 
@@ -173,8 +173,8 @@ Two pages of front matter (how to use this, and how to change one to fit you), t
 
 ---
 
-## No. 4 — Is This Safe?
-**9 lessons · ~34 pages · move this up the build order**
+## No. 2 — Is This Safe?
+**9 lessons · 29 pages · BUILT · the trust product**
 
 *Promise: you'll know what it can see, what it can't, when it's likely to be wrong, and the handful of things you should never hand it.*
 
@@ -316,14 +316,21 @@ Lesson lists here are firm; the per-lesson detail gets written when each book is
 
 # Build order
 
-Not catalog order. This sequence gets a sellable, coherent set fastest:
+**Catalog numbers now follow ship order** (renumbered 2026-09-03) so the shelf has no gaps —
+a customer seeing No. 1 and No. 4 with nothing between them reads as an incomplete series.
 
-1. **Your First Ten Minutes** — free. Locks the type size, voice, and look for the whole line.
-2. **Claude for Absolute Beginners** — the anchor. Everything cross-links back to it.
-3. **Is This Safe?** — moved up from fourth. It's the trust product, and lesson 8 is the line's most distinctive content.
-4. **101 Everyday Things** — the volume title, and it reuses examples already written for 1–3.
-5. **The No-Jargon Glossary** — free, cheap to build once the first four exist.
-6. **Asking Better Questions** — completes the starter set.
+1. ✅ **Your First Ten Minutes** — free, 6 pages. Locked the type size, voice and look for the line.
+2. ✅ **No. 1 — Claude for Absolute Beginners** — 38 pages. The anchor; everything cross-links back to it.
+3. ✅ **No. 2 — Is This Safe?** — 29 pages. The trust product. Lesson 8 (AI-enabled scams) is the line's most distinctive content.
+4. ✅ **No. 3 — 101 Everyday Things** — 26 pages, exactly 101 asks, verified by count at build time.
+5. ⬜ **The No-Jargon Glossary** — free, cheap now the first four exist.
+6. ⬜ **No. 4 — Asking Better Questions** — completes the starter set.
+
+**Production note.** All books share one builder and one stylesheet at
+`veer/everyday-claude-guides/build/`. Each guide folder holds `build.json` and
+`Guide/manuscript.md`; run `python3 build/build_guide.py "guides/<Name>"`. The build **fails**
+if any page would be clipped, and reports pages under half full. *Your First Ten Minutes* keeps
+its own bespoke build — it's a 6-page single-path layout, not the standard book spine.
 
 That's a coherent six-product line, one free entry point, and a bundle worth selling before a single Tier 2 book exists.
 

@@ -18,6 +18,7 @@ Manuscript format
 Inside a page: markdown paragraphs, `- ` list items, **bold**, *italic*, plus
 
     ```ask | Label ...```        a copy-paste block
+    ```asks | Label ...```       one ask per line, each in its own box
     ```callout | Label ...```    a tip box
     ```warn | Label ...```       a warning box
 
@@ -25,12 +26,17 @@ Renders straight to PDF with headless Chromium so text stays selectable — this
 line is read with screen readers and text zoom, and the large-print edition is
 then a stylesheet change rather than a re-render.
 
-Usage:  python3 build_guide.py
+Usage:  python3 build_guide.py "guides/<Guide Name>"
+
+Each guide folder holds build.json (title, footer, out) and Guide/manuscript.md.
+The stylesheet and this script are shared by every book in the line, so a design
+change lands everywhere at once rather than drifting book by book.
 """
 from __future__ import annotations
 
 import base64
 import html
+import json
 import pathlib
 import re
 import subprocess
@@ -38,12 +44,23 @@ import sys
 import urllib.request
 
 HERE = pathlib.Path(__file__).parent
-GUIDE_DIR = HERE.parent / "Guide"
+LINE = "The Everyday Claude Guides"
+
+if len(sys.argv) < 2:
+    raise SystemExit(
+        "usage: build_guide.py <guide folder>\n"
+        "  e.g. build_guide.py \"guides/Is This Safe\"\n"
+        "  The folder needs build.json and Guide/manuscript.md."
+    )
+
+BOOK_DIR = pathlib.Path(sys.argv[1]).resolve()
+CONFIG = json.loads((BOOK_DIR / "build.json").read_text())
+GUIDE_DIR = BOOK_DIR / "Guide"
 MANUSCRIPT = GUIDE_DIR / "manuscript.md"
 
-TITLE = "Claude for Absolute Beginners"
-SERIES = "The Everyday Claude Guides · Claude for Absolute Beginners"
-OUT = GUIDE_DIR / f"{TITLE} - Veer.pdf"
+TITLE = CONFIG["title"]
+SERIES = f"{LINE} · {CONFIG.get('footer', TITLE)}"
+OUT = GUIDE_DIR / CONFIG["out"]
 
 CHROME_CANDIDATES = [
     "/opt/pw-browsers/chromium-1194/chrome-linux/chrome",
@@ -146,8 +163,14 @@ def render_blocks(body: str) -> str:
                 i += 1
             i += 1
             flush_items()
-            css = {"ask": "prompt", "callout": "callout", "warn": "callout warn"}.get(kind, "callout")
             tag = f'<span class="tag">{inline(label)}</span>' if label else ""
+            if kind == "asks":
+                # one ask per line, each its own box — for the browse-and-flip book
+                lines_ = [l.strip() for l in buf if l.strip()]
+                text = "".join(f"<p>{inline(l)}</p>" for l in lines_)
+                out.append(f'<div class="asks">{tag}{text}</div>')
+                continue
+            css = {"ask": "prompt", "callout": "callout", "warn": "callout warn"}.get(kind, "callout")
             text = "".join(f"<p>{inline(p)}</p>" for p in _paras(buf))
             out.append(f'<div class="{css}">{tag}{text}</div>')
             continue
@@ -260,7 +283,7 @@ document.title = 'OVERFLOW ' + (bad.length ? bad.join(',') : 'none')
 
 
 def check_overflow(html_doc: str) -> tuple[list[str], list[str]]:
-    probe = HERE / "_probe.html"
+    probe = HERE / f"_probe_{BOOK_DIR.name}.html"
     probe.write_text(html_doc.replace("</body>", OVERFLOW_PROBE + "</body>"))
     dom = subprocess.run(
         [chrome(), "--headless", "--disable-gpu", "--no-sandbox",
@@ -292,7 +315,7 @@ def main() -> None:
         f"<style>{(HERE / 'style.css').read_text()}</style>\n"
         f"</head><body>{body}</body></html>"
     )
-    (HERE / "_build.html").write_text(doc)
+    (HERE / f"_build_{BOOK_DIR.name}.html").write_text(doc)
 
     overflowing, underfull = check_overflow(doc)
     if overflowing:
@@ -308,7 +331,7 @@ def main() -> None:
     subprocess.run(
         [chrome(), "--headless", "--disable-gpu", "--no-sandbox",
          "--no-pdf-header-footer", f"--print-to-pdf={OUT}",
-         (HERE / "_build.html").as_uri()],
+         (HERE / f"_build_{BOOK_DIR.name}.html").as_uri()],
         check=True, capture_output=True,
     )
 
