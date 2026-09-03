@@ -277,7 +277,7 @@ Lesson lists here are firm; the per-lesson detail gets written when each book is
 # Tier 3 — Going a bit further
 
 ## No. 10 — Photos, Files, and Documents
-**8 lessons · ~30 pages · first book where the reader does more than type**
+**8 lessons · 23 pages · BUILT · first book where the reader does more than type**
 
 1. Showing it something instead of describing it
 2. Taking a photo it can actually read
@@ -289,7 +289,7 @@ Lesson lists here are firm; the per-lesson detail gets written when each book is
 8. What it can't do with a file, so you stop trying
 
 ## No. 11 — Making Claude Remember You
-**7 lessons · ~28 pages**
+**7 lessons · 21 pages · BUILT**
 
 1. Why you keep repeating yourself
 2. Writing down who you are, once
@@ -302,7 +302,7 @@ Lesson lists here are firm; the per-lesson detail gets written when each book is
 **Artifact — The "about me" page** the reader writes once and reuses everywhere.
 
 ## No. 12 — Claude on Your Phone
-**7 lessons · ~28 pages**
+**7 lessons · 20 pages · BUILT**
 
 1. What's different on a phone
 2. Talking instead of typing
@@ -334,7 +334,26 @@ a customer seeing No. 1 and No. 4 with nothing between them reads as an incomple
 10. ✅ **No. 8 — Paperwork and Plain English** — 24 pages, plus the three-ask plain-English pass.
 11. ✅ **No. 9 — Learning Something New** — 25 pages, plus a four-week starter path.
 
-**Tier 2 complete. Eleven products built: two free, nine paid.** Tier 3 remains: *Photos, Files and Documents*, *Making Claude Remember You*, *Claude on Your Phone* — the three titles where the reader does something beyond typing.
+12. ✅ **No. 10 — Photos, Files, and Documents** — 23 pages, plus the before-you-attach checklist.
+13. ✅ **No. 11 — Making Claude Remember You** — 21 pages, plus the six-sentence "about me" page.
+14. ✅ **No. 12 — Claude on Your Phone** — 20 pages, plus the five phone-only moments.
+
+## THE CATALOGUE IS COMPLETE — 14 products, 2 free and 12 paid.
+
+**Version risk is concentrated in three books.** Tier 3 is the only part of the line that
+describes app features, so No. 10, No. 11 and No. 12 each carry a `PAGE current` and each needs
+a factual check before publishing:
+
+- **No. 10** — supported file formats, size limits, how many attachments at once. The page says
+  only that limits exist and vary by plan. Confirm no revision has added a specific number.
+- **No. 11** — Projects, standing-rule settings, and what each plan includes. Written in general
+  terms on purpose. Confirm nothing asserts a specific menu name.
+- **No. 12** — voice is described **conditionally throughout** ("where your app offers it"),
+  with keyboard dictation given as the fallback so no lesson depends on the feature existing.
+  Do not let a revision turn a conditional into an assertion.
+
+Everything else in the line — both free titles and all of Tier 1 and 2 except the two beginner
+books — contains no version-specific facts at all and cannot go stale.
 
 **Production note.** All books share one builder and one stylesheet at
 `veer/everyday-claude-guides/build/`. Each guide folder holds `build.json` and
