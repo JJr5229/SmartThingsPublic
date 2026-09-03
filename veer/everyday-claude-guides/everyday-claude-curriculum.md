@@ -245,7 +245,7 @@ Lesson lists here are firm; the per-lesson detail gets written when each book is
 **Artifact — The homework helper script:** the exact asks that make Claude tutor rather than answer, with a worked example.
 
 ## No. 8 — Paperwork and Plain English
-**8 lessons · ~30 pages · heaviest human-in-the-loop framing in the line**
+**8 lessons · 24 pages · BUILT · heaviest human-in-the-loop framing in the line**
 
 1. What this book will and won't do — the limits, stated first, on page one
 2. Reading a letter that's designed to be confusing
@@ -259,7 +259,7 @@ Lesson lists here are firm; the per-lesson detail gets written when each book is
 **Artifact — The plain-English pass:** three asks in sequence that turn any document into something readable.
 
 ## No. 9 — Learning Something New
-**8 lessons · ~30 pages**
+**8 lessons · 25 pages · BUILT**
 
 1. The tutor who never sighs
 2. Explain it to me like I've never done this
@@ -331,7 +331,10 @@ a customer seeing No. 1 and No. 4 with nothing between them reads as an incomple
 8. ✅ **No. 6 — Around the House** — 25 pages, plus a month of kitchen asks for the fridge.
 9. ✅ **No. 7 — Family Life** — 26 pages, plus the homework helper card.
 
-**Nine products built: two free, seven paid.** Tier 2 has two left: *Paperwork and Plain English* and *Learning Something New*.
+10. ✅ **No. 8 — Paperwork and Plain English** — 24 pages, plus the three-ask plain-English pass.
+11. ✅ **No. 9 — Learning Something New** — 25 pages, plus a four-week starter path.
+
+**Tier 2 complete. Eleven products built: two free, nine paid.** Tier 3 remains: *Photos, Files and Documents*, *Making Claude Remember You*, *Claude on Your Phone* — the three titles where the reader does something beyond typing.
 
 **Production note.** All books share one builder and one stylesheet at
 `veer/everyday-claude-guides/build/`. Each guide folder holds `build.json` and
@@ -344,6 +347,6 @@ That's a coherent six-product line, one free entry point, and a bundle worth sel
 # Open content questions
 
 - [x] ~~Lesson 1 of *Family Life* — homework ethics~~ → **settled and shipped**: explains, demonstrates on a parallel problem, quizzes; never produces submittable work; school rules are the authority; the test is whether the child can explain it back.
-- [ ] *Paperwork and Plain English* lesson 1 sets the limits. Get that page reviewed before the rest is drafted.
+- [x] ~~*Paperwork and Plain English* lesson 1 sets the limits~~ → **written and shipped**: the limits are stated on page one before any instruction, and Lesson 8 lists seven signs to stop and pay for advice. Neither may be softened or moved in a revision.
 - [ ] Decide whether the doctor's-appointment chapter in *101 Everyday Things* is enough to satisfy health demand without a standalone health title. **Leaning yes** — a chapter inside a browse book carries far less risk than a book with "health" on the cover.
 - [ ] All version-specific facts stay in each book's "Current as of" page and get verified at build time.
