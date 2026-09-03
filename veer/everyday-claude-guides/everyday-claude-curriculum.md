@@ -104,7 +104,7 @@ Chosen deliberately over "write me a poem" or "plan my week." It is universal, i
 # Tier 1 — Starting out
 
 ## No. 1 — Claude for Absolute Beginners
-**10 lessons · ~38 pages · the anchor title**
+**10 lessons · 38 pages · BUILT · the anchor title**
 
 *Promise: you'll have an account, a first real conversation behind you, and a clear sense of what this is good for — without anyone explaining a single thing you didn't ask about.*
 

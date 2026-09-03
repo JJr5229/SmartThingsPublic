@@ -1,0 +1,199 @@
+/* Veer brand system — locked values from Veer-Brand-Identity-Sheet.
+   Everyday line deviations: larger body type, one idea per page. */
+:root{
+  --red:#EF4138;
+  --maroon:#BE2430;
+  --orange:#F69323;
+  --paper:#F4F1EC;
+  --paper2:#EAE5DC;
+  --ink:#171412;
+  --ink-soft:#4A433C;
+  --ember: radial-gradient(108% 95% at 86% 4%, #FEC97E 0%, #F69323 15%, #EE5A2A 32%, #8a2216 56%, #2b0a05 82%, #0a0503 100%);
+}
+
+*{ box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+html,body{ margin:0; padding:0; }
+body{
+  font-family:'Inter', system-ui, sans-serif;
+  color:var(--ink);
+  background:var(--paper);
+}
+
+@page{ size:8.5in 11in; margin:0; }
+
+.page{
+  width:8.5in; height:11in;
+  position:relative;
+  background:var(--paper);
+  padding:0.85in 0.95in 0.7in;
+  display:flex; flex-direction:column;
+  page-break-after:always;
+  overflow:hidden;
+}
+.page:last-child{ page-break-after:auto; }
+
+/* ---------- shared marks ---------- */
+.wordmark{
+  font-family:'DM Sans', sans-serif; font-weight:600;
+  letter-spacing:.30em; font-size:13pt; color:var(--ink);
+}
+.wordmark.sm{ font-size:9.5pt; color:var(--ink-soft); }
+.wordmark.white{ color:#fff; font-size:14pt; }
+.eyebrow{
+  font-family:'Inter',sans-serif; font-weight:600; font-size:8.5pt;
+  letter-spacing:.3em; text-transform:uppercase; color:var(--orange);
+}
+.white-soft{ color:rgba(255,240,224,.72); }
+
+.head{ padding-bottom:.28in; border-bottom:1px solid rgba(23,20,18,.13); }
+.body{ flex:1; padding-top:.5in; }
+.foot{
+  display:flex; justify-content:space-between; align-items:baseline;
+  border-top:1px solid rgba(23,20,18,.10);
+  padding-top:.16in;
+  font-size:8pt; letter-spacing:.14em; text-transform:uppercase;
+  color:rgba(23,20,18,.42);
+}
+
+/* ---------- cover ---------- */
+.cover{
+  background:var(--ember);
+  color:#fff;
+  justify-content:space-between;
+  padding:.9in .95in .8in;
+}
+.cover-top{ display:flex; justify-content:space-between; align-items:baseline; }
+.cover-mid{ padding-bottom:.2in; }
+.cover-title{
+  font-family:'DM Sans',sans-serif; font-weight:600;
+  font-size:47pt; line-height:1.02; letter-spacing:-.025em;
+  margin:0 0 .28in; color:#fff;
+}
+.rule-accent{
+  width:1.35in; height:3px; background:#FEC97E;
+  margin-bottom:.28in; border-radius:2px;
+}
+.cover-lede{
+  font-size:12.5pt; line-height:1.6; margin:0 0 .14in;
+  color:rgba(255,247,238,.93); max-width:5.1in;
+}
+.cover-lede.strong{ color:#fff; font-weight:600; margin-top:.22in; }
+.cover-foot{
+  flex:none; line-height:1.4; font-size:10pt; letter-spacing:.16em; text-transform:uppercase;
+  color:rgba(255,238,220,.72); font-weight:500;
+}
+
+/* ---------- interior type ---------- */
+.step{
+  font-family:'DM Sans',sans-serif; font-weight:600;
+  font-size:44pt; line-height:1; color:var(--orange);
+  opacity:.28; margin-bottom:.06in; letter-spacing:-.02em;
+}
+h2{
+  font-family:'DM Sans',sans-serif; font-weight:600;
+  font-size:30pt; line-height:1.08; letter-spacing:-.022em;
+  margin:0 0 .3in; color:var(--ink);
+}
+h2.no-step{ margin-top:.35in; }
+p{ font-size:13pt; line-height:1.68; margin:0 0 .19in; max-width:5.6in; }
+b{ font-weight:600; }
+i{ font-style:italic; color:var(--maroon); }
+.emph{ font-weight:600; font-size:13.5pt; color:var(--maroon); }
+.url{
+  font-family:'DM Sans',sans-serif; font-weight:600;
+  font-size:15pt; color:var(--maroon); letter-spacing:-.01em;
+}
+.lead-label{
+  font-family:'Inter',sans-serif; font-weight:600; font-size:8.5pt;
+  letter-spacing:.26em; text-transform:uppercase; color:var(--maroon);
+  margin:.34in 0 .18in;
+}
+.signoff{
+  margin-top:.3in; font-size:11pt; font-weight:600;
+  color:var(--maroon); letter-spacing:.01em;
+}
+
+/* ---------- boxes ---------- */
+.tag{
+  display:block;
+  font-family:'Inter',sans-serif; font-weight:600; font-size:7.8pt;
+  letter-spacing:.24em; text-transform:uppercase; color:var(--orange);
+  margin-bottom:.09in;
+}
+.callout{
+  background:var(--paper2);
+  border-left:3px solid var(--maroon);
+  padding:.22in .26in; margin-top:.3in;
+}
+.callout p{ margin:0; font-size:11.5pt; line-height:1.6; color:var(--ink-soft); max-width:none; }
+.callout.warn{ border-left-color:var(--red); }
+.callout.warn .tag{ color:var(--red); }
+
+.prompt{
+  background:#fff;
+  border:1px solid rgba(246,147,35,.55);
+  border-left:4px solid var(--orange);
+  padding:.26in .3in; margin:.26in 0 .28in;
+}
+.prompt p{
+  margin:0; font-size:13.5pt; line-height:1.6;
+  color:var(--ink); max-width:none; font-weight:500;
+}
+
+.three .item, .next .item{
+  border-top:1px solid rgba(23,20,18,.14);
+  padding:.17in 0;
+  font-size:12pt; line-height:1.62; color:var(--ink-soft);
+  max-width:5.6in;
+}
+.three .item b, .next .item b{ color:var(--ink); }
+
+.asks p{
+  background:#fff;
+  border-left:3px solid rgba(190,36,48,.5);
+  padding:.15in .2in;
+  margin:0 0 .13in;
+  font-size:12pt; line-height:1.55;
+  max-width:5.6in;
+}
+
+.disclaimer{
+  margin-top:.34in; padding-top:.16in;
+  border-top:1px solid rgba(23,20,18,.12);
+}
+.disclaimer p{
+  font-size:7.4pt; line-height:1.55; color:rgba(23,20,18,.5);
+  max-width:none; margin:0 0 .06in;
+}
+
+/* ---------- No. 1 additions: promise list, cards, current-as-of ---------- */
+.items{ margin:.05in 0 .12in; }
+.items .item{
+  border-top:1px solid rgba(23,20,18,.14);
+  padding:.145in 0;
+  font-size:12pt; line-height:1.6; color:var(--ink-soft);
+  max-width:5.6in;
+}
+.items .item b{ color:var(--ink); }
+
+/* the tear-out card reads as an object, not prose */
+.card-page .items .item{
+  border-top:none;
+  border-left:3px solid var(--orange);
+  background:#fff;
+  padding:.13in .2in;
+  margin-bottom:.1in;
+  font-size:11.5pt; line-height:1.55;
+}
+
+/* the one page that gets refreshed each quarter — visibly flagged */
+.current-page{
+  background:linear-gradient(180deg, rgba(246,147,35,.11), rgba(246,147,35,0) 4in);
+  margin:0 -.95in; padding:.5in .95in 0;
+}
+.current-page h2{ margin-bottom:.2in; }
+.current-page p i{ color:var(--ink-soft); }
+
+.disclaimer-page p{
+  font-size:9.5pt; line-height:1.7; color:var(--ink-soft); max-width:5.4in;
+}
