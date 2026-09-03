@@ -1,7 +1,7 @@
 # The Everyday Claude Guides — Product Roadmap & Framework
 *Planning doc for the consumer line. Nothing here is built yet. Sibling to `claude-guides-roadmap.md`, which governs the small-business line.*
 
-Last updated: 2026-09-02
+Last updated: 2026-09-03
 
 ---
 
@@ -25,7 +25,7 @@ That changes almost every decision — the promise, the price, the page density,
 |---|---|---|
 | **Audience** | Regular adults with little-to-no AI experience and, often, modest tech confidence. Retirees, parents, caregivers, students, hobbyists, career-changers. | Genuinely underserved. Every AI guide on the market is written for someone already leaning in. |
 | **Line name** | **The Everyday Claude Guides** | Reads as a collected series, like a publisher's imprint. Sits under Veer alongside "Claude for Small Business" without pretending to be its twin. |
-| **Format** | Short, low-density PDFs ($5–9 each) + bundles + a **printed/large-print edition** as the differentiator | Consumers won't pay small-business prices for a PDF about a free app. Volume and charm carry this line, not depth. |
+| **Format** | Short, low-density PDFs ($7–15 each) + bundles + a **printed/large-print edition** as the differentiator | Consumers won't pay small-business prices for a PDF about a free app. Volume and charm carry this line, not depth. |
 | **Primary channel** | **Etsy first**, own site second — the inverse of the business line | Consumers browse Etsy. Small-business owners don't. This is the single biggest strategic difference between the two lines. |
 | **Maintenance** | Same model: evergreen core + one quarantined "Current as of [quarter]" section | Already proven on the business line. Don't re-invent it. |
 | **Relationship to the business line** | Top of funnel, one direction only | A hobbyist who starts selling becomes a small-business buyer. Never cross-sell downward. |
@@ -64,7 +64,7 @@ Build in this order. Each is a standalone sellable PDF; together they ladder up 
 - **"Your First Ten Minutes With Claude"** — 4–6 pages, enormous type, one path, one win. Not a tour. The reader opens the app, types one specific thing, and gets one specific good result. This is the top of the entire funnel and probably the most important single asset in the line.
 - **"The No-Jargon Claude Glossary"** — 15 words, not the business line's 20. **Deliberately drops** MCP, Skills, Claude Code, tokens, and API. Keeps: prompt, chat, model, context, project, artifact, connector, plan tiers, hallucination, and friends. A distinct product from the SMB glossary — do not just re-skin it, the omissions are the point.
 
-### Tier 1 — Starting out — $5–7 each *(the Etsy engine)*
+### Tier 1 — Starting out — $7–9 each *(the Etsy engine)*
 
 1. **Claude for Absolute Beginners** — what it is, getting an account, the interface, your first real conversation, what to do when it goes weird. The anchor beginner title.
 2. **Asking Better Questions** — consumer prompting, taught as habits rather than a framework. Before/after pairs from ordinary life, not marketing.
@@ -72,6 +72,8 @@ Build in this order. Each is a standalone sellable PDF; together they ladder up 
 4. **Is This Safe? Privacy, Trust, and Knowing When to Double-Check** — the objection guide. What Claude does and doesn't see, what it gets wrong and why, how to sanity-check an answer, and the three categories where you always confirm with a human. **Strong candidate to move up the build order** — for this audience it's a trust product as much as an instruction product, and it makes every other guide in the line safer to sell.
 
 ### Tier 2 — In your actual life — $9–12 each
+
+> ⚠️ **Ladder problem created by the Tier 1 change (2026-09-03).** Tier 1 now tops out at $9 and Tier 2 starts at $9, so the two tiers touch — a longer, deeper Tier 2 book could sell for the same price as a Tier 1 one. Either accept the overlap, or shift Tier 2 to $11–14 and Tier 3 to $15–18 to keep a visible step between tiers. **Undecided — needs a call before any Tier 2 title is listed.**
 
 5. **Letters, Emails, and Awkward Messages** — the complaint, the condolence, the boundary with a relative, the note to the landlord, the "I have to say no." Probably the highest emotional-value title in the catalog.
 6. **Around the House** — meal planning from what's in the fridge, shopping lists, repairs, decluttering, "what is this thing and how do I fix it."
@@ -95,7 +97,7 @@ MCP, the API, Claude Code, hooks, automations, integrations that require setting
 
 ### Bundles & editions
 
-- **"The Everyday Claude Collection"** — everything, $29–39. The anchor.
+- **"The Everyday Claude Collection"** — everything, **$49**. The anchor, and most of the line's revenue.
 - **Large-Print Edition** — the same guides, reset at ~16pt with more white space. Costs one build variable to produce and serves a real, largely ignored audience. Sell at a small premium or as an accessibility option at the same price; either way it's a genuine reason to choose Veer.
 - **Printed spiral-bound booklet** — Veer is a Design · Print · Tech studio, so this is a capability nobody else in this category has. A physical booklet that sits next to the laptop is a *better product* for this reader than a PDF, not just a different one. Highest-margin item in the line and the hardest to copy. **Flagged as the strategic bet worth testing early.**
 - **"What's New" update pack** — same quarterly model as the business line, shared production cycle.
@@ -105,13 +107,15 @@ MCP, the API, Claude Code, hooks, automations, integrations that require setting
 ## 4. Pricing & funnel math
 
 - Free "First Ten Minutes" → email list.
-- Tripwire: $5–7 Tier 1 single, usually *101 Everyday Things* or *Absolute Beginners*.
-- Core offer: the Collection at $29–39.
+- Tripwire: $7–9 Tier 1 single, usually *101 Everyday Things* or *Absolute Beginners*.
+- Core offer: the Collection at $49.
 - Physical booklet: the upsell that pays for the line's margin.
 
 Rule of thumb carried over from the business line: singles priced so the bundle is a no-brainer (bundle ≈ 40–50% of buying all singles separately).
 
-**Deliberate difference from the business line:** volume over margin. These are ~$6 products sold to a large, browsing audience, not ~$25 products sold to a qualified one. That means more titles, shorter each, and Etsy SEO doing the work that a sales page does on the business side.
+**The arithmetic, so this stays honest.** All twelve singles bought separately come to $109–141 (4 × $7–9, 5 × $9–12, 3 × $12–15), or about $125 at the midpoint. The $49 Collection is ≈39% of that — the aggressive end of the rule, which is right for a line built on volume. An earlier draft priced the Collection at $29–39, which worked out to a 65–75% discount and quietly devalued every single in the catalog: if the whole set is $35, a $12 single looks badly priced. Corrected 2026-09-03.
+
+**Deliberate difference from the business line:** volume over margin. These are ~$8 products sold to a large, browsing audience, not ~$25 products sold to a qualified one. That means more titles, shorter each, and Etsy SEO doing the work that a sales page does on the business side.
 
 ---
 
@@ -156,7 +160,7 @@ What the switch changes:
 | **Signature artifact** | Prompt pack, decision table, automation recipe | Almost always a **plain-language ask list** — real sentences the reader types verbatim, no `[brackets]` to fill in |
 | **Jargon budget** | Terms defined once, then used | **Zero.** Defined at every appearance |
 | **Screenshots** | Optional, quarantined | **More valuable here** — but still quarantined, still captioned with a date, still never the only way a step is conveyed |
-| **Price band** | $9–29 | $5–15 |
+| **Price band** | $9–29 | $7–15 |
 | **Etsy eligibility** | Foundations tier only | **Everything** — no tier in this line carries the automation-guide policy risk |
 
 The `[bracketed]` fill-in-the-blank convention is the one production habit that must **not** carry over. It's efficient for a business reader building a prompt library and genuinely confusing for someone who has never written a prompt. Everyday-line artifacts are written as complete, typeable sentences.
@@ -178,7 +182,7 @@ Same independent-educator disclaimer, verbatim, on every product — guide final
 
 - [ ] Confirm the line name reads right on an Etsy listing alongside the business line — *The Everyday Claude Guides* is locked but worth eyeballing in situ
 - [ ] Decide large-print: separate SKU at a premium, or the same file at the same price as an accessibility choice (**leaning: same price, it's better brand behavior and cheap to produce**)
-- [ ] Price-test $5 vs $7 on the first Etsy listing before setting the whole band
+- [ ] Price-test **$7 vs $9** on the first Tier 1 listing before locking the band — revised up from $5 vs $7 once *Claude for Absolute Beginners* came in at 38 pages, which is a book rather than a printable
 - [ ] Lock the design deviations in §7 by building the free magnet first
 - [ ] Extend `claude-guide-builder` with the audience switch (§7) — one skill, two registers
 - [ ] Verify every version-specific Claude fact at build time per the existing skill discipline; nothing in this planning doc asserts current model names, pricing, or plan details on purpose
