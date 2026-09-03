@@ -72,7 +72,7 @@ Chosen deliberately over "write me a poem" or "plan my week." It is universal, i
 
 ## "The No-Jargon Claude Glossary"
 
-**15 entries, 4 clusters, ~14 pages.** One term per page for the first cluster, two per page after.
+**15 entries, 4 clusters, 13 pages · BUILT.** One term per page for the first cluster, two per page after.
 
 **Cluster 1 — The words for the thing itself**
 1. AI — what the word actually means here, stripped of hype
@@ -126,7 +126,7 @@ Chosen deliberately over "write me a poem" or "plan my week." It is universal, i
 ---
 
 ## No. 4 — Asking Better Questions
-**8 lessons · ~32 pages**
+**8 lessons · 31 pages · BUILT**
 
 *Promise: you'll get a useful answer the first time instead of a vague one you keep having to fix.*
 
@@ -323,8 +323,10 @@ a customer seeing No. 1 and No. 4 with nothing between them reads as an incomple
 2. ✅ **No. 1 — Claude for Absolute Beginners** — 38 pages. The anchor; everything cross-links back to it.
 3. ✅ **No. 2 — Is This Safe?** — 29 pages. The trust product. Lesson 8 (AI-enabled scams) is the line's most distinctive content.
 4. ✅ **No. 3 — 101 Everyday Things** — 26 pages, exactly 101 asks, verified by count at build time.
-5. ⬜ **The No-Jargon Glossary** — free, cheap now the first four exist.
-6. ⬜ **No. 4 — Asking Better Questions** — completes the starter set.
+5. ✅ **The No-Jargon Glossary** — free, 13 pages. The closing "words you can safely ignore" page is the point as much as the definitions.
+6. ✅ **No. 4 — Asking Better Questions** — 31 pages, 12 before-and-after pairs.
+
+**The starter set is complete: two free products and four paid titles.** Next is Tier 2 — *Letters, Emails and Awkward Messages* is the highest emotional-value title in the catalog and the natural next build.
 
 **Production note.** All books share one builder and one stylesheet at
 `veer/everyday-claude-guides/build/`. Each guide folder holds `build.json` and

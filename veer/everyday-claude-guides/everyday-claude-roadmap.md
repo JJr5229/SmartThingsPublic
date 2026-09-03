@@ -95,7 +95,7 @@ MCP, the API, Claude Code, hooks, automations, integrations that require setting
 
 ### Bundles & editions
 
-- **"The Everyday Claude Collection"** — everything, **$49**. The anchor, and most of the line's revenue.
+- **"The Everyday Claude Collection"** — everything, **$59**. The anchor, and most of the line's revenue.
 - **"What's New" update pack** — same quarterly model as the business line, shared production cycle.
 
 ---
@@ -104,14 +104,16 @@ MCP, the API, Claude Code, hooks, automations, integrations that require setting
 
 - Free "First Ten Minutes" → email list.
 - Tripwire: $7–9 Tier 1 single, usually *101 Everyday Things* or *Absolute Beginners*.
-- Core offer: the Collection at $49.
+- Core offer: the Collection at $59.
 - *(Parked: a physical booklet as the margin upsell — see Parked below.)*
 
 Rule of thumb carried over from the business line: singles priced so the bundle is a no-brainer (bundle ≈ 40–50% of buying all singles separately).
 
 **The arithmetic, so this stays honest.** All twelve singles bought separately come to $128–160 (4 × $7–9, 5 × $11–14, 3 × $15–18), or about **$144** at the midpoint.
 
-> ⚠️ **The $49 Collection is now ≈34% of that, below the 40–50% rule.** Raising Tiers 2 and 3 to fix the tier overlap pushed the singles total up, so the bundle drifted out of the band again. Two ways to settle it: move the Collection to **$59** (≈41%, back inside the rule), or hold $49 and accept a 66% discount as a deliberate volume play — in which case rewrite the rule above rather than leaving it contradicted. **Undecided; $49 stands until called.** An earlier draft had the Collection at $29–39, a 65–75% discount that devalued every single in the catalog.
+The **$59** Collection is ≈41% of that — inside the rule, and a 59% saving against buying every title separately, which is a real reason to take the bundle without making the singles look mispriced.
+
+*History, so this isn't relitigated: the Collection was first drafted at $29–39 (a 65–75% discount that devalued every single), corrected to $49, then to $59 once Tiers 2 and 3 rose to reopen the gap under Tier 1. Settled 2026-09-03.*
 
 **Deliberate difference from the business line:** volume over margin. These are ~$8 products sold to a large, browsing audience, not ~$25 products sold to a qualified one. That means more titles, shorter each, and Etsy SEO doing the work that a sales page does on the business side.
 
@@ -187,7 +189,6 @@ Parking these removes the line's non-digital fallback against Etsy's inconsisten
 ## 9. Open items
 
 - [ ] Confirm the line name reads right on an Etsy listing alongside the business line — *The Everyday Claude Guides* is locked but worth eyeballing in situ
-- [ ] Settle the Collection price: **$59** (inside the 40–50% rule) or hold **$49** and rewrite the rule — see §4
 - [ ] Price-test **$7 vs $9** on the first Tier 1 listing before locking the band — revised up from $5 vs $7 once *Claude for Absolute Beginners* came in at 38 pages, which is a book rather than a printable
 - [ ] Lock the design deviations in §7 by building the free magnet first
 - [ ] Extend `claude-guide-builder` with the audience switch (§7) — one skill, two registers
