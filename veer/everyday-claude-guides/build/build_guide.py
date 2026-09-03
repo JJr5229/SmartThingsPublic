@@ -19,6 +19,7 @@ Inside a page: markdown paragraphs, `- ` list items, **bold**, *italic*, plus
 
     ```ask | Label ...```        a copy-paste block
     ```asks | Label ...```       one ask per line, each in its own box
+    ```letter | Label ...```     a finished piece of writing, set at reading size
     ```callout | Label ...```    a tip box
     ```warn | Label ...```       a warning box
 
@@ -170,7 +171,8 @@ def render_blocks(body: str) -> str:
                 text = "".join(f"<p>{inline(l)}</p>" for l in lines_)
                 out.append(f'<div class="asks">{tag}{text}</div>')
                 continue
-            css = {"ask": "prompt", "callout": "callout", "warn": "callout warn"}.get(kind, "callout")
+            css = {"ask": "prompt", "callout": "callout",
+                   "warn": "callout warn", "letter": "letter"}.get(kind, "callout")
             text = "".join(f"<p>{inline(p)}</p>" for p in _paras(buf))
             out.append(f'<div class="{css}">{tag}{text}</div>')
             continue

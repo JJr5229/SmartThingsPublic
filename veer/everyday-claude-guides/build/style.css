@@ -201,3 +201,16 @@ i{ font-style:italic; color:var(--maroon); }
 /* the browse-and-flip book: many short asks, each its own object */
 .asks{ margin:.05in 0 .1in; }
 .asks .tag{ margin-bottom:.11in; }
+
+/* a finished letter is meant to be read, not skimmed like a callout */
+.letter{
+  background:#fff;
+  border:1px solid rgba(23,20,18,.16);
+  padding:.24in .28in; margin:.2in 0 .24in;
+}
+.letter .tag{ color:var(--maroon); }
+.letter p{
+  margin:0 0 .13in; font-size:11.5pt; line-height:1.62;
+  color:var(--ink); max-width:none;
+}
+.letter p:last-child{ margin-bottom:0; }

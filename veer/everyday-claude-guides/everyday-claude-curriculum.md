@@ -201,7 +201,7 @@ This is a trust product as much as an instruction product. For an audience that 
 Lesson lists here are firm; the per-lesson detail gets written when each book is built.
 
 ## No. 5 — Letters, Emails, and Awkward Messages
-**9 lessons · ~34 pages · highest emotional value in the catalog**
+**9 lessons · 38 pages · BUILT · highest emotional value in the catalog · first Tier 2 title**
 
 1. Why the hard ones are hard — you're managing a relationship, not writing words
 2. Tell it the relationship first — the context that changes everything
@@ -326,7 +326,9 @@ a customer seeing No. 1 and No. 4 with nothing between them reads as an incomple
 5. ✅ **The No-Jargon Glossary** — free, 13 pages. The closing "words you can safely ignore" page is the point as much as the definitions.
 6. ✅ **No. 4 — Asking Better Questions** — 31 pages, 12 before-and-after pairs.
 
-**The starter set is complete: two free products and four paid titles.** Next is Tier 2 — *Letters, Emails and Awkward Messages* is the highest emotional-value title in the catalog and the natural next build.
+7. ✅ **No. 5 — Letters, Emails, and Awkward Messages** — 38 pages, 12 finished messages. First Tier 2 title.
+
+**Seven products built: two free, five paid.** Next in Tier 2: *Around the House*, *Family Life*, *Paperwork and Plain English*, *Learning Something New*.
 
 **Production note.** All books share one builder and one stylesheet at
 `veer/everyday-claude-guides/build/`. Each guide folder holds `build.json` and
