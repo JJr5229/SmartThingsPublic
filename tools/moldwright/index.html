@@ -1,0 +1,1253 @@
+<title>Moldwright</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#E3E2DD; --surface:#F1F0EC; --sunken:#D3D2CB; --raise:#FBFAF7;
+  --ink:#191B1B; --ink2:#5E6362; --ink3:#868B89;
+  --line:#C6C5BD; --line2:#DEDDD6;
+  --accent:#14625C; --accent-ink:#FFFFFF; --accent-soft:#D3E3E0;
+  --shell:#2E6EA6; --plug:#C4682B; --cast:#7E7A72;
+  --ok:#14625C; --warn:#8A6100; --bad:#A02E28;
+  --ok-bg:#D3E3E0; --warn-bg:#EFE3C4; --bad-bg:#F0D9D7;
+  --shadow:0 1px 2px rgba(25,27,27,.08), 0 8px 24px -12px rgba(25,27,27,.22);
+  --sans:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#17191A; --surface:#212425; --sunken:#0E1011; --raise:#2A2E2F;
+    --ink:#E9E8E3; --ink2:#9AA09E; --ink3:#767C7B;
+    --line:#33383A; --line2:#282C2D;
+    --accent:#4FBFAE; --accent-ink:#0E1011; --accent-soft:#1B3634;
+    --shell:#5B9DD6; --plug:#E08A4A; --cast:#9A958B;
+    --ok:#4FBFAE; --warn:#D6A63A; --bad:#E4736A;
+    --ok-bg:#173330; --warn-bg:#332B15; --bad-bg:#341E1D;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#17191A; --surface:#212425; --sunken:#0E1011; --raise:#2A2E2F;
+  --ink:#E9E8E3; --ink2:#9AA09E; --ink3:#767C7B;
+  --line:#33383A; --line2:#282C2D;
+  --accent:#4FBFAE; --accent-ink:#0E1011; --accent-soft:#1B3634;
+  --shell:#5B9DD6; --plug:#E08A4A; --cast:#9A958B;
+  --ok:#4FBFAE; --warn:#D6A63A; --bad:#E4736A;
+  --ok-bg:#173330; --warn-bg:#332B15; --bad-bg:#341E1D;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+  font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+.app{display:grid;grid-template-columns:392px 1fr;height:100dvh;min-height:700px;max-height:1000px}
+
+/* ---- rail ---- */
+.rail{border-right:1px solid var(--line);background:var(--surface);
+  overflow-y:auto;display:flex;flex-direction:column}
+.brand{padding:17px 22px 14px;border-bottom:1px solid var(--line)}
+.brand h1{margin:0;font-size:21px;font-weight:700;letter-spacing:-.02em}
+.brand h1 em{font-style:normal;color:var(--accent)}
+.brand p{margin:5px 0 0;font-size:12.5px;color:var(--ink2);max-width:32ch}
+
+.sec{padding:15px 22px;border-bottom:1px solid var(--line2)}
+.sec:last-child{border-bottom:none}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:12px}
+.sec-h h2{margin:0;font-size:10.5px;font-weight:600;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink3)}
+.sec-h span{font-family:var(--mono);font-size:11px;color:var(--ink3)}
+
+/* drop zone */
+.drop{border:1.5px dashed var(--line);border-radius:6px;background:var(--raise);
+  padding:16px;text-align:center;transition:border-color .15s,background .15s}
+.drop.over{border-color:var(--accent);background:var(--accent-soft)}
+.drop .fname{font-family:var(--mono);font-size:12.5px;color:var(--ink);
+  overflow-wrap:anywhere;margin-bottom:2px}
+.drop .fmeta{font-family:var(--mono);font-size:11px;color:var(--ink2)}
+.drop .hint{font-size:12px;color:var(--ink2);margin-top:9px}
+.drop button{margin-top:10px}
+
+/* buttons */
+.btn{background:var(--raise);border:1px solid var(--line);border-radius:5px;
+  padding:6px 12px;font-size:13px;font-weight:500;cursor:pointer;transition:background .12s,border-color .12s}
+.btn:hover{border-color:var(--ink3)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+/* segmented */
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--sunken);
+  border-radius:6px;padding:3px;gap:3px}
+.seg button{background:transparent;border:0;border-radius:4px;padding:7px 6px;cursor:pointer;
+  font-size:12.5px;font-weight:500;color:var(--ink2);transition:background .12s,color .12s}
+.seg button[aria-pressed="true"]{background:var(--raise);color:var(--ink);box-shadow:var(--shadow)}
+
+/* params */
+.params{display:grid;gap:10px}
+.row{display:grid;grid-template-columns:1fr 84px;align-items:center;gap:10px}
+.row label{font-size:12.5px;color:var(--ink2)}
+.row label b{display:block;font-weight:500;color:var(--ink);font-size:13px}
+.row input,.row select{width:100%;background:var(--raise);border:1px solid var(--line);
+  border-radius:4px;padding:5px 7px;font-family:var(--mono);font-size:12.5px;text-align:right}
+.row select{text-align:left;font-family:var(--sans)}
+
+/* checks */
+.checks{display:grid;gap:1px;background:var(--line2);border:1px solid var(--line2);border-radius:6px;overflow:hidden}
+.check{background:var(--surface);padding:10px 12px;display:grid;
+  grid-template-columns:auto 1fr auto;gap:10px;align-items:baseline}
+.dot{width:8px;height:8px;border-radius:50%;align-self:center}
+.dot.ok{background:var(--ok)} .dot.warn{background:var(--warn)} .dot.bad{background:var(--bad)}
+.check .t{font-size:13px}
+.check .t small{display:block;color:var(--ink2);font-size:11.5px;line-height:1.4;margin-top:1px}
+.check .v{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.check.ok .v{color:var(--ok)} .check.warn .v{color:var(--warn)} .check.bad .v{color:var(--bad)}
+
+/* material readout */
+.mats{display:grid;gap:1px;background:var(--line2);border:1px solid var(--line2);border-radius:6px;overflow:hidden}
+.mat{background:var(--surface);padding:10px 12px}
+.mat .k{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+.mat .n{font-family:var(--mono);font-size:17px;font-variant-numeric:tabular-nums;margin-top:2px}
+.mat .n u{text-decoration:none;font-size:12px;color:var(--ink2);margin-left:2px}
+.mat .sub{font-size:11.5px;color:var(--ink2);margin-top:3px}
+.assume{font-size:11px;color:var(--ink3);margin-top:9px;line-height:1.45}
+
+/* downloads */
+.dl{display:grid;gap:8px}
+.dl a,.dl .dlrow{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  width:100%;text-align:left;font:inherit;cursor:pointer;
+  text-decoration:none;color:inherit;background:var(--raise);border:1px solid var(--line);
+  border-radius:5px;padding:9px 12px;transition:border-color .12s}
+.dl a:hover,.dl .dlrow:hover{border-color:var(--ink3)}
+.dl .dlrow:disabled{opacity:.5;cursor:progress}
+.dl code{font-family:var(--mono);font-size:11px;background:var(--sunken);
+  padding:1px 4px;border-radius:3px}
+.dl .nm{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:500}
+.swatch{width:9px;height:16px;border-radius:2px}
+.dl .sz{font-family:var(--mono);font-size:11.5px;color:var(--ink2)}
+
+/* steps */
+.steps{margin:0;padding:0;list-style:none;display:grid;gap:9px;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:20px 1fr;gap:10px;
+  font-size:12.5px;color:var(--ink2);line-height:1.5}
+.steps li::before{content:counter(s);font-family:var(--mono);font-size:11px;
+  color:var(--accent);border:1px solid var(--accent-soft);background:var(--accent-soft);
+  border-radius:3px;text-align:center;line-height:18px;height:19px}
+.steps li b{color:var(--ink);font-weight:500}
+
+/* ---- stage ---- */
+.stage{position:relative;background:var(--sunken);display:flex;flex-direction:column;min-width:0}
+.topbar{display:flex;align-items:center;gap:14px;padding:11px 18px;
+  border-bottom:1px solid var(--line);background:var(--surface);flex-wrap:wrap}
+.dims{font-family:var(--mono);font-size:12px;color:var(--ink2);font-variant-numeric:tabular-nums}
+.dims b{color:var(--ink);font-weight:500}
+.spacer{flex:1}
+canvas{display:block}
+#view{flex:1;position:relative;min-height:0}
+.status{position:absolute;inset:0;display:none;place-items:center;background:color-mix(in srgb,var(--sunken) 78%,transparent);
+  font-family:var(--mono);font-size:12.5px;color:var(--ink);letter-spacing:.02em}
+.status.on{display:grid}
+
+.hud{position:absolute;left:16px;bottom:16px;right:16px;display:flex;gap:10px;
+  align-items:flex-end;justify-content:space-between;pointer-events:none;flex-wrap:wrap}
+.hud>*{pointer-events:auto}
+.legend{display:flex;gap:6px;flex-wrap:wrap}
+.chip{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line);
+  border-radius:20px;padding:5px 12px 5px 9px;font-size:12.5px;font-weight:500;cursor:pointer;
+  box-shadow:var(--shadow);transition:opacity .12s}
+.chip[aria-pressed="false"]{opacity:.42}
+.chip i{width:10px;height:10px;border-radius:50%;display:block}
+.tools{display:flex;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--line);
+  border-radius:20px;padding:6px 12px;box-shadow:var(--shadow)}
+.tools label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}
+.tools input[type=range]{width:96px;accent-color:var(--accent)}
+.flipbtn{border-radius:20px;padding:7px 15px}
+.caption{position:absolute;left:50%;top:18px;transform:translateX(-50%);
+  background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:7px 16px;
+  font-size:13px;box-shadow:var(--shadow);opacity:0;transition:opacity .35s;pointer-events:none}
+.caption.on{opacity:1}
+.caption b{color:var(--accent)}
+
+@media (max-width:960px){
+  .app{grid-template-columns:1fr;height:auto;max-height:none}
+  .stage{height:62vh;min-height:420px;order:-1;border-bottom:1px solid var(--line)}
+  .rail{border-right:none}
+}
+</style>
+
+<div class="app">
+  <aside class="rail">
+    <div class="brand">
+      <h1>Mold<em>wright</em></h1>
+      <p>Turn a vessel into the space around it. Shell, plug, and the checks that decide whether concrete will release.</p>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>Source model</h2><span id="triCount">—</span></div>
+      <div class="drop" id="drop">
+        <div class="fname" id="fname">Sample · ring dish</div>
+        <div class="fmeta" id="fmeta">lathe-built demo, 94 × 94 × 26 mm</div>
+        <div class="hint">Drop an <b>STL</b> here — units read as millimetres.</div>
+        <button class="btn" id="pick">Choose file</button>
+        <input type="file" id="file" accept=".stl,model/stl" hidden>
+      </div>
+      <div class="params" style="margin-top:12px">
+        <div class="row">
+          <label>Scale input<b>If your STL is in inches, use 25.4</b></label>
+          <input id="p_scale" type="number" value="1" min="0.01" step="0.1">
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>Mold type</h2></div>
+      <div class="seg" id="mode">
+        <button data-mode="cast" aria-pressed="true">Shell + plug</button>
+        <button data-mode="box" aria-pressed="false">Silicone box</button>
+      </div>
+      <p style="font-size:12.5px;color:var(--ink2);margin:11px 0 0" id="modeNote">
+        Two printed parts. Concrete or resin fills the gap between them — that gap is the vessel.
+      </p>
+    </div>
+
+    <div class="sec" id="checkSec">
+      <div class="sec-h"><h2>Will it release?</h2></div>
+      <div class="checks" id="checks"></div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>Download</h2><span>binary STL</span></div>
+      <div class="dl" id="dl"></div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>Materials</h2></div>
+      <div class="mats" id="mats"></div>
+      <p class="assume" id="assume"></p>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>Parameters</h2><span id="resNote">0.00 mm/voxel</span></div>
+      <div class="params" id="params">
+        <div class="row" data-for="cast"><label>Mold wall<b>Outside thickness of the shell</b></label><input id="p_wall" type="number" value="4" min="1.5" step="0.5"></div>
+        <div class="row" data-for="cast"><label>Mold floor<b>Under the deepest point</b></label><input id="p_floor" type="number" value="4" min="1.5" step="0.5"></div>
+        <div class="row" data-for="cast"><label>Flange<b>Plug cap thickness</b></label><input id="p_flange" type="number" value="5" min="2" step="0.5"></div>
+        <div class="row" data-for="cast"><label>Release clearance<b>Plug shrunk by this</b></label><input id="p_clear" type="number" value="0.2" min="0" step="0.05"></div>
+        <div class="row" data-for="cast"><label>Riser diameter<b>Air escapes through the plug, 0 for none</b></label><input id="p_vent" type="number" value="8" min="0" step="1"></div>
+        <div class="row" data-for="box" hidden><label>Silicone jacket<b>Rubber around the master</b></label><input id="p_sil" type="number" value="12" min="4" step="1"></div>
+        <div class="row" data-for="box" hidden><label>Box wall<b>Printed containment wall</b></label><input id="p_boxwall" type="number" value="2.4" min="1.2" step="0.2"></div>
+        <div class="row"><label>Resolution<b>Higher is finer and slower</b></label>
+          <select id="p_res">
+            <option value="96">96 — fast</option>
+            <option value="128" selected>128 — normal</option>
+            <option value="160">160 — fine</option>
+            <option value="200">200 — max</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>Shop procedure</h2></div>
+      <ol class="steps" id="steps"></ol>
+    </div>
+  </aside>
+
+  <main class="stage">
+    <div class="topbar">
+      <div class="dims" id="bbox">—</div>
+      <div class="spacer"></div>
+      <button class="btn" id="theme" title="Toggle light and dark">Theme</button>
+      <button class="btn" id="reset">Reset view</button>
+    </div>
+    <div id="view">
+      <div class="caption" id="caption">Hold the plug and the shell. <b>Which one is the dish?</b></div>
+      <div class="status" id="status">building the negative…</div>
+      <div class="hud">
+        <div class="legend" id="legend">
+          <button class="chip" data-part="cast" aria-pressed="true"><i style="background:var(--cast)"></i>Cast</button>
+          <button class="chip" data-part="shell" aria-pressed="true"><i style="background:var(--shell)"></i>Shell</button>
+          <button class="chip" data-part="plug" aria-pressed="true"><i style="background:var(--plug)"></i>Plug</button>
+        </div>
+        <div class="tools">
+          <label for="explode">Open</label>
+          <input id="explode" type="range" min="0" max="100" value="30">
+          <button class="btn" id="section" aria-pressed="false" style="padding:4px 10px">Section</button>
+          <button class="btn primary flipbtn" id="flip">The flip</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+"use strict";
+/* ============================================================================
+   Moldwright — derives a printable two-part cast mold (or a silicone
+   containment box) from an STL of a vessel.
+
+   The geometry is not a naive `box - object` boolean. That would lock the
+   cast in for any model with an undercut. Instead everything is built from a
+   DRAW SWEEP along +Z:
+
+        U(x,y,z) = the object smeared upward to infinity
+        shell    = moldBox - U          (cast always lifts straight out)
+        plug     = U - object           (provably exactly the vessel's void)
+        cast     = U - plug = object    (so the casting is the original model)
+
+   Both halves are therefore drawable by construction; the interesting work is
+   telling the student when their model still won't behave.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- geometry */
+
+function parseSTL(buf){
+  if(buf.byteLength >= 84){
+    const dv = new DataView(buf);
+    const n = dv.getUint32(80, true);
+    if(84 + n*50 === buf.byteLength) return parseBinarySTL(dv, n);
+  }
+  return parseAsciiSTL(new TextDecoder().decode(buf));
+}
+function parseBinarySTL(dv, n){
+  const p = new Float32Array(n*9);
+  let o = 84;
+  for(let i=0;i<n;i++){
+    o += 12;                                  // skip the stored normal
+    for(let v=0; v<9; v++){ p[i*9+v] = dv.getFloat32(o, true); o += 4; }
+    o += 2;                                   // attribute byte count
+  }
+  return p;
+}
+function parseAsciiSTL(txt){
+  const out = [];
+  const re = /vertex\s+(-?[\d.eE+-]+)\s+(-?[\d.eE+-]+)\s+(-?[\d.eE+-]+)/g;
+  let m;
+  while((m = re.exec(txt))) out.push(+m[1], +m[2], +m[3]);
+  if(out.length < 9 || out.length % 9 !== 0) throw new Error("no readable triangles in this file");
+  return new Float32Array(out);
+}
+
+/* A ring dish, revolved from a profile, so the page opens on real geometry. */
+function sampleDish(){
+  const prof = [[0,0],[34,0],[42,3.5],[46,15],[47,26],[40,26],[39,18],[35,9],[28,7],[0,7]];
+  const segs = 96, tris = [];
+  const at = (k,i)=>{ const a = i/segs*Math.PI*2;
+    return [prof[k][0]*Math.cos(a), prof[k][0]*Math.sin(a), prof[k][1]]; };
+  const push = (a,b,c)=>tris.push(a[0],a[1],a[2], b[0],b[1],b[2], c[0],c[1],c[2]);
+  for(let k=0;k<prof.length-1;k++){
+    const r0 = prof[k][0], r1 = prof[k+1][0];
+    if(r0 === 0 && r1 === 0) continue;
+    for(let i=0;i<segs;i++){
+      const a0=at(k,i), a1=at(k,i+1), b0=at(k+1,i), b1=at(k+1,i+1);
+      if(r0 === 0){ push(a0,b0,b1); }
+      else if(r1 === 0){ push(a0,b0,a1); }
+      else { push(a0,b0,b1); push(a0,b1,a1); }
+    }
+  }
+  return new Float32Array(tris);
+}
+
+function bounds(p){
+  const b = {x0:1e30,y0:1e30,z0:1e30,x1:-1e30,y1:-1e30,z1:-1e30};
+  for(let i=0;i<p.length;i+=3){
+    if(p[i]<b.x0)b.x0=p[i];   if(p[i]>b.x1)b.x1=p[i];
+    if(p[i+1]<b.y0)b.y0=p[i+1]; if(p[i+1]>b.y1)b.y1=p[i+1];
+    if(p[i+2]<b.z0)b.z0=p[i+2]; if(p[i+2]>b.z1)b.z1=p[i+2];
+  }
+  return b;
+}
+
+/* ------------------------------------------------------- scalar field grid */
+
+function makeGrid(b, pad, below, above, res){
+  const span = Math.max(b.x1-b.x0, b.y1-b.y0, b.z1-b.z0);
+  const h = span / res;
+  const ox = b.x0 - pad - h, oy = b.y0 - pad - h, oz = b.z0 - below - h;
+  const NX = Math.ceil((b.x1 + pad + h - ox)/h) + 1;
+  const NY = Math.ceil((b.y1 + pad + h - oy)/h) + 1;
+  const NZ = Math.ceil((b.z1 + above + h - oz)/h) + 1;
+  return {h, ox, oy, oz, NX, NY, NZ, n: NX*NY*NZ};
+}
+
+/* Bucket triangles by XY so column ray-casts stay cheap on dense meshes. */
+function bucketTris(p, g){
+  const BW = 64;
+  const bx = (g.NX*g.h)/BW, by = (g.NY*g.h)/BW;
+  const cells = new Array(BW*BW);
+  for(let i=0;i<cells.length;i++) cells[i] = [];
+  for(let t=0;t<p.length;t+=9){
+    let x0=1e30,x1=-1e30,y0=1e30,y1=-1e30;
+    for(let v=0;v<3;v++){
+      const x=p[t+v*3], y=p[t+v*3+1];
+      if(x<x0)x0=x; if(x>x1)x1=x; if(y<y0)y0=y; if(y>y1)y1=y;
+    }
+    const i0=Math.max(0,Math.floor((x0-g.ox)/bx)), i1=Math.min(BW-1,Math.floor((x1-g.ox)/bx));
+    const j0=Math.max(0,Math.floor((y0-g.oy)/by)), j1=Math.min(BW-1,Math.floor((y1-g.oy)/by));
+    for(let j=j0;j<=j1;j++) for(let i=i0;i<=i1;i++) cells[j*BW+i].push(t);
+  }
+  return {cells, BW, bx, by};
+}
+
+/* For every lattice column, the sorted z heights where the surface is crossed.
+   Even-odd parity between consecutive crossings gives inside/outside. */
+function columnCrossings(p, g, bk){
+  const cols = new Array(g.NX*g.NY);
+  const EPS = g.h*0.0013;                    // nudge off vertices and edges
+  for(let j=0;j<g.NY;j++){
+    const y = g.oy + j*g.h + EPS*1.7;
+    const bj = Math.min(bk.BW-1, Math.max(0, Math.floor((y-g.oy)/bk.by)));
+    for(let i=0;i<g.NX;i++){
+      const x = g.ox + i*g.h + EPS;
+      const bi = Math.min(bk.BW-1, Math.max(0, Math.floor((x-g.ox)/bk.bx)));
+      const cand = bk.cells[bj*bk.BW+bi];
+      const zs = [];
+      for(let c=0;c<cand.length;c++){
+        const t = cand[c];
+        const ax=p[t],ay=p[t+1],az=p[t+2], bx2=p[t+3],by2=p[t+4],bz=p[t+5], cx=p[t+6],cy=p[t+7],cz=p[t+8];
+        const v0x=cx-ax, v0y=cy-ay, v1x=bx2-ax, v1y=by2-ay, v2x=x-ax, v2y=y-ay;
+        const d00=v0x*v0x+v0y*v0y, d01=v0x*v1x+v0y*v1y, d11=v1x*v1x+v1y*v1y;
+        const d20=v2x*v0x+v2y*v0y, d21=v2x*v1x+v2y*v1y;
+        const den=d00*d11-d01*d01;
+        if(den === 0) continue;
+        const u=(d11*d20-d01*d21)/den, v=(d00*d21-d01*d20)/den;
+        if(u < 0 || v < 0 || u+v > 1) continue;
+        zs.push(az + u*(cz-az) + v*(bz-az));
+      }
+      zs.sort((a,b2)=>a-b2);
+      cols[j*g.NX+i] = zs;
+    }
+  }
+  return cols;
+}
+
+function closestPointTri(px,py,pz, ax,ay,az, bx,by,bz, cx,cy,cz){
+  const abx=bx-ax, aby=by-ay, abz=bz-az;
+  const acx=cx-ax, acy=cy-ay, acz=cz-az;
+  const apx=px-ax, apy=py-ay, apz=pz-az;
+  const d1=abx*apx+aby*apy+abz*apz, d2=acx*apx+acy*apy+acz*apz;
+  if(d1<=0 && d2<=0) return dist2(px,py,pz,ax,ay,az);
+  const bpx=px-bx, bpy=py-by, bpz=pz-bz;
+  const d3=abx*bpx+aby*bpy+abz*bpz, d4=acx*bpx+acy*bpy+acz*bpz;
+  if(d3>=0 && d4<=d3) return dist2(px,py,pz,bx,by,bz);
+  const vc=d1*d4-d3*d2;
+  if(vc<=0 && d1>=0 && d3<=0){ const t=d1/(d1-d3);
+    return dist2(px,py,pz, ax+abx*t, ay+aby*t, az+abz*t); }
+  const cpx=px-cx, cpy=py-cy, cpz=pz-cz;
+  const d5=abx*cpx+aby*cpy+abz*cpz, d6=acx*cpx+acy*cpy+acz*cpz;
+  if(d6>=0 && d5<=d6) return dist2(px,py,pz,cx,cy,cz);
+  const vb=d5*d2-d1*d6;
+  if(vb<=0 && d2>=0 && d6<=0){ const t=d2/(d2-d6);
+    return dist2(px,py,pz, ax+acx*t, ay+acy*t, az+acz*t); }
+  const va=d3*d6-d5*d4;
+  if(va<=0 && (d4-d3)>=0 && (d5-d6)>=0){ const t=(d4-d3)/((d4-d3)+(d5-d6));
+    return dist2(px,py,pz, bx+(cx-bx)*t, by+(cy-by)*t, bz+(cz-bz)*t); }
+  const den=1/(va+vb+vc), v=vb*den, w=vc*den;
+  return dist2(px,py,pz, ax+abx*v+acx*w, ay+aby*v+acy*w, az+abz*v+acz*w);
+}
+function dist2(px,py,pz,qx,qy,qz){ const a=px-qx,b=py-qy,c=pz-qz; return a*a+b*b+c*c; }
+
+/* Narrow-band signed distance: exact near the surface, saturated further out —
+   which is all Surface Nets needs to place a vertex. */
+function buildSDF(p, g, cols){
+  const band = g.h*3;
+  const F = new Float32Array(g.n).fill(1e9);
+  const iband = Math.ceil(band/g.h);
+  for(let t=0;t<p.length;t+=9){
+    const ax=p[t],ay=p[t+1],az=p[t+2], bx=p[t+3],by=p[t+4],bz=p[t+5], cx=p[t+6],cy=p[t+7],cz=p[t+8];
+    const x0=Math.min(ax,bx,cx), x1=Math.max(ax,bx,cx);
+    const y0=Math.min(ay,by,cy), y1=Math.max(ay,by,cy);
+    const z0=Math.min(az,bz,cz), z1=Math.max(az,bz,cz);
+    const i0=Math.max(0,Math.floor((x0-g.ox)/g.h)-iband), i1=Math.min(g.NX-1,Math.ceil((x1-g.ox)/g.h)+iband);
+    const j0=Math.max(0,Math.floor((y0-g.oy)/g.h)-iband), j1=Math.min(g.NY-1,Math.ceil((y1-g.oy)/g.h)+iband);
+    const k0=Math.max(0,Math.floor((z0-g.oz)/g.h)-iband), k1=Math.min(g.NZ-1,Math.ceil((z1-g.oz)/g.h)+iband);
+    for(let k=k0;k<=k1;k++){ const pz=g.oz+k*g.h;
+      for(let j=j0;j<=j1;j++){ const py=g.oy+j*g.h; const base=(k*g.NY+j)*g.NX;
+        for(let i=i0;i<=i1;i++){
+          const d = closestPointTri(g.ox+i*g.h,py,pz, ax,ay,az, bx,by,bz, cx,cy,cz);
+          if(d < F[base+i]) F[base+i] = d;
+        }}}
+  }
+  for(let j=0;j<g.NY;j++) for(let i=0;i<g.NX;i++){
+    const zs = cols[j*g.NX+i];
+    let ci = 0, inside = false;
+    for(let k=0;k<g.NZ;k++){
+      const z = g.oz + k*g.h;
+      while(ci < zs.length && zs[ci] <= z){ ci++; inside = !inside; }
+      const idx = (k*g.NY+j)*g.NX+i;
+      const d = F[idx] >= 1e9 ? band : Math.min(Math.sqrt(F[idx]), band);
+      F[idx] = inside ? -d : d;
+    }
+  }
+  return F;
+}
+
+/* Unbounded interior depth by 3D chamfer transform. The narrow-band SDF
+   saturates a few voxels in, which is fine for meshing but useless for
+   measuring how thick a wall is, so this gets its own pass. */
+function interiorDepth(O, g){
+  const D = new Float32Array(g.n);
+  for(let i=0;i<g.n;i++) D[i] = O[i] < 0 ? 1e9 : 0;
+  const w = [0, g.h, g.h*Math.SQRT2, g.h*Math.sqrt(3)];
+  const fwd = [], bwd = [];
+  for(let dk=-1;dk<=1;dk++) for(let dj=-1;dj<=1;dj++) for(let di=-1;di<=1;di++){
+    if(!di && !dj && !dk) continue;
+    const o = [di, dj, dk, w[Math.abs(di)+Math.abs(dj)+Math.abs(dk)]];
+    (dk<0 || (dk===0 && dj<0) || (dk===0 && dj===0 && di<0) ? fwd : bwd).push(o);
+  }
+  const NX=g.NX, NY=g.NY, NZ=g.NZ;
+  const pass = (list, rev)=>{
+    for(let kk=0;kk<NZ;kk++){ const k = rev ? NZ-1-kk : kk;
+      for(let jj=0;jj<NY;jj++){ const j = rev ? NY-1-jj : jj;
+        for(let ii=0;ii<NX;ii++){ const i = rev ? NX-1-ii : ii;
+          const idx = (k*NY+j)*NX+i;
+          let d = D[idx];
+          if(d === 0) continue;
+          for(let n=0;n<list.length;n++){
+            const o = list[n], ni=i+o[0], nj=j+o[1], nk=k+o[2];
+            const v = (ni<0||nj<0||nk<0||ni>=NX||nj>=NY||nk>=NZ)
+              ? o[3] : D[(nk*NY+nj)*NX+ni] + o[3];
+            if(v < d) d = v;
+          }
+          D[idx] = d;
+        }}}
+  };
+  pass(fwd, false); pass(bwd, true);
+  return D;
+}
+
+/* Wall thickness read at ridge points of the depth field — the medial axis.
+   Reading the raw minimum instead would just find the silhouette edge, where
+   every closed solid is zero thick. */
+function thinnestSection(D, g){
+  const NX=g.NX, NY=g.NY, NZ=g.NZ, L=NX*NY;
+  const floor = g.h*1.2;         // below this the grid can't resolve a wall anyway
+  const off = [];
+  for(let dk=-1;dk<=1;dk++) for(let dj=-1;dj<=1;dj++) for(let di=-1;di<=1;di++)
+    if(di||dj||dk) off.push(dk*L + dj*NX + di);
+  let min = Infinity;
+  for(let k=1;k<NZ-1;k++) for(let j=1;j<NY-1;j++) for(let i=1;i<NX-1;i++){
+    const idx=(k*NY+j)*NX+i, d=D[idx];
+    if(d <= floor || d >= 1e8 || d*2 >= min) continue;
+    // a ridge point beats all 26 neighbours; testing only the 6 axis ones
+    // mistakes every voxel on a slanted face for a medial point
+    let peak = true;
+    for(let n=0;n<26;n++) if(d < D[idx+off[n]]){ peak = false; break; }
+    if(peak) min = d*2;
+  }
+  return min;
+}
+
+/* Smear the solid upward: U(x,y,z) = min over all z' <= z of O(x,y,z'). */
+function sweepUp(F, g){
+  const U = new Float32Array(g.n);
+  const layer = g.NX*g.NY;
+  for(let i=0;i<layer;i++) U[i] = F[i];
+  for(let k=1;k<g.NZ;k++){
+    const cur = k*layer, prev = cur-layer;
+    for(let i=0;i<layer;i++){
+      const a = F[cur+i], b = U[prev+i];
+      U[cur+i] = a < b ? a : b;
+    }
+  }
+  return U;
+}
+
+/* ------------------------------------------------------------ surface nets */
+
+const CV = [[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]];
+const CE = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+
+function surfaceNets(F, g){
+  const NX=g.NX, NY=g.NY, NZ=g.NZ, cx=NX-1, cy=NY-1, cz=NZ-1;
+  const cellV = new Int32Array(cx*cy*cz).fill(-1);
+  const verts = [], idx = [];
+  const at = (i,j,k)=>F[(k*NY+j)*NX+i];
+  const v = new Float64Array(8);
+  for(let k=0;k<cz;k++) for(let j=0;j<cy;j++) for(let i=0;i<cx;i++){
+    let neg=0;
+    for(let c=0;c<8;c++){ const o=CV[c]; const s=at(i+o[0],j+o[1],k+o[2]); v[c]=s; if(s<0) neg++; }
+    if(neg===0 || neg===8) continue;
+    let sx=0,sy=0,sz=0,n=0;
+    for(let e=0;e<12;e++){
+      const a=CE[e][0], b=CE[e][1], va=v[a], vb=v[b];
+      if((va<0)===(vb<0)) continue;
+      let t = va/(va-vb);
+      if(!isFinite(t)) t=0.5;
+      t = t<0?0:(t>1?1:t);
+      sx += CV[a][0]+(CV[b][0]-CV[a][0])*t;
+      sy += CV[a][1]+(CV[b][1]-CV[a][1])*t;
+      sz += CV[a][2]+(CV[b][2]-CV[a][2])*t;
+      n++;
+    }
+    cellV[(k*cy+j)*cx+i] = verts.length/3;
+    verts.push(g.ox+(i+sx/n)*g.h, g.oy+(j+sy/n)*g.h, g.oz+(k+sz/n)*g.h);
+  }
+  const cellAt=(i,j,k)=>cellV[(k*cy+j)*cx+i];
+  const quad=(a,b,c,d,flip)=>{
+    if(a<0||b<0||c<0||d<0) return;
+    if(flip) idx.push(a,c,b, a,d,c); else idx.push(a,b,c, a,c,d);
+  };
+  for(let k=0;k<NZ;k++) for(let j=0;j<NY;j++) for(let i=0;i<NX;i++){
+    const s0 = at(i,j,k) < 0;
+    if(i+1<NX && j>0 && k>0 && (at(i+1,j,k)<0) !== s0)
+      quad(cellAt(i,j-1,k-1), cellAt(i,j,k-1), cellAt(i,j,k), cellAt(i,j-1,k), !s0);
+    if(j+1<NY && i>0 && k>0 && (at(i,j+1,k)<0) !== s0)
+      quad(cellAt(i-1,j,k-1), cellAt(i-1,j,k), cellAt(i,j,k), cellAt(i,j,k-1), !s0);
+    if(k+1<NZ && i>0 && j>0 && (at(i,j,k+1)<0) !== s0)
+      quad(cellAt(i-1,j-1,k), cellAt(i,j-1,k), cellAt(i,j,k), cellAt(i-1,j,k), !s0);
+  }
+  return {pos:new Float32Array(verts), idx:new Uint32Array(idx)};
+}
+
+/* ------------------------------------------------------------- box builder */
+
+function boxMesh(x0,y0,z0,x1,y1,z1, out){
+  const p=out.pos, ix=out.pos.length/3;
+  const c=[[x0,y0,z0],[x1,y0,z0],[x1,y1,z0],[x0,y1,z0],[x0,y0,z1],[x1,y0,z1],[x1,y1,z1],[x0,y1,z1]];
+  for(const v of c) p.push(v[0],v[1],v[2]);
+  const f=[[0,3,2,1],[4,5,6,7],[0,1,5,4],[1,2,6,5],[2,3,7,6],[3,0,4,7]];
+  for(const q of f) out.idx.push(ix+q[0],ix+q[1],ix+q[2], ix+q[0],ix+q[2],ix+q[3]);
+}
+function siliconeBox(b, jacket, wall){
+  const out = {pos:[], idx:[]};
+  const ix0=b.x0-jacket, ix1=b.x1+jacket, iy0=b.y0-jacket, iy1=b.y1+jacket;
+  const ox0=ix0-wall, ox1=ix1+wall, oy0=iy0-wall, oy1=iy1+wall;
+  const fz=b.z0-wall, tz=b.z1+jacket;
+  boxMesh(ox0,oy0,fz, ox1,oy1,b.z0, out);          // floor
+  boxMesh(ox0,oy0,b.z0, ix0,oy1,tz, out);          // -x wall
+  boxMesh(ix1,oy0,b.z0, ox1,oy1,tz, out);          // +x wall
+  boxMesh(ix0,oy0,b.z0, ix1,iy0,tz, out);          // -y wall
+  boxMesh(ix0,iy1,b.z0, ix1,oy1,tz, out);          // +y wall
+  return {pos:new Float32Array(out.pos), idx:new Uint32Array(out.idx),
+          inner:(ix1-ix0)*(iy1-iy0)*(tz-b.z0)};
+}
+
+/* --------------------------------------------------------------- utilities */
+
+function meshVolume(m){
+  let V=0;
+  for(let t=0;t<m.idx.length;t+=3){
+    const a=m.idx[t]*3, b=m.idx[t+1]*3, c=m.idx[t+2]*3;
+    const ax=m.pos[a],ay=m.pos[a+1],az=m.pos[a+2];
+    const bx=m.pos[b],by=m.pos[b+1],bz=m.pos[b+2];
+    const cx=m.pos[c],cy=m.pos[c+1],cz=m.pos[c+2];
+    V += ax*(by*cz-bz*cy) - ay*(bx*cz-bz*cx) + az*(bx*cy-by*cx);
+  }
+  return Math.abs(V)/6;
+}
+function stlBlob(m){
+  const n = m.idx.length/3;
+  const buf = new ArrayBuffer(84 + n*50);
+  const dv = new DataView(buf);
+  new Uint8Array(buf, 0, 80).set(new TextEncoder().encode("Moldwright binary STL"));
+  dv.setUint32(80, n, true);
+  let o = 84;
+  for(let t=0;t<m.idx.length;t+=3){
+    const a=m.idx[t]*3, b=m.idx[t+1]*3, c=m.idx[t+2]*3;
+    const ux=m.pos[b]-m.pos[a], uy=m.pos[b+1]-m.pos[a+1], uz=m.pos[b+2]-m.pos[a+2];
+    const vx=m.pos[c]-m.pos[a], vy=m.pos[c+1]-m.pos[a+1], vz=m.pos[c+2]-m.pos[a+2];
+    let nx=uy*vz-uz*vy, ny=uz*vx-ux*vz, nz=ux*vy-uy*vx;
+    const L=Math.hypot(nx,ny,nz)||1; nx/=L; ny/=L; nz/=L;
+    dv.setFloat32(o,nx,true); dv.setFloat32(o+4,ny,true); dv.setFloat32(o+8,nz,true); o+=12;
+    for(const s of [a,b,c]){
+      dv.setFloat32(o,m.pos[s],true); dv.setFloat32(o+4,m.pos[s+1],true); dv.setFloat32(o+8,m.pos[s+2],true);
+      o+=12;
+    }
+    dv.setUint16(o,0,true); o+=2;
+  }
+  return new Blob([buf], {type:"model/stl"});
+}
+const fmt = (v,d=1)=>v.toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:d});
+
+/* ================================================================== VIEWER */
+
+const view = document.getElementById("view");
+const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.localClippingEnabled = true;
+view.appendChild(renderer.domElement);
+renderer.domElement.style.touchAction = "none";
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(38, 1, 0.5, 8000);
+const rig = new THREE.Group(); scene.add(rig);
+scene.add(new THREE.HemisphereLight(0xffffff, 0x555a5c, 0.85));
+const key = new THREE.DirectionalLight(0xffffff, 0.85); key.position.set(1,-1.4,1.6); scene.add(key);
+const fill = new THREE.DirectionalLight(0xffffff, 0.32); fill.position.set(-1.2,0.9,0.4); scene.add(fill);
+
+const clip = new THREE.Plane(new THREE.Vector3(0,1,0), 0);
+function mat(cssVar, opts){
+  const c = getComputedStyle(document.documentElement).getPropertyValue(cssVar).trim();
+  return new THREE.MeshStandardMaterial(Object.assign({
+    color:new THREE.Color(c), roughness:0.72, metalness:0.02,
+    side:THREE.DoubleSide, transparent:false, opacity:1
+  }, opts||{}));
+}
+const M = {};
+function rebuildMaterials(){
+  M.cast = mat("--cast");  M.shell = mat("--shell", {roughness:0.65});  M.plug = mat("--plug");
+  for(const k in parts) if(parts[k]) parts[k].material = M[k];
+  applyClip();
+}
+const parts = {cast:null, shell:null, plug:null};
+function setMesh(name, m){
+  if(parts[name]){ rig.remove(parts[name]); parts[name].geometry.dispose(); parts[name]=null; }
+  if(!m || !m.idx.length) return;
+  const gm = new THREE.BufferGeometry();
+  gm.setAttribute("position", new THREE.BufferAttribute(m.pos,3));
+  gm.setIndex(new THREE.BufferAttribute(m.idx,1));
+  gm.computeVertexNormals();
+  const mesh = new THREE.Mesh(gm, M[name]);
+  parts[name] = mesh; rig.add(mesh);
+}
+function applyClip(){
+  const on = document.getElementById("section").getAttribute("aria-pressed")==="true";
+  for(const k in M) if(M[k]) M[k].clippingPlanes = on ? [clip] : [];
+}
+
+/* orbit */
+let yaw=-0.62, pitch=0.98, dist=250, target=new THREE.Vector3();
+let drag=null;
+renderer.domElement.addEventListener("pointerdown", e=>{
+  drag={x:e.clientX,y:e.clientY,pan:e.button===2||e.shiftKey};
+  renderer.domElement.setPointerCapture(e.pointerId);
+});
+renderer.domElement.addEventListener("pointermove", e=>{
+  if(!drag) return;
+  const dx=e.clientX-drag.x, dy=e.clientY-drag.y; drag.x=e.clientX; drag.y=e.clientY;
+  if(drag.pan){
+    const r=dist*0.0022;
+    const right=new THREE.Vector3().subVectors(camera.position,target).cross(camera.up).normalize();
+    target.addScaledVector(right, -dx*r);
+    target.addScaledVector(camera.up, dy*r);
+  } else {
+    yaw -= dx*0.008;
+    pitch = Math.max(0.03, Math.min(Math.PI-0.03, pitch - dy*0.008));
+  }
+});
+addEventListener("pointerup", ()=>drag=null);
+renderer.domElement.addEventListener("contextmenu", e=>e.preventDefault());
+renderer.domElement.addEventListener("wheel", e=>{
+  e.preventDefault(); dist = Math.max(12, Math.min(4000, dist*Math.exp(e.deltaY*0.0011)));
+},{passive:false});
+
+let explodeAmt=0.3, modelH=60;
+function frame(){
+  const s=Math.sin(pitch);
+  camera.position.set(
+    target.x + dist*s*Math.cos(yaw),
+    target.y + dist*s*Math.sin(yaw),
+    target.z + dist*Math.cos(pitch));
+  camera.up.set(0,0,1);
+  camera.lookAt(target);
+  if(parts.plug) parts.plug.position.z = explodeAmt*modelH*1.4;
+  if(parts.cast) parts.cast.position.z = explodeAmt*modelH*0.55;
+  const w=view.clientWidth, h=view.clientHeight;
+  if(renderer.domElement.width !== Math.floor(w*renderer.getPixelRatio()) || renderer.domElement.height !== Math.floor(h*renderer.getPixelRatio())){
+    renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix();
+  }
+  renderer.render(scene,camera);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+/* ==================================================================== APP  */
+
+const el = id=>document.getElementById(id);
+const state = {tris:sampleDish(), name:"Sample · ring dish", mode:"cast", result:null, reframe:true};
+const urls = {};
+
+function readParams(){
+  return {
+    scale:  Math.max(0.01, +el("p_scale").value || 1),
+    wall:   +el("p_wall").value,
+    floor:  +el("p_floor").value,
+    flange: +el("p_flange").value,
+    clear:  +el("p_clear").value,
+    vent:   +el("p_vent").value,
+    sil:    +el("p_sil").value,
+    boxwall:+el("p_boxwall").value,
+    res:    +el("p_res").value
+  };
+}
+
+async function build(){
+  const st = el("status"); st.classList.add("on");
+  await new Promise(r=>requestAnimationFrame(()=>setTimeout(r,0)));
+  try{
+    const P = readParams();
+    let tris = state.tris;
+    if(P.scale !== 1){ tris = new Float32Array(tris.length);
+      for(let i=0;i<state.tris.length;i++) tris[i] = state.tris[i]*P.scale; }
+    const b = bounds(tris);
+    modelH = Math.max(1, b.z1-b.z0);
+    target.set((b.x0+b.x1)/2,(b.y0+b.y1)/2,(b.z0+b.z1)/2);
+
+    el("bbox").innerHTML = `<b>${fmt(b.x1-b.x0)} × ${fmt(b.y1-b.y0)} × ${fmt(b.z1-b.z0)}</b> mm` +
+      `&nbsp;&nbsp;·&nbsp;&nbsp;${(tris.length/9).toLocaleString()} triangles`;
+    el("triCount").textContent = (tris.length/9).toLocaleString()+" tris";
+
+    const R = state.mode === "cast" ? await buildCast(tris, b, P, st)
+                                    : await buildBox(tris, b, P, st);
+    state.result = R;
+    setMesh("cast", R.cast); setMesh("shell", R.shell); setMesh("plug", R.plug);
+    applyVisibility();
+    renderChecks(R); renderMats(R); renderDownloads(R); renderSteps();
+    if(state.reframe){ state.reframe = false;
+      dist = Math.max(b.x1-b.x0, b.y1-b.y0, b.z1-b.z0)*2.6; }
+  }catch(err){
+    console.error(err);
+    el("checks").innerHTML = `<div class="check bad"><i class="dot bad"></i>
+      <div class="t">Could not read that model<small>${String(err.message||err)}. Try re-exporting as binary STL.</small></div><div class="v"></div></div>`;
+  }
+  st.classList.remove("on");
+}
+
+/* ---- shell + plug ---- */
+async function buildCast(tris, b, P, st){
+  const pad = P.wall + 2;
+  const g = makeGrid(b, pad, P.floor + 2, P.flange + 8, P.res);
+  el("resNote").textContent = fmt(g.h,3)+" mm/voxel";
+  if(g.n > 20e6) throw new Error("that resolution needs too much memory for this model — step down one level");
+
+  st.textContent = "slicing columns…";  await tick();
+  const bk = bucketTris(tris, g);
+  const cols = columnCrossings(tris, g, bk);
+
+  st.textContent = "measuring distance field…"; await tick();
+  const O = buildSDF(tris, g, cols);
+
+  st.textContent = "checking wall thickness…"; await tick();
+  let D = interiorDepth(O, g);
+  const A = analyse(cols, O, g, b, D);
+  A.floorMM = g.h*1.2;
+  D = null;                            // let it go before the meshing buffers
+
+  st.textContent = "sweeping the draw direction…"; await tick();
+  const U = sweepUp(O, g);
+
+  st.textContent = "meshing shell…"; await tick();
+  const sx0=b.x0-P.wall, sx1=b.x1+P.wall, sy0=b.y0-P.wall, sy1=b.y1+P.wall;
+  const scz=(b.z0-P.floor+b.z1)/2, shz=(b.z1-(b.z0-P.floor))/2;
+  const scx=(sx0+sx1)/2, scy=(sy0+sy1)/2, shx=(sx1-sx0)/2, shy=(sy1-sy0)/2;
+  const S = new Float32Array(g.n);
+  fieldLoop(g,(i,j,k,idx,x,y,z)=>{
+    S[idx] = Math.max(sdBox(x,y,z,scx,scy,scz,shx,shy,shz), -U[idx]);
+  });
+  const shell = surfaceNets(S, g);
+
+  st.textContent = "meshing plug…"; await tick();
+  const vents = P.vent > 0 ? ventSites(A, g, P.vent) : [];
+  const fcx=scx, fcy=scy, fhx=shx-P.clear, fhy=shy-P.clear;
+  const fz0=b.z1, fz1=b.z1+P.flange;
+  const ribHx = Math.min(fhx, fhy)*0.28;
+  fieldLoop(g,(i,j,k,idx,x,y,z)=>{
+    const core = Math.max(U[idx], -O[idx], z-b.z1) + P.clear;
+    const flange = sdBox(x,y,z, fcx,fcy,(fz0+fz1)/2, fhx,fhy,(fz1-fz0)/2);
+    const rib = sdBox(x,y,z, fcx,fcy,fz1+2, ribHx,fhy*0.92,2);
+    let v = Math.min(core, flange, rib);
+    for(const s of vents){
+      const d = Math.hypot(x-s[0], y-s[1]) - P.vent/2;
+      v = Math.max(v, -d);
+    }
+    S[idx] = v;
+  });
+  const plug = surfaceNets(S, g);
+
+  st.textContent = "meshing cast…"; await tick();
+  const cast = surfaceNets(O, g);
+
+  return {kind:"cast", cast, shell, plug, A, P, g,
+    files:[["shell.stl","Shell — outer mold","--shell",shell],
+           ["plug.stl","Plug — inner core","--plug",plug]]};
+}
+
+/* ---- silicone containment box ---- */
+async function buildBox(tris, b, P, st){
+  const g = makeGrid(b, 2, 2, 2, Math.min(P.res,160));
+  el("resNote").textContent = fmt(g.h,3)+" mm/voxel";
+  st.textContent = "measuring the master…"; await tick();
+  const bk = bucketTris(tris, g);
+  const cols = columnCrossings(tris, g, bk);
+  const O = buildSDF(tris, g, cols);
+  const A = analyse(cols, O, g, b, null);
+  st.textContent = "building box…"; await tick();
+  const box = siliconeBox(b, P.sil, P.boxwall);
+  const cast = surfaceNets(O, g);
+  A.silicone = (box.inner - A.volume*1000)/1000;
+  return {kind:"box", cast, shell:box, plug:null, A, P, g,
+    files:[["silicone-box.stl","Containment box","--shell",box]]};
+}
+
+function tick(){ return new Promise(r=>requestAnimationFrame(()=>setTimeout(r,0))); }
+function fieldLoop(g, fn){
+  for(let k=0;k<g.NZ;k++){ const z=g.oz+k*g.h;
+    for(let j=0;j<g.NY;j++){ const y=g.oy+j*g.h; const base=(k*g.NY+j)*g.NX;
+      for(let i=0;i<g.NX;i++) fn(i,j,k,base+i, g.ox+i*g.h, y, z);
+    }}
+}
+function sdBox(px,py,pz,cx,cy,cz,hx,hy,hz){
+  const qx=Math.abs(px-cx)-hx, qy=Math.abs(py-cy)-hy, qz=Math.abs(pz-cz)-hz;
+  const mx=Math.max(qx,0), my=Math.max(qy,0), mz=Math.max(qz,0);
+  return Math.hypot(mx,my,mz) + Math.min(Math.max(qx,Math.max(qy,qz)),0);
+}
+
+/* ------------------------------------------------------------- diagnostics */
+
+function analyse(cols, O, g, b, D){
+  const cell = g.h*g.h;
+  let volume = 0;                    // mm^3 of cast material
+  const thinnest = D ? thinnestSection(D, g) : Infinity;
+  let trapped = 0, footprint = 0;
+  const areaByK = new Float64Array(g.NZ);
+  const coreMask = new Uint8Array(g.NX*g.NY);   // columns the plug reaches down into
+
+  for(let j=0;j<g.NY;j++) for(let i=0;i<g.NX;i++){
+    const ci = j*g.NX+i;
+    const zs = cols[ci];
+    if(zs.length < 2) continue;
+    footprint++;
+    let gaps = 0;
+    for(let s=0;s+1<zs.length;s+=2){
+      volume += (zs[s+1]-zs[s])*cell;
+      if(s+2 < zs.length && zs[s+2]-zs[s+1] > g.h) gaps++;  // void capped by material above
+    }
+    if(gaps > 0) trapped++;
+    // a vent must land where the plug has depth to be drilled through
+    if(b.z1 - zs[zs.length-1] > g.h*2) coreMask[ci] = 1;
+
+    // plug cross-section per layer, walked once, for the lateral-undercut test
+    let c = 0, inside = false;
+    const k0 = Math.max(0, Math.ceil((zs[0]-g.oz)/g.h));
+    const kTop = Math.min(g.NZ-1, Math.floor((b.z1-g.oz)/g.h));
+    for(let k=0;k<k0;k++) { const z=g.oz+k*g.h; while(c<zs.length && zs[c]<=z){ c++; inside=!inside; } }
+    for(let k=k0;k<=kTop;k++){
+      const z = g.oz+k*g.h;
+      while(c < zs.length && zs[c] <= z){ c++; inside = !inside; }
+      if(!inside) areaByK[k] += cell;
+    }
+  }
+
+  let drop = 0, peak = 0;
+  for(let k=0;k<g.NZ;k++) if(areaByK[k] > peak) peak = areaByK[k];
+  for(let k=0;k+1<g.NZ;k++){
+    if(areaByK[k] === 0 || areaByK[k+1] === 0) continue;
+    const d = areaByK[k]-areaByK[k+1];
+    if(d > drop) drop = d;
+  }
+  const lateral = peak > 0 ? drop/peak : 0;
+
+  return {volume: volume/1000, thinnest, trapped, footprint,
+          lateral, coreMask, draft: draftStats()};
+}
+
+/* Chamfer distance transform: how far each core column sits from the nearest
+   edge of the core. The two best-separated maxima are where risers belong. */
+function ventSites(A, g, dia){
+  const NX=g.NX, NY=g.NY, m=A.coreMask;
+  const D = new Float32Array(NX*NY);
+  const BIG = 1e9;
+  for(let i=0;i<D.length;i++) D[i] = m[i] ? BIG : 0;
+  const d1 = g.h, d2 = g.h*Math.SQRT2;
+  const rel = (i,j,di,dj,w,idx)=>{
+    const ni=i+di, nj=j+dj;
+    if(ni<0||nj<0||ni>=NX||nj>=NY) { if(D[idx]>0) D[idx]=0; return; }
+    const v = D[nj*NX+ni]+w; if(v < D[idx]) D[idx]=v;
+  };
+  for(let j=0;j<NY;j++) for(let i=0;i<NX;i++){ const idx=j*NX+i; if(!D[idx]) continue;
+    rel(i,j,-1,0,d1,idx); rel(i,j,0,-1,d1,idx); rel(i,j,-1,-1,d2,idx); rel(i,j,1,-1,d2,idx); }
+  for(let j=NY-1;j>=0;j--) for(let i=NX-1;i>=0;i--){ const idx=j*NX+i; if(!D[idx]) continue;
+    rel(i,j,1,0,d1,idx); rel(i,j,0,1,d1,idx); rel(i,j,1,1,d2,idx); rel(i,j,-1,1,d2,idx); }
+
+  const need = dia/2 + 1.5;                       // leave a wall around the hole
+  let bi = -1, best = need;
+  for(let i=0;i<D.length;i++) if(D[i] > best){ best = D[i]; bi = i; }
+  if(bi < 0) return [];
+  const pt = k=>[g.ox+(k%NX)*g.h, g.oy+Math.floor(k/NX)*g.h];
+  const a = pt(bi);
+  let ci = -1, bestScore = 0;
+  for(let i=0;i<D.length;i++){
+    if(D[i] <= need) continue;
+    const p = pt(i), s = Math.hypot(p[0]-a[0], p[1]-a[1]);
+    if(s > bestScore){ bestScore = s; ci = i; }
+  }
+  const sites = [a];
+  if(ci >= 0 && bestScore > dia*1.8) sites.push(pt(ci));
+  return sites;
+}
+
+function draftStats(){
+  const p = state.tris, s = Math.max(0.01, +el("p_scale").value || 1);
+  let wall=0, flat=0, minAng=90;
+  for(let t=0;t<p.length;t+=9){
+    const ux=(p[t+3]-p[t])*s, uy=(p[t+4]-p[t+1])*s, uz=(p[t+5]-p[t+2])*s;
+    const vx=(p[t+6]-p[t])*s, vy=(p[t+7]-p[t+1])*s, vz=(p[t+8]-p[t+2])*s;
+    const nx=uy*vz-uz*vy, ny=uz*vx-ux*vz, nz=ux*vy-uy*vx;
+    const L=Math.hypot(nx,ny,nz);
+    if(L < 1e-9) continue;
+    const area = L/2;
+    const ang = Math.asin(Math.min(1,Math.abs(nz)/L))*180/Math.PI;  // 0 = dead vertical
+    if(ang < 25){
+      wall += area;
+      if(ang < 2) flat += area;
+      if(ang < minAng) minAng = ang;
+    }
+  }
+  return {wallArea:wall, noDraftFrac: wall>0 ? flat/wall : 0, min: wall>0 ? minAng : null};
+}
+
+/* ------------------------------------------------------------------ render */
+
+function renderChecks(R){
+  const A = R.A, out = [];
+  const MIN_T = 6;
+
+  if(R.kind === "cast"){
+    const t = isFinite(A.thinnest) ? A.thinnest : null;
+    out.push(row(
+      t === null ? "warn" : (t >= MIN_T ? "ok" : (t >= 4 ? "warn" : "bad")),
+      "Thinnest cast section",
+      t === null ? "No measurable wall found — check the model is a closed solid."
+        : t >= MIN_T ? "Enough meat to survive demolding in Cement All."
+        : t >= 4 ? `Thin. It will cast, but expect chips at the rim. Thicken toward ${MIN_T} mm.`
+        : `Too thin — this will break coming out of the mold. Thicken to at least ${MIN_T} mm.` +
+          (t <= A.floorMM*2 ? " This reading is at the resolution limit; step resolution up to confirm." : ""),
+      t === null ? "—" : fmt(t,1)+" mm"));
+
+    const trapPct = A.footprint ? A.trapped/A.footprint : 0;
+    out.push(row(
+      trapPct < 0.002 && A.lateral < 0.02 ? "ok" : (trapPct < 0.02 && A.lateral < 0.08 ? "warn" : "bad"),
+      "Undercuts",
+      trapPct < 0.002 && A.lateral < 0.02
+        ? "Nothing traps the plug. It lifts straight up."
+        : A.lateral >= 0.02
+          ? "The void is wider below than at its opening, so the plug locks in. Open the mouth out, or switch to a silicone box."
+          : "Enclosed pockets found — the plug can't reach them. They will fill solid with concrete.",
+      trapPct < 0.002 && A.lateral < 0.02 ? "clear" : fmt(Math.max(trapPct, A.lateral)*100,1)+"%"));
+
+    const d = A.draft;
+    out.push(row(
+      d.min === null ? "ok" : (d.noDraftFrac < 0.05 ? "ok" : (d.noDraftFrac < 0.35 ? "warn" : "bad")),
+      "Draft on the walls",
+      d.min === null ? "No near-vertical walls to worry about."
+        : d.noDraftFrac < 0.05 ? "Walls are tapered enough to release cleanly."
+        : `${Math.round(d.noDraftFrac*100)}% of the wall area is dead vertical. Tilt those faces 2–3° so the cast breaks free.`,
+      d.min === null ? "n/a" : fmt(d.min,1)+"°"));
+  } else {
+    out.push(row("ok","Master seals to the floor",
+      "Glue or hot-melt the printed master to the box floor so silicone can't creep underneath.",
+      "by hand"));
+    out.push(row(A.lateral < 0.02 ? "ok" : "warn","Undercuts",
+      A.lateral < 0.02 ? "Shallow enough that a one-piece rubber mold will peel off."
+        : "Deep undercuts — the rubber will stretch off, but plan a relief cut down one side.",
+      A.lateral < 0.02 ? "clear" : fmt(A.lateral*100,1)+"%"));
+  }
+  el("checks").innerHTML = out.join("");
+}
+function row(kind, title, note, val){
+  return `<div class="check ${kind}"><i class="dot ${kind}"></i>
+    <div class="t">${title}<small>${note}</small></div><div class="v">${val}</div></div>`;
+}
+
+function renderMats(R){
+  const A = R.A, out = [];
+  if(R.kind === "cast"){
+    const ml = A.volume, mix = ml*2.0*1.15;          // g of mixed slurry, +15% overfill
+    out.push(tile("Cast volume", fmt(ml,0), "ml", "the concrete or resin that ends up in the gap"));
+    out.push(tile("Cement All per piece", fmt(mix*6/7,0), "g powder",
+      `with ${fmt(mix/7,0)} g water — mix thin, it sets in 15 minutes`));
+    const pla = (meshVolume(R.shell)+meshVolume(R.plug))/1000*0.30*1.24;
+    out.push(tile("Mold filament", fmt(pla,0), "g PLA", "both parts at 2 walls, 10% infill, 0.28 mm"));
+  } else {
+    out.push(tile("Silicone needed", fmt(A.silicone,0), "ml", "box volume less the master it wraps"));
+    out.push(tile("Master volume", fmt(A.volume,0), "ml", "solid material in the printed original"));
+    const pla = meshVolume(R.shell)/1000*0.30*1.24;
+    out.push(tile("Box filament", fmt(pla,0), "g PLA", "2 walls, 10% infill"));
+  }
+  el("mats").innerHTML = out.join("");
+  el("assume").textContent = R.kind === "cast"
+    ? "Assumes cured Cement All at 2.0 g/cm³ and a 6 : 1 powder-to-water mix by weight, with 15% spare for overfill and the riser. Weigh one real pour and correct from there."
+    : "Assumes the master is sealed to the floor and the box is filled level with the top of the jacket.";
+}
+function tile(k,n,u,sub){
+  return `<div class="mat"><div class="k">${k}</div><div class="n">${n}<u>${u}</u></div><div class="sub">${sub}</div></div>`;
+}
+
+/* Two delivery paths. Opened as a local file the browser just downloads the
+   blob. Inside the claude.ai viewer only the downloads capability can hand a
+   file over, and its allowlist has no .stl — so the same bytes go out under a
+   permitted extension and the viewer strips it back off. */
+let saver = null;
+const blobs = {};
+
+function renderDownloads(R){
+  for(const k in urls){ URL.revokeObjectURL(urls[k]); delete urls[k]; }
+  el("dl").innerHTML = R.files.map(([fn,label,cssVar,mesh])=>{
+    const blob = stlBlob(mesh); blobs[fn] = blob;
+    const kb = blob.size/1024;
+    const size = kb>1024 ? fmt(kb/1024,1)+" MB" : Math.round(kb)+" KB";
+    const nm = `<span class="nm"><i class="swatch" style="background:var(${cssVar})"></i>${label}</span>
+                <span class="sz">${size}</span>`;
+    if(saver) return `<button class="dlrow" data-file="${fn}">${nm}</button>`;
+    const u = URL.createObjectURL(blob); urls[fn] = u;
+    return `<a href="${u}" download="${fn}">${nm}</a>`;
+  }).join("") + (saver
+    ? `<p class="assume" id="dlnote">Saves as <code>.stl.txt</code> — drop the <code>.txt</code>
+       and it opens straight in your slicer. For plain <code>.stl</code>, run this page as a local file.</p>`
+    : "");
+}
+
+el("dl").addEventListener("click", async e=>{
+  const b = e.target.closest("button[data-file]");
+  if(!b || !saver) return;
+  const fn = b.dataset.file, blob = blobs[fn];
+  const note = el("dlnote");
+  const say = t=>{ if(note) note.textContent = t; };
+  try{
+    b.disabled = true;
+    await saver.save({filename: fn + ".txt", data: blob});
+    say(`Saved as ${fn}.txt — remove the .txt to open it in your slicer.`);
+  }catch(err){
+    const c = err && err.code;
+    say(c === "declined" ? "Save cancelled."
+      : c === "too_large" ? "That mesh is over the 16 MB save limit — drop the resolution a step and rebuild."
+      : c === "rate_limited" ? "A save prompt is already open — finish that one first."
+      : "Saving isn't available in this view. Run the page as a local file to export.");
+  }finally{ b.disabled = false; }
+});
+
+(async ()=>{
+  try{ saver = window.claude ? await window.claude.use("downloads") : null; }
+  catch(e){ saver = null; }
+  if(saver && state.result) renderDownloads(state.result);
+})();
+
+function renderSteps(){
+  const cast = state.mode === "cast";
+  const s = cast ? [
+    "<b>Print both parts</b> at 0.28 mm, 2 walls, 10% infill. A class set runs overnight.",
+    "<b>Release the shell</b> — a wipe of cooking spray or paste wax on every cast face.",
+    "<b>Mix Cement All</b> to a thick cream and fill the shell just proud of the rim.",
+    "<b>Press the plug in</b> with a slow rock so air escapes through the riser holes. Weight it.",
+    "<b>Demold next period.</b> Pull the plug first, then flex the shell. Wet-sand, pigment-wash, seal."
+  ] : [
+    "<b>Print the box</b> and the master, then glue the master to the box floor.",
+    "<b>Seal every seam</b> with clay or hot melt so rubber can't leak out.",
+    "<b>Pour silicone</b> in a thin stream from one corner and let it climb over the master.",
+    "<b>Cure, then peel</b> the box away and pull the master out of the rubber.",
+    "<b>Cast into the rubber</b> — that flexible negative releases undercuts a printed mold can't."
+  ];
+  el("steps").innerHTML = s.map(x=>`<li>${x}</li>`).join("");
+}
+
+/* ------------------------------------------------------------------ events */
+
+el("pick").addEventListener("click", ()=>el("file").click());
+el("file").addEventListener("change", e=>{ if(e.target.files[0]) loadFile(e.target.files[0]); });
+const drop = el("drop");
+["dragenter","dragover"].forEach(t=>drop.addEventListener(t, e=>{
+  e.preventDefault(); drop.classList.add("over"); }));
+["dragleave","drop"].forEach(t=>drop.addEventListener(t, e=>{
+  e.preventDefault(); drop.classList.remove("over"); }));
+drop.addEventListener("drop", e=>{ const f=e.dataTransfer.files[0]; if(f) loadFile(f); });
+
+function loadFile(f){
+  const rd = new FileReader();
+  rd.onload = ()=>{
+    try{
+      state.tris = parseSTL(rd.result);
+      state.name = f.name;
+      state.reframe = true;
+      el("fname").textContent = f.name;
+      const b = bounds(state.tris);
+      el("fmeta").textContent = `${fmt(b.x1-b.x0)} × ${fmt(b.y1-b.y0)} × ${fmt(b.z1-b.z0)} mm`;
+      build();
+    }catch(err){
+      el("fname").textContent = f.name;
+      el("fmeta").textContent = "couldn't read this — export it as a binary STL and try again";
+    }
+  };
+  rd.readAsArrayBuffer(f);
+}
+
+el("mode").addEventListener("click", e=>{
+  const btn = e.target.closest("button[data-mode]"); if(!btn) return;
+  state.mode = btn.dataset.mode;
+  [...el("mode").children].forEach(b=>b.setAttribute("aria-pressed", String(b===btn)));
+  document.querySelectorAll("[data-for]").forEach(r=>{ r.hidden = r.dataset.for !== state.mode; });
+  el("modeNote").textContent = state.mode === "cast"
+    ? "Two printed parts. Concrete or resin fills the gap between them — that gap is the vessel."
+    : "One printed tub sized to your master. Pour silicone around it to get a flexible negative.";
+  el("legend").querySelector('[data-part="plug"]').hidden = state.mode !== "cast";
+  build();
+});
+
+el("params").addEventListener("change", build);
+el("p_scale").addEventListener("change", build);
+
+el("legend").addEventListener("click", e=>{
+  const c = e.target.closest(".chip"); if(!c) return;
+  c.setAttribute("aria-pressed", c.getAttribute("aria-pressed")==="true" ? "false" : "true");
+  applyVisibility();
+});
+function applyVisibility(){
+  el("legend").querySelectorAll(".chip").forEach(c=>{
+    const m = parts[c.dataset.part];
+    if(m) m.visible = c.getAttribute("aria-pressed")==="true";
+  });
+}
+el("explode").addEventListener("input", e=>{ explodeAmt = +e.target.value/100; });
+el("section").addEventListener("click", e=>{
+  const on = e.currentTarget.getAttribute("aria-pressed")==="true";
+  e.currentTarget.setAttribute("aria-pressed", String(!on));
+  clip.constant = -target.y;
+  applyClip();
+});
+el("reset").addEventListener("click", ()=>{
+  yaw=-0.62; pitch=0.98;
+  const b=bounds(state.tris); dist=Math.max(b.x1-b.x0,b.y1-b.y0,b.z1-b.z0)*2.6*(+el("p_scale").value||1);
+});
+el("theme").addEventListener("click", ()=>{
+  const cur = document.documentElement.getAttribute("data-theme");
+  const dark = cur ? cur==="dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  document.documentElement.setAttribute("data-theme", dark ? "light" : "dark");
+  rebuildMaterials();
+});
+
+/* the one orchestrated moment: object dissolving into its own negative */
+el("flip").addEventListener("click", ()=>{
+  const chips = el("legend").querySelectorAll(".chip");
+  chips.forEach(c=>c.setAttribute("aria-pressed","true"));
+  applyVisibility();
+  const cap = el("caption");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const t0 = performance.now(), dur = reduce ? 1 : 1500;
+  const startExplode = explodeAmt;
+  const fade = (m,v)=>{ if(!m) return;
+    const t = v < 0.995;
+    if(m.transparent !== t){ m.transparent = t; m.needsUpdate = true; }
+    m.opacity = v; };
+  cap.classList.remove("on");
+  (function step(now){
+    const u = Math.min(1,(now-t0)/dur);
+    const e = u<0.5 ? 2*u*u : 1-Math.pow(-2*u+2,2)/2;
+    fade(M.cast, 1-e*0.75);
+    fade(M.shell, e);
+    fade(M.plug, e);
+    explodeAmt = startExplode + (0.55-startExplode)*e;
+    el("explode").value = Math.round(explodeAmt*100);
+    if(u<1) requestAnimationFrame(step);
+    else { cap.classList.add("on"); setTimeout(()=>cap.classList.remove("on"), 5000); }
+  })(performance.now());
+});
+
+rebuildMaterials();
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", rebuildMaterials);
+renderSteps();
+build();
+</script>
