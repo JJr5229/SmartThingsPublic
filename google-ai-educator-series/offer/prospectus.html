@@ -1,0 +1,386 @@
+<title>Beginning Google AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+  :root{
+    --paper:#F6F7F8;
+    --surface:#FFFFFF;
+    --sunken:#ECEEF0;
+    --ink:#141C24;
+    --ink-2:#3D4A56;
+    --ink-3:#69757F;
+    --rule:#DCE0E4;
+    --rule-strong:#C3C9CE;
+    --accent:#186A57;
+    --accent-soft:#E2EFEA;
+    --accent-ink:#0F4A3C;
+    --flag:#9A6414;
+    --flag-soft:#F7EEDC;
+    --shadow:0 1px 2px rgba(20,28,36,.05), 0 8px 24px -12px rgba(20,28,36,.14);
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#10161C;
+      --surface:#171F27;
+      --sunken:#1D262F;
+      --ink:#E8EDF1;
+      --ink-2:#B2BEC8;
+      --ink-3:#8593A0;
+      --rule:#2A353F;
+      --rule-strong:#3B4854;
+      --accent:#5FBFA4;
+      --accent-soft:#152C27;
+      --accent-ink:#8FD6C0;
+      --flag:#DBA75A;
+      --flag-soft:#2A2115;
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#10161C;
+    --surface:#171F27;
+    --sunken:#1D262F;
+    --ink:#E8EDF1;
+    --ink-2:#B2BEC8;
+    --ink-3:#8593A0;
+    --rule:#2A353F;
+    --rule-strong:#3B4854;
+    --accent:#5FBFA4;
+    --accent-soft:#152C27;
+    --accent-ink:#8FD6C0;
+    --flag:#DBA75A;
+    --flag-soft:#2A2115;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-size:16.5px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px 96px}
+  .measure{max-width:64ch}
+
+  h1,h2,h3{font-family:Newsreader,Georgia,"Times New Roman",serif;text-wrap:balance;margin:0}
+  h1{font-size:clamp(2.6rem,6vw,4rem);font-weight:500;line-height:1.04;letter-spacing:-.018em}
+  h2{font-size:clamp(1.6rem,3vw,2.1rem);font-weight:500;line-height:1.15;letter-spacing:-.012em}
+  h3{font-size:1.14rem;font-weight:600;line-height:1.3}
+  p{margin:0}
+
+  .eyebrow{
+    font-family:"IBM Plex Mono",ui-monospace,monospace;
+    font-size:.7rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--accent);
+  }
+  .eyebrow.muted{color:var(--ink-3)}
+
+  /* ---------- masthead ---------- */
+  header.masthead{
+    border-bottom:1px solid var(--rule);
+    padding:64px 0 40px;
+    display:grid;gap:26px;
+  }
+  .lede{
+    font-family:Newsreader,Georgia,serif;
+    font-size:clamp(1.15rem,2.1vw,1.42rem);
+    line-height:1.5;color:var(--ink-2);max-width:58ch;
+  }
+  .metabar{
+    display:flex;flex-wrap:wrap;gap:0;
+    border-top:1px solid var(--rule);
+    padding-top:20px;margin-top:6px;
+  }
+  .metabar div{
+    padding-right:34px;margin-right:34px;
+    border-right:1px solid var(--rule);
+  }
+  .metabar div:last-child{border-right:0;padding-right:0;margin-right:0}
+  .metabar dt{
+    font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.11em;
+    text-transform:uppercase;color:var(--ink-3);margin:0 0 3px;
+  }
+  .metabar dd{margin:0;font-size:1.4rem;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+  .metabar dd small{font-size:.82rem;font-weight:500;color:var(--ink-3);letter-spacing:0}
+
+  section{padding-top:64px}
+  .sec-head{display:grid;gap:12px;margin-bottom:28px}
+
+  /* ---------- the thesis ---------- */
+  .thesis{
+    background:var(--surface);
+    border:1px solid var(--rule);
+    border-left:3px solid var(--accent);
+    border-radius:3px;
+    padding:34px 36px;
+    box-shadow:var(--shadow);
+    display:grid;gap:18px;
+  }
+  .thesis .big{
+    font-family:Newsreader,Georgia,serif;
+    font-size:clamp(1.5rem,3.2vw,2.15rem);
+    line-height:1.22;font-weight:500;letter-spacing:-.012em;
+    text-wrap:balance;
+  }
+  .thesis .big em{font-style:italic;color:var(--accent)}
+  .thesis p{color:var(--ink-2);max-width:66ch}
+
+  .figures{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:1px;background:var(--rule);border:1px solid var(--rule);
+    border-radius:3px;margin-top:8px;overflow:hidden;
+  }
+  .fig{background:var(--surface);padding:16px 18px}
+  .fig b{
+    display:block;font-size:1.55rem;font-weight:600;letter-spacing:-.02em;
+    font-variant-numeric:tabular-nums;line-height:1.1;
+  }
+  .fig span{font-size:.82rem;color:var(--ink-3);display:block;margin-top:3px;line-height:1.35}
+
+  /* ---------- two-column compare ---------- */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .col{
+    background:var(--surface);border:1px solid var(--rule);border-radius:3px;
+    padding:26px 26px 28px;display:grid;gap:14px;align-content:start;
+  }
+  .col.lift{border-color:var(--accent);box-shadow:var(--shadow)}
+  .col ul{margin:0;padding:0;list-style:none;display:grid;gap:11px}
+  .col li{
+    padding-left:20px;position:relative;font-size:.95rem;color:var(--ink-2);line-height:1.5;
+  }
+  .col li::before{
+    content:"";position:absolute;left:0;top:.62em;
+    width:8px;height:1.5px;background:var(--rule-strong);
+  }
+  .col.lift li::before{background:var(--accent)}
+  .col li b{color:var(--ink);font-weight:600}
+
+  /* ---------- module table ---------- */
+  .tablewrap{overflow-x:auto;border:1px solid var(--rule);border-radius:3px;background:var(--surface)}
+  table{border-collapse:collapse;width:100%;min-width:660px}
+  caption{text-align:left;padding:0 0 14px;color:var(--ink-3);font-size:.88rem}
+  th,td{text-align:left;padding:13px 18px;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{
+    font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.11em;
+    text-transform:uppercase;color:var(--ink-3);font-weight:600;
+    background:var(--sunken);border-bottom:1px solid var(--rule-strong);
+  }
+  tbody tr:last-child td{border-bottom:0}
+  td.num{
+    font-family:"IBM Plex Mono",monospace;font-size:.86rem;color:var(--accent);
+    font-weight:600;width:1%;white-space:nowrap;padding-top:15px;
+  }
+  td.mod{font-weight:600;width:31%}
+  td.mod .flagline{
+    display:block;font-weight:500;font-size:.8rem;color:var(--flag);margin-top:3px;
+    font-family:"IBM Plex Mono",monospace;letter-spacing:.03em;
+  }
+  td.time{font-variant-numeric:tabular-nums;color:var(--ink-3);font-size:.88rem;white-space:nowrap;width:1%}
+  td.art{color:var(--ink-2);font-size:.93rem}
+
+  /* ---------- differentiators ---------- */
+  .diffs{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:20px}
+  .diff{display:grid;gap:9px;align-content:start;padding-top:16px;border-top:2px solid var(--accent)}
+  .diff p{font-size:.93rem;color:var(--ink-2)}
+
+  /* ---------- gate ---------- */
+  .gate{
+    background:var(--flag-soft);border:1px solid var(--flag);border-radius:3px;
+    padding:28px 30px;display:grid;gap:16px;
+  }
+  .gate h2{font-size:1.42rem}
+  .gate ol{margin:0;padding-left:1.3em;display:grid;gap:9px;color:var(--ink-2);font-size:.95rem;max-width:70ch}
+  .gate ol b{color:var(--ink)}
+  .gate .note{font-size:.9rem;color:var(--ink-2);max-width:70ch}
+
+  /* ---------- pilot ---------- */
+  .pilot{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:3px;overflow:hidden}
+  .step{background:var(--surface);padding:22px 22px 24px;display:grid;gap:8px;align-content:start}
+  .step .eyebrow{font-size:.66rem}
+  .step p{font-size:.92rem;color:var(--ink-2)}
+
+  /* ---------- footer ---------- */
+  footer{
+    margin-top:72px;padding-top:26px;border-top:1px solid var(--rule);
+    display:grid;gap:12px;color:var(--ink-3);font-size:.86rem;max-width:72ch;
+  }
+  footer b{color:var(--ink-2)}
+  code{
+    font-family:"IBM Plex Mono",monospace;font-size:.88em;
+    background:var(--sunken);padding:.1em .38em;border-radius:2px;color:var(--ink-2);
+  }
+  @media (max-width:720px){
+    .compare{grid-template-columns:1fr}
+    .metabar div{border-right:0;padding-right:0;margin-right:26px}
+    .wrap{padding:0 20px 72px}
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Professional learning series &middot; Draft prospectus</p>
+    <h1>Beginning&nbsp;Google&nbsp;AI</h1>
+    <p class="lede">An eight-module series for Saint Paul Public Schools staff — built for the devices the district actually runs, and grounded in Minnesota data practices law rather than FERPA alone.</p>
+    <dl class="metabar">
+      <div><dt>Modules</dt><dd>8</dd></div>
+      <div><dt>Contact hours</dt><dd>11.5</dd></div>
+      <div><dt>Artifacts built</dt><dd>8</dd></div>
+      <div><dt>Pilot cohort</dt><dd>12–18 <small>staff</small></dd></div>
+    </dl>
+  </header>
+
+  <section>
+    <div class="thesis">
+      <p class="eyebrow">The finding this series is built on</p>
+      <p class="big">Almost every Google AI course for educators is written for Chromebooks. <em>SPPS runs iPads.</em></p>
+      <p>Reporting on SPPS Technology Services describes one of the Midwest's largest and longest-running 1:1 iPad programs. Meanwhile the free training staff are pointed toward — Google's own courses, the Educator Series, most conference PD — assumes ChromeOS, desktop Chrome, right-click menus, and browser extensions. On a district iPad, much of that instruction is unfollowable. Staff hit friction the training never mentions, and conclude the tools don't work rather than that the manual was written for someone else's hardware.</p>
+      <div class="figures">
+        <div class="fig"><b>~40,000</b><span>iPads in the 1:1 program</span></div>
+        <div class="fig"><b>4,000+</b><span>MacBooks for instructional staff</span></div>
+        <div class="fig"><b>§ 13.32</b><span>Minn. Stat. governing educational data</span></div>
+        <div class="fig"><b>70%</b><span>of teens using AI for schoolwork</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow muted">Positioning</p>
+      <h2>The district already teaches the intro. This starts where it ends.</h2>
+      <p class="measure" style="color:var(--ink-2)">SPPS runs its own AI professional development, and Google gives an equivalent course away free with a PD-creditable certificate. Selling a beginner course here would mean competing with two free incumbents and losing — so the free course is a <em>prerequisite</em> for this series, not a competitor to it.</p>
+    </div>
+    <div class="compare">
+      <div class="col">
+        <p class="eyebrow muted">Already available, free</p>
+        <ul>
+          <li><b>SPPS #90819</b> — AI Tools: Gemini &amp; Notebook LM</li>
+          <li><b>SPPS #90791</b> — Generative AI for Educators</li>
+          <li><b>SPPS #90820</b> — AI Tools: Canva Magic Studio</li>
+          <li><b>Google</b> — Generative AI for Educators with Gemini, ~2 hrs, certificate</li>
+          <li><b>Google + ISTE&#43;ASCD</b> — free Gemini training pledged to ~6M U.S. educators</li>
+        </ul>
+        <p style="font-size:.9rem;color:var(--ink-3)">Staff should take all of it. Required before Module 01.</p>
+      </div>
+      <div class="col lift">
+        <p class="eyebrow">What no one has built for SPPS</p>
+        <ul>
+          <li><b>iPad-first instruction</b> — every entry point verified and screenshotted on the devices staff hold</li>
+          <li><b>Minnesota law</b> — Minn. Stat. § 13.32 under the MGDPA, broader than FERPA, plus MDE guidance</li>
+          <li><b>Depth past the demo</b> — Gems loaded with a teacher's real pacing guides, rubrics and anchor texts</li>
+          <li><b>Artifacts, not awareness</b> — eight built things that stay in the account after the session ends</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow muted">Curriculum</p>
+      <h2>Eight modules, each ending in something they keep</h2>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <caption class="visually-hidden" style="display:none">The eight modules, in sequence</caption>
+        <thead>
+          <tr><th scope="col">#</th><th scope="col">Module</th><th scope="col">Time</th><th scope="col">Artifact produced</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="num">01</td><td class="mod">Foundations &amp; the SPPS Landscape</td><td class="time">60 min</td><td class="art">Personal tool-boundary map</td></tr>
+          <tr><td class="num">02</td><td class="mod">Prompting Essentials — PTCF</td><td class="time">75 min</td><td class="art">Five-prompt starter library</td></tr>
+          <tr><td class="num">03</td><td class="mod">Gemini Across Workspace<span class="flagline">iPad-first · licensing-sensitive</span></td><td class="time">90 min</td><td class="art">Three automated weekly workflows</td></tr>
+          <tr><td class="num">04</td><td class="mod">NotebookLM as a Grounded Curriculum Library</td><td class="time">90 min</td><td class="art">A real course notebook + Audio Overview</td></tr>
+          <tr><td class="num">05</td><td class="mod">Gemini in Classroom &amp; Building Gems<span class="flagline">English-only · 18+</span></td><td class="time">90 min</td><td class="art">A working custom Gem</td></tr>
+          <tr><td class="num">06</td><td class="mod">Privacy, Ethics &amp; Minnesota Law<span class="flagline">district rep should co-present</span></td><td class="time">75 min</td><td class="art">Team data-handling decision rule</td></tr>
+          <tr><td class="num">07</td><td class="mod">Teaching Students With and About AI</td><td class="time">90 min</td><td class="art">A redesigned AI-resilient assessment</td></tr>
+          <tr><td class="num">08</td><td class="mod">Capstone — Role Tracks &amp; Toolkit</td><td class="time">120 min</td><td class="art">Published toolkit + peer demonstration</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:14px;font-size:.9rem;color:var(--ink-3);max-width:70ch">Modules build in sequence — the prompt library from 02 becomes the Gem instructions in 05, and the notebook sources from 04 become its knowledge. Deliverable as eight weekly sessions, four half-days, or two full days plus asynchronous work.</p>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow muted">Method</p>
+      <h2>Four commitments</h2>
+    </div>
+    <div class="diffs">
+      <div class="diff">
+        <h3>Describe the class, not the child</h3>
+        <p>De-identification is drilled, not lectured. Every workflow carries a named review step and an explicit "never include" line before it leaves the room.</p>
+      </div>
+      <div class="diff">
+        <h3>Source grounding over guesswork</h3>
+        <p>NotebookLM answers only from uploaded sources and cites the passage. Staff learn when accuracy about <em>their</em> materials requires it — and where it still needs review.</p>
+      </div>
+      <div class="diff">
+        <h3>Partner tests, not seat time</h3>
+        <p>A prompt a colleague can run. A workflow a colleague could adopt. An assessment a colleague can't break with one prompt. Harder to fake than a completion box.</p>
+      </div>
+      <div class="diff">
+        <h3>Honest about limits</h3>
+        <p>AI detection is unreliable and flags English learners disproportionately. Gemini in Classroom is English-only in a multilingual district. Both are named, not glossed.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="gate">
+      <p class="eyebrow" style="color:var(--flag)">Before anything is promised</p>
+      <h2>Five questions that reshape the series</h2>
+      <ol>
+        <li><b>Which Workspace for Education edition</b> does SPPS hold — Fundamentals, Standard, Teaching &amp; Learning add-on, or Education Plus? Any Google AI Pro for Education?</li>
+        <li><b>Which AI features are actually enabled in the Admin console?</b> Licensed is not the same as switched on. This determines what can be taught at all.</li>
+        <li><b>Who is the district AI guidance group?</b> SPPS states that administrators and district-level staff meet regularly on responsible AI use. They are the buyer or the gatekeeper.</li>
+        <li><b>What do #90819, #90791 and #90820 already cover?</b> The syllabi keep this series from repeating them.</li>
+        <li><b>Is Gemini enabled for under-18 students,</b> and what is the district's position on the English-only limit?</li>
+      </ol>
+      <p class="note">Module 03 depends most heavily on licensing: Gemini in Docs, Sheets, Slides, Vids and Forms is tied to Education Plus or a Teaching &amp; Learning add-on. Gemini in Classroom is free across all editions, which makes Module 05 the safest high-value session regardless of how these resolve.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow muted">Engagement shape</p>
+      <h2>One paid pilot, evaluated honestly</h2>
+      <p class="measure" style="color:var(--ink-2)">Not a district rollout from a cold proposal. Districts buy pilots far more readily than programs, and a pilot that works sells itself internally.</p>
+    </div>
+    <div class="pilot">
+      <div class="step">
+        <p class="eyebrow">Phase 0</p>
+        <h3>Discovery</h3>
+        <p>The five questions above, answered before anything is offered or priced.</p>
+      </div>
+      <div class="step">
+        <p class="eyebrow">Phase 1</p>
+        <h3>One cohort</h3>
+        <p>12–18 volunteers, mixed roles, including at least one administrator and one support-staff member. One deliberate skeptic.</p>
+      </div>
+      <div class="step">
+        <p class="eyebrow">Phase 2</p>
+        <h3>30-day follow-up</h3>
+        <p>Included, not an add-on. Which workflows are still running, and what broke. This is where the evaluation data comes from.</p>
+      </div>
+      <div class="step">
+        <p class="eyebrow">Phase 3</p>
+        <h3>Report &amp; scale</h3>
+        <p>Artifact-use audit by role, hours saved, and what failed. Then train-the-trainer, so the district can run it internally.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p><b>Verification status.</b> Every SPPS-specific finding on this page — device counts, PowerSchool course numbers, the district AI guidance group — was reached through search summaries, not by reading the district's own pages, which were unreachable from the drafting environment. Treat them as research leads to confirm with SPPS Technology Services before this is sent.</p>
+    <p><b>Scope.</b> Professional learning, not legal advice; district policy governs, and a district representative should co-present Module 06. This series confers no Google certification — Google's free courses issue those, and staff should take them. It does not cover Microsoft Copilot, Canva Magic Studio, or third-party education AI tools.</p>
+    <p><b>Shelf life.</b> Google changed its education AI products materially during 2026 alone. Feature claims require re-verification before each delivery cycle; the durable skills — prompt structure, source grounding, de-identification, assessment design — transfer to whatever ships next.</p>
+    <p style="color:var(--ink-3)">Draft prospectus · not affiliated with, endorsed by, or issued by Saint Paul Public Schools or Google · full curriculum in <code>google-ai-educator-series/</code></p>
+  </footer>
+
+</div>
