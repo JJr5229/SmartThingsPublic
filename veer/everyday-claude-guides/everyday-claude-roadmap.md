@@ -1,7 +1,7 @@
 # The Everyday Claude Guides — Product Roadmap & Framework
 *Planning doc for the consumer line. Nothing here is built yet. Sibling to `claude-guides-roadmap.md`, which governs the small-business line.*
 
-Last updated: 2026-09-03
+Last updated: 2026-09-05
 
 ---
 
@@ -26,7 +26,7 @@ That changes almost every decision — the promise, the price, the page density,
 | **Audience** | Regular adults with little-to-no AI experience and, often, modest tech confidence. Retirees, parents, caregivers, students, hobbyists, career-changers. | Genuinely underserved. Every AI guide on the market is written for someone already leaning in. |
 | **Line name** | **The Everyday Claude Guides** | Reads as a collected series, like a publisher's imprint. Sits under Veer alongside "Claude for Small Business" without pretending to be its twin. |
 | **Format** | Short, low-density PDFs ($7–18 each) + bundles. **Digital download only** — every price in this doc is for a PDF. | Consumers won't pay small-business prices for a PDF about a free app. Volume and charm carry this line, not depth. |
-| **Primary channel** | **Etsy first**, own site second — the inverse of the business line | Consumers browse Etsy. Small-business owners don't. This is the single biggest strategic difference between the two lines. |
+| **Primary channel** | **Own site + Payhip, with Pinterest for discovery.** Etsy deferred — see §5. | Settled 2026-09-05. Etsy has removed AI informational listings before, and every title contains the word Claude. Listing them risks a policy strike against the existing physical-goods shop — a working business — to test a speculative channel. |
 | **Maintenance** | Same model: evergreen core + one quarantined "Current as of [quarter]" section | Already proven on the business line. Don't re-invent it. |
 | **Relationship to the business line** | Top of funnel, one direction only | A hobbyist who starts selling becomes a small-business buyer. Never cross-sell downward. |
 
@@ -127,7 +127,12 @@ The **$59** Collection is ≈41% of that — inside the rule, and a 59% saving a
 | **Own Veer guides site + Payhip** | Bundle sales, email capture, the Collection | Same checkout plumbing already decided for the business line. No new infrastructure. |
 | **Pinterest** | Underrated for this audience specifically | This reader searches Pinterest. Vertical 2:3 pins per title, pointing at the free magnet. Cheap, compounding, and better matched to this line than to the business one. |
 
-**Etsy risk is materially higher for this line than the business line** — not because the policy differs, but because Etsy is the primary channel rather than a supplementary one. Mitigation: own-site listings live from day one, email capture on every free download, and the printed edition as a non-digital fallback.
+**Etsy: deferred, 2026-09-05.** The line launches on its own site with Payhip; Pinterest does
+discovery. The deciding argument is not that a listing might be removed — it is that the existing
+Etsy shop sells physical 3D-printed goods and is a working business, and fourteen AI-guide listings
+risk a policy strike against it. Etsy titles and 13-tag sets are written and held in
+`sales-and-listings.md`, unused, and come back **with the printed booklet** — a physical product
+sits naturally beside the existing listings and carries none of the digital-AI exposure.
 
 ---
 
@@ -186,10 +191,23 @@ Deferred 2026-09-03. Nothing below affects any current decision; the line is **d
 
 Parking these removes the line's non-digital fallback against Etsy's inconsistency on AI info-products (§5). Worth remembering if that risk ever bites.
 
+## 8c. Commercial terms — set 2026-09-05
+
+Full reasoning in `sales-and-listings.md`. In short:
+
+| Term | Decision |
+|---|---|
+| **Refunds** | 14 days, no questions, buyer keeps the file. A guarantee removes this audience's main objection, and it's the safe direction to err in. |
+| **Updates** | Free for as long as the series is published, all fourteen titles — eleven have nothing that can go stale, and the other three quarantine it to one page. |
+| **Licence** | Personal use, print freely, no redistribution. The two free titles stay share-as-is. |
+| **Etsy** | No, not at launch. See §5. |
+| **Launch prices** | Top of each band — $9 / $14 / $15, Collection $59. No A/B test until there is traffic to test with. |
+
 ## 9. Open items
 
 - [ ] Confirm the line name reads right on an Etsy listing alongside the business line — *The Everyday Claude Guides* is locked but worth eyeballing in situ
-- [ ] Price-test **$7 vs $9** on the first Tier 1 listing before locking the band — revised up from $5 vs $7 once *Claude for Absolute Beginners* came in at 38 pages, which is a book rather than a printable
+- [x] ~~Price-test $7 vs $9 at launch~~ → **launch all Tier 1 at $9.** A split test needs traffic; at launch volumes it produces noise, and dropping a price later reads as generous while raising one does not. Revisit after 60–90 days of real data.
+- [ ] **Localisation.** The manuscripts are British English with £ and UK institutions; pricing is USD and Veer LLC is US. ~60 instances, mostly in *Letters* and *Paperwork*. Decide the market, then one scripted pass and rebuild.
 - [ ] Lock the design deviations in §7 by building the free magnet first
 - [ ] Extend `claude-guide-builder` with the audience switch (§7) — one skill, two registers
 - [ ] Verify every version-specific Claude fact at build time per the existing skill discipline; nothing in this planning doc asserts current model names, pricing, or plan details on purpose

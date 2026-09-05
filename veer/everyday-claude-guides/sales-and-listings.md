@@ -11,33 +11,92 @@ written for made-to-order PLA items: dimensions, colour options, material and ca
 
 ---
 
-# ⚠️ Read this before publishing anywhere
+# The terms — set 2026-09-05
 
-**Three things in this document are assumptions, not decisions. Confirm each one.**
+These were open assumptions. They are now decisions, with the reasoning, so nobody relitigates them.
 
-1. **Refund terms.** Digital goods are commonly sold non-refundable after download. The copy below
-   says that. **Confirm it matches what you actually intend and what your platform requires** —
-   consumer law in some jurisdictions overrides a blanket no-refund policy for digital goods.
-2. **The free-updates promise.** The copy offers "free updates for a year" on the three books that
-   carry a Current-as-of page. That is a real commitment to re-issue them. Only keep it if you'll
-   honour it.
-3. **The Etsy question is still open.** The roadmap parks distribution. Titles and tags are written
-   and ready, but see the caveat below before listing anything.
+## 1. Refunds — 14 days, no questions, keep the file
 
-**The AI-info-product caveat, surfaced explicitly as your own reference requires.** Etsy is
-inconsistent about AI and "Claude" informational digital products and has removed listings before.
-Every title in this document contains the word Claude, because that is what the books are about —
-which is precisely the combination most likely to attract attention. Three mitigations:
+> **If it isn't what you needed, email within 14 days and we'll refund you. Keep the file.**
 
-- Keep master files off-platform; deliver from your own site.
-- Treat any Etsy listing as discovery that funnels to your email list, not as the store.
-- List a couple of titles first and watch what happens before uploading fourteen.
+**Why.** A blanket "non-refundable once downloaded" is the default for digital goods and it's the
+wrong call here on three counts. This audience is *defined* by low confidence — the main objection
+isn't price, it's "what if it's too basic, or too advanced, or not for me." A guarantee removes
+that objection for $9. Refund rates on cheap guides with a stated guarantee run low, and the
+conversion gain comfortably exceeds the loss. And a line whose books contain a page giving readers
+permission to stop reading should not have hostile commerce terms.
 
-**A divergence you should know about.** The small-business line's rule is *Foundations tier only on
-Etsy* — because its Tier 3 is automation and connector guides, which carry real policy risk. This
-line has no equivalent: nothing in it touches automations, and Tier 3 here is photos, settings and
-phones. **So all fourteen are technically eligible.** That is a change from the sibling line's rule
-and is a deliberate call, not an oversight.
+**"Keep the file" is deliberate.** You cannot retrieve a PDF. Pretending otherwise is theatre;
+saying so plainly reads as confidence and costs nothing real.
+
+**The limit on my advice here.** This is a commercial decision and I'm making it. It is not legal
+advice — statutory refund rights for digital goods vary by country, your platform imposes its own
+terms, and a 14-day promise is *more* generous than most regimes require, which is the safe
+direction to err in. Check the platform's terms when you set the product up.
+
+## 2. Updates — free for as long as the series is published
+
+> **Free updates for as long as we publish the series. When a guide is refreshed you get the new
+> file — you don't buy it again.**
+
+**Why not "a year," and why all fourteen rather than three.** Eleven of the fourteen contain no
+version-specific facts at all, so updating them costs nothing and will rarely be needed. The other
+three quarantine everything changeable onto a single page — the whole maintenance model was built
+so a refresh is one page edit, not a rewrite. The commitment is therefore small and the selling
+line is much stronger. It also avoids the awkward year-two conversation, and it converts the
+Collection especially well: buy once, never buy again.
+
+**Worded as "for as long as we publish the series"** rather than "for life," because an unbounded
+promise attached to a $9 product is one you might one day resent. This version is honest and still
+generous.
+
+**What it requires of you:** a way to re-issue a file to past buyers. Payhip can do this, and your
+email list covers the rest. Don't make the promise until that path is confirmed.
+
+## 3. Licence — one person, print freely, don't pass it on
+
+> **For your own personal use. Print it as many times as you like. Please don't redistribute,
+> resell, or share the file.**
+
+The two free titles are different, and already say so in the PDFs: **free to share as-is, please
+don't edit or resell.** That difference is intentional — the free ones spread, the paid ones don't.
+
+## 4. Etsy — no. Not at launch.
+
+**Decision: launch on your own site with Payhip. Keep the Etsy titles and tags on file, unused.**
+
+I've argued both sides of this across the project, so here is the argument that actually settles it,
+and it isn't the one I opened with.
+
+The risk was never "the listing gets removed." It's that **your existing Etsy shop sells physical
+3D-printed goods and is a working business.** Etsy has removed AI informational listings before.
+Every title in this document contains the word Claude, which is the highest-risk signal available.
+Putting fourteen of them on an established shop risks a policy strike against a functioning
+revenue stream — to test a channel that is speculative for this product.
+
+Risking a working business to test a maybe is a bad trade at any conversion rate.
+
+**What replaces it:** the free ten-minute guide → email list → own site and Payhip, with Pinterest
+doing discovery. Pinterest carries none of this policy risk, suits this audience unusually well,
+and the three pins are already written below.
+
+**When Etsy comes back:** when the printed booklet does. A physical book is exactly what Etsy is
+for, sits naturally beside your existing physical listings, and carries none of the digital-AI
+exposure. The titles and tags below stay on file until then.
+
+## 5. Launch prices — top of each band, and no A/B test at launch
+
+**$9 · $14 · $15 · Collection $59.** Specifically: all four Tier 1 titles at $9 except
+*101 Everyday Things* — which also goes to **$9**, not $7.
+
+**This reverses my own earlier recommendation** to price-test $7 against $9, and the reason is
+simple: you cannot run a valid price test without traffic. At launch volumes a split test produces
+noise, and you'd draw a confident conclusion from six sales. Worse, it's the wrong direction of
+travel — **dropping a price later reads as generous; raising one annoys everybody who already
+bought.**
+
+$9 for a 38-page book is already inexpensive. Launch at the top of the band, gather 60–90 days of
+real data, then test downward if the numbers say to.
 
 ---
 
@@ -65,11 +124,17 @@ Most of these contain no version-specific facts at all — no model names, no pr
 **What format is it?**
 A PDF you download and keep. Read it on a phone, a tablet, a computer, or print it.
 
+**What if it's not right for me?**
+Email within 14 days and we'll refund you, and you keep the file. These are written for people who aren't sure this is for them, so it would be odd to make that a risk.
+
+**Will I have to buy it again when it changes?**
+No. Free updates for as long as we publish the series — when a guide is refreshed, you get the new file.
+
 **Is this official?**
 No. These are independent guides written by Veer. Not affiliated with, authorized by, or endorsed by Anthropic.
 
-### Delivery and licence *(assumed — confirm)*
-> Instant digital download. One PDF, readable on any device or printable at home. Single-user personal-use licence. Because it's delivered instantly, it's non-refundable once downloaded.
+### Delivery, licence and guarantee *(set — see The terms above)*
+> Instant digital download. One PDF, readable on any device or printable at home. For your own personal use — print it as often as you like, but please don't redistribute or resell it. **If it isn't what you needed, email within 14 days and we'll refund you. Keep the file.** Free updates for as long as we publish the series.
 
 ### Disclaimer — short version, for tight footers
 > Independent guide. Not affiliated with, authorized by, or endorsed by Anthropic. "Claude" is a trademark of Anthropic PBC.
@@ -189,7 +254,7 @@ These are not products to sell. They are the top of the funnel, and their only j
 **The honest differentiator**
 > Every line is a complete sentence. No brackets to fill in, no "insert your topic here" — which is the thing that stops most prompt packs ever getting used.
 
-**Price** $7 — *the impulse buy of the line; test $7 vs $9 here first* · **Cross-sell** → *Asking Better Questions*, or the Collection.
+**Price** $9 — *launching at the top of the band; see The terms, item 5* · **Cross-sell** → *Asking Better Questions*, or the Collection.
 
 **Etsy title** (129)
 > 101 Everyday Things to Ask Claude AI | Copy and Paste Prompt List for Daily Life, Home, Family and Money | Printable PDF Download
@@ -372,7 +437,7 @@ These are not products to sell. They are the top of the funnel, and their only j
 
 # Tier 3 — $15–18 each
 
-*These three describe app features, so each carries a Current-as-of page — which makes the free-updates hook genuinely meaningful here and nowhere else in the line.*
+*These three describe app features, so each carries a Current-as-of page. Free updates apply across the whole line, but this is where they do the most work.*
 
 ## No. 10 · Photos, Files, and Documents · 23 pages
 
@@ -393,7 +458,7 @@ These are not products to sell. They are the top of the funnel, and their only j
 **The line that earns the price**
 > A misread word doesn't produce an error. It produces a confident answer built on a wrong reading. One sentence — *read back exactly what you see before you answer* — catches nearly all of it.
 
-**Price** $15 · **Free updates for a year** · **Cross-sell** → the Collection.
+**Price** $15 · **Free updates for as long as the series runs** · **Cross-sell** → the Collection.
 
 **Etsy title** (126)
 > Photos, Files and Documents with Claude AI | How to Upload Pictures, Screenshots and Paperwork for Plain English Answers | PDF
@@ -416,7 +481,7 @@ These are not products to sell. They are the top of the funnel, and their only j
 
 **What's inside** — 7 lessons · **the six-sentence "about me" page** you write once and reuse everywhere · a lesson on keeping it current, because stale context is worse than none.
 
-**Price** $15 · **Free updates for a year** · **Cross-sell** → the Collection.
+**Price** $15 · **Free updates for as long as the series runs** · **Cross-sell** → the Collection.
 
 **Etsy title** (123)
 > Making Claude AI Remember You | Set Up Custom Instructions and Projects Once, Stop Repeating Yourself | Printable PDF Guide
@@ -442,7 +507,7 @@ These are not products to sell. They are the top of the funnel, and their only j
 **The moment that sells it**
 > Ten minutes in a waiting room, spent getting your questions in order before an appointment you've been dreading for weeks. Nothing else in the series changes an outcome that reliably.
 
-**Price** $15 · **Free updates for a year** · **Cross-sell** → the Collection.
+**Price** $15 · **Free updates for as long as the series runs** · **Cross-sell** → the Collection.
 
 **Etsy title** (127)
 > Claude AI on Your Phone | Voice, Camera and On the Go Use for Appointments, Shopping and Everyday Moments | Printable PDF Guide
@@ -472,7 +537,7 @@ These are not products to sell. They are the top of the funnel, and their only j
 - **Going further** — Photos, Files & Documents · Making Claude Remember You · Claude on Your Phone
 
 **The value line**
-> Bought separately, the twelve guides come to around $144. The Collection is $59 — a saving of roughly 59%, and you get the three that receive free updates for a year included.
+> Bought separately, the twelve guides come to around $144. The Collection is $59 — a saving of roughly 59%, and every future refresh is included.
 
 **Why the whole set rather than one**
 > These are written to be read in any order, but they cross-reference each other constantly — the privacy book makes the document book safe to use, the questions book makes every other book work better. The set is genuinely worth more than the sum.
@@ -523,8 +588,9 @@ Opening lines to produce against. Specific, not AI-hype bait.
 
 # Open items
 
-- [ ] **Confirm refund terms** against your platform and applicable consumer law before publishing anything
-- [ ] **Confirm the free-updates promise** on No. 10, 11 and 12 — it's a real commitment to re-issue
-- [ ] **Decide the Etsy question** — titles and tags are ready; the caveat at the top stands
-- [ ] **Price-test $7 vs $9** on *101 Everyday Things* before locking the Tier 1 band
-- [ ] Sales-page copy above is channel-agnostic; the Payhip fields are product name, summary, description and delivery terms — all drawn from the blocks above without rewriting
+- [x] ~~Refund terms~~ → **14 days, no questions, keep the file.** Confirm your platform's own terms when setting the product up.
+- [x] ~~Free-updates promise~~ → **free for as long as the series is published, all fourteen titles.** Confirm you can re-issue files to past buyers before publishing the promise.
+- [x] ~~The Etsy question~~ → **no, not at launch.** Own site + Payhip, Pinterest for discovery. Revisit only alongside the printed booklet.
+- [x] ~~Price test~~ → **launch at the top of each band; no A/B test until there is traffic.**
+- [ ] **Localisation — the one thing still open, and it's a real defect.** The books are written in British English with £ amounts and UK institutions (letting agency, solicitor, Citizens' Advice, National Insurance, Year 4, ombudsman) while prices are in USD and Veer LLC is a US business. Roughly 60 instances, concentrated in *Letters* and *Paperwork*. Decide the market, then run one scripted pass and rebuild.
+- [ ] Payhip fields — product name, summary, description, delivery terms — all draw from the blocks above without rewriting.
